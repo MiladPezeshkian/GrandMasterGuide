@@ -149,7 +149,3 @@ The app attempts to locate `stockfish.exe` in these places (in order): bundled r
 
 ---
 
-If you'd like, I can also:
-- add example screenshots and embed them into this README, or  
-- produce a short `INSTALL.md` with step-by-step screenshots, or  
-- generate a small Windows installer script that copies `stockfish.exe` next to the executable.
