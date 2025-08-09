@@ -15,6 +15,17 @@ This README explains how to install required Python packages, where to download 
 - [Credits & License](#credits--license)
 
 ---
+---
+
+## ScreenShots
+## Screenshots
+
+![Main screen](screenshots/screenshot1.png)
+![Analysis view](screenshots/screenshot2.png)
+![Suggest](screenshots/screenshot3.png)
+
+
+---
 
 ## Requirements
 
