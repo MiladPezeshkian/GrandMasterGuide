@@ -1,7 +1,34 @@
-# GrandMaster Guide — README
+# Zorix Chess
 
-**GrandMaster Guide** — a lightweight PyGame GUI for playing and analyzing chess using a UCI engine (Stockfish or any other UCI‑compatible engine).  
-This README explains how to install required Python packages, where to download Stockfish, how to package the app into a Windows `.exe`, and common troubleshooting tips.
+<p align="center"><img src="android/branding/out/zorix_chess_logo_light.png" width="440" alt="Zorix Chess"></p>
+
+**Zorix Chess** (formerly *GrandMaster Guide*) helps you find the best move in any chess position with
+**Stockfish**, the strongest open-source chess engine. It comes in two versions:
+
+| | Folder | Technology |
+|---|---|---|
+| 📱 **Android app** (new) | [`android/`](android/README.md) | Kotlin + Jetpack Compose, Stockfish 19 built in, **100% offline** |
+| 🖥️ **Desktop app** | `main.py` | Python + PyGame + python-chess, any UCI engine |
+
+### 📱 Android — quick start
+Open the **`android`** folder in **Android Studio**, install the **NDK** once (SDK Manager › SDK Tools › NDK),
+then press **Run**. Full instructions (English + فارسی): **[android/README.md](android/README.md)**.
+
+| Splash | Best move | Live analysis | Promotion picker |
+|---|---|---|---|
+| ![](screenshots/android/splash.png) | ![](screenshots/android/best_move.png) | ![](screenshots/android/live_analysis.png) | ![](screenshots/android/promotion_picker.png) |
+
+### ✅ Pawn promotion fix
+When a pawn reaches the last rank, both apps now let you choose **Queen, Knight, Rook or Bishop**
+(previously the desktop version always promoted to a queen). On the desktop you can click a piece or press
+**Q / N / R / B**; **Esc** cancels.
+
+---
+
+# Desktop version (Python)
+
+A lightweight PyGame GUI for playing and analyzing chess using a UCI engine (Stockfish or any other UCI‑compatible engine).
+This part explains how to install required Python packages, where to download Stockfish, how to package the app into a Windows `.exe`, and common troubleshooting tips.
 
 ---
 
@@ -21,6 +48,7 @@ This README explains how to install required Python packages, where to download 
 ![Main screen](screenshots/screenshot1.png)
 ![Analysis view](screenshots/screenshot2.png)
 ![Suggest](screenshots/screenshot3.png)
+![Promotion picker](screenshots/desktop_promotion.png)
 
 
 ---
@@ -88,8 +116,9 @@ Example build commands:
 ```bash
 pyinstaller --onedir --windowed \
   --add-data "pieces;pieces" \
+  --add-data "assets;assets" \
   --add-binary "stockfish.exe;." \
-  --icon "app.ico" \
+  --icon "assets/zorix_chess.ico" \
   main.py
 ```
 
@@ -98,13 +127,15 @@ pyinstaller --onedir --windowed \
 ```bash
 pyinstaller --onefile --windowed \
   --add-data "pieces;pieces" \
+  --add-data "assets;assets" \
   --add-binary "stockfish.exe;." \
-  --icon "app.ico" \
+  --icon "assets/zorix_chess.ico" \
   main.py
 ```
 
 Notes:
 - On macOS/Linux replace Windows-style `--add-data` separator `;` with `:` (example: `"pieces:pieces"`).  
+- `assets/` holds the Zorix Chess logo shown at start-up and the window icon.  
 - `--windowed` / `--noconsole` produces a GUI app without a console.  
 - `--add-binary "stockfish.exe;."` bundles the engine next to the executable so the app can find and start it at runtime.
 
@@ -145,6 +176,7 @@ The app attempts to locate `stockfish.exe` in these places (in order): bundled r
 ## Credits & License
 
 - **Author / Footer:** Created by Milad Pezeshkian — All rights reserved.  
+- **Android app:** see [android/README.md](android/README.md) for its licenses (Stockfish GPLv3 sources are included in `android/stockfish`).  
 - **Engine:** Stockfish — GPL licensed. Official site: https://stockfishchess.org/ and https://github.com/official-stockfish/Stockfish/releases  
 - **Libraries:** `pygame`, `python-chess`, `pyinstaller` (used for packaging)
 

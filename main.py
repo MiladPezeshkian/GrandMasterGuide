@@ -1,15 +1,16 @@
 # main.py
-# GrandMaster Guide — Final, PyInstaller-ready GUI
-# - App name: "GrandMaster Guide"
-# - Footer: "Created by Milad pezeshkian  All right reserverd"
-# - Uses resource_path() to locate bundled stockfish.exe and pieces/
+# Zorix Chess (desktop) — PyInstaller-ready GUI
+# - App name: "Zorix Chess"
+# - Footer: "Created by Milad Pezeshkian - All rights reserved"
+# - Uses resource_path() to locate bundled stockfish.exe, pieces/ and assets/
 # - No top-level prints (suitable for building with --noconsole / --windowed)
+# - A pawn reaching the last rank opens a picker (Queen / Knight / Rook / Bishop)
 #
 # Packaging example (Windows, recommended test flow):
 #   1) Test build (onedir):
-#       pyinstaller --onedir --windowed --add-data "pieces;pieces" --add-binary "stockfish.exe;." --icon "app.ico" main.py
+#       pyinstaller --onedir --windowed --add-data "pieces;pieces" --add-data "assets;assets" --add-binary "stockfish.exe;." --icon "assets/zorix_chess.ico" main.py
 #   2) When OK, make single-file (optional):
-#       pyinstaller --onefile --windowed --add-data "pieces;pieces" --add-binary "stockfish.exe;." --icon "app.ico" main.py
+#       pyinstaller --onefile --windowed --add-data "pieces;pieces" --add-data "assets;assets" --add-binary "stockfish.exe;." --icon "assets/zorix_chess.ico" main.py
 
 import sys
 import os
@@ -27,8 +28,8 @@ import chess.engine
 import chess.pgn
 
 # ---------- APP METADATA ----------
-APP_NAME = "GrandMaster Guide"
-FOOTER_TEXT = "Created by Milad pezeshkian  All right reserverd"
+APP_NAME = "Zorix Chess"
+FOOTER_TEXT = "Created by Milad Pezeshkian - All rights reserved"
 
 # ---------- CONFIG ----------
 SQ_SIZE = 88
@@ -57,6 +58,13 @@ BTN_HOVER = (100, 100, 106)
 TEXT_COLOR = (230, 230, 230)
 NOTE_COLOR = (190,190,190)
 ERR_COLOR = (220, 80, 80)
+BRAND_RED = (227, 32, 43)
+BRAND_SILVER = (200, 200, 208)
+SPLASH_BG = (14, 14, 17)
+
+# Pieces offered when a pawn promotes (queen first, next to the promotion square)
+PROMOTION_CHOICES = [chess.QUEEN, chess.KNIGHT, chess.ROOK, chess.BISHOP]
+PROMOTION_KEYS = {pygame.K_q: chess.QUEEN, pygame.K_n: chess.KNIGHT, pygame.K_r: chess.ROOK, pygame.K_b: chess.BISHOP}
 
 # ---------- resource helpers ----------
 def resource_path(relpath: str) -> str:
@@ -226,6 +234,12 @@ class ChessApp:
         pygame.init()
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
         pygame.display.set_caption(APP_NAME)
+        try:
+            icon_path = resource_path(os.path.join("assets", "zorix_chess_icon.png"))
+            if os.path.isfile(icon_path):
+                pygame.display.set_icon(pygame.image.load(icon_path))
+        except Exception:
+            pass
         self.clock = pygame.time.Clock()
 
         # fonts
@@ -239,6 +253,8 @@ class ChessApp:
         self.selected = None
         self.last_move = None
         self.redo_stack = []
+        # (from_square, to_square, color) while the promotion picker is open
+        self.pending_promotion = None
 
         # engine
         self.engine_path = engine_path
@@ -269,7 +285,7 @@ class ChessApp:
         y = 12
 
         self.title_pos = (self.panel_x + self.margin, y)
-        y += 36
+        y += 46
 
         # slider + +/- buttons (top)
         self.slider = Slider(self.panel_x + self.margin, y + 6, self.inner_w - 120, 16, MIN_MOVETIME, MAX_MOVETIME, DEFAULT_MOVETIME, self.font_small)
@@ -440,6 +456,7 @@ class ChessApp:
 
     # undo / redo
     def undo_plies(self, count=1):
+        self.pending_promotion = None
         if self.engine_thinking:
             self.notify("Cannot undo while engine thinking", color=ERR_COLOR, ttl=3.0); return
         for _ in range(count):
@@ -454,6 +471,7 @@ class ChessApp:
             self.last_move = None
 
     def redo_plies(self):
+        self.pending_promotion = None
         if self.engine_thinking:
             self.notify("Cannot redo while engine thinking", color=ERR_COLOR, ttl=3.0); return
         if not self.redo_stack:
@@ -479,7 +497,13 @@ class ChessApp:
             if p and p.piece_type == chess.PAWN:
                 tr = chess.square_rank(mv.to_square)
                 if (p.color == chess.WHITE and tr == 7) or (p.color == chess.BLACK and tr == 0):
-                    mv = chess.Move(mv.from_square, mv.to_square, promotion=chess.QUEEN)
+                    # Do not auto-queen: let the user choose Queen, Rook, Bishop or Knight.
+                    if any(m.from_square == mv.from_square and m.to_square == mv.to_square and m.promotion
+                           for m in self.board.legal_moves):
+                        self.pending_promotion = (mv.from_square, mv.to_square, p.color)
+                        self.selected = None
+                        self.notify("Choose a piece: Q / N / R / B  (Esc cancels)", ttl=4.0)
+                        return
             if mv in self.board.legal_moves:
                 self.redo_stack.clear()
                 self.board.push(mv)
@@ -491,6 +515,98 @@ class ChessApp:
                 self.selected = sq
             else:
                 self.selected = None
+
+    # promotion picker
+    def promotion_option_rects(self):
+        """ The four choices stacked from the promotion square towards the centre of the board. """
+        if not self.pending_promotion:
+            return []
+        _, to_sq, _ = self.pending_promotion
+        x, y = square_to_pixel(to_sq, self.orientation_white_bottom)
+        step = SQ_SIZE if y == 0 else -SQ_SIZE
+        return [(ptype, pygame.Rect(x, y + i * step, SQ_SIZE, SQ_SIZE)) for i, ptype in enumerate(PROMOTION_CHOICES)]
+
+    def handle_promotion_click(self, pos):
+        for ptype, rect in self.promotion_option_rects():
+            if rect.collidepoint(pos):
+                self.complete_promotion(ptype)
+                return
+        self.cancel_promotion()
+
+    def complete_promotion(self, ptype):
+        if not self.pending_promotion:
+            return
+        from_sq, to_sq, _ = self.pending_promotion
+        self.pending_promotion = None
+        mv = chess.Move(from_sq, to_sq, promotion=ptype)
+        if mv in self.board.legal_moves:
+            self.redo_stack.clear()
+            self.board.push(mv)
+            self.last_move = (from_sq, to_sq)
+            self.suggestion_move = None; self.suggestion_san = None; self.suggestion_from_to = None; self.suggestion_score = None
+            self.notify(f"Promoted to {chess.piece_name(ptype).title()}", ttl=1.6)
+        else:
+            self.notify("Illegal move attempted", color=ERR_COLOR, ttl=2.2)
+
+    def cancel_promotion(self):
+        if self.pending_promotion:
+            self.pending_promotion = None
+            self.notify("Promotion cancelled", ttl=1.4)
+
+    def draw_promotion(self):
+        if not self.pending_promotion:
+            return
+        overlay = pygame.Surface((BOARD_SIZE, BOARD_SIZE), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 150))
+        self.screen.blit(overlay, (0, 0))
+        color = self.pending_promotion[2]
+        mouse = pygame.mouse.get_pos()
+        for i, (ptype, rect) in enumerate(self.promotion_option_rects()):
+            hover = rect.collidepoint(mouse)
+            radius = SQ_SIZE // 2 - 3
+            pygame.draw.circle(self.screen, (250, 250, 252) if hover else (205, 205, 212), rect.center, radius)
+            if i == 0 or hover:
+                pygame.draw.circle(self.screen, BRAND_RED, rect.center, radius, 3)
+            piece = chess.Piece(ptype, color)
+            if self.use_images and piece.symbol() in self.pieces:
+                size = int(SQ_SIZE * 0.82)
+                img = pygame.transform.smoothscale(self.pieces[piece.symbol()], (size, size))
+                self.screen.blit(img, (rect.centerx - size // 2, rect.centery - size // 2))
+            else:
+                self._draw_simple_piece(rect.x, rect.y, piece)
+
+    # branded intro
+    def show_splash(self, duration=2.0):
+        """ Fades the Zorix Chess logo in and out; any key or click skips it. """
+        path = resource_path(os.path.join("assets", "zorix_chess_logo.png"))
+        if not os.path.isfile(path):
+            return
+        try:
+            logo = pygame.image.load(path).convert()
+        except Exception:
+            return
+        max_w, max_h = int(WINDOW_SIZE[0] * 0.62), int(WINDOW_SIZE[1] * 0.62)
+        scale = min(max_w / logo.get_width(), max_h / logo.get_height(), 1.0)
+        logo = pygame.transform.smoothscale(logo, (int(logo.get_width() * scale), int(logo.get_height() * scale)))
+        pos = ((WINDOW_SIZE[0] - logo.get_width()) // 2, (WINDOW_SIZE[1] - logo.get_height()) // 2)
+        start = time.time()
+        fade = 0.45
+        while True:
+            t = time.time() - start
+            if t >= duration:
+                break
+            for ev in pygame.event.get():
+                if ev.type == pygame.QUIT:
+                    self.running = False
+                    return
+                if ev.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+                    return
+            alpha = min(1.0, t / fade, (duration - t) / fade)
+            self.screen.fill(SPLASH_BG)
+            logo.set_alpha(int(255 * max(0.0, alpha)))
+            self.screen.blit(logo, pos)
+            pygame.display.flip()
+            self.clock.tick(FPS)
 
     def change_movetime(self, delta):
         self.movetime = max(MIN_MOVETIME, min(MAX_MOVETIME, round(self.movetime + delta, 1)))
@@ -549,9 +665,11 @@ class ChessApp:
     def draw_panel(self):
         panel_x = self.panel_x
         pygame.draw.rect(self.screen, PANEL_BG, pygame.Rect(panel_x, 0, PANEL_WIDTH, BOARD_SIZE))
-        # title
-        title = self.font_big.render("Menu", True, TEXT_COLOR)
-        self.screen.blit(title, self.title_pos)
+        # title: brand wordmark
+        zorix = self.font_big.render("ZORIX", True, BRAND_RED)
+        chess_txt = self.font_big.render(" CHESS", True, BRAND_SILVER)
+        self.screen.blit(zorix, self.title_pos)
+        self.screen.blit(chess_txt, (self.title_pos[0] + zorix.get_width(), self.title_pos[1]))
         # slider and +/- buttons
         self.slider.draw(self.screen)
         self.btn_minus.draw(self.screen); self.btn_plus.draw(self.screen)
@@ -580,8 +698,12 @@ class ChessApp:
         fx = panel_x + (PANEL_WIDTH - footer_surf.get_width()) // 2
         self.screen.blit(footer_surf, (fx, footer_y))
 
+        # notifications (errors, promotion help, ...) just above the footer
+        self.draw_notification(self.screen, panel_x + self.margin, footer_y - 48, self.inner_w)
+
     # main loop
     def run(self):
+        self.show_splash()
         while self.running:
             self.clock.tick(FPS)
             mx, my = pygame.mouse.get_pos()
@@ -590,6 +712,18 @@ class ChessApp:
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
                     self.running = False; break
+                if ev.type == pygame.KEYDOWN and self.pending_promotion:
+                    if ev.key in PROMOTION_KEYS:
+                        self.complete_promotion(PROMOTION_KEYS[ev.key])
+                    elif ev.key == pygame.K_ESCAPE:
+                        self.cancel_promotion()
+                    continue
+                if ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1 and self.pending_promotion:
+                    if ev.pos[0] < BOARD_SIZE:
+                        self.handle_promotion_click(ev.pos)
+                    else:
+                        self.cancel_promotion()
+                    continue
                 if ev.type == pygame.KEYDOWN:
                     mods = pygame.key.get_mods()
                     if ev.key == pygame.K_z:
@@ -633,6 +767,7 @@ class ChessApp:
             self.screen.fill((10,10,10))
             self.draw_board()
             self.draw_panel()
+            self.draw_promotion()
             pygame.display.flip()
 
         # cleanup engine
@@ -646,7 +781,7 @@ class ChessApp:
     def save_pgn(self):
         try:
             g = chess.pgn.Game.from_board(self.board)
-            g.headers["Event"] = "Session"
+            g.headers["Event"] = "Zorix Chess session"
             g.headers["Date"] = datetime.utcnow().strftime("%Y.%m.%d")
             fn = f"game_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.pgn"
             with open(fn, "w", encoding="utf-8") as f:
