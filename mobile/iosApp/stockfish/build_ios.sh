@@ -48,9 +48,9 @@ cd "$WORK"
 pids=()
 for f in $SOURCES; do
   obj="$(echo "$f" | tr '/' '_' | sed 's/\.cpp$/.o/')"
-  extra=()
-  [ "$f" = "main.cpp" ] && extra=(-Dmain=zorix_stockfish_main)
-  "$CXX" "${FLAGS[@]}" "${extra[@]}" -c "$SRC/$f" -o "$obj" &
+  extra=""
+  [ "$f" = "main.cpp" ] && extra="-Dmain=zorix_stockfish_main"
+  "$CXX" "${FLAGS[@]}" $extra -c "$SRC/$f" -o "$obj" &
   pids+=($!)
   if [ "${#pids[@]}" -ge 8 ]; then wait "${pids[0]}"; pids=("${pids[@]:1}"); fi
 done
