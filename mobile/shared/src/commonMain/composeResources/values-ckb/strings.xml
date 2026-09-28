@@ -174,4 +174,8 @@
     <string name="lesson_enpassant_body">ئەگەر سەربازێک دوو خانە بجوڵێت و بکەوێتە تەنیشت سەربازی ڕکابەر، ئەو سەربازە دەتوانێت بیگرێت وەک ئەوەی تەنها یەک خانە جوڵابێت — تەنها لە جوڵەی دواتردا.</string>
     <string name="lesson_checkmate_title">کش و کش‌مات</string>
     <string name="lesson_checkmate_body">کش واتە هێرش کراوەتە سەر شا. کش‌مات واتە هێرشی کراوەتە سەر و ڕێگای ڕاکردنی نییە: یاری کۆتایی دێت. لێرەدا قەڵا ببە بۆ ڕیزی کۆتایی بۆ کش‌مات.</string>
+    <string name="quality_brilliant">درەوشاوە</string>
+    <string name="quality_great">جوڵەی گەورە</string>
+    <string name="quality_book">جوڵەی کتێبی</string>
+    <string name="quality_miss">دەرفەتی لەدەستچوو</string>
 </resources>

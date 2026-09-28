@@ -1,5 +1,6 @@
 package com.zorix.chess.controller
 
+import com.zorix.chess.coach.CoachQuality
 import com.zorix.chess.core.Game
 import com.zorix.chess.core.Move
 import com.zorix.chess.core.Side
@@ -57,17 +58,23 @@ sealed interface HintState {
     data class Ready(val view: EngineView) : HintState
 }
 
-/** How good a played move was, compared with the engine's best move. */
-enum class MoveQuality { BEST, EXCELLENT, GOOD, INACCURACY, MISTAKE, BLUNDER }
-
 /** Coach verdict for one move. Scores are from White's point of view. */
 data class MoveFeedback(
     val san: String,
-    val quality: MoveQuality,
+    val quality: CoachQuality,
     val bestSan: String?,
     val scoreBefore: Score?,
     val scoreAfter: Score?,
+    /** The coach's explanation (display text) and what the voice says. */
+    val message: String = "",
+    val speech: String = "",
+    val bestMove: Move? = null,
+    /** Opponent reply the engine expects next. */
+    val expectedSan: String? = null,
 )
+
+/** Explanation of the "Best move" hint. */
+data class HintExplanation(val fen: String, val display: String, val speech: String)
 
 /** Key identifying a move in a position, stable across undo / redo. */
 fun feedbackKey(fenBefore: String, move: Move): String = "$fenBefore|${move.uci}"
@@ -103,6 +110,8 @@ data class ChessUiState(
     val feedback: Map<String, MoveFeedback> = emptyMap(),
     /** The coach is rating the last move. */
     val coachBusy: Boolean = false,
+    /** Why the suggested best move is good (shown under the hint). */
+    val hintExplanation: HintExplanation? = null,
     /** Incremented on every move so the UI can trigger haptics/animations. */
     val moveCounter: Int = 0,
 ) {

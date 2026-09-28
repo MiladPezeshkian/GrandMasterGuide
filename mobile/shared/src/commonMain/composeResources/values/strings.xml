@@ -186,4 +186,8 @@
     <string name="lesson_enpassant_body">If a pawn moves two squares and lands next to an enemy pawn, that pawn may capture it as if it had moved only one square — but only on the very next move.</string>
     <string name="lesson_checkmate_title">Check and checkmate</string>
     <string name="lesson_checkmate_body">Check means the king is attacked. Checkmate means it is attacked and has no escape: the game is over. Here, move the rook to the back rank to deliver mate.</string>
+    <string name="quality_brilliant">Brilliant</string>
+    <string name="quality_great">Great move</string>
+    <string name="quality_book">Book move</string>
+    <string name="quality_miss">Missed win</string>
 </resources>

@@ -37,7 +37,6 @@ import com.zorix.chess.ui.color
 import com.zorix.chess.ui.label
 import com.zorix.chess.ui.symbol
 import com.zorix.chess.ui.theme.notation
-import com.zorix.chess.ui.tip
 import org.jetbrains.compose.resources.stringResource
 
 /** Coach verdict for the last move: quality badge, explanation and the better move. */
@@ -111,11 +110,13 @@ private fun CoachVerdict(f: MoveFeedback) {
                 f.scoreAfter?.let { ScoreChip(it) }
             }
             Spacer(Modifier.height(4.dp))
-            Text(
-                stringResource(q.tip()),
-                style = MaterialTheme.typography.bodySmall.copy(fontSize = 13.sp),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            if (f.message.isNotBlank()) {
+                Text(
+                    f.message,
+                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp, lineHeight = 21.sp),
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
             val best = f.bestSan
             if (best != null && best != f.san) {
                 Spacer(Modifier.height(6.dp))

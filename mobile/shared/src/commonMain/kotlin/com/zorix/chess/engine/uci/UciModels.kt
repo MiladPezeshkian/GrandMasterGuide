@@ -81,6 +81,10 @@ sealed interface SearchLimit {
         override val uci: String get() = "depth $plies"
     }
 
+    data class Nodes(val count: Long) : SearchLimit {
+        override val uci: String get() = "nodes $count"
+    }
+
     data object Infinite : SearchLimit {
         override val uci: String get() = "infinite"
     }

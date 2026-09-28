@@ -4,7 +4,7 @@ import com.zorix.chess.resources.*
 import org.jetbrains.compose.resources.StringResource
 import androidx.compose.ui.graphics.Color
 import com.zorix.chess.controller.BoardThemeId
-import com.zorix.chess.controller.MoveQuality
+import com.zorix.chess.coach.CoachQuality
 import com.zorix.chess.controller.UiMessage
 import com.zorix.chess.core.EndReason
 import com.zorix.chess.core.GameResult
@@ -52,43 +52,46 @@ fun BoardThemeId.label(): StringResource = when (this) {
     BoardThemeId.GRAPHITE -> Res.string.theme_graphite
 }
 
-fun MoveQuality.label(): StringResource = when (this) {
-    MoveQuality.BEST -> Res.string.quality_best
-    MoveQuality.EXCELLENT -> Res.string.quality_excellent
-    MoveQuality.GOOD -> Res.string.quality_good
-    MoveQuality.INACCURACY -> Res.string.quality_inaccuracy
-    MoveQuality.MISTAKE -> Res.string.quality_mistake
-    MoveQuality.BLUNDER -> Res.string.quality_blunder
+fun CoachQuality.label(): StringResource = when (this) {
+    CoachQuality.BRILLIANT -> Res.string.quality_brilliant
+    CoachQuality.GREAT -> Res.string.quality_great
+    CoachQuality.BEST -> Res.string.quality_best
+    CoachQuality.EXCELLENT -> Res.string.quality_excellent
+    CoachQuality.GOOD -> Res.string.quality_good
+    CoachQuality.BOOK -> Res.string.quality_book
+    CoachQuality.INACCURACY -> Res.string.quality_inaccuracy
+    CoachQuality.MISTAKE -> Res.string.quality_mistake
+    CoachQuality.MISS -> Res.string.quality_miss
+    CoachQuality.BLUNDER -> Res.string.quality_blunder
 }
 
-fun MoveQuality.tip(): StringResource = when (this) {
-    MoveQuality.BEST -> Res.string.tip_best
-    MoveQuality.EXCELLENT -> Res.string.tip_excellent
-    MoveQuality.GOOD -> Res.string.tip_good
-    MoveQuality.INACCURACY -> Res.string.tip_inaccuracy
-    MoveQuality.MISTAKE -> Res.string.tip_mistake
-    MoveQuality.BLUNDER -> Res.string.tip_blunder
-}
-
-/** Annotation symbol shown next to the move, as in chess books. */
-val MoveQuality.symbol: String
+/** Annotation symbol shown next to the move, as in chess books and on chess.com. */
+val CoachQuality.symbol: String
     get() = when (this) {
-        MoveQuality.BEST -> "★"
-        MoveQuality.EXCELLENT -> "!"
-        MoveQuality.GOOD -> "✓"
-        MoveQuality.INACCURACY -> "?!"
-        MoveQuality.MISTAKE -> "?"
-        MoveQuality.BLUNDER -> "??"
+        CoachQuality.BRILLIANT -> "!!"
+        CoachQuality.GREAT -> "!"
+        CoachQuality.BEST -> "★"
+        CoachQuality.EXCELLENT -> "✦"
+        CoachQuality.GOOD -> "✓"
+        CoachQuality.BOOK -> "≡"
+        CoachQuality.INACCURACY -> "?!"
+        CoachQuality.MISTAKE -> "?"
+        CoachQuality.MISS -> "✗"
+        CoachQuality.BLUNDER -> "??"
     }
 
-val MoveQuality.color: Color
+val CoachQuality.color: Color
     get() = when (this) {
-        MoveQuality.BEST -> Color(0xFF2FD27C)
-        MoveQuality.EXCELLENT -> Color(0xFF4FC3F7)
-        MoveQuality.GOOD -> Color(0xFF9CCC65)
-        MoveQuality.INACCURACY -> Color(0xFFF5C542)
-        MoveQuality.MISTAKE -> Color(0xFFFF9800)
-        MoveQuality.BLUNDER -> Color(0xFFFF4B55)
+        CoachQuality.BRILLIANT -> Color(0xFF1BC6C0)
+        CoachQuality.GREAT -> Color(0xFF5B9BD5)
+        CoachQuality.BEST -> Color(0xFF2FD27C)
+        CoachQuality.EXCELLENT -> Color(0xFF8FD14F)
+        CoachQuality.GOOD -> Color(0xFFA7C48F)
+        CoachQuality.BOOK -> Color(0xFFC49A6C)
+        CoachQuality.INACCURACY -> Color(0xFFF5C542)
+        CoachQuality.MISTAKE -> Color(0xFFFF9F45)
+        CoachQuality.MISS -> Color(0xFFFF7A6B)
+        CoachQuality.BLUNDER -> Color(0xFFFF4B55)
     }
 
 fun Side.label(): StringResource = if (this == Side.WHITE) Res.string.side_white else Res.string.side_black

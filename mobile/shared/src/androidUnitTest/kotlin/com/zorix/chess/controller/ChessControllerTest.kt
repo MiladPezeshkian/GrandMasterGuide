@@ -1,5 +1,6 @@
 package com.zorix.chess.controller
 
+import com.zorix.chess.coach.CoachQuality
 import com.zorix.chess.core.Piece
 import com.zorix.chess.core.PieceType
 import com.zorix.chess.core.Position
@@ -157,14 +158,14 @@ class ChessControllerTest {
             c.setPosition(Position.fromFen("r3k3/8/8/8/8/8/8/3QK3 w - - 0 1"))
             c.onUserMove(sq("d1"), sq("a4"))
             val bad = withTimeout(15_000) { c.state.first { it.lastFeedback != null } }.lastFeedback!!
-            assertTrue("got ${bad.quality}", bad.quality >= MoveQuality.MISTAKE)
+            assertTrue("got ${bad.quality}", bad.quality >= CoachQuality.MISTAKE)
             assertNotNull(bad.bestSan)
 
             // Delivering mate is always the best move.
             c.setPosition(Position.fromFen("6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1"))
             c.onUserMove(sq("a1"), sq("a8"))
             val mate = withTimeout(15_000) { c.state.first { it.lastFeedback != null } }.lastFeedback!!
-            assertEquals(MoveQuality.BEST, mate.quality)
+            assertEquals(CoachQuality.BEST, mate.quality)
         }
     }
 }

@@ -184,4 +184,8 @@
     <string name="lesson_enpassant_body">اگر سربازی دو خانه حرکت کند و کنار سرباز حریف قرار بگیرد، آن سرباز می‌تواند آن را طوری بزند که انگار فقط یک خانه رفته است — فقط در همان حرکت بعدی.</string>
     <string name="lesson_checkmate_title">کیش و مات</string>
     <string name="lesson_checkmate_body">کیش یعنی شاه مورد حمله است. مات یعنی شاه مورد حمله است و راه فرار ندارد: بازی تمام است. اینجا رخ را به ردیف آخر ببرید تا مات کنید.</string>
+    <string name="quality_brilliant">درخشان</string>
+    <string name="quality_great">حرکت عالی</string>
+    <string name="quality_book">حرکت کتابی</string>
+    <string name="quality_miss">فرصت ازدست‌رفته</string>
 </resources>

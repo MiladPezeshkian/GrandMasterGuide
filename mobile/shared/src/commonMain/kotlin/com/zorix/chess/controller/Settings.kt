@@ -25,6 +25,10 @@ data class Settings(
     val coachMode: Boolean = true,
     /** App language: null follows the system, otherwise "en", "fa" or "ckb". */
     val language: String? = null,
+    /** The coach reads its explanations aloud. */
+    val voice: Boolean = true,
+    /** Zorix explains its own moves in play mode. */
+    val explainBotMoves: Boolean = true,
 ) {
     companion object {
         const val DEFAULT_THINK_MS = 2000
@@ -55,6 +59,8 @@ data class Settings(
                 haptics = bool("haptics", d.haptics),
                 coachMode = bool("coachMode", d.coachMode),
                 language = store.getString("language")?.takeIf { it in LANGUAGES },
+                voice = bool("voice", d.voice),
+                explainBotMoves = bool("explainBotMoves", d.explainBotMoves),
             )
         }
     }
@@ -72,8 +78,27 @@ data class Settings(
         store.putString("haptics", haptics.toString())
         store.putString("coachMode", coachMode.toString())
         store.putString("language", language)
+        store.putString("voice", voice.toString())
+        store.putString("explainBotMoves", explainBotMoves.toString())
     }
 }
+
+/** Text-to-speech for the coach's voice (neural Persian voice and the system English voice). */
+interface Speech {
+    /** True when a voice for [lang] is installed and ready. */
+    fun supports(lang: String): Boolean
+    fun speak(text: String, lang: String)
+    fun stop()
+
+    object None : Speech {
+        override fun supports(lang: String) = false
+        override fun speak(text: String, lang: String) = Unit
+        override fun stop() = Unit
+    }
+}
+
+/** Language the voice uses for a display language (Kurdish text is read by the Persian voice). */
+fun speechLanguage(displayLang: String): String = if (displayLang == "ckb") "fa" else displayLang
 
 /** Minimal persistent storage (SharedPreferences on Android, a map in tests). */
 interface KeyValueStore {

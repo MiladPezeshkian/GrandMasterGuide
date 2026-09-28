@@ -142,17 +142,21 @@ class UciEngine(private val connect: () -> EngineConnection) {
         positionArgs: String,
         limit: SearchLimit,
         multiPv: Int = 1,
+        options: Map<String, String> = FULL_STRENGTH,
         onUpdate: (AnalysisSnapshot) -> Unit = {},
-    ): AnalysisSnapshot = withContext(ioDispatcher) { mutex.withLock { searchLocked(positionArgs, limit, multiPv, onUpdate) } }
+    ): AnalysisSnapshot = withContext(ioDispatcher) { mutex.withLock { searchLocked(positionArgs, limit, multiPv, options, onUpdate) } }
 
     private suspend fun searchLocked(
         positionArgs: String,
         limit: SearchLimit,
         multiPv: Int,
+        options: Map<String, String>,
         onUpdate: (AnalysisSnapshot) -> Unit,
     ): AnalysisSnapshot {
         ensureAlive()
-        val pvCount = multiPv.coerceIn(1, 5)
+        // Strength options travel with each search so callers with different needs cannot interfere.
+        for ((name, value) in options) if (appliedOptions[name] != value) setOptionLocked(name, value)
+        val pvCount = multiPv.coerceIn(1, MAX_MULTIPV)
         if (appliedOptions["MultiPV"] != pvCount.toString()) setOptionLocked("MultiPV", pvCount.toString())
         send("position $positionArgs")
         send("go ${limit.uci}")
@@ -308,6 +312,15 @@ class UciEngine(private val connect: () -> EngineConnection) {
     }
 
     companion object {
+        const val MAX_MULTIPV = 12
+
+        /** Options for analysis at full strength (undoing any bot handicap). */
+        val FULL_STRENGTH: Map<String, String> = mapOf("UCI_LimitStrength" to "false", "Skill Level" to "20")
+
+        /** Options that make Stockfish play like a player of [elo] (1320..3190). */
+        fun limitedStrength(elo: Int): Map<String, String> =
+            mapOf("UCI_LimitStrength" to "true", "UCI_Elo" to elo.coerceIn(1320, 3190).toString(), "Skill Level" to "20")
+
         private const val HANDSHAKE_TIMEOUT_MS = 15_000L
         private const val LOAD_TIMEOUT_MS = 60_000L
         private const val STOP_TIMEOUT_MS = 5_000L
