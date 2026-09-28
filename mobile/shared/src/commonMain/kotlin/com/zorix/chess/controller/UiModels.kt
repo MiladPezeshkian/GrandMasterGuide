@@ -57,6 +57,21 @@ sealed interface HintState {
     data class Ready(val view: EngineView) : HintState
 }
 
+/** How good a played move was, compared with the engine's best move. */
+enum class MoveQuality { BEST, EXCELLENT, GOOD, INACCURACY, MISTAKE, BLUNDER }
+
+/** Coach verdict for one move. Scores are from White's point of view. */
+data class MoveFeedback(
+    val san: String,
+    val quality: MoveQuality,
+    val bestSan: String?,
+    val scoreBefore: Score?,
+    val scoreAfter: Score?,
+)
+
+/** Key identifying a move in a position, stable across undo / redo. */
+fun feedbackKey(fenBefore: String, move: Move): String = "$fenBefore|${move.uci}"
+
 /** A pawn reached the last rank; the user must pick the new piece. */
 data class PendingPromotion(val from: Int, val to: Int, val side: Side)
 
@@ -84,10 +99,18 @@ data class ChessUiState(
     val analysisOn: Boolean = false,
     val analysis: EngineView? = null,
     val settings: Settings = Settings(),
+    /** Coach verdicts by [feedbackKey]. */
+    val feedback: Map<String, MoveFeedback> = emptyMap(),
+    /** The coach is rating the last move. */
+    val coachBusy: Boolean = false,
     /** Incremented on every move so the UI can trigger haptics/animations. */
     val moveCounter: Int = 0,
 ) {
     val fen: String get() = game.position.fen()
+
+    /** Coach verdict for the move that led to the current position, if any. */
+    val lastFeedback: MoveFeedback?
+        get() = game.plies.lastOrNull()?.let { feedback[feedbackKey(it.before.fen(), it.move)] }
     val isThinking: Boolean get() = hint is HintState.Thinking
 
     /** The engine output that belongs to the position on the board, preferring a finished hint. */

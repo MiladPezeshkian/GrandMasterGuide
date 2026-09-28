@@ -21,6 +21,10 @@ data class Settings(
     val showArrows: Boolean = true,
     val animateMoves: Boolean = true,
     val haptics: Boolean = true,
+    /** Coach mode: every move played on the board is rated (best / good / mistake / blunder...). */
+    val coachMode: Boolean = true,
+    /** App language: null follows the system, otherwise "en", "fa" or "ckb". */
+    val language: String? = null,
 ) {
     companion object {
         const val DEFAULT_THINK_MS = 2000
@@ -29,6 +33,7 @@ data class Settings(
         const val THINK_STEP_MS = 500
         val HASH_CHOICES = listOf(16, 32, 64, 128, 256)
         const val MAX_LINES = 3
+        val LANGUAGES = listOf("en", "fa", "ckb")
 
         fun defaultThreads(cores: Int): Int = (cores - 1).coerceIn(1, 4)
 
@@ -48,6 +53,8 @@ data class Settings(
                 showArrows = bool("showArrows", d.showArrows),
                 animateMoves = bool("animateMoves", d.animateMoves),
                 haptics = bool("haptics", d.haptics),
+                coachMode = bool("coachMode", d.coachMode),
+                language = store.getString("language")?.takeIf { it in LANGUAGES },
             )
         }
     }
@@ -63,6 +70,8 @@ data class Settings(
         store.putString("showArrows", showArrows.toString())
         store.putString("animateMoves", animateMoves.toString())
         store.putString("haptics", haptics.toString())
+        store.putString("coachMode", coachMode.toString())
+        store.putString("language", language)
     }
 }
 

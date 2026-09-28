@@ -57,7 +57,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zorix.chess.resources.*
 import org.jetbrains.compose.resources.StringResource
+import com.zorix.chess.controller.MoveFeedback
+import com.zorix.chess.controller.feedbackKey
 import com.zorix.chess.core.Game
+import com.zorix.chess.ui.color
+import com.zorix.chess.ui.symbol
 import com.zorix.chess.core.Side
 import com.zorix.chess.ui.theme.ZorixColors
 
@@ -78,6 +82,7 @@ fun ZorixTopBar(
     analysisOn: Boolean,
     onToggleAnalysis: (Boolean) -> Unit,
     onMenu: (MenuAction) -> Unit,
+    onLearn: () -> Unit = {},
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     TopAppBar(
@@ -95,6 +100,9 @@ fun ZorixTopBar(
             }
         },
         actions = {
+            IconButton(onClick = onLearn) {
+                Icon(AppIcons.School, contentDescription = stringResource(Res.string.action_learn), tint = MaterialTheme.colorScheme.onSurface)
+            }
             IconToggleButton(checked = analysisOn, onCheckedChange = onToggleAnalysis) {
                 Icon(
                     AppIcons.Analysis,
@@ -149,7 +157,12 @@ fun TurnIndicator(side: Side, modifier: Modifier = Modifier) {
 
 /** Horizontal move list with navigation. Tapping a move jumps to that position. */
 @Composable
-fun MoveStrip(game: Game, onGoTo: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun MoveStrip(
+    game: Game,
+    onGoTo: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    feedback: Map<String, MoveFeedback> = emptyMap(),
+) {
     val line = game.fullLine
     val current = game.plies.size
     val blackStarts = game.start.sideToMove == Side.BLACK
@@ -211,6 +224,14 @@ fun MoveStrip(game: Game, onGoTo: (Int) -> Unit, modifier: Modifier = Modifier) 
                                     .clickable { onGoTo(index + 1) }
                                     .padding(horizontal = 7.dp, vertical = 4.dp),
                             )
+                            feedback[feedbackKey(ply.before.fen(), ply.move)]?.let { f ->
+                                Text(
+                                    f.quality.symbol,
+                                    color = f.quality.color,
+                                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Black),
+                                    modifier = Modifier.padding(end = 2.dp),
+                                )
+                            }
                         }
                     }
                 }

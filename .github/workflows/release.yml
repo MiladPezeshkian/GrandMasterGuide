@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 env:
-  APP_VERSION: "1.1.0"
+  APP_VERSION: "1.2.0"
 
 jobs:
   android:
@@ -39,7 +39,20 @@ jobs:
       - name: Unit tests
         run: ./gradlew --no-daemon :shared:testDebugUnitTest
       - name: Build release APK
-        run: ./gradlew --no-daemon :androidApp:assembleRelease
+        env:
+          # Optional: set these repository secrets to sign every release with the same key,
+          # so new versions install over old ones. Without them the debug key is used.
+          KEYSTORE_BASE64: ${{ secrets.ZORIX_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ZORIX_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ZORIX_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ZORIX_KEY_PASSWORD }}
+        run: |
+          signing=""
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/zorix.jks"
+            signing="-Pzorix.keystore=$RUNNER_TEMP/zorix.jks -Pzorix.keystorePassword=$KEYSTORE_PASSWORD -Pzorix.keyAlias=$KEY_ALIAS -Pzorix.keyPassword=$KEY_PASSWORD"
+          fi
+          ./gradlew --no-daemon :androidApp:assembleRelease $signing
       - name: Collect APK
         run: |
           mkdir -p ../out

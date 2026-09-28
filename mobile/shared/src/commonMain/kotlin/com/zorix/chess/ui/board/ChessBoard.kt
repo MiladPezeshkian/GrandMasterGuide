@@ -73,6 +73,8 @@ fun ChessBoard(
     animateMoves: Boolean = true,
     interactive: Boolean = true,
     promotion: PendingPromotion? = null,
+    /** Extra square highlights (puzzle hints, lesson targets). */
+    highlights: Map<Int, Color> = emptyMap(),
     contentDescription: String = "",
     onMove: (from: Int, to: Int) -> Unit = { _, _ -> },
     onPromotion: (PieceType?) -> Unit = {},
@@ -214,6 +216,7 @@ fun ChessBoard(
             drawRect(colors.lastMove, topLeft(it.from), Size(sq, sq))
             drawRect(colors.lastMove, topLeft(it.to), Size(sq, sq))
         }
+        for ((square, color) in highlights) drawRect(color, topLeft(square), Size(sq, sq))
         val sel = selected
         if (sel != null) drawRect(colors.selected, topLeft(sel), Size(sq, sq))
         if (position.isCheck) {

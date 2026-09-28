@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <b>The best move in any chess position — powered by Stockfish 19, running entirely on your device.</b><br>
+  <b>The best move in any chess position — and a coach that teaches you chess. Powered by Stockfish 19, running entirely on your device.</b><br>
   Android · iOS · Windows / macOS / Linux
 </p>
 
@@ -45,14 +45,17 @@ no account, no server, no internet connection — the Android app does not even 
 
 | | |
 |---|---|
+| 🎓 **Coach mode** | Every move you play is rated in real time — **Best ★, Excellent !, Good ✓, Inaccuracy ?!, Mistake ?, Blunder ??** — from the change in winning chances, with a short explanation and the move the engine preferred. The ratings are also shown in the move list. |
+| 🧩 **Puzzles** | 40 checkmate puzzles (mate in 1 and mate in 2) with hints, solutions, a defending opponent that picks the toughest reply, and saved progress. Answers are checked with exact rules, so every correct solution counts. |
+| 📘 **Lessons** | Interactive lessons for the king, queen, rook, bishop, knight, pawn, castling, en passant and checkmate — each with a practice board. |
 | 🎯 **Best move** | Stockfish searches the position for an adjustable time (0.5 – 30 s) and shows the move as an arrow, with its evaluation (`+1.25`, `#3`) and the expected continuation. One tap plays it. |
 | 📈 **Live analysis** | Continuous analysis with up to three candidate lines, colour-coded arrows, depth and speed, plus an evaluation bar. |
 | ♛ **Correct promotion** | A pawn reaching the last rank opens a picker for **Queen, Knight, Rook or Bishop** — no more automatic queening. |
 | ✋ **Natural input** | Tap-tap or drag-and-drop, legal-move hints, smooth move animations, check and last-move highlights, board flip. |
-| 🧩 **Any position** | Visual position editor (pieces, side to move, castling rights) with validation, FEN import/export, PGN copy and share. |
+| ♟️ **Any position** | Visual position editor (pieces, side to move, castling rights) with live validation that explains what is wrong, FEN import/export, PGN copy and share. |
 | ⏮️ **Game navigation** | Undo / redo, a scrollable move list with jump-to-move, automatic game-over detection (mate, stalemate, repetition, 50 moves, insufficient material). |
 | 🎨 **Design** | Dark theme in the Zorix brand colours, animated intro, five board themes, phones, tablets and landscape. |
-| 🌐 **Languages** | English and Persian with a complete right-to-left layout (chess notation always stays left-to-right). |
+| 🌐 **Languages** | English, Persian (فارسی) and Kurdish Sorani (کوردی), selectable in the app, with a complete right-to-left layout (chess notation always stays left-to-right). |
 | 💾 **Private & offline** | Settings and the current game are stored locally; nothing ever leaves the device. |
 
 ### Architecture
@@ -60,8 +63,8 @@ no account, no server, no internet connection — the Android app does not even 
 ```mermaid
 flowchart LR
     subgraph shared["shared · Kotlin Multiplatform"]
-        UI["Compose Multiplatform UI<br/>board · panels · editor · splash"] --> C["ChessController<br/>hints · analysis · undo/redo"]
-        C --> R["Chess rules<br/>moves · SAN · FEN · PGN"]
+        UI["Compose Multiplatform UI<br/>board · coach · learn · editor"] --> C["ChessController<br/>hints · analysis · coach · undo/redo"]
+        C --> R["Chess rules<br/>moves · SAN · FEN · PGN · mate solver"]
         C --> U["UCI client<br/>coroutines, stop/cancel-safe"]
     end
     U -->|"stdin / stdout"| A["Android: Stockfish executable<br/>(NDK, per-ABI, ARMv8.2 dotprod)"]
@@ -75,13 +78,14 @@ flowchart LR
 - **Stockfish on iOS** runs on a background thread inside the app, because iOS does not allow launching separate
   processes; its standard input and output are connected to pipes.
 - **Quality:** the move generator is verified with the standard *perft* suites; unit tests cover SAN/FEN/PGN, the
-  promotion flow, the UCI client and the full hint/analysis flow against a real Stockfish.
+  promotion flow, the UCI client, the coach and the full hint/analysis flow against a real Stockfish, and every puzzle
+  is proven to be a forced mate.
 
 ### Project layout
 
 ```
 mobile/                 Android Studio / Gradle project (open this folder)
-  shared/               Kotlin Multiplatform: rules, UCI client, controller, Compose UI, resources (en/fa)
+  shared/               Kotlin Multiplatform: rules, UCI client, controller, Compose UI, resources (en/fa/ckb)
   androidApp/           Android application
   iosApp/               iOS application (XcodeGen project, SwiftUI host, Stockfish bridge)
   buildSrc/             Gradle tasks that compile Stockfish with the NDK and provide its network
@@ -159,14 +163,17 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 - **دسکتاپ:** فایل `main.py` با پایتون (راهنما در بخش انگلیسی بالا).
 
 ### امکانات
+- **مربی شطرنج:** هر حرکت شما فوراً ارزیابی می‌شود (بهترین ★، عالی !، خوب ✓، نادقیق ?!، اشتباه ?، اشتباه فاحش ??) همراه با توضیح و حرکت بهتر.
+- **۴۰ معمای مات** (مات در ۱ و ۲) با راهنما، راه‌حل، حریفی که سخت‌ترین دفاع را انتخاب می‌کند و ذخیره‌ی پیشرفت.
+- **درس‌های تعاملی** برای حرکت همه‌ی مهره‌ها، قلعه، آنپاسان و مات، هر کدام با صفحه‌ی تمرین.
 - **بهترین حرکت** با زمان فکر قابل تنظیم (۰٫۵ تا ۳۰ ثانیه)، فلش روی صفحه، ارزیابی و ادامه‌ی خط؛ با یک لمس اجرا می‌شود.
 - **تحلیل زنده** تا سه خط هم‌زمان، با فلش‌های رنگی و نوار ارزیابی.
 - **ارتقای درست سرباز:** انتخاب وزیر، اسب، رخ یا فیل (دیگر خودکار وزیر نمی‌شود).
 - حرکت با **لمس یا کشیدن**، نمایش حرکت‌های مجاز، انیمیشن، برگشت و جلو، لیست حرکت‌ها و چرخش صفحه.
-- **چیدن هر وضعیت دلخواه**، ورود و خروج FEN، کپی و اشتراک PGN.
+- **چیدن هر وضعیت دلخواه** با بررسی زنده و توضیح خطا، ورود و خروج FEN، کپی و اشتراک PGN.
 - تشخیص خودکار پایان بازی (مات، پات، تکرار سه‌باره، قانون ۵۰ حرکت، کمبود مهره).
 - طراحی تیره با رنگ‌های برند Zorix، اسپلش متحرک، ۵ رنگ صفحه، پشتیبانی از تبلت و حالت افقی.
-- **فارسی کامل راست‌به‌چپ** و انگلیسی.
+- **فارسی، کوردی (سورانی) و انگلیسی** با چیدمان کامل راست‌به‌چپ؛ انتخاب زبان از تنظیمات.
 - تنظیمات و بازی فعلی فقط روی خود دستگاه ذخیره می‌شوند.
 
 ### ساخت از سورس

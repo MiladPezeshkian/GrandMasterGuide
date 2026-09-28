@@ -16,10 +16,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -78,6 +81,17 @@ fun PositionEditor(
     var error by remember { mutableStateOf<StringResource?>(null) }
 
     val position = Position.of(board.toList(), side, castling)
+    val liveProblem = position.problem()
+
+    error?.let { e ->
+        AlertDialog(
+            onDismissRequest = { error = null },
+            icon = { Icon(AppIcons.Warning, null, tint = MaterialTheme.colorScheme.error) },
+            title = { Text(stringResource(Res.string.editor_invalid_title)) },
+            text = { Text(stringResource(e)) },
+            confirmButton = { TextButton(onClick = { error = null }) { Text(stringResource(Res.string.action_close)) } },
+        )
+    }
 
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(Modifier.fillMaxSize().systemBarsPadding()) {
@@ -88,7 +102,9 @@ fun PositionEditor(
                     val candidate = Position.of(board.toList(), side, castling)
                     val problem = candidate.problem()
                     if (problem == null) onDone(candidate) else error = problem.label()
-                }) {
+                }, colors = ButtonDefaults.textButtonColors(
+                    contentColor = if (liveProblem == null) ZorixColors.Best else MaterialTheme.colorScheme.onSurfaceVariant,
+                )) {
                     Icon(AppIcons.Check, null)
                     Text(stringResource(Res.string.action_done))
                 }
@@ -111,10 +127,21 @@ fun PositionEditor(
                     onSquareTap = { square ->
                         error = null
                         val current = board[square]
-                        board[square] = if (tool == null || current === tool) null else tool
+                        val placing = tool
+                        if (placing == null || current === placing) {
+                            board[square] = null
+                        } else {
+                            // Only one king per side: placing a king moves it instead of adding a second one.
+                            if (placing.type == PieceType.KING) {
+                                for (i in board.indices) if (board[i] === placing) board[i] = null
+                            }
+                            board[square] = placing
+                        }
                     },
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(10.dp))
+                ValidationBanner(liveProblem?.label())
+                Spacer(Modifier.height(10.dp))
                 Text(
                     stringResource(Res.string.editor_help),
                     style = MaterialTheme.typography.bodySmall,
@@ -174,16 +201,36 @@ fun PositionEditor(
                         Text(" " + stringResource(Res.string.editor_start))
                     }
                 }
-                error?.let {
-                    Spacer(Modifier.height(10.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(AppIcons.Warning, null, tint = MaterialTheme.colorScheme.error, modifier = Modifier.size(18.dp))
-                        Text(" " + stringResource(it), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
-                    }
-                }
+
                 Spacer(Modifier.height(24.dp))
             }
         }
+    }
+}
+
+@Composable
+private fun ValidationBanner(problem: StringResource?) {
+    val ok = problem == null
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background((if (ok) ZorixColors.Best else MaterialTheme.colorScheme.error).copy(alpha = 0.14f))
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            if (ok) AppIcons.Check else AppIcons.Warning,
+            null,
+            tint = if (ok) ZorixColors.Best else MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(20.dp),
+        )
+        Spacer(Modifier.width(10.dp))
+        Text(
+            stringResource(problem ?: Res.string.editor_ready),
+            style = MaterialTheme.typography.bodyMedium,
+            color = if (ok) ZorixColors.Best else MaterialTheme.colorScheme.error,
+        )
     }
 }
 

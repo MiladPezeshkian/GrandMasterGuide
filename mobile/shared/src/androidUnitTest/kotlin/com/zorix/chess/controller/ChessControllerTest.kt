@@ -145,4 +145,26 @@ class ChessControllerTest {
             c.setAnalysis(false)
         }
     }
+    @Test fun coachRatesMovesWithStockfish() {
+        val path = System.getProperty("stockfish.path").orEmpty()
+        assumeTrue("stockfish.path not set", path.isNotEmpty())
+        val dir = System.getProperty("stockfish.dir").orEmpty()
+        withController(RealEngineHost(path, dir)) { c ->
+            withTimeout(20_000) { c.state.first { it.engine is EngineStatus.Ready } }
+            c.updateSettings { it.copy(coachMode = true) }
+
+            // Hanging the queen next to the enemy king is a blunder, and the coach names a better move.
+            c.setPosition(Position.fromFen("r3k3/8/8/8/8/8/8/3QK3 w - - 0 1"))
+            c.onUserMove(sq("d1"), sq("a4"))
+            val bad = withTimeout(15_000) { c.state.first { it.lastFeedback != null } }.lastFeedback!!
+            assertTrue("got ${bad.quality}", bad.quality >= MoveQuality.MISTAKE)
+            assertNotNull(bad.bestSan)
+
+            // Delivering mate is always the best move.
+            c.setPosition(Position.fromFen("6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1"))
+            c.onUserMove(sq("a1"), sq("a8"))
+            val mate = withTimeout(15_000) { c.state.first { it.lastFeedback != null } }.lastFeedback!!
+            assertEquals(MoveQuality.BEST, mate.quality)
+        }
+    }
 }

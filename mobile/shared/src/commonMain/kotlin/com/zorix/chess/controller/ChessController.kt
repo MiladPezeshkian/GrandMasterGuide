@@ -7,6 +7,8 @@ import com.zorix.chess.core.PieceType
 import com.zorix.chess.core.Position
 import com.zorix.chess.core.PositionProblem
 import com.zorix.chess.core.Side
+import com.zorix.chess.core.Tactics
+import com.zorix.chess.engine.uci.Score
 import com.zorix.chess.engine.uci.AnalysisSnapshot
 import com.zorix.chess.engine.uci.SearchLimit
 import com.zorix.chess.engine.uci.UciEngine
@@ -50,6 +52,7 @@ class ChessController(
     private var hintJob: Job? = null
     private var analysisJob: Job? = null
     private var optionsJob: Job? = null
+    private var coachJob: Job? = null
     private var foreground = true
 
     init {
@@ -95,7 +98,75 @@ class ChessController(
     }
 
     private fun play(move: Move) {
+        val before = _state.value.game.position
         updateGame { it.play(move) }
+        rateMove(before, move)
+    }
+
+    // ------------------------------------------------------------------ coach
+
+    /** Coach mode: compares the played move with the engine's best move and classifies it. */
+    private fun rateMove(before: Position, move: Move) {
+        if (!_state.value.settings.coachMode) return
+        val key = feedbackKey(before.fen(), move)
+        if (_state.value.feedback.containsKey(key)) return
+        val san = Notation.san(before, move)
+        val after = before.play(move)
+        coachJob?.cancel()
+        coachJob = scope.launch {
+            _state.update { it.copy(coachBusy = true) }
+            try {
+                val whiteMoved = before.sideToMove == Side.WHITE
+                if (Tactics.isCheckmate(after)) {
+                    val mate = Score(mate = if (whiteMoved) 1 else -1)
+                    publishFeedback(key, MoveFeedback(san, MoveQuality.BEST, san, mate, mate))
+                    return@launch
+                }
+                analysisJob?.cancelAndJoin()
+                hintJob?.join()
+                optionsJob?.join()
+                val eng = ensureEngine() ?: return@launch
+                val best = eng.search("fen ${before.fen()}", SearchLimit.MoveTime(COACH_TIME_MS), multiPv = 1)
+                val bestScore = best.best?.score ?: return@launch // mover's point of view
+                val afterScore = if (after.legalMoves.isEmpty()) {
+                    Score(centipawns = 0) // stalemate
+                } else {
+                    eng.search("fen ${after.fen()}", SearchLimit.MoveTime(COACH_TIME_MS), multiPv = 1).best?.score?.negate()
+                        ?: return@launch
+                }
+                val loss = (bestScore.winChance() - afterScore.winChance()).coerceAtLeast(0.0)
+                val bestMove = best.bestMove?.let(Move::fromUci)?.takeIf { before.isLegal(it) }
+                val quality = when {
+                    bestMove == move -> MoveQuality.BEST
+                    loss < 0.02 -> MoveQuality.EXCELLENT
+                    loss < 0.05 -> MoveQuality.GOOD
+                    loss < 0.10 -> MoveQuality.INACCURACY
+                    loss < 0.20 -> MoveQuality.MISTAKE
+                    else -> MoveQuality.BLUNDER
+                }
+                publishFeedback(
+                    key,
+                    MoveFeedback(
+                        san = san,
+                        quality = quality,
+                        bestSan = bestMove?.let { Notation.san(before, it) },
+                        scoreBefore = bestScore.forWhite(whiteMoved),
+                        scoreAfter = afterScore.forWhite(whiteMoved),
+                    ),
+                )
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                onEngineError(e)
+            } finally {
+                _state.update { it.copy(coachBusy = false) }
+                restartAnalysis(afterCoach = true)
+            }
+        }
+    }
+
+    private fun publishFeedback(key: String, feedback: MoveFeedback) {
+        _state.update { it.copy(feedback = it.feedback + (key to feedback)) }
     }
 
     fun undo() {
@@ -143,6 +214,14 @@ class ChessController(
     }
 
     fun pgn(): String = _state.value.game.toPgn()
+
+    /** Ids of solved puzzles (Learn section), stored with the settings. */
+    fun solvedPuzzles(): Set<Int> =
+        store.getString(KEY_SOLVED).orEmpty().split(',').mapNotNull { it.trim().toIntOrNull() }.toSet()
+
+    fun markPuzzleSolved(id: Int) {
+        store.putString(KEY_SOLVED, (solvedPuzzles() + id).sorted().joinToString(","))
+    }
 
     fun fen(): String = _state.value.fen
 
@@ -249,11 +328,12 @@ class ChessController(
         if (st.game.position.isLegal(move)) play(move)
     }
 
-    private fun restartAnalysis(afterHint: Boolean = false) {
+    private fun restartAnalysis(afterHint: Boolean = false, afterCoach: Boolean = false) {
         analysisJob?.cancel()
         val st = _state.value
         val hintRunning = !afterHint && hintJob?.isActive == true
-        if (!st.analysisOn || !foreground || st.game.status.isOver || hintRunning) return
+        val coachRunning = !afterCoach && coachJob?.isActive == true
+        if (!st.analysisOn || !foreground || st.game.status.isOver || hintRunning || coachRunning) return
         val game = st.game
         val position = game.position
         val fen = position.fen()
@@ -321,6 +401,7 @@ class ChessController(
     }
 
     fun close() {
+        coachJob?.cancel()
         hintJob?.cancel()
         analysisJob?.cancel()
         engine?.close()
@@ -453,6 +534,8 @@ class ChessController(
         private const val PUBLISH_INTERVAL_MS = 120L
         private const val ANALYSIS_DEBOUNCE_MS = 150L
         private const val MAX_PV_MOVES = 14
+        private const val COACH_TIME_MS = 450L
+        private const val KEY_SOLVED = "learn.solved"
 
         private const val KEY_START_FEN = "game.startFen"
         private const val KEY_MOVES = "game.moves"

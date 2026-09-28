@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
+import com.zorix.chess.platform.LocalAppLocale
 import com.zorix.chess.platform.PlatformBackHandler
 import com.zorix.chess.resources.*
 import com.zorix.chess.controller.ChessController
@@ -57,6 +59,8 @@ import com.zorix.chess.ui.board.PieceImages
 import com.zorix.chess.ui.board.boardColors
 import com.zorix.chess.ui.board.rememberPieceImages
 import com.zorix.chess.ui.components.ActionBar
+import com.zorix.chess.ui.components.CoachCard
+import com.zorix.chess.ui.learn.LearnScreen
 import com.zorix.chess.ui.components.EnginePanel
 import com.zorix.chess.ui.components.EvalBar
 import com.zorix.chess.ui.components.MenuAction
@@ -81,13 +85,28 @@ interface PlatformActions {
 @Composable
 fun ZorixApp(state: ChessUiState, controller: ChessController, platform: PlatformActions) {
     var splashDone by rememberSaveable { mutableStateOf(false) }
-    Box(Modifier.fillMaxSize()) {
-        MainScreen(state, controller, platform)
-        AnimatedVisibility(visible = !splashDone, enter = fadeIn(), exit = fadeOut()) {
-            SplashScreen(engine = state.engine, onFinished = { splashDone = true })
+    val language = state.settings.language
+    CompositionLocalProvider(LocalAppLocale provides language) {
+        // Re-create the UI when the language changes so every text is reloaded.
+        key(language) {
+            val direction = when (language) {
+                null -> LocalLayoutDirection.current
+                in RTL_LANGUAGES -> LayoutDirection.Rtl
+                else -> LayoutDirection.Ltr
+            }
+            CompositionLocalProvider(LocalLayoutDirection provides direction) {
+                Box(Modifier.fillMaxSize()) {
+                    MainScreen(state, controller, platform)
+                    AnimatedVisibility(visible = !splashDone, enter = fadeIn(), exit = fadeOut()) {
+                        SplashScreen(engine = state.engine, onFinished = { splashDone = true })
+                    }
+                }
+            }
         }
     }
 }
+
+private val RTL_LANGUAGES = setOf("fa", "ckb")
 
 @Composable
 fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformActions) {
@@ -100,6 +119,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
     var showFen by rememberSaveable { mutableStateOf(false) }
     var showAbout by rememberSaveable { mutableStateOf(false) }
     var showEditor by rememberSaveable { mutableStateOf(false) }
+    var showLearn by rememberSaveable { mutableStateOf(false) }
 
     val messageTexts = UiMessage.entries.associateWith { stringResource(it.label()) }
     val texts by rememberUpdatedState(messageTexts)
@@ -114,7 +134,10 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
         if (state.moveCounter > 0 && state.settings.haptics) haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
     }
 
-    PlatformBackHandler(enabled = showEditor) { showEditor = false }
+    PlatformBackHandler(enabled = showEditor || showLearn) {
+        showEditor = false
+        showLearn = false
+    }
 
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val landscape = maxWidth > maxHeight && maxWidth >= 560.dp
@@ -135,7 +158,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
             topBar = {
-                ZorixTopBar(analysisOn = state.analysisOn, onToggleAnalysis = c::setAnalysis) { action ->
+                ZorixTopBar(analysisOn = state.analysisOn, onToggleAnalysis = c::setAnalysis, onLearn = { showLearn = true }, onMenu = { action ->
                     when (action) {
                         MenuAction.NEW_GAME -> c.newGame()
                         MenuAction.EDIT_POSITION -> showEditor = true
@@ -151,7 +174,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                         MenuAction.SHARE_PGN -> platform.sharePgn(c.pgn())
                         MenuAction.ABOUT -> showAbout = true
                     }
-                }
+                })
             },
             bottomBar = { if (!landscape) actionBar(true) },
             snackbarHost = { SnackbarHost(snackbar) },
@@ -165,7 +188,8 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                         Column(Modifier.weight(1f).fillMaxSize()) {
                             Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
                                 StatusRow(state)
-                                MoveStrip(state.game, c::goTo)
+                                MoveStrip(state.game, c::goTo, feedback = state.feedback)
+                                CoachCard(state, Modifier.padding(bottom = 10.dp))
                                 Panel(state, c)
                             }
                             actionBar(false)
@@ -179,7 +203,8 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                             BoardWithEval(state, c, pieces, boardSize)
                         }
                         Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
-                            MoveStrip(state.game, c::goTo, Modifier.padding(horizontal = 4.dp))
+                            MoveStrip(state.game, c::goTo, Modifier.padding(horizontal = 4.dp), state.feedback)
+                            CoachCard(state, Modifier.padding(start = 12.dp, end = 12.dp, bottom = 10.dp))
                             Panel(state, c, Modifier.padding(horizontal = 12.dp))
                             Spacer(Modifier.height(12.dp))
                         }
@@ -200,6 +225,16 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
     }
     if (showFen) FenDialog(initial = "", onLoad = c::loadFen, onDismiss = { showFen = false })
     if (showAbout) AboutDialog(platform.versionName) { showAbout = false }
+    AnimatedVisibility(visible = showLearn, enter = fadeIn(), exit = fadeOut()) {
+        LearnScreen(
+            colors = boardColors(state.settings.boardTheme),
+            pieces = pieces,
+            showCoordinates = state.settings.showCoordinates,
+            solved = c.solvedPuzzles(),
+            onSolved = c::markPuzzleSolved,
+            onClose = { showLearn = false },
+        )
+    }
     AnimatedVisibility(visible = showEditor, enter = fadeIn(), exit = fadeOut()) {
         PositionEditor(
             initial = state.game.position,

@@ -2,7 +2,9 @@ package com.zorix.chess.ui
 
 import com.zorix.chess.resources.*
 import org.jetbrains.compose.resources.StringResource
+import androidx.compose.ui.graphics.Color
 import com.zorix.chess.controller.BoardThemeId
+import com.zorix.chess.controller.MoveQuality
 import com.zorix.chess.controller.UiMessage
 import com.zorix.chess.core.EndReason
 import com.zorix.chess.core.GameResult
@@ -49,6 +51,45 @@ fun BoardThemeId.label(): StringResource = when (this) {
     BoardThemeId.BLUE -> Res.string.theme_blue
     BoardThemeId.GRAPHITE -> Res.string.theme_graphite
 }
+
+fun MoveQuality.label(): StringResource = when (this) {
+    MoveQuality.BEST -> Res.string.quality_best
+    MoveQuality.EXCELLENT -> Res.string.quality_excellent
+    MoveQuality.GOOD -> Res.string.quality_good
+    MoveQuality.INACCURACY -> Res.string.quality_inaccuracy
+    MoveQuality.MISTAKE -> Res.string.quality_mistake
+    MoveQuality.BLUNDER -> Res.string.quality_blunder
+}
+
+fun MoveQuality.tip(): StringResource = when (this) {
+    MoveQuality.BEST -> Res.string.tip_best
+    MoveQuality.EXCELLENT -> Res.string.tip_excellent
+    MoveQuality.GOOD -> Res.string.tip_good
+    MoveQuality.INACCURACY -> Res.string.tip_inaccuracy
+    MoveQuality.MISTAKE -> Res.string.tip_mistake
+    MoveQuality.BLUNDER -> Res.string.tip_blunder
+}
+
+/** Annotation symbol shown next to the move, as in chess books. */
+val MoveQuality.symbol: String
+    get() = when (this) {
+        MoveQuality.BEST -> "★"
+        MoveQuality.EXCELLENT -> "!"
+        MoveQuality.GOOD -> "✓"
+        MoveQuality.INACCURACY -> "?!"
+        MoveQuality.MISTAKE -> "?"
+        MoveQuality.BLUNDER -> "??"
+    }
+
+val MoveQuality.color: Color
+    get() = when (this) {
+        MoveQuality.BEST -> Color(0xFF2FD27C)
+        MoveQuality.EXCELLENT -> Color(0xFF4FC3F7)
+        MoveQuality.GOOD -> Color(0xFF9CCC65)
+        MoveQuality.INACCURACY -> Color(0xFFF5C542)
+        MoveQuality.MISTAKE -> Color(0xFFFF9800)
+        MoveQuality.BLUNDER -> Color(0xFFFF4B55)
+    }
 
 fun Side.label(): StringResource = if (this == Side.WHITE) Res.string.side_white else Res.string.side_black
 

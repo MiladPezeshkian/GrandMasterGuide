@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Slider
@@ -43,6 +44,7 @@ import com.zorix.chess.controller.BoardThemeId
 import com.zorix.chess.controller.EngineStatus
 import com.zorix.chess.controller.Settings
 import com.zorix.chess.ui.board.boardColors
+import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.components.formatSeconds
 import com.zorix.chess.ui.label
 import com.zorix.chess.ui.theme.NumberStyle
@@ -73,6 +75,29 @@ fun SettingsSheet(
         ) {
             Text(stringResource(Res.string.settings_title), style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
+
+            SectionTitle(stringResource(Res.string.settings_language))
+            val languages = listOf(null to stringResource(Res.string.language_system), "en" to "English", "fa" to "فارسی", "ckb" to "کوردی")
+            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                languages.forEach { (code, name) ->
+                    FilterChip(
+                        selected = settings.language == code,
+                        onClick = { onChange { it.copy(language = code) } },
+                        label = { Text(name) },
+                        leadingIcon = if (code == null) ({ Icon(AppIcons.Language, null, Modifier.size(18.dp)) }) else null,
+                    )
+                }
+            }
+            Spacer(Modifier.height(24.dp))
+
+            SectionTitle(stringResource(Res.string.settings_learning))
+            SwitchRow(stringResource(Res.string.settings_coach), settings.coachMode) { v -> onChange { it.copy(coachMode = v) } }
+            Text(
+                stringResource(Res.string.settings_coach_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(Modifier.height(24.dp))
 
             SectionTitle(stringResource(Res.string.settings_engine))
             ValueRow(stringResource(Res.string.settings_think_time), stringResource(Res.string.think_time_value, formatSeconds(settings.thinkTimeMs)))
