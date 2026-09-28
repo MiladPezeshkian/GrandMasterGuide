@@ -7,3 +7,4 @@ __pycache__/
 /stockfish.exe
 game_*.pgn
 .DS_Store
+/release/
