@@ -8,3 +8,7 @@ __pycache__/
 game_*.pgn
 .DS_Store
 /release/
+mobile/iosApp/*.xcodeproj/
+mobile/iosApp/build/
+mobile/shared/build/
+mobile/androidApp/build/

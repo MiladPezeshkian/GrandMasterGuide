@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zorix Chess</string>
+
+    <string name="tagline">Best-move analysis powered by Stockfish</string>
+    <string name="splash_preparing">Preparing engine… %1$s</string>
+    <string name="offline_badge">Works offline</string>
+
+    <string name="side_white">White</string>
+    <string name="side_black">Black</string>
+    <string name="turn_white">White to move</string>
+    <string name="turn_black">Black to move</string>
+
+    <string name="engine_preparing">Preparing engine…</string>
+    <string name="engine_starting">Starting engine…</string>
+    <string name="engine_failed">Engine unavailable</string>
+    <string name="engine_retry">Retry</string>
+
+    <string name="action_undo">Undo</string>
+    <string name="action_redo">Redo</string>
+    <string name="action_best_move">Best move</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_flip">Flip</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_play">Play</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_new_game">New game</string>
+    <string name="action_edit_position">Set up position</string>
+    <string name="action_load_fen">Load FEN</string>
+    <string name="action_copy_fen">Copy FEN</string>
+    <string name="action_copy_pgn">Copy PGN</string>
+    <string name="action_share_pgn">Share PGN</string>
+    <string name="action_about">About</string>
+    <string name="action_analysis">Live analysis</string>
+    <string name="action_more">More options</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_load">Load</string>
+    <string name="action_paste">Paste</string>
+    <string name="action_done">Done</string>
+    <string name="action_close">Close</string>
+    <string name="action_first">First move</string>
+    <string name="action_previous">Previous move</string>
+    <string name="action_next">Next move</string>
+    <string name="action_last">Last move</string>
+
+    <string name="hint_idle">Tap “Best move” and Stockfish will find the strongest move for %1$s.</string>
+    <string name="hint_thinking">Stockfish is thinking…</string>
+    <string name="hint_best_move">Best move for %1$s</string>
+    <string name="hint_depth">Depth %1$d</string>
+    <string name="analysis_title">Live analysis</string>
+    <string name="analysis_waiting">Analysing…</string>
+    <string name="think_time_value">%1$s s</string>
+    <string name="moves_empty">No moves yet — play a move on the board.</string>
+
+    <string name="game_over_checkmate_white">Checkmate — White wins</string>
+    <string name="game_over_checkmate_black">Checkmate — Black wins</string>
+    <string name="game_over_stalemate">Stalemate — draw</string>
+    <string name="game_over_insufficient">Draw — insufficient material</string>
+    <string name="game_over_fifty">Draw — fifty-move rule</string>
+    <string name="game_over_repetition">Draw — threefold repetition</string>
+
+    <string name="msg_illegal_move">Illegal move</string>
+    <string name="msg_game_over">The game is over</string>
+    <string name="msg_engine_not_ready">The engine is not ready yet</string>
+    <string name="msg_no_legal_moves">No legal moves in this position</string>
+    <string name="msg_suggestion_outdated">That suggestion belongs to another position</string>
+    <string name="msg_fen_invalid">Invalid FEN</string>
+    <string name="msg_fen_copied">FEN copied</string>
+    <string name="msg_pgn_copied">PGN copied</string>
+    <string name="msg_position_loaded">Position loaded</string>
+    <string name="msg_nothing_to_undo">Nothing to undo</string>
+    <string name="msg_nothing_to_redo">Nothing to redo</string>
+
+    <string name="board_description">Chess board</string>
+    <string name="promotion_hint">Choose the promotion piece</string>
+
+    <string name="fen_dialog_title">Load position (FEN)</string>
+    <string name="fen_dialog_hint">Paste or type a FEN</string>
+    <string name="fen_error_malformed">This is not a valid FEN.</string>
+    <string name="problem_missing_king">Each side needs a king.</string>
+    <string name="problem_too_many_kings">Each side can have only one king.</string>
+    <string name="problem_pawn_on_back_rank">Pawns cannot stand on the first or last rank.</string>
+    <string name="problem_too_many_pieces">Too many pieces for one side.</string>
+    <string name="problem_opponent_in_check">The side that is not to move is in check.</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_engine">Engine</string>
+    <string name="settings_think_time">Think time for “Best move”</string>
+    <string name="settings_threads">CPU threads</string>
+    <string name="settings_hash">Hash memory</string>
+    <string name="settings_lines">Live analysis lines</string>
+    <string name="settings_board">Board</string>
+    <string name="settings_theme">Board theme</string>
+    <string name="settings_coordinates">Show coordinates</string>
+    <string name="settings_legal_moves">Show legal moves</string>
+    <string name="settings_arrows">Show engine arrows</string>
+    <string name="settings_animations">Animate moves</string>
+    <string name="settings_haptics">Vibrate on moves</string>
+    <string name="settings_engine_info">%1$s · %2$s</string>
+    <string name="mb_value">%1$d MB</string>
+    <string name="theme_classic">Classic</string>
+    <string name="theme_walnut">Walnut</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_blue">Blue</string>
+    <string name="theme_graphite">Graphite</string>
+
+    <string name="editor_title">Set up position</string>
+    <string name="editor_side_to_move">Side to move</string>
+    <string name="editor_castling">Castling</string>
+    <string name="editor_white_oo">White O-O</string>
+    <string name="editor_white_ooo">White O-O-O</string>
+    <string name="editor_black_oo">Black O-O</string>
+    <string name="editor_black_ooo">Black O-O-O</string>
+    <string name="editor_clear">Clear</string>
+    <string name="editor_start">Start position</string>
+    <string name="editor_eraser">Eraser</string>
+    <string name="editor_help">Pick a piece below, then tap squares to place it. Tap the same piece again to remove it.</string>
+
+    <string name="about_version">Version %1$s</string>
+    <string name="about_body">Zorix Chess finds the best move in any position with Stockfish, the strongest open-source chess engine. Everything runs on your device, completely offline.</string>
+    <string name="about_credits">Credits</string>
+    <string name="about_engine">Engine: Stockfish 19 by the Stockfish developers, GNU GPL v3 — stockfishchess.org</string>
+    <string name="about_pieces">Chess pieces: Colin M.L. Burnett (cburnett)</string>
+    <string name="about_font">Logo font: Orbitron by Matt McInerney, SIL Open Font License</string>
+    <string name="about_author">Created by Milad Pezeshkian. All rights reserved.</string>
+</resources>
