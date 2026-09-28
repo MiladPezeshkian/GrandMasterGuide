@@ -2,7 +2,7 @@ package com.zorix.chess.engine.uci
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.zorix.chess.platform.ioDispatcher
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
@@ -49,7 +49,7 @@ interface EngineConnection {
  */
 class UciEngine(private val connect: () -> EngineConnection) {
 
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope = CoroutineScope(SupervisorJob() + ioDispatcher)
     private val mutex = Mutex()
 
     @Volatile private var connection: EngineConnection? = null
@@ -66,7 +66,7 @@ class UciEngine(private val connect: () -> EngineConnection) {
     val isAlive: Boolean get() = connection?.isAlive == true
 
     /** Launches the process, performs the UCI handshake and applies [options]. */
-    suspend fun start(options: Map<String, String> = emptyMap()) = withContext(Dispatchers.IO) { mutex.withLock { startLocked(options) } }
+    suspend fun start(options: Map<String, String> = emptyMap()) = withContext(ioDispatcher) { mutex.withLock { startLocked(options) } }
 
     private suspend fun startLocked(options: Map<String, String>) {
         if (isAlive) return
@@ -110,7 +110,7 @@ class UciEngine(private val connect: () -> EngineConnection) {
     }
 
     /** Changes engine options (Threads, Hash, ...). Safe to call while idle or between searches. */
-    suspend fun setOptions(options: Map<String, String>) = withContext(Dispatchers.IO) { mutex.withLock { setOptionsLocked(options) } }
+    suspend fun setOptions(options: Map<String, String>) = withContext(ioDispatcher) { mutex.withLock { setOptionsLocked(options) } }
 
     private suspend fun setOptionsLocked(options: Map<String, String>) {
         ensureAlive()
@@ -125,7 +125,7 @@ class UciEngine(private val connect: () -> EngineConnection) {
     }
 
     /** Clears hash tables and search history. */
-    suspend fun newGame() = withContext(Dispatchers.IO) {
+    suspend fun newGame() = withContext(ioDispatcher) {
         mutex.withLock {
             ensureAlive()
             send("ucinewgame")
@@ -143,7 +143,7 @@ class UciEngine(private val connect: () -> EngineConnection) {
         limit: SearchLimit,
         multiPv: Int = 1,
         onUpdate: (AnalysisSnapshot) -> Unit = {},
-    ): AnalysisSnapshot = withContext(Dispatchers.IO) { mutex.withLock { searchLocked(positionArgs, limit, multiPv, onUpdate) } }
+    ): AnalysisSnapshot = withContext(ioDispatcher) { mutex.withLock { searchLocked(positionArgs, limit, multiPv, onUpdate) } }
 
     private suspend fun searchLocked(
         positionArgs: String,

@@ -20,6 +20,7 @@ import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationDidEnterBackgroundNotification
 import platform.UIKit.UIApplicationWillEnterForegroundNotification
 import platform.UIKit.UIViewController
+import platform.UIKit.popoverPresentationController
 
 /** Settings and the current game, kept in NSUserDefaults. */
 private class UserDefaultsStore : KeyValueStore {
