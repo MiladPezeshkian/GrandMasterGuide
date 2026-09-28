@@ -59,7 +59,7 @@ import com.zorix.chess.ui.label
 import com.zorix.chess.ui.theme.ZorixColors
 
 /**
- * Board editor: set up any position (e.g. from a real game) and let Stockfish analyse it.
+ * Board editor: set up any position (e.g. from a real game) and let the Zorix engine analyse it.
  * Validation (kings, pawns on back ranks, side not to move in check) happens before loading.
  */
 @Composable

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Zorix Chess</string>
 
-    <string name="tagline">Best-move analysis powered by Stockfish</string>
+    <string name="tagline">Best-move analysis powered by the Zorix engine</string>
     <string name="splash_preparing">Preparing engine… %1$s</string>
     <string name="offline_badge">Works offline</string>
 
@@ -43,8 +43,8 @@
     <string name="action_next">Next move</string>
     <string name="action_last">Last move</string>
 
-    <string name="hint_idle">Tap “Best move” and Stockfish will find the strongest move for %1$s.</string>
-    <string name="hint_thinking">Stockfish is thinking…</string>
+    <string name="hint_idle">Tap “Best move” and Zorix will find the strongest move for %1$s.</string>
+    <string name="hint_thinking">Zorix is thinking…</string>
     <string name="hint_best_move">Best move for %1$s</string>
     <string name="hint_depth">Depth %1$d</string>
     <string name="analysis_title">Live analysis</string>
@@ -117,10 +117,12 @@
     <string name="editor_help">Pick a piece below, then tap squares to place it. Tap the same piece again to remove it.</string>
 
     <string name="about_version">Version %1$s</string>
-    <string name="about_body">Zorix Chess finds the best move in any position with Stockfish, the strongest open-source chess engine. Everything runs on your device, completely offline.</string>
+    <string name="about_body">Zorix Chess finds the best move in any position with the Zorix engine. Everything runs on your device, completely offline.</string>
     <string name="about_credits">Credits</string>
-    <string name="about_engine">Engine: Stockfish 19 by the Stockfish developers, GNU GPL v3 — stockfishchess.org</string>
+    <string name="about_engine">Zorix engine core: based on Stockfish 19 (GNU GPL v3)</string>
     <string name="about_pieces">Chess pieces: Colin M.L. Burnett (cburnett)</string>
     <string name="about_font">Logo font: Orbitron by Matt McInerney, SIL Open Font License</string>
-    <string name="about_author">Created by Milad Pezeshkian. All rights reserved.</string>
+    <string name="about_author">Designed &amp; developed by Milad Pezeshkian</string>
+    <string name="about_rights">© Milad Pezeshkian. All rights reserved.</string>
+    <string name="engine_name">Zorix Engine</string>
 </resources>

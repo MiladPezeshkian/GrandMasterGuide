@@ -112,7 +112,7 @@ fun SettingsSheet(
             if (engine is EngineStatus.Ready) {
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    stringResource(Res.string.settings_engine_info, engine.name, engine.build),
+                    stringResource(Res.string.settings_engine_info, stringResource(Res.string.engine_name), engine.build),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

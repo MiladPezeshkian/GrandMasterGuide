@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tagline">تحلیل بهترین حرکت با قدرت Stockfish</string>
+    <string name="tagline">تحلیل بهترین حرکت با قدرت موتور Zorix</string>
     <string name="splash_preparing">در حال آماده‌سازی موتور… %1$s</string>
     <string name="offline_badge">کاملاً آفلاین</string>
 
@@ -41,8 +41,8 @@
     <string name="action_next">حرکت بعدی</string>
     <string name="action_last">آخرین حرکت</string>
 
-    <string name="hint_idle">روی «بهترین حرکت» بزنید تا Stockfish قوی‌ترین حرکت را برای %1$s پیدا کند.</string>
-    <string name="hint_thinking">Stockfish در حال فکر کردن است…</string>
+    <string name="hint_idle">روی «بهترین حرکت» بزنید تا Zorix قوی‌ترین حرکت را برای %1$s پیدا کند.</string>
+    <string name="hint_thinking">Zorix در حال فکر کردن است…</string>
     <string name="hint_best_move">بهترین حرکت برای %1$s</string>
     <string name="hint_depth">عمق %1$d</string>
     <string name="analysis_title">تحلیل زنده</string>
@@ -115,10 +115,12 @@
     <string name="editor_help">یک مهره را از پایین انتخاب کنید و روی خانه‌ها بزنید. برای حذف، دوباره روی همان مهره بزنید.</string>
 
     <string name="about_version">نسخه %1$s</string>
-    <string name="about_body">Zorix Chess با کمک Stockfish، قوی‌ترین موتور شطرنج متن‌باز، بهترین حرکت را در هر وضعیتی پیدا می‌کند. همه‌چیز روی گوشی شما و کاملاً آفلاین اجرا می‌شود.</string>
+    <string name="about_body">Zorix Chess با موتور Zorix بهترین حرکت را در هر وضعیتی پیدا می‌کند. همه‌چیز روی گوشی شما و کاملاً آفلاین اجرا می‌شود.</string>
     <string name="about_credits">اعتبارها</string>
-    <string name="about_engine">موتور: Stockfish 19 از توسعه‌دهندگان Stockfish، مجوز GNU GPL v3 — stockfishchess.org</string>
+    <string name="about_engine">هسته‌ی موتور Zorix: بر پایه‌ی Stockfish 19 (مجوز GNU GPL v3)</string>
     <string name="about_pieces">مهره‌ها: Colin M.L. Burnett (cburnett)</string>
     <string name="about_font">فونت لوگو: Orbitron اثر Matt McInerney، مجوز SIL Open Font</string>
-    <string name="about_author">ساخته‌شده توسط میلاد پزشکیان. تمامی حقوق محفوظ است.</string>
+    <string name="about_author">طراحی و توسعه: میلاد پزشکیان (Milad Pezeshkian)</string>
+    <string name="about_rights">© میلاد پزشکیان. تمامی حقوق محفوظ است.</string>
+    <string name="engine_name">موتور Zorix</string>
 </resources>

@@ -2,7 +2,7 @@
 
 ## Zorix Chess — Android & iOS
 
-Find the best move in any chess position with **Stockfish 19**, running entirely on your phone.
+Find the best move in any chess position with the **Zorix engine**, running entirely on your phone.
 **No internet connection is needed** — the engine and its neural network are inside the app.
 
 ### Downloads
@@ -24,7 +24,7 @@ Find the best move in any chess position with **Stockfish 19**, running entirely
 ---
 
 ### فارسی
-**Zorix Chess** با موتور **Stockfish 19** بهترین حرکت را در هر وضعیتی پیدا می‌کند؛ کاملاً **آفلاین** و روی خود گوشی.
+**Zorix Chess** با **موتور Zorix** بهترین حرکت را در هر وضعیتی پیدا می‌کند؛ کاملاً **آفلاین** و روی خود گوشی.
 
 - **اندروید (۸ به بالا):** فایل `android.apk` را روی گوشی دانلود و نصب کنید (اجازه‌ی «نصب از منابع ناشناس» لازم است).
 - **آیفون/آیپد (iOS 15 به بالا):** فایل `ios-unsigned.ipa` امضا نشده است؛ با **Sideloadly** یا **AltStore** (روی ویندوز یا مک) و Apple ID خودتان نصبش کنید، یا با گواهی Apple Developer امضا کنید.
@@ -32,4 +32,4 @@ Find the best move in any chess position with **Stockfish 19**, running entirely
 امکانات: بهترین حرکت با زمان فکر قابل تنظیم، تحلیل زنده تا ۳ خط، انتخاب درست مهره‌ی ارتقا (وزیر/اسب/رخ/فیل)، چیدن وضعیت، FEN و PGN، ۵ رنگ صفحه، فارسی و انگلیسی.
 
 ---
-Stockfish is free software under the GNU GPL v3; its source code is included in this repository (`mobile/stockfish`).
+Created by **Milad Pezeshkian**. The Zorix engine core is based on Stockfish (GNU GPL v3); its source code is included in this repository (`mobile/stockfish`).
