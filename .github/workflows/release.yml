@@ -1,4 +1,4 @@
-name: Build & Release (Android + iOS)
+name: Build & Release (Android)
 
 on:
   push:
@@ -70,6 +70,8 @@ jobs:
 
   ios:
     name: iOS IPA
+    # iOS is not part of the releases for now; run the workflow manually to build it.
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: macos-15
     timeout-minutes: 90
     steps:
@@ -123,7 +125,7 @@ jobs:
 
   release:
     name: Publish release
-    needs: [android, ios]
+    needs: [android]
     # A commit message containing "[no release]" only builds and tests.
     if: ${{ !contains(github.event.head_commit.message, '[no release]') }}
     runs-on: ubuntu-24.04
@@ -141,5 +143,5 @@ jobs:
           TAG="v${APP_VERSION}-build.${{ github.run_number }}"
           gh release create "$TAG" out/* \
             --target "${{ github.sha }}" --prerelease \
-            --title "Zorix Chess ${APP_VERSION} (build ${{ github.run_number }}) — Android & iOS" \
+            --title "Zorix Chess ${APP_VERSION} (build ${{ github.run_number }}) — Android" \
             --notes-file .github/release-notes.md

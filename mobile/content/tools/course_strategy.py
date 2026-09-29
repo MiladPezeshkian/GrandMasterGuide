@@ -165,12 +165,15 @@ LESSONS = [
 FIND = T("Find the strongest positional move.", "قوی‌ترین حرکت راهبردی را پیدا کن.", "بەهێزترین جوڵەی ستراتیژی بدۆزەرەوە.")
 
 def build():
-    found = collect(cb.ENGINE)
+    # Positions come from content/cache/strategy.json (filled by collect(), which can take hours);
+    # a theme with too few examples is left out rather than padded with repeats.
+    found = collect(cb.ENGINE, max_games=0)
     lessons = []
     for key, title, text in LESSONS:
         fens = found.get(key, [])
         if len(fens) < 2:
-            raise ContentError(f"not enough strategy positions for {key}")
+            print(f"strategy: skipping {key} ({len(fens)} positions)")
+            continue
         half = (len(fens) + 1) // 2
         lessons.append(lesson(f"strategy.{key}.1", title, text, 3,
                               [theory(text, fen=fens[0])] + [best(f, FIND, margin=30) for f in fens[:half]]))

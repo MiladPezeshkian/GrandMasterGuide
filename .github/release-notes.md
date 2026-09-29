@@ -1,6 +1,6 @@
 <p align="center"><img src="https://raw.githubusercontent.com/MiladPezeshkian/GrandMasterGuide/claude/beautiful-turing-kmksxb/mobile/branding/out/zorix_chess_logo_dark.png" width="420" alt="Zorix Chess"></p>
 
-## Zorix Chess 1.3 — Android & iOS
+## Zorix Chess 1.3 — Android
 
 Learn chess from zero with a **personal coach who knows your name and explains every move**, play against **20 levels of Zorix**, train with **rated puzzles** and analyse any position with the **Zorix engine** — all **100% offline**, on your phone.
 
@@ -18,7 +18,6 @@ Learn chess from zero with a **personal coach who knows your name and explains e
 | Platform | File | How to install |
 |---|---|---|
 | **Android 8.0+** | `ZorixChess-*-android.apk` | Download on the phone, allow *Install unknown apps*, open the APK. **If an older version is installed, uninstall it first.** |
-| **iOS 15+** (iPhone / iPad) | `ZorixChess-*-ios-unsigned.ipa` | Unsigned build: install with **Sideloadly** or **AltStore** (Windows or Mac) using your Apple ID, or sign it with your Apple Developer certificate. |
 
 ---
 
@@ -35,7 +34,7 @@ Learn chess from zero with a **personal coach who knows your name and explains e
 - 📈 **بررسی بازی:** دقت هر دو طرف، لحظه‌های کلیدی و «دوباره امتحان کن» برای پیدا کردن حرکت بهتر.
 - 🧩 **{PUZZLES_FA} معمای ریتینگ‌دار**، حالت «پشت سر هم» و تمرین بر اساس موضوع (چنگال، آچمز، سیخ، مات و …).
 
-**نصب:** اندروید ۸ به بالا فایل `android.apk` (اگر نسخه‌ی قبلی نصب است، اول آن را حذف کنید). آیفون با **Sideloadly** یا **AltStore**.
+**نصب:** اندروید ۸ به بالا فایل `android.apk` (اگر نسخه‌ی قبلی نصب است، اول آن را حذف کنید).
 
 </div>
 
