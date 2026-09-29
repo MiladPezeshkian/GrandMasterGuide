@@ -141,6 +141,33 @@ def pattern_chapter():
                 level + 1, two))
     return chapter("patterns", T("Mating patterns", "الگوهای مات", "شێوازەکانی کش‌مات"), lessons)
 
+def review_chapter():
+    """More positions for each pattern, then mixed sets where the pattern is not named: recognising it is the skill."""
+    M = cb.DATA["mates"]
+    lessons, rest = [], []
+    for key, title, intro, n1, n2, level in PATTERNS:
+        extra = M.get(key, [])[n1:]
+        if len(extra) >= 8:
+            lessons.append(lesson(f"mates.review.{key}", T(title["en"] + " — practice", title["fa"] + " — تمرین", title["ckb"] + " — ڕاهێنان"),
+                T("More positions with the same pattern. Picture the final position first, then find the move.",
+                  "وضعیت‌های بیشتر با همین الگو. اول وضعیت پایانی را در ذهنت تصور کن، بعد حرکت را پیدا کن.",
+                  "دۆخی زیاتر بە هەمان شێواز. سەرەتا دۆخی کۆتایی لە مێشکتدا وێنا بکە، پاشان جوڵەکە بدۆزەرەوە."),
+                level, [mate(e["fen"], 1, MATE1) for e in extra[:6]]))
+            rest += extra[6:]
+    rng = __import__("random").Random(11)
+    rng.shuffle(rest)
+    per = 8
+    fa_num = "۰۱۲۳۴۵۶۷۸۹"; ck_num = "٠١٢٣٤٥٦٧٨٩"
+    for i in range(min(10, len(rest) // per)):
+        chosen = rest[i * per:(i + 1) * per]
+        lessons.append(lesson(f"mates.mixed.{i + 1}",
+            T(f"Which pattern? Set {i + 1}", f"کدام الگو؟ سری {fa_num[(i + 1) % 10] if i + 1 < 10 else '۱۰'}", f"کام شێواز؟ کۆمەڵەی {ck_num[(i + 1) % 10] if i + 1 < 10 else '١٠'}"),
+            T("Mixed mating patterns without their names — recognise the pattern and deliver mate.",
+              "الگوهای مختلف مات بدون نامشان — الگو را تشخیص بده و مات کن.",
+              "شێوازە جیاوازەکانی کش‌مات بەبێ ناویان — شێوازەکە بناسەرەوە و کش‌مات بکە."),
+            min(5, 2 + i // 3), [mate(e["fen"], 1, MATE1) for e in chosen]))
+    return chapter("pattern-review", T("Pattern practice", "تمرین الگوها", "ڕاهێنانی شێوازەکان"), lessons)
+
 def practice_chapter():
     """Mate-in-N ladders from mined games (fixed solutions) and generated mates."""
     P = cb.DATA["puzzles"]
@@ -176,4 +203,4 @@ def build():
         T("Basic mates against Zorix, the classic mating patterns every player must know, and mate-in-N training.",
           "مات‌های پایه در برابر Zorix، الگوهای کلاسیک مات که هر شطرنج‌بازی باید بداند و تمرین مات در چند حرکت.",
           "کش‌ماتە بنەڕەتییەکان دژی Zorix، شێوازە کلاسیکەکانی کش‌مات کە هەموو یاریزانێک دەبێت بیانزانێت و ڕاهێنانی کش‌مات لە چەند جوڵەدا."),
-        [basic_chapter(), pattern_chapter(), practice_chapter()])
+        [basic_chapter(), pattern_chapter(), review_chapter(), practice_chapter()])

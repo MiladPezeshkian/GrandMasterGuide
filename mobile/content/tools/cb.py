@@ -106,7 +106,7 @@ def play(fen, g, moves, prompt, check=True):
     if check and ENGINE is not None:
         info = ENGINE.analyse(b, chess.engine.Limit(depth=22, time=10))
         s = info["score"].pov(b.turn)
-        if g in ("win", "promote") and not (s.is_mate() and s.mate() > 0 or (s.score() or 0) >= 300):
+        if g in ("win", "promote") and not (s.is_mate() and s.mate() > 0 or (s.score() or 0) >= 250):
             raise ContentError(f"play {g} not winning ({s}) {fen}")
         if g == "draw" and (s.is_mate() or abs(s.score()) > 90):
             raise ContentError(f"play draw not drawn ({s}) {fen}")

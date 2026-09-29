@@ -159,11 +159,14 @@ def theme_lessons(theme, flt, title, intro, levels, per):
                           lvl, steps))
     return out
 
+# Endgame puzzles are left for the Endgames course.
+BANK_RESERVE = 0
+
 def ladder_chapter(target_lessons):
-    pool = [p for p in cb.DATA["puzzles"] if p["id"] not in cb.USED]
+    pool = [p for p in cb.DATA["puzzles"] if p["id"] not in cb.USED and "endgame" not in p["themes"]]
     pool.sort(key=lambda p: p["rating"])
-    per = 8
-    n = min(target_lessons, len(pool) // per)
+    per = 7
+    n = min(target_lessons, max(0, len(pool) - BANK_RESERVE) // per)
     lessons = []
     if n == 0:
         return None

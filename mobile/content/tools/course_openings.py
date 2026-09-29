@@ -282,6 +282,11 @@ def build():
     white = [rep_lesson(*r) for r in REPERTOIRE if r[2] == "white"]
     black = [rep_lesson(*r) for r in REPERTOIRE if r[2] == "black"]
     recall = [recall_lesson(*r) for r in REPERTOIRE]
+    for tid, title, line_san, side, _unused, ideas in TRAPS:
+        recall.append(lesson(f"openings.recall.trap.{tid}",
+                             T(title["en"] + " — from memory", title["fa"] + " — از حفظ", title["ckb"] + " — لەبەرەوە"),
+                             T("Play the whole trap from memory, up to the winning blow.", "کل تله را تا ضربه‌ی آخر از حفظ بازی کن.", "هەموو تەڵەکە تا زەربەی کۆتایی لەبەرەوە یاری بکە."),
+                             2, [line(line_san, side, RECALL)]))
     return course("openings", T("Openings", "گشایش‌ها", "دەستپێکەکان"),
         T("Opening principles, famous traps and a complete repertoire with White and Black — every move explained.",
           "اصول گشایش، تله‌های معروف و یک رپرتوار کامل با سفید و سیاه — همه‌ی حرکت‌ها با توضیح.",

@@ -86,9 +86,9 @@ def main():
         json.dump(c, open(path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
         index.append(c["id"])
         print(f"{c['id']}: {n} lessons, {os.path.getsize(path) // 1024} KB, {time.time() - t:.0f}s")
-    # Rated puzzle bank: everything not used inside lessons.
+    # Rated puzzle bank for the Puzzles tab: every verified puzzle (the trainer picks by rating and theme).
     bank = [{k: p[k] for k in ("id", "fen", "moves", "rating", "themes", "pre", "last") if k in p}
-            for p in puzzles if p["id"] not in cb.USED]
+            for p in puzzles]
     json.dump(bank, open(os.path.join(OUT, "puzzles.json"), "w"), separators=(",", ":"))
     json.dump({"courses": index}, open(os.path.join(OUT, "learn", "index.json"), "w"))
     print(f"total lessons {total}, puzzle bank {len(bank)}")

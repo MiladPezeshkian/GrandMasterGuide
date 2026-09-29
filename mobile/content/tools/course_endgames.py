@@ -219,7 +219,7 @@ def queen_minor_chapter():
 def puzzle_chapter(n_lessons=24):
     pool = [p for p in cb.DATA["puzzles"] if "endgame" in p["themes"] and p["id"] not in cb.USED]
     pool.sort(key=lambda p: p["rating"])
-    per = 6
+    per = 5
     n = min(n_lessons, len(pool) // per)
     lessons = []
     if n == 0:
