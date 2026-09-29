@@ -228,7 +228,7 @@ def recall_lesson(oid, title, side, line_san, ideas):
                   intro, 2, [line(line_san, side, RECALL), line(line_san, other, RECALL_OTHER)])
 
 def clearly_best(b, move):
-    infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=18), multipv=2)
+    infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=18, time=20), multipv=2)
     if not infos or infos[0]["pv"][0] != move:
         return False
     if len(infos) < 2:

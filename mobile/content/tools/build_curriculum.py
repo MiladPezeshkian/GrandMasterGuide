@@ -59,7 +59,7 @@ def main():
     engine_path, mined_dir, mates_path = sys.argv[1:4]
     only = set(sys.argv[4:])
     cb.ENGINE = chess.engine.SimpleEngine.popen_uci(engine_path)
-    cb.ENGINE.configure({"Threads": 4, "Hash": 256})
+    cb.ENGINE.configure({"Threads": 2, "Hash": 128})
     cb.engine_accept = cached_accept(cb.engine_accept)
     puzzles = load_mined(mined_dir)
     cb.DATA = {"mates": json.load(open(mates_path)), "puzzles": puzzles}

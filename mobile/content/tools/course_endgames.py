@@ -11,7 +11,7 @@ BEST = T("Find the only move that keeps the win (or the draw).", "تنها حر�
 
 def evaluate(fen, depth=26):
     b = chess.Board(fen)
-    s = cb.ENGINE.analyse(b, chess.engine.Limit(depth=depth))["score"].pov(b.turn)
+    s = cb.ENGINE.analyse(b, chess.engine.Limit(depth=depth, time=20))["score"].pov(b.turn)
     if s.is_mate():
         return 10000 if s.mate() > 0 else -10000
     return s.score()
@@ -28,7 +28,7 @@ def winning_quiz(fen, question, yes, no, winning_means_yes=True, explain_yes=Non
 def only_moves(fen, prompt, explain=None):
     """A 'best' step: accept only moves that keep the result (win stays win, draw stays draw)."""
     b = chess.Board(fen)
-    infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=24), multipv=min(8, b.legal_moves.count()))
+    infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=24, time=20), multipv=min(8, b.legal_moves.count()))
     def val(s):
         s = s.pov(b.turn)
         return 10000 - abs(s.mate()) if s.is_mate() and s.mate() > 0 else (-10000 if s.is_mate() else s.score())
@@ -51,7 +51,7 @@ def kpk_only_moves(count, seed_squares=None):
         b = chess.Board(fen)
         if b.is_check() or chess.square_distance(b.king(chess.WHITE), b.king(chess.BLACK)) < 2:
             continue
-        infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=20), multipv=min(8, b.legal_moves.count()))
+        infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=20, time=20), multipv=min(8, b.legal_moves.count()))
         def win(i):
             s = i["score"].pov(chess.WHITE)
             return s.is_mate() and s.mate() > 0 or (s.score() or 0) >= 400
@@ -77,7 +77,7 @@ def knight_vs_pawn(count):
         ev = evaluate(fen, depth=20)
         if abs(ev) <= 40:
             # the naive defence must lose: at least one white move loses the game
-            infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=16), multipv=min(10, b.legal_moves.count()))
+            infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=16, time=20), multipv=min(10, b.legal_moves.count()))
             if any(i["score"].pov(chess.WHITE).is_mate() or (i["score"].pov(chess.WHITE).score() or 0) < -400 for i in infos):
                 out.append(fen)
     if len(out) < count:
@@ -94,7 +94,7 @@ def kpk_defense(count):
         b = chess.Board(fen); b.turn = chess.BLACK
         if not b.is_valid() or b.is_check() or chess.square_distance(b.king(chess.WHITE), b.king(chess.BLACK)) < 2:
             continue
-        infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=20), multipv=min(8, b.legal_moves.count()))
+        infos = cb.ENGINE.analyse(b, chess.engine.Limit(depth=20, time=20), multipv=min(8, b.legal_moves.count()))
         def lose(i):
             s = i["score"].pov(chess.BLACK)
             return s.is_mate() and s.mate() < 0 or (s.score() or 0) <= -400

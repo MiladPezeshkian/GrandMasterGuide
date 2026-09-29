@@ -104,7 +104,7 @@ def play(fen, g, moves, prompt, check=True):
     b = chess.Board(fen)
     assert b.is_valid(), fen
     if check and ENGINE is not None:
-        info = ENGINE.analyse(b, chess.engine.Limit(depth=22))
+        info = ENGINE.analyse(b, chess.engine.Limit(depth=22, time=10))
         s = info["score"].pov(b.turn)
         if g in ("win", "promote") and not (s.is_mate() and s.mate() > 0 or (s.score() or 0) >= 300):
             raise ContentError(f"play {g} not winning ({s}) {fen}")
@@ -203,7 +203,7 @@ def forces_mate(b, m, n):
     return True
 
 def engine_accept(b, margin, depth):
-    infos = ENGINE.analyse(b, chess.engine.Limit(depth=depth), multipv=5)
+    infos = ENGINE.analyse(b, chess.engine.Limit(depth=depth, time=20), multipv=5)
     top = infos[0]["score"].pov(b.turn)
     def cp(s): return 10000 - s.mate() * 10 if s.is_mate() and s.mate() > 0 else (-10000 if s.is_mate() else s.score())
     best_cp = cp(top)
