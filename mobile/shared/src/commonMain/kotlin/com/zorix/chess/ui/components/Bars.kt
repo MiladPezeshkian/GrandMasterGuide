@@ -82,7 +82,7 @@ fun ZorixTopBar(
     analysisOn: Boolean,
     onToggleAnalysis: (Boolean) -> Unit,
     onMenu: (MenuAction) -> Unit,
-    onLearn: () -> Unit = {},
+    onLearn: (() -> Unit)? = null,
 ) {
     var menuOpen by remember { mutableStateOf(false) }
     TopAppBar(
@@ -100,8 +100,10 @@ fun ZorixTopBar(
             }
         },
         actions = {
-            IconButton(onClick = onLearn) {
-                Icon(AppIcons.School, contentDescription = stringResource(Res.string.action_learn), tint = MaterialTheme.colorScheme.onSurface)
+            if (onLearn != null) {
+                IconButton(onClick = onLearn) {
+                    Icon(AppIcons.School, contentDescription = stringResource(Res.string.action_learn), tint = MaterialTheme.colorScheme.onSurface)
+                }
             }
             IconToggleButton(checked = analysisOn, onCheckedChange = onToggleAnalysis) {
                 Icon(

@@ -7,8 +7,8 @@ options:
     iOS: "15.0"
 settings:
   base:
-    MARKETING_VERSION: "1.2.0"
-    CURRENT_PROJECT_VERSION: "3"
+    MARKETING_VERSION: "1.3.0"
+    CURRENT_PROJECT_VERSION: "4"
 targets:
   ZorixChess:
     type: application
@@ -32,5 +32,19 @@ targets:
       - name: Compile Kotlin (shared) and Stockfish
         basedOnDependencyAnalysis: false
         script: |
+          set -e
           cd "$SRCROOT/.."
           ./gradlew --no-daemon :shared:embedAndSignAppleFrameworkForXcode
+          # Coach voice: the sherpa-onnx framework and the Persian voice (provided by the Gradle build above).
+          VOICE="$SRCROOT/../shared/build/sherpa-ios"
+          FRAMEWORKS="$TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH"
+          mkdir -p "$FRAMEWORKS"
+          rm -rf "$FRAMEWORKS/SherpaOnnxC.framework"
+          cp -R "$VOICE/SherpaOnnxC.xcframework/ios-arm64/SherpaOnnxC.framework" "$FRAMEWORKS/"
+          if [ -n "$EXPANDED_CODE_SIGN_IDENTITY" ] && [ "$CODE_SIGNING_ALLOWED" != "NO" ]; then
+            codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --preserve-metadata=identifier,entitlements "$FRAMEWORKS/SherpaOnnxC.framework"
+          fi
+          RESOURCES="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
+          rm -rf "$RESOURCES/voice"
+          mkdir -p "$RESOURCES/voice"
+          cp -R "$VOICE/voice/fa" "$RESOURCES/voice/"

@@ -28,6 +28,11 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +64,8 @@ fun SettingsSheet(
     maxThreads: Int,
     onChange: ((Settings) -> Settings) -> Unit,
     onDismiss: () -> Unit,
+    profileName: String? = null,
+    onRename: ((String) -> Unit)? = null,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -75,6 +82,20 @@ fun SettingsSheet(
         ) {
             Text(stringResource(Res.string.settings_title), style = MaterialTheme.typography.titleLarge)
             Spacer(Modifier.height(16.dp))
+
+            if (profileName != null && onRename != null) {
+                SectionTitle(stringResource(Res.string.settings_profile))
+                var name by remember(profileName) { mutableStateOf(profileName) }
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it.take(24); onRename(name) },
+                    singleLine = true,
+                    label = { Text(stringResource(Res.string.onboard_name_hint)) },
+                    leadingIcon = { Icon(AppIcons.Person, null) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Spacer(Modifier.height(24.dp))
+            }
 
             SectionTitle(stringResource(Res.string.settings_language))
             val languages = listOf(null to stringResource(Res.string.language_system), "en" to "English", "fa" to "فارسی", "ckb" to "کوردی")
@@ -97,6 +118,13 @@ fun SettingsSheet(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            SwitchRow(stringResource(Res.string.settings_voice), settings.voice) { v -> onChange { it.copy(voice = v) } }
+            Text(
+                stringResource(Res.string.settings_voice_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            SwitchRow(stringResource(Res.string.settings_explain_bot), settings.explainBotMoves) { v -> onChange { it.copy(explainBotMoves = v) } }
             Spacer(Modifier.height(24.dp))
 
             SectionTitle(stringResource(Res.string.settings_engine))

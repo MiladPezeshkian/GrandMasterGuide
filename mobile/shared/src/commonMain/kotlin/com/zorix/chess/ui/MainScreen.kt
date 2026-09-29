@@ -60,7 +60,6 @@ import com.zorix.chess.ui.board.boardColors
 import com.zorix.chess.ui.board.rememberPieceImages
 import com.zorix.chess.ui.components.ActionBar
 import com.zorix.chess.ui.components.CoachCard
-import com.zorix.chess.ui.learn.LearnScreen
 import com.zorix.chess.ui.components.EnginePanel
 import com.zorix.chess.ui.components.EvalBar
 import com.zorix.chess.ui.components.MenuAction
@@ -70,7 +69,6 @@ import com.zorix.chess.ui.components.TurnIndicator
 import com.zorix.chess.ui.components.ZorixTopBar
 import com.zorix.chess.ui.editor.PositionEditor
 import com.zorix.chess.ui.settings.SettingsSheet
-import com.zorix.chess.ui.splash.SplashScreen
 import com.zorix.chess.ui.theme.ZorixColors
 import kotlinx.coroutines.launch
 
@@ -80,33 +78,6 @@ interface PlatformActions {
     val maxThreads: Int
     fun sharePgn(pgn: String)
 }
-
-/** Root composable: animated splash, then the analysis board. */
-@Composable
-fun ZorixApp(state: ChessUiState, controller: ChessController, platform: PlatformActions) {
-    var splashDone by rememberSaveable { mutableStateOf(false) }
-    val language = state.settings.language
-    CompositionLocalProvider(LocalAppLocale provides language) {
-        // Re-create the UI when the language changes so every text is reloaded.
-        key(language) {
-            val direction = when (language) {
-                null -> LocalLayoutDirection.current
-                in RTL_LANGUAGES -> LayoutDirection.Rtl
-                else -> LayoutDirection.Ltr
-            }
-            CompositionLocalProvider(LocalLayoutDirection provides direction) {
-                Box(Modifier.fillMaxSize()) {
-                    MainScreen(state, controller, platform)
-                    AnimatedVisibility(visible = !splashDone, enter = fadeIn(), exit = fadeOut()) {
-                        SplashScreen(engine = state.engine, onFinished = { splashDone = true })
-                    }
-                }
-            }
-        }
-    }
-}
-
-private val RTL_LANGUAGES = setOf("fa", "ckb")
 
 @Composable
 fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformActions) {
@@ -119,7 +90,6 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
     var showFen by rememberSaveable { mutableStateOf(false) }
     var showAbout by rememberSaveable { mutableStateOf(false) }
     var showEditor by rememberSaveable { mutableStateOf(false) }
-    var showLearn by rememberSaveable { mutableStateOf(false) }
 
     val messageTexts = UiMessage.entries.associateWith { stringResource(it.label()) }
     val texts by rememberUpdatedState(messageTexts)
@@ -134,9 +104,8 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
         if (state.moveCounter > 0 && state.settings.haptics) haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
     }
 
-    PlatformBackHandler(enabled = showEditor || showLearn) {
+    PlatformBackHandler(enabled = showEditor) {
         showEditor = false
-        showLearn = false
     }
 
     BoxWithConstraints(Modifier.fillMaxSize()) {
@@ -158,7 +127,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
         Scaffold(
             containerColor = MaterialTheme.colorScheme.background,
             topBar = {
-                ZorixTopBar(analysisOn = state.analysisOn, onToggleAnalysis = c::setAnalysis, onLearn = { showLearn = true }, onMenu = { action ->
+                ZorixTopBar(analysisOn = state.analysisOn, onToggleAnalysis = c::setAnalysis, onLearn = null, onMenu = { action ->
                     when (action) {
                         MenuAction.NEW_GAME -> c.newGame()
                         MenuAction.EDIT_POSITION -> showEditor = true
@@ -225,16 +194,6 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
     }
     if (showFen) FenDialog(initial = "", onLoad = c::loadFen, onDismiss = { showFen = false })
     if (showAbout) AboutDialog(platform.versionName) { showAbout = false }
-    AnimatedVisibility(visible = showLearn, enter = fadeIn(), exit = fadeOut()) {
-        LearnScreen(
-            colors = boardColors(state.settings.boardTheme),
-            pieces = pieces,
-            showCoordinates = state.settings.showCoordinates,
-            solved = c.solvedPuzzles(),
-            onSolved = c::markPuzzleSolved,
-            onClose = { showLearn = false },
-        )
-    }
     AnimatedVisibility(visible = showEditor, enter = fadeIn(), exit = fadeOut()) {
         PositionEditor(
             initial = state.game.position,

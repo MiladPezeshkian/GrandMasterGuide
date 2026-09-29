@@ -123,7 +123,7 @@ fun AboutDialog(versionName: String, onDismiss: () -> Unit) {
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(Modifier.height(6.dp))
-                for (line in listOf(Res.string.about_engine, Res.string.about_pieces, Res.string.about_font)) {
+                for (line in listOf(Res.string.about_engine, Res.string.about_voice, Res.string.about_pieces, Res.string.about_font)) {
                     Text(
                         "• " + stringResource(line),
                         style = MaterialTheme.typography.bodySmall,

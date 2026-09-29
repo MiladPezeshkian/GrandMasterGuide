@@ -1,7 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import zorix.build.BuildStockfishTask
 import zorix.build.DownloadStockfishNetTask
+import zorix.build.ProvideAndroidVoiceTask
 import zorix.build.StockfishTargets
+import zorix.build.VoiceAssets
 
 plugins {
     alias(libs.plugins.android.application)
@@ -30,8 +32,8 @@ android {
         applicationId = "com.zorix.chess"
         minSdk = minApi
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.2.0"
+        versionCode = 4
+        versionName = "1.3.0"
 
         ndk { abiFilters += stockfishAbis }
     }
@@ -79,6 +81,11 @@ android {
         }
     }
 
+    androidResources {
+        // The voice model is read straight from the APK.
+        noCompress += "onnx"
+    }
+
     lint {
         checkReleaseBuilds = false
         abortOnError = false
@@ -120,10 +127,26 @@ val downloadStockfishNet = tasks.register<DownloadStockfishNetTask>("downloadSto
     outputDir.set(layout.buildDirectory.dir("generated/stockfish/assets"))
 }
 
+// ---------------------------------------------------------------------------------------------
+// Coach voice: sherpa-onnx (speech engine) and the Persian Piper voice, see VoiceAssets.
+// ---------------------------------------------------------------------------------------------
+
+val provideVoice = tasks.register<ProvideAndroidVoiceTask>("provideVoice") {
+    group = "zorix"
+    description = "Provides the offline Persian voice and the sherpa-onnx speech engine."
+    abis.set(stockfishAbis.filter { it in VoiceAssets.ANDROID_ABIS })
+    required.set(providers.gradleProperty("zorix.voice.required").map { it.toBoolean() }.orElse(false))
+    cacheDir.set(rootProject.layout.projectDirectory.dir(".voice"))
+    jniLibsDir.set(layout.buildDirectory.dir("generated/voice/jniLibs"))
+    assetsDir.set(layout.buildDirectory.dir("generated/voice/assets"))
+}
+
 androidComponents {
     onVariants { variant ->
         variant.sources.jniLibs?.addGeneratedSourceDirectory(buildStockfish, BuildStockfishTask::outputDir)
         variant.sources.assets?.addGeneratedSourceDirectory(downloadStockfishNet, DownloadStockfishNetTask::outputDir)
+        variant.sources.jniLibs?.addGeneratedSourceDirectory(provideVoice, ProvideAndroidVoiceTask::jniLibsDir)
+        variant.sources.assets?.addGeneratedSourceDirectory(provideVoice, ProvideAndroidVoiceTask::assetsDir)
     }
 }
 

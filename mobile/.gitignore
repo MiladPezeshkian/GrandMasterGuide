@@ -17,3 +17,4 @@
 /branding/__pycache__/
 *.jks
 *.keystore
+/.voice/

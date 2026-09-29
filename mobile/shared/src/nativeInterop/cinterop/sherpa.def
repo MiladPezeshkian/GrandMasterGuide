@@ -1,0 +1,6 @@
+# sherpa-onnx C API (Apache-2.0): the offline speech engine behind the coach's Persian voice.
+# The framework comes from the sherpa-onnx release (see buildSrc VoiceAssets.kt).
+package = com.zorix.sherpa
+language = C
+headers = sherpa-onnx/c-api/c-api.h
+headerFilter = sherpa-onnx/c-api/c-api.h

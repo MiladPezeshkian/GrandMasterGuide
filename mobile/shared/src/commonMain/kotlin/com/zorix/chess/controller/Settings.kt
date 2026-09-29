@@ -90,6 +90,9 @@ interface Speech {
     fun speak(text: String, lang: String)
     fun stop()
 
+    /** Loads the voice for [lang] in the background so the first sentence starts without delay. */
+    fun prepare(lang: String) = Unit
+
     object None : Speech {
         override fun supports(lang: String) = false
         override fun speak(text: String, lang: String) = Unit

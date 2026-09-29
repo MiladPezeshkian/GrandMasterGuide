@@ -69,6 +69,7 @@ class Miner:
         self.rng = random.Random(seed)
         self.blunder_rate = 0.0
         self.keep_trivial = 0.15
+        self.hard = False
         self.eng = chess.engine.SimpleEngine.popen_uci(path)
         self.eng.configure({"Threads": 1, "Hash": 64})
 
@@ -140,9 +141,13 @@ class Miner:
             best = scored[0][1]
             if abs(best) > 250:
                 continue  # already decided positions make poor puzzles
-            bad = [m for m, sc in scored[1:] if best - 900 <= sc <= best - 220]
+            lo, hi = (best - 450, best - 160) if self.hard else (best - 900, best - 220)
+            bad = [m for m, sc in scored[1:] if lo <= sc <= hi]
+            # Mistakes that allow a forced mate make the best puzzles: always keep them.
+            mating = [i["pv"][0] for i in infos if "pv" in i and i["score"].pov(board.turn).is_mate()
+                      and i["score"].pov(board.turn).mate() < 0 and -i["score"].pov(board.turn).mate() <= 5]
             self.rng.shuffle(bad)
-            for m in bad[:3]:
+            for m in mating[:3] + bad[:3]:
                 b2 = board.copy()
                 b2.push(m)
                 if b2.is_game_over():
@@ -198,7 +203,7 @@ class Miner:
                 victim = board.piece_at(first.to_square)
                 if victim is not None and not bs.is_mate():
                     free = see_capture_gain(board, first.to_square, solver) >= VALUES[victim.piece_type]
-                    if free and self.rng.random() > self.keep_trivial:
+                    if free and (self.hard or self.rng.random() > self.keep_trivial):
                         return None
             if bs.is_mate() and bs.mate() > 0:
                 mate_line = True
@@ -447,8 +452,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("engine"); ap.add_argument("out")
     ap.add_argument("--seed", type=int, default=1); ap.add_argument("--games", type=int, default=100000)
+    ap.add_argument("--hard", action="store_true", help="prefer subtle mistakes and deeper solutions")
     args = ap.parse_args()
     m = Miner(args.engine, args.seed)
+    m.hard = args.hard
     seen = set()
     found = 0
     t0 = time.time()
@@ -465,6 +472,11 @@ def main():
                     if not res:
                         continue
                     line, mate = res
+                    if m.hard and len(line) == 1 and not mate:
+                        # one-move puzzles only when the engine needs some depth to see them
+                        probe = m.eng.analyse(chess.Board(fen), chess.engine.Limit(depth=3))
+                        if probe.get("pv") and probe["pv"][0] == line[0]:
+                            continue
                     rec = {
                         "fen": fen, "pre": pre, "last": last,
                         "moves": [x.uci() for x in line],

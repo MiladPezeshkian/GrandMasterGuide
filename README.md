@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <b>The best move in any chess position — and a coach that teaches you chess. Powered by Stockfish 19, running entirely on your device.</b><br>
+  <b>Learn chess from zero with a personal coach that knows your name, explains every move and talks to you — plus the best move in any position. Powered by Stockfish 19, entirely on your device.</b><br>
   Android · iOS · Windows / macOS / Linux
 </p>
 
@@ -45,9 +45,12 @@ no account, no server, no internet connection — the Android app does not even 
 
 | | |
 |---|---|
-| 🎓 **Coach mode** | Every move you play is rated in real time — **Best ★, Excellent !, Good ✓, Inaccuracy ?!, Mistake ?, Blunder ??** — from the change in winning chances, with a short explanation and the move the engine preferred. The ratings are also shown in the move list. |
-| 🧩 **Puzzles** | 40 checkmate puzzles (mate in 1 and mate in 2) with hints, solutions, a defending opponent that picks the toughest reply, and saved progress. Answers are checked with exact rules, so every correct solution counts. |
-| 📘 **Lessons** | Interactive lessons for the king, queen, rook, bishop, knight, pawn, castling, en passant and checkmate — each with a practice board. |
+| 🧑‍🏫 **Personal coach** | You enter your name and level on first launch; the coach talks to you by name. Every move is rated (**Brilliant !!, Great !, Best ★, Excellent, Good, Book, Inaccuracy ?!, Mistake ?, Miss, Blunder ??**) and explained: what it attacks or leaves hanging, the threat behind the opponent's move, the better move and the line the engine expects next. |
+| 🔊 **Coach voice** | Explanations, lessons and warnings are read aloud. Persian uses a neural voice that runs on the device ([sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) + Piper), English the system voice. |
+| 📚 **{LESSONS} lessons** | Six step-by-step courses from zero — Basics, Checkmate Patterns, Tactics, Endgames, Openings (principles, traps, a full repertoire and memory drills) and Strategy — with stars and progress. Every exercise is verified with the chess rules and the engine. |
+| ⚔️ **Play Zorix** | 20 levels from 250 to 3200 Elo, a personal rating, unlockable levels, hints, take-backs and a coach that explains the bot's moves and warns about its threats. |
+| 📈 **Game review** | Accuracy for both sides, key moments and "retry" to find the better move yourself. |
+| 🧩 **Puzzles** | {PUZZLES} rated puzzles with a puzzle rating, streak mode and theme training (forks, pins, skewers, mates…). |
 | 🎯 **Best move** | Stockfish searches the position for an adjustable time (0.5 – 30 s) and shows the move as an arrow, with its evaluation (`+1.25`, `#3`) and the expected continuation. One tap plays it. |
 | 📈 **Live analysis** | Continuous analysis with up to three candidate lines, colour-coded arrows, depth and speed, plus an evaluation bar. |
 | ♛ **Correct promotion** | A pawn reaching the last rank opens a picker for **Queen, Knight, Rook or Bishop** — no more automatic queening. |
@@ -78,8 +81,9 @@ flowchart LR
 - **Stockfish on iOS** runs on a background thread inside the app, because iOS does not allow launching separate
   processes; its standard input and output are connected to pipes.
 - **Quality:** the move generator is verified with the standard *perft* suites; unit tests cover SAN/FEN/PGN, the
-  promotion flow, the UCI client, the coach and the full hint/analysis flow against a real Stockfish, and every puzzle
-  is proven to be a forced mate.
+  promotion flow, the UCI client, the coach's explanations, play against Zorix and the full hint/analysis flow against a
+  real Stockfish; every lesson exercise and puzzle is re-checked with the app's own chess rules. The lesson content is
+  generated and engine-verified by the scripts in `mobile/content/tools`.
 
 ### Project layout
 
@@ -163,9 +167,11 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 - **دسکتاپ:** فایل `main.py` با پایتون (راهنما در بخش انگلیسی بالا).
 
 ### امکانات
-- **مربی شطرنج:** هر حرکت شما فوراً ارزیابی می‌شود (بهترین ★، عالی !، خوب ✓، نادقیق ?!، اشتباه ?، اشتباه فاحش ??) همراه با توضیح و حرکت بهتر.
-- **۴۰ معمای مات** (مات در ۱ و ۲) با راهنما، راه‌حل، حریفی که سخت‌ترین دفاع را انتخاب می‌کند و ذخیره‌ی پیشرفت.
-- **درس‌های تعاملی** برای حرکت همه‌ی مهره‌ها، قلعه، آنپاسان و مات، هر کدام با صفحه‌ی تمرین.
+- **مربی شخصی:** در اولین اجرا اسم و سطح‌تان را وارد می‌کنید و مربی با اسم خودتان صحبت می‌کند. هر حرکت ارزیابی می‌شود (درخشان، عالی، بهترین، خوب، کتابی، نادقیق، اشتباه، از دست رفته، اشتباه فاحش) و دلیلش توضیح داده می‌شود: تهدیدها، مهره‌های بی‌دفاع، حرکت بهتر و پیش‌بینی ادامه‌ی بازی.
+- **صدای مربی:** توضیحات و درس‌ها با صدای طبیعی فارسی خوانده می‌شوند؛ صدا روی خود گوشی و بدون اینترنت ساخته می‌شود.
+- **{LESSONS_FA} درس تعاملی در ۶ دوره** قدم‌به‌قدم از صفر: مبانی، الگوهای مات، تاکتیک، آخربازی، گشایش‌ها و استراتژی؛ همه‌ی تمرین‌ها با قوانین شطرنج و موتور بررسی شده‌اند.
+- **بازی با Zorix در ۲۰ سطح** با ریتینگ شخصی، باز شدن سطح‌ها، راهنما و توضیح حرکت‌های ربات؛ و **بررسی بازی** با دقت، لحظه‌های کلیدی و «دوباره امتحان کن».
+- **{PUZZLES_FA} معمای ریتینگ‌دار**، حالت پشت سر هم و تمرین بر اساس موضوع.
 - **بهترین حرکت** با زمان فکر قابل تنظیم (۰٫۵ تا ۳۰ ثانیه)، فلش روی صفحه، ارزیابی و ادامه‌ی خط؛ با یک لمس اجرا می‌شود.
 - **تحلیل زنده** تا سه خط هم‌زمان، با فلش‌های رنگی و نوار ارزیابی.
 - **ارتقای درست سرباز:** انتخاب وزیر، اسب، رخ یا فیل (دیگر خودکار وزیر نمی‌شود).
@@ -192,5 +198,7 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 - **Stockfish 19** — © the Stockfish developers, [GNU GPL v3](mobile/stockfish/Copying.txt). The complete engine
   source is included in [`mobile/stockfish`](mobile/stockfish). On iOS the engine is linked into the app, so
   distributions of the iOS build must comply with the GPL.
+- **Coach voice** — [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache 2.0, with ONNX Runtime, MIT, and
+  espeak-ng, GPL v3) and the Piper voice *fa_IR amir* (MIT, trained on CC0 data).
 - **Chess pieces** — Colin M.L. Burnett (*cburnett*), multi-licensed GFDL/BSD/GPL.
 - **Orbitron** typeface — Matt McInerney / The League of Moveable Type, SIL Open Font License.

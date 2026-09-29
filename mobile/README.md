@@ -59,10 +59,15 @@ the Compose UI all live in `shared/`.
   `ZorixChess.xcodeproj`، انتخاب Team در بخش Signing و اجرا روی آیفون.
 - در iOS اجرای برنامه‌ی جداگانه ممنوع است، برای همین Stockfish داخل خود برنامه (روی یک thread جدا) اجرا می‌شود.
 
+### صدای مربی (آفلاین)
+- مربی به فارسی با یک صدای عصبی (Piper، صدای «amir») صحبت می‌کند که با موتور **sherpa-onnx** کاملاً روی خود گوشی ساخته می‌شود؛ انگلیسی با صدای خود سیستم خوانده می‌شود. متن کوردی با صدای فارسی خوانده می‌شود.
+- در اولین ساخت، کتابخانه‌های sherpa-onnx و فایل صدا (حدود ۲۰ مگابایت) **یک بار** از صفحه‌ی Releases پروژه‌ی sherpa-onnx دانلود، با SHA-256 بررسی و در `mobile/.voice/` نگه داشته می‌شوند.
+- اگر دانلود ممکن نباشد، برنامه بدون صدای فارسی ساخته می‌شود (توضیحات مربی به‌صورت متن باقی می‌مانند). با `-Pzorix.voice.required=true` این حالت خطا می‌شود (در CI فعال است).
+
 ### نکات
 - برای ساخت سریع‌تر روی گوشی واقعی، در `gradle.properties` مقدار `zorix.stockfish.abis=arm64-v8a` را بگذارید.
 - شبیه‌ساز اندروید (x86_64) هم پشتیبانی می‌شود.
-- حجم APK حدود ۸۰ مگابایت است (بیشترش شبکه‌ی عصبی Stockfish).
+- حجم APK حدود ۱۱۰ مگابایت است (بیشترش شبکه‌ی عصبی Stockfish و صدای مربی).
 
 ---
 
@@ -92,6 +97,14 @@ Release APK: `gradlew :androidApp:assembleRelease` → `androidApp/build/outputs
   Select your team under *Signing & Capabilities* and run. The Xcode build phase calls
   `./gradlew :shared:embedAndSignAppleFrameworkForXcode`, which compiles the shared Kotlin code and, through
   `iosApp/stockfish/build_ios.sh`, Stockfish for iOS with its network embedded.
+
+### The coach's voice
+The coach speaks Persian with a neural voice (Piper *fa_IR amir*, int8) run on the device by
+[sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx); English uses the system text-to-speech voice, and Kurdish text is
+read by the Persian voice. On the first build `buildSrc/.../VoiceAssets.kt` downloads the sherpa-onnx libraries (Android
+`.so` files, the iOS `SherpaOnnxC.xcframework`) and the voice (~20 MB) from the sherpa-onnx GitHub releases, verifies their
+SHA-256 and caches them in `mobile/.voice/`. If the download fails the app is built without the Persian voice (the coach's
+explanations stay as text) unless `-Pzorix.voice.required=true` is set, as CI does.
 
 ### How it works
 ```
@@ -123,6 +136,7 @@ branding/      Logo source, fonts, piece SVGs and generate_assets.py (regenerate
 | `zorix.stockfish.abis` | `arm64-v8a,armeabi-v7a,x86_64` | ABIs to build the engine for |
 | `zorix.ndkVersion` | `27.2.12479018` | Preferred NDK version |
 | `zorix.stockfish.api` | `26` | API level the engine is compiled for |
+| `zorix.voice.required` | `false` | Fail the build when the coach's voice cannot be downloaded |
 | `zorix.keystore`, `zorix.keystorePassword`, `zorix.keyAlias`, `zorix.keyPassword` | – | Release signing |
 
 ### Licenses
@@ -130,6 +144,8 @@ branding/      Logo source, fonts, piece SVGs and generate_assets.py (regenerate
   source available; it is included in this repository (`mobile/stockfish`). On Android, Zorix Chess runs Stockfish as a
   separate program, like the desktop version. On iOS the engine is linked into the app, so iOS distributions must
   comply with the GPL.
+- **sherpa-onnx** (speech engine) – Apache License 2.0; it includes **ONNX Runtime** (MIT) and **espeak-ng** (GPL v3).
+- **Coach voice** – Piper voice *fa_IR amir (medium)*, MIT, trained on a CC0 dataset.
 - **Chess pieces** – Colin M.L. Burnett (cburnett), BSD/GPL/GFDL multi-license.
 - **Orbitron font** – SIL Open Font License (`branding/fonts/OFL.txt`).
 - Zorix Chess app code and logo – © Milad Pezeshkian, all rights reserved.

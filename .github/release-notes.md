@@ -1,16 +1,17 @@
 <p align="center"><img src="https://raw.githubusercontent.com/MiladPezeshkian/GrandMasterGuide/claude/beautiful-turing-kmksxb/mobile/branding/out/zorix_chess_logo_dark.png" width="420" alt="Zorix Chess"></p>
 
-## Zorix Chess 1.2 — Android & iOS
+## Zorix Chess 1.3 — Android & iOS
 
-Find the best move in any position **and learn chess** with the **Zorix engine**, running entirely on your phone.
-**No internet connection is needed** — the engine and its neural network are inside the app.
+Learn chess from zero with a **personal coach who knows your name and explains every move**, play against **20 levels of Zorix**, train with **rated puzzles** and analyse any position with the **Zorix engine** — all **100% offline**, on your phone.
 
-### New in 1.2
-- 🎓 **Coach mode** — every move you play is rated instantly: **Best ★, Excellent !, Good ✓, Inaccuracy ?!, Mistake ?, Blunder ??**, with a short explanation and the better move. Ratings also appear in the move list.
-- 🧩 **Puzzles** — 40 checkmate puzzles (mate in 1 and mate in 2) with hints, solutions, progress tracking and a real defending opponent. Any correct solution is accepted.
-- 📘 **Lessons** — interactive lessons for every piece, castling, en passant and checkmate, each with a practice board.
-- 🌐 **Languages** — **English, فارسی (Persian) and کوردی (Kurdish Sorani)** with a full right-to-left layout; choose the language in *Settings*.
-- 🛠️ **Set position fixed** — the editor now validates as you place pieces and explains exactly what is missing (e.g. a king) instead of silently ignoring *Done*. Placing a second king moves it.
+### New in 1.3
+- 🧑‍🏫 **Personal coach** — on first launch you enter your name and your level. The coach talks to you by name, rates every move (**Brilliant !!, Great !, Best ★, Excellent, Good, Book, Inaccuracy ?!, Mistake ?, Miss, Blunder ??**) and explains *why*: what the move attacks, what it leaves hanging, the threat behind the opponent's move, the better move and the line the engine expects next.
+- 🔊 **Coach voice** — explanations, lessons and warnings are read aloud, like a video lesson. Persian uses a natural neural voice that runs **on the phone itself** (no internet); English uses the system voice. Can be switched off in *Settings*.
+- 📚 **{LESSONS} interactive lessons in 6 courses**, step by step from zero: *Chess Basics*, *Checkmate Patterns*, *Tactics*, *Endgames*, *Openings* (principles, traps and a full repertoire with White and Black) and *Strategy*. Every exercise was checked with the chess rules and the engine; you earn up to three stars per lesson.
+- ⚔️ **Play Zorix — 20 levels** from a total beginner (250) to full strength (3200). The recommended level follows your rating, beating a level unlocks the next one, and the coach can explain the bot's moves and warn you about its threats. Take-backs and hints are available.
+- 📈 **Game review** — after each game: accuracy for both sides, the key moments, and "retry" to find the better move yourself.
+- 🧩 **{PUZZLES} rated puzzles** — a puzzle rating that follows your results, puzzle streak mode and training by theme (forks, pins, skewers, mates…).
+- 🏠 **New home screen** with your rating, progress, the next lesson and a recommended opponent.
 
 ### Downloads
 
@@ -19,28 +20,20 @@ Find the best move in any position **and learn chess** with the **Zorix engine**
 | **Android 8.0+** | `ZorixChess-*-android.apk` | Download on the phone, allow *Install unknown apps*, open the APK. **If an older version is installed, uninstall it first.** |
 | **iOS 15+** (iPhone / iPad) | `ZorixChess-*-ios-unsigned.ipa` | Unsigned build: install with **Sideloadly** or **AltStore** (Windows or Mac) using your Apple ID, or sign it with your Apple Developer certificate. |
 
-### All features
-- **Best move** with an adjustable think time (0.5 – 30 s), arrow on the board, evaluation and the principal line
-- **Live analysis** with up to 3 lines and an evaluation bar
-- **Coach**, **puzzles** and **lessons** for learning
-- **Correct pawn promotion** — choose Queen, Knight, Rook or Bishop
-- Tap or drag moves, legal-move hints, animations, undo / redo, move list, flip board
-- **Position editor**, FEN import / export, PGN copy & share
-- 5 board themes · English, Persian and Kurdish · game auto-save
-
 ---
 
 <div dir="rtl">
 
-### فارسی
-**Zorix Chess 1.2** با **موتور Zorix** بهترین حرکت را پیدا می‌کند و **شطرنج یاد می‌دهد**؛ کاملاً **آفلاین**.
+### فارسی — Zorix Chess 1.3
+شطرنج را از صفر با یک **مربی شخصی** یاد بگیرید که **اسم شما را صدا می‌زند و دلیل هر حرکت را توضیح می‌دهد**؛ کاملاً **آفلاین**.
 
 **تازه‌ها:**
-- 🎓 **مربی:** هر حرکت شما فوراً ارزیابی می‌شود (بهترین، عالی، خوب، نادقیق، اشتباه، اشتباه فاحش) همراه توضیح و حرکت بهتر.
-- 🧩 **۴۰ معما** (مات در ۱ و مات در ۲) با راهنما، راه‌حل و ثبت پیشرفت.
-- 📘 **درس‌های تعاملی** برای حرکت همه‌ی مهره‌ها، قلعه، آنپاسان و مات.
-- 🌐 **فارسی، کوردی (سورانی) و انگلیسی**؛ انتخاب زبان از تنظیمات.
-- 🛠️ **اصلاح چیدن وضعیت:** دکمه‌ی «تمام» حالا کار می‌کند و اگر وضعیت ناقص باشد (مثلاً شاه نباشد) دلیلش را نشان می‌دهد.
+- 🧑‍🏫 **مربی حرفه‌ای:** در اولین اجرا اسم و سطح‌تان را وارد می‌کنید. مربی با اسم خودتان صحبت می‌کند، هر حرکت را ارزیابی می‌کند (درخشان، عالی، بهترین، خوب، کتابی، نادقیق، اشتباه، از دست رفته، اشتباه فاحش) و **دلیلش** را می‌گوید: چه چیزی را تهدید می‌کند، کدام مهره بی‌دفاع ماند، تهدید حرکت حریف چیست، حرکت بهتر کدام بود و **پیش‌بینی** ادامه‌ی بازی.
+- 🔊 **صدای مربی:** توضیحات، درس‌ها و هشدارها با صدای طبیعی فارسی خوانده می‌شوند (مثل chess.com)؛ صدا روی خود گوشی و **بدون اینترنت** ساخته می‌شود. از تنظیمات قابل خاموش کردن است.
+- 📚 **{LESSONS_FA} درس تعاملی در ۶ دوره**، قدم‌به‌قدم از صفر: مبانی، الگوهای مات، تاکتیک، آخربازی، گشایش‌ها (اصول، تله‌ها و رپرتوار کامل با سفید و سیاه) و استراتژی. همه‌ی تمرین‌ها با قوانین شطرنج و موتور بررسی شده‌اند؛ برای هر درس تا ۳ ستاره.
+- ⚔️ **بازی با Zorix در ۲۰ سطح** از مبتدی کامل تا قدرت کامل؛ سطح پیشنهادی بر اساس ریتینگ شما، باز شدن سطح بعد با بردن، توضیح حرکت‌های ربات و هشدار تهدیدهایش.
+- 📈 **بررسی بازی:** دقت هر دو طرف، لحظه‌های کلیدی و «دوباره امتحان کن» برای پیدا کردن حرکت بهتر.
+- 🧩 **{PUZZLES_FA} معمای ریتینگ‌دار**، حالت «پشت سر هم» و تمرین بر اساس موضوع (چنگال، آچمز، سیخ، مات و …).
 
 **نصب:** اندروید ۸ به بالا فایل `android.apk` (اگر نسخه‌ی قبلی نصب است، اول آن را حذف کنید). آیفون با **Sideloadly** یا **AltStore**.
 
@@ -49,10 +42,9 @@ Find the best move in any position **and learn chess** with the **Zorix engine**
 <div dir="rtl">
 
 ### کوردی (سۆرانی)
-**Zorix Chess 1.2** باشترین جووڵە دەدۆزێتەوە و **فێری شەترەنجت دەکات**، بە تەواوی **بێ ئینتەرنێت**.
-ڕاهێنەر، ٤٠ مەتەڵی مات، وانەی کارلێککەر، زمانی کوردی و فارسی و ئینگلیزی.
+**Zorix Chess 1.3**: ڕاهێنەرێکی تایبەت کە بە ناوی خۆت قسەت لەگەڵ دەکات و هۆکاری هەموو جوڵەیەک ڕوون دەکاتەوە، دەنگی ڕاهێنەر، {LESSONS_CKB} وانە لە ٦ خولدا، یاری لەگەڵ Zorix لە ٢٠ ئاستدا، هەڵسەنگاندنی یاری و مەتەڵی ڕیتینگدار — بە تەواوی **بێ ئینتەرنێت**.
 
 </div>
 
 ---
-Created by **Milad Pezeshkian**. The Zorix engine core is based on Stockfish (GNU GPL v3); its source code is included in this repository (`mobile/stockfish`).
+Created by **Milad Pezeshkian**. The Zorix engine core is based on Stockfish (GNU GPL v3); its source code is included in this repository (`mobile/stockfish`). Coach voice: sherpa-onnx (Apache 2.0), Piper voice "amir" (MIT, CC0 data), espeak-ng (GPL v3).

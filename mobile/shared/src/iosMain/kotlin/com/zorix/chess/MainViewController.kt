@@ -1,13 +1,13 @@
 package com.zorix.chess
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.window.ComposeUIViewController
-import com.zorix.chess.controller.ChessController
+import com.zorix.chess.controller.AppController
 import com.zorix.chess.controller.KeyValueStore
 import com.zorix.chess.engine.IosEngineHost
+import com.zorix.chess.speech.IosSpeech
 import com.zorix.chess.ui.PlatformActions
-import com.zorix.chess.ui.ZorixApp
+import com.zorix.chess.ui.app.ZorixApp
+import com.zorix.chess.ui.app.createAppController
 import com.zorix.chess.ui.theme.ZorixTheme
 import kotlinx.coroutines.MainScope
 import platform.Foundation.NSBundle
@@ -33,8 +33,8 @@ private class UserDefaultsStore : KeyValueStore {
 
 /** One controller for the lifetime of the app (the iOS counterpart of the Android ViewModel). */
 private object AppState {
-    val controller: ChessController by lazy {
-        val c = ChessController(MainScope(), IosEngineHost(), UserDefaultsStore())
+    val controller: AppController by lazy {
+        val c = createAppController(MainScope(), IosEngineHost(), UserDefaultsStore(), IosSpeech())
         val center = NSNotificationCenter.defaultCenter
         center.addObserverForName(UIApplicationDidEnterBackgroundNotification, null, NSOperationQueue.mainQueue) { _ ->
             c.onBackground()
@@ -61,9 +61,7 @@ private object IosPlatform : PlatformActions {
 
 /** Entry point used by the Swift app (iosApp/ZorixChess/ZorixChessApp.swift). */
 fun MainViewController(): UIViewController = ComposeUIViewController {
-    val controller = AppState.controller
-    val state by controller.state.collectAsState()
     ZorixTheme {
-        ZorixApp(state, controller, IosPlatform)
+        ZorixApp(AppState.controller, IosPlatform)
     }
 }

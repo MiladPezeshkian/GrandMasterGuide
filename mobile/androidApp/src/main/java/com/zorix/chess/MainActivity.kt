@@ -9,29 +9,33 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import com.zorix.chess.controller.ChessController
+import com.zorix.chess.controller.AppController
 import com.zorix.chess.data.SharedPreferencesStore
 import com.zorix.chess.engine.AndroidEngineHost
+import com.zorix.chess.speech.AndroidSpeech
 import com.zorix.chess.ui.PlatformActions
-import com.zorix.chess.ui.ZorixApp
+import com.zorix.chess.ui.app.ZorixApp
+import com.zorix.chess.ui.app.createAppController
 import com.zorix.chess.ui.theme.ZorixTheme
 
-/** Hosts the platform-independent [ChessController] so it survives rotation. */
+/** Hosts the platform-independent [AppController] so it survives rotation. */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    val controller = ChessController(
+    val speech = AndroidSpeech(application)
+
+    val app: AppController = createAppController(
         scope = viewModelScope,
         host = AndroidEngineHost(application),
         store = SharedPreferencesStore(application),
+        speech = speech,
     )
 
     override fun onCleared() {
-        controller.close()
+        app.close()
+        speech.shutdown()
     }
 }
 
@@ -64,20 +68,19 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ZorixTheme {
-                val state by viewModel.controller.state.collectAsStateWithLifecycle()
-                ZorixApp(state, viewModel.controller, platform)
+                ZorixApp(viewModel.app, platform)
             }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.controller.onForeground()
+        viewModel.app.onForeground()
     }
 
     override fun onStop() {
         super.onStop()
         // Stop analysing in the background to save battery.
-        if (!isChangingConfigurations) viewModel.controller.onBackground()
+        if (!isChangingConfigurations) viewModel.app.onBackground()
     }
 }

@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import zorix.build.ProvideIosVoiceTask
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -20,6 +21,16 @@ val buildStockfishIos = tasks.register<Exec>("buildStockfishIos") {
     outputs.file(stockfishIosDir.map { it.file("libzorixstockfish.a") })
 }
 
+/** The coach's Persian voice for iOS: the sherpa-onnx framework and the voice files (see VoiceAssets). */
+val sherpaIosDir = layout.buildDirectory.dir("sherpa-ios")
+val sherpaIosSlice = sherpaIosDir.map { it.dir("SherpaOnnxC.xcframework/ios-arm64") }
+val provideIosVoice = tasks.register<ProvideIosVoiceTask>("provideIosVoice") {
+    group = "zorix"
+    description = "Provides the sherpa-onnx framework and the Persian voice for the iOS app."
+    cacheDir.set(rootProject.layout.projectDirectory.dir(".voice"))
+    outputDir.set(sherpaIosDir)
+}
+
 kotlin {
     androidTarget {
         compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
@@ -31,9 +42,15 @@ kotlin {
             includeDirs(rootProject.file("iosApp/stockfish"))
             extraOpts("-libraryPath", stockfishIosDir.get().asFile.absolutePath)
         }
+        compilations.getByName("main").cinterops.create("sherpa") {
+            definitionFile.set(project.file("src/nativeInterop/cinterop/sherpa.def"))
+            includeDirs(sherpaIosSlice.get().dir("SherpaOnnxC.framework/Headers").asFile)
+        }
         binaries.framework {
             baseName = "Shared"
             isStatic = false
+            // SherpaOnnxC.framework is copied into the app next to Shared.framework (see iosApp/project.yml).
+            linkerOpts("-F", sherpaIosSlice.get().asFile.absolutePath, "-framework", "SherpaOnnxC")
         }
     }
 
@@ -60,6 +77,7 @@ kotlin {
 }
 
 tasks.matching { it.name.startsWith("cinteropStockfish") }.configureEach { dependsOn(buildStockfishIos) }
+tasks.matching { it.name.startsWith("cinteropSherpa") }.configureEach { dependsOn(provideIosVoice) }
 
 android {
     namespace = "com.zorix.chess.shared"
