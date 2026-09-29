@@ -26,6 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- The neural Persian voice runs in its own process so it can never take the app down. -->
+        <service
+            android:name=".speech.VoiceService"
+            android:exported="false"
+            android:process=":voice" />
     </application>
 
 </manifest>

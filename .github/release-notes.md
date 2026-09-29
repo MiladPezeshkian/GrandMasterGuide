@@ -1,6 +1,9 @@
 <p align="center"><img src="https://raw.githubusercontent.com/MiladPezeshkian/GrandMasterGuide/claude/beautiful-turing-kmksxb/mobile/branding/out/zorix_chess_logo_dark.png" width="420" alt="Zorix Chess"></p>
 
-## Zorix Chess 1.3 — Android
+## Zorix Chess 1.3.1 — Android
+
+**1.3.1:** fixes the app closing in Persian (the voice now runs in its own process, so it can never close the app).
+
 
 Learn chess from zero with a **personal coach who knows your name and explains every move**, play against **20 levels of Zorix**, train with **rated puzzles** and analyse any position with the **Zorix engine** — all **100% offline**, on your phone.
 
