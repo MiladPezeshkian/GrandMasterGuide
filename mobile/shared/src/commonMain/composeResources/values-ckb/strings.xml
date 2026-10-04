@@ -109,7 +109,7 @@
     <string name="about_body">Zorix Chess بە مەکینەی Zorix باشترین جوڵە لە هەر دۆخێکدا دەدۆزێتەوە. هەموو شتێک لەسەر ئامێرەکەت و بەبێ ئینتەرنێت کار دەکات.</string>
     <string name="about_credits">سوپاس و ناساندن</string>
     <string name="about_engine">ناوکی مەکینەی Zorix: لەسەر بنەمای Stockfish 19 (مۆڵەتی GNU GPL v3)</string>
-    <string name="about_voice">دەنگی ڕاهێنەر: sherpa-onnx (مۆڵەتی Apache 2.0) لەگەڵ دەنگی Piper «amir» (مۆڵەتی MIT، داتای CC0) و espeak-ng (GPL v3)</string>
+    <string name="about_voice">دەنگی ڕاهێنەر: sherpa-onnx (مۆڵەتی Apache 2.0) لەگەڵ دەنگی Piper «ganji» (مۆڵەتی MIT، داتای CC0) و espeak-ng (GPL v3)</string>
     <string name="about_pieces">پارچەکان: Colin M.L. Burnett (cburnett)</string>
     <string name="about_font">فۆنتی لۆگۆ: Orbitron لە Matt McInerney، مۆڵەتی SIL Open Font</string>
     <string name="about_author">دیزاین و گەشەپێدان: میلاد پزشکیان (Milad Pezeshkian)</string>

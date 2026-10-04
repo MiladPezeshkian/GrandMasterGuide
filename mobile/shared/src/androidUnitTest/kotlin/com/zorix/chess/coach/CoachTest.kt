@@ -85,7 +85,7 @@ class CoachTest {
         assertEquals("Nf3", en.bestSan)
         val fa = Coach.explainOwnMove(a, "fa", "میلاد")
         assertTrue(fa.display, fa.display.contains("میلاد") && fa.display.contains("وزیر"))
-        assertTrue(fa.speech, fa.speech.contains("اسب اِف سه"))
+        assertTrue(fa.speech, fa.speech.contains("اسب به اِف سه"))
         val ckb = Coach.explainOwnMove(a, "ckb", "میلاد")
         assertTrue(ckb.display, ckb.display.contains("میلاد") && ckb.display.contains("وەزیر"))
         println(en.display); println(fa.display); println(ckb.display); println(fa.speech)
@@ -108,7 +108,7 @@ class CoachTest {
         assertTrue(msg.display, msg.display.contains("fork"))
         assertTrue(msg.display, msg.display.contains("expects"))
         println(msg.display)
-        println(Coach.explainOwnMove(a, "fa", "سارا").display)
+        println(Coach.explainOwnMove(a, "fa", "سارا").display); println(Coach.explainOwnMove(a, "fa", "سارا").speech)
     }
 
     @Test fun warnsAboutOpponentThreats() {
@@ -131,6 +131,6 @@ class CoachTest {
         assertEquals("pawn takes d5, check", en.move("exd5+"))
         assertEquals("castles kingside", en.move("O-O"))
         val fa = Phrases.of("fa", TextMode.SPEECH, Side.WHITE)
-        assertEquals("وزیر زد اِچ هفت، کیش و مات", fa.move("Qxh7#"))
+        assertEquals("زدن با وزیر در اِچ هفت با کیش و مات", fa.move("Qxh7#"))
     }
 }

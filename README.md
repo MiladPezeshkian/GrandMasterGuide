@@ -199,6 +199,6 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
   source is included in [`mobile/stockfish`](mobile/stockfish). On iOS the engine is linked into the app, so
   distributions of the iOS build must comply with the GPL.
 - **Coach voice** — [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache 2.0, with ONNX Runtime, MIT, and
-  espeak-ng, GPL v3) and the Piper voice *fa_IR amir* (MIT, trained on CC0 data).
+  espeak-ng, GPL v3) and the Piper voice *fa_IR ganji* (MIT, trained on CC0 data).
 - **Chess pieces** — Colin M.L. Burnett (*cburnett*), multi-licensed GFDL/BSD/GPL.
 - **Orbitron** typeface — Matt McInerney / The League of Moveable Type, SIL Open Font License.

@@ -120,7 +120,7 @@
     <string name="about_body">Zorix Chess finds the best move in any position with the Zorix engine. Everything runs on your device, completely offline.</string>
     <string name="about_credits">Credits</string>
     <string name="about_engine">Zorix engine core: based on Stockfish 19 (GNU GPL v3)</string>
-    <string name="about_voice">Coach voice: sherpa-onnx (Apache 2.0) with the Piper voice “amir” (MIT, CC0 data) and espeak-ng (GPL v3)</string>
+    <string name="about_voice">Coach voice: sherpa-onnx (Apache 2.0) with the Piper voice “ganji” (MIT, CC0 data) and espeak-ng (GPL v3)</string>
     <string name="about_pieces">Chess pieces: Colin M.L. Burnett (cburnett)</string>
     <string name="about_font">Logo font: Orbitron by Matt McInerney, SIL Open Font License</string>
     <string name="about_author">Designed &amp; developed by Milad Pezeshkian</string>

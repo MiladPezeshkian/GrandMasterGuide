@@ -1,6 +1,10 @@
 <p align="center"><img src="https://raw.githubusercontent.com/MiladPezeshkian/GrandMasterGuide/claude/beautiful-turing-kmksxb/mobile/branding/out/zorix_chess_logo_dark.png" width="420" alt="Zorix Chess"></p>
 
-## Zorix Chess 1.3.1 — Android
+## Zorix Chess 1.3.2 — Android
+
+**1.3.2:** a more natural Persian voice (Piper “ganji”, full quality) and rewritten Persian coach sentences with correct word order.
+
+**صدای فارسی طبیعی‌تر (گنجی) و جمله‌های مربی با دستور زبان درست فارسی.**
 
 **1.3.1:** fixes the app closing in Persian (the voice now runs in its own process, so it can never close the app).
 
@@ -49,4 +53,4 @@ Learn chess from zero with a **personal coach who knows your name and explains e
 </div>
 
 ---
-Created by **Milad Pezeshkian**. The Zorix engine core is based on Stockfish (GNU GPL v3); its source code is included in this repository (`mobile/stockfish`). Coach voice: sherpa-onnx (Apache 2.0), Piper voice "amir" (MIT, CC0 data), espeak-ng (GPL v3).
+Created by **Milad Pezeshkian**. The Zorix engine core is based on Stockfish (GNU GPL v3); its source code is included in this repository (`mobile/stockfish`). Coach voice: sherpa-onnx (Apache 2.0), Piper voice "ganji" (MIT, CC0 data), espeak-ng (GPL v3).

@@ -239,7 +239,7 @@ object Coach {
         val outcome = Facts.outcome(a.before, a.bestPv, a.before.sideToMove)
         val wins = Facts.describe(outcome.material, outcome.gained)?.let { (piece, amount) -> p.fact(Fact.WinsMaterial(piece, amount)) }
         return when {
-            first != null && wins != null && facts.first() !is Fact.Captures -> first.trimEnd('.') + " — " + wins.replaceFirstChar { it.lowercaseChar() }
+            first != null && wins != null && facts.first() !is Fact.Captures -> p.join(listOf(first, wins))
             first != null -> first
             else -> wins
         }

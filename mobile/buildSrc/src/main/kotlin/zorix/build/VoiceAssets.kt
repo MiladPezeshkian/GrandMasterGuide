@@ -39,9 +39,9 @@ object VoiceAssets {
         "e259a7d3b38ad7dec49bb078252a30bb42ede8355e2bb130cf8c1c78ed131f75",
     )
     val PERSIAN_VOICE = Download(
-        "vits-piper-fa_IR-amir-medium-int8.tar.bz2",
-        "$RELEASES/tts-models/vits-piper-fa_IR-amir-medium-int8.tar.bz2",
-        "b79dbf0b6b9629a36fd541bfda83817ec12e2697557d87b918638445971eac46",
+        "vits-piper-fa_IR-ganji-medium.tar.bz2",
+        "$RELEASES/tts-models/vits-piper-fa_IR-ganji-medium.tar.bz2",
+        "6eae2acccd1b4460159fa5acdad4bb5d2df6d64d8da3e4029dbdff4db14e7a7a",
     )
 
     /** Android ABIs the engine is packed for (x86_64 emulators simply have no Persian voice). */
@@ -54,7 +54,7 @@ object VoiceAssets {
     val ESPEAK_KEEP = listOf("phondata", "phonindex", "phontab", "intonations", "fa_dict", "en_dict", "lang/**", "voices/**")
 
     /** Changes whenever the packed voice changes, so the app refreshes its unpacked copy. */
-    const val VOICE_ID = "fa-amir-medium-int8-1"
+    const val VOICE_ID = "fa-ganji-medium-1"
 
     class Download(val name: String, val url: String, val sha256: String)
 
@@ -88,14 +88,14 @@ object VoiceAssets {
     fun unpackVoice(archive: File, assetsRoot: File, archives: ArchiveOperations, fs: FileSystemOperations) {
         val target = File(assetsRoot, "voice/fa")
         target.deleteRecursively()
-        val root = "vits-piper-fa_IR-amir-medium-int8"
+        val root = "vits-piper-fa_IR-ganji-medium"
         fs.copy {
             from(archives.tarTree(archives.bzip2(archive)))
-            include("$root/fa_IR-amir-medium.onnx", "$root/tokens.txt", "$root/MODEL_CARD")
+            include("$root/fa_IR-ganji-medium.onnx", "$root/tokens.txt", "$root/MODEL_CARD")
             ESPEAK_KEEP.forEach { include("$root/espeak-ng-data/$it") }
             eachFile {
                 val rel = relativePath.segments.drop(1).toMutableList()
-                if (rel.firstOrNull() == "fa_IR-amir-medium.onnx") rel[0] = "model.onnx"
+                if (rel.firstOrNull() == "fa_IR-ganji-medium.onnx") rel[0] = "model.onnx"
                 path = rel.joinToString("/")
             }
             includeEmptyDirs = false

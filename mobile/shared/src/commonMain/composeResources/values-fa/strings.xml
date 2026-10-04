@@ -118,7 +118,7 @@
     <string name="about_body">Zorix Chess با موتور Zorix بهترین حرکت را در هر وضعیتی پیدا می‌کند. همه‌چیز روی گوشی شما و کاملاً آفلاین اجرا می‌شود.</string>
     <string name="about_credits">اعتبارها</string>
     <string name="about_engine">هسته‌ی موتور Zorix: بر پایه‌ی Stockfish 19 (مجوز GNU GPL v3)</string>
-    <string name="about_voice">صدای مربی: sherpa-onnx (مجوز Apache 2.0) با صدای Piper «amir» (مجوز MIT، داده‌ی CC0) و espeak-ng (GPL v3)</string>
+    <string name="about_voice">صدای مربی: sherpa-onnx (مجوز Apache 2.0) با صدای Piper «ganji» (مجوز MIT، داده‌ی CC0) و espeak-ng (GPL v3)</string>
     <string name="about_pieces">مهره‌ها: Colin M.L. Burnett (cburnett)</string>
     <string name="about_font">فونت لوگو: Orbitron اثر Matt McInerney، مجوز SIL Open Font</string>
     <string name="about_author">طراحی و توسعه: میلاد پزشکیان (Milad Pezeshkian)</string>

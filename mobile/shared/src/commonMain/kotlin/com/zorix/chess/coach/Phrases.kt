@@ -284,19 +284,19 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
 
     override fun number(n: Int) = if (mode == TextMode.SPEECH) words.getOrElse(n) { n.toString() } else persianDigits(n)
 
+    /** A move as a noun phrase that fits any sentence: "اسب به اِف سه", "زدن با فیل در بی پنج". */
     override fun spokenMove(m: SanParts): String = buildString {
         when (m.castle) {
             1 -> append("قلعه‌ی کوتاه")
             2 -> append("قلعه‌ی بلند")
             else -> {
-                append(pieceName(m.piece)).append(' ')
                 val target = m.to?.let { spokenSquare(it) } ?: ""
-                if (m.capture) append("زد ")
-                append(target)
-                m.promotion?.let { append(" و ").append(pieceName(it)).append(" می‌شود") }
+                if (m.capture) append("زدن با ").append(pieceName(m.piece)).append(" در ").append(target)
+                else append(pieceName(m.piece)).append(" به ").append(target)
+                m.promotion?.let { append(" و ارتقا به ").append(pieceName(it)) }
             }
         }
-        if (m.mate) append("، کیش و مات") else if (m.check) append("، کیش")
+        if (m.mate) append(" با کیش و مات") else if (m.check) append(" با کیش")
     }
 
     override fun amount(won: PieceAt?, amount: MaterialAmount): String = when {
@@ -315,48 +315,46 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override fun fact(f: Fact): String? = when (f) {
         Fact.Checkmate -> "کیش و مات!"
         is Fact.Check -> when {
-            f.double -> "کیش دوبل! شاه مجبور است حرکت کند."
-            f.discovered -> "کیش کشف‌شده می‌دهد."
-            else -> "کیش می‌دهد."
+            f.double -> "این حرکت کیش دوبل می‌دهد و شاه مجبور است جابه‌جا شود."
+            f.discovered -> "این حرکت کیش کشف‌شده می‌دهد."
+            else -> "این حرکت کیش می‌دهد."
         }
         is Fact.Captures -> when {
-            f.net >= com.zorix.chess.core.Attacks.value(f.piece.type) -> "${piece(f.piece)} را که بی‌دفاع بود می‌زند."
-            f.net > 0 -> "${piece(f.piece)} را می‌زند و در تبادل جلو می‌افتد."
-            else -> "${piece(f.piece)} را می‌زند، اما در تبادل مهره از دست می‌دهد."
+            f.net >= com.zorix.chess.core.Attacks.value(f.piece.type) -> "این حرکت ${piece(f.piece)} را می‌زند که بی‌دفاع بود."
+            f.net > 0 -> "این حرکت ${piece(f.piece)} را می‌زند و در معاوضه سود می‌کند."
+            else -> "این حرکت ${piece(f.piece)} را می‌زند، اما در معاوضه ضرر می‌کند."
         }
-        is Fact.Trade -> "مهره‌ها معاوضه می‌شوند: ${piece(f.piece)} گرفته می‌شود."
+        is Fact.Trade -> "با این حرکت مهره‌ها معاوضه می‌شوند."
         is Fact.Promotes -> "سرباز به ${pieceName(f.type)} ارتقا پیدا می‌کند."
-        is Fact.Castles -> "قلعه‌ی ${if (f.kingside) "کوتاه" else "بلند"} می‌رود: شاه در امان است و رخ‌ها به هم وصل می‌شوند."
+        is Fact.Castles -> "با قلعه‌ی ${if (f.kingside) "کوتاه" else "بلند"}، شاه در امان است و رخ‌ها به هم وصل می‌شوند."
         is Fact.Fork -> "چنگال! ${piece(f.attacker)} هم‌زمان به ${f.targets.take(2).joinToString(" و ") { piece(it) }} حمله می‌کند."
         is Fact.Pin -> if (f.behind.type == PieceType.KING) {
-            "${piece(f.pinned)} را آچمز می‌کند: نمی‌تواند حرکت کند، چون شاه پشت آن است."
+            "این حرکت ${piece(f.pinned)} را آچمز می‌کند؛ این مهره نمی‌تواند حرکت کند، چون شاه پشت آن است."
         } else {
-            "${piece(f.pinned)} را آچمز می‌کند: اگر حرکت کند، ${piece(f.behind)} که پشتش است از دست می‌رود."
+            "این حرکت ${piece(f.pinned)} را آچمز می‌کند؛ اگر این مهره حرکت کند، ${piece(f.behind)} از دست می‌رود."
         }
-        is Fact.Skewer -> "سیخ! به ${piece(f.front)} حمله می‌شود و وقتی کنار برود، ${piece(f.back)} که پشتش است از دست می‌رود."
-        is Fact.DiscoveredAttack -> "حمله‌ی کشف‌شده: با کنار رفتن این مهره، مسیر ${piece(f.attacker)} باز می‌شود و به ${piece(f.target)} حمله می‌کند."
-        is Fact.AttacksUndefended -> "به ${piece(f.target)} حمله می‌کند که به‌اندازه‌ی کافی دفاع نشده است."
-        is Fact.ThreatensMate -> "تهدید می‌کند که با ${move(f.mateSan)} مات کند."
-        is Fact.SavesPiece -> if (f.moved) "${pieceName(f.piece.type)}ی را که زیر حمله بود به جای امن می‌برد." else "از ${piece(f.piece)} که زیر حمله بود دفاع می‌کند."
-        is Fact.Develops -> "${pieceName(f.piece.type)} را وارد بازی می‌کند (گسترش مهره‌ها)."
-        Fact.ControlsCenter -> "برای کنترل مرکز صفحه می‌جنگد."
-        is Fact.PushesPassedPawn -> "سرباز رونده را به ارتقا نزدیک‌تر می‌کند."
-        is Fact.RookOnOpenFile -> "رخ ستون باز ${ltr(('a' + f.file).toString())} را می‌گیرد."
-        is Fact.Sacrifice -> "${pieceName(f.piece.type)} را قربانی می‌کند!"
-        is Fact.Hangs -> "${piece(f.piece)} را بی‌دفاع رها می‌کند."
+        is Fact.Skewer -> "سیخ! ${piece(f.front)} زیر حمله است و وقتی کنار برود، ${piece(f.back)} از دست می‌رود."
+        is Fact.DiscoveredAttack -> "حمله‌ی کشف‌شده! با کنار رفتن این مهره، راه ${piece(f.attacker)} باز می‌شود و به ${piece(f.target)} حمله می‌کند."
+        is Fact.AttacksUndefended -> "این حرکت به ${piece(f.target)} حمله می‌کند که به‌اندازه‌ی کافی دفاع نشده است."
+        is Fact.ThreatensMate -> "این حرکت تهدید می‌کند که با ${move(f.mateSan)} مات کند."
+        is Fact.SavesPiece -> if (f.moved) "این حرکت ${pieceName(f.piece.type)} را از زیر حمله نجات می‌دهد." else "این حرکت از ${piece(f.piece)} دفاع می‌کند که زیر حمله بود."
+        is Fact.Develops -> "این حرکت ${pieceName(f.piece.type)} را وارد بازی می‌کند."
+        Fact.ControlsCenter -> "این حرکت مرکز صفحه را کنترل می‌کند."
+        is Fact.PushesPassedPawn -> "این حرکت سرباز رونده را به ارتقا نزدیک‌تر می‌کند."
+        is Fact.RookOnOpenFile -> "رخ ستون باز ${ltr(('a' + f.file).toString())} را در اختیار می‌گیرد."
+        is Fact.Sacrifice -> "این حرکت ${pieceName(f.piece.type)} را قربانی می‌کند!"
+        is Fact.Hangs -> "این حرکت ${piece(f.piece)} را بی‌دفاع می‌گذارد."
         Fact.KingWalksEarly -> "حرکت دادن شاه در این مرحله، حق قلعه رفتن را از بین می‌برد."
         Fact.QueenOutEarly -> "بیرون آوردن زودهنگام وزیر به حریف اجازه می‌دهد با حمله به آن وقت بخرد."
-        is Fact.AllowsMate -> "به حریف اجازه‌ی مات در ${num(f.moves)} حرکت را می‌دهد، با ${move(f.replySan)}."
+        is Fact.AllowsMate -> "این حرکت به حریف اجازه می‌دهد در ${num(f.moves)} حرکت مات کند؛ شروعش با ${move(f.replySan)} است."
         is Fact.LosesMaterial -> if (f.how is Fact.Captures && f.how.piece == f.lost) {
             "${amount(f.lost, f.amount)} بی‌دفاع می‌ماند و بعد از ${move(f.replySan)} از دست می‌رود."
-        } else buildString {
-            append("بعد از ${move(f.replySan)}")
-            f.how?.let { h -> fact(h)?.let { append(" (").append(it.trimEnd('.', '!')).append(")") } }
-            append("، ").append(amount(f.lost, f.amount)).append(" از دست می‌رود.")
+        } else {
+            "بعد از ${move(f.replySan)}، ${amount(f.lost, f.amount)} از دست می‌رود."
         }
-        is Fact.WinsMaterial -> "${amount(f.won, f.amount)} را می‌برد."
-        is Fact.ForcedMate -> if (f.moves <= 1) "فوراً مات می‌کند." else "به مات اجباری در ${num(f.moves)} حرکت می‌رسد."
-        is Fact.ThreatCapture -> "${piece(f.piece)} زیر حمله است${f.bySan?.let { " (${move(it)})" } ?: ""}."
+        is Fact.WinsMaterial -> "این حرکت ${amount(f.won, f.amount)} را می‌برد."
+        is Fact.ForcedMate -> if (f.moves <= 1) "این حرکت فوراً مات می‌کند." else "این حرکت به مات اجباری در ${num(f.moves)} حرکت می‌رسد."
+        is Fact.ThreatCapture -> "${piece(f.piece)} زیر حمله است${f.bySan?.let { "؛ حریف تهدید به ${move(it)} دارد" } ?: ""}."
         is Fact.ThreatMate -> "حریف تهدید می‌کند که با ${move(f.mateSan)} مات کند!"
     }
 
@@ -379,9 +377,9 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     }
 
     override fun better(bestSan: String, reason: String?) =
-        "بهتر بود ${move(bestSan)} را بازی کنی" + (reason?.let { ": $it" } ?: ".")
+        "حرکت بهتر ${move(bestSan)} بود." + (reason?.let { " $it" } ?: "")
 
-    override fun expect(replySan: String) = "Zorix پیش‌بینی می‌کند حریف ${move(replySan)} را بازی کند."
+    override fun expect(replySan: String) = "پیش‌بینی من این است که حرکت بعدی حریف ${move(replySan)} باشد."
 
     override fun tip(quality: CoachQuality, variant: Int): String? {
         val options = when (quality) {
@@ -403,7 +401,7 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         return options[variant.mod(options.size)]
     }
 
-    override fun opponentPlayed(opponent: String, san: String) = "$opponent حرکت ${move(san)} را بازی کرد."
+    override fun opponentPlayed(opponent: String, san: String) = "$opponent بازی کرد: ${move(san)}."
     override fun watchOut(name: String) = "مراقب باش $name عزیزم:"
     override fun bestMoveIs(san: String) = "بهترین حرکت ${move(san)} است."
     override fun expectedLine(line: String) = "ادامه‌ی پیش‌بینی‌شده: $line."
