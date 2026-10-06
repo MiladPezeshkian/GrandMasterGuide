@@ -53,7 +53,7 @@ import com.zorix.chess.controller.Experience
 import com.zorix.chess.resources.*
 import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.components.PrimaryButton
-import com.zorix.chess.ui.components.ZorixWordmark
+import com.zorix.chess.ui.components.AppWordmark
 import com.zorix.chess.ui.theme.ZorixColors
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -87,7 +87,7 @@ fun Onboarding(
                 Spacer(Modifier.height(24.dp))
                 Image(painterResource(Res.drawable.zc_emblem), null, Modifier.size(if (p == 0) 120.dp else 72.dp))
                 Spacer(Modifier.height(12.dp))
-                ZorixWordmark(fontSize = if (p == 0) 24.sp else 18.sp)
+                AppWordmark(fontSize = if (p == 0) 16.sp else 13.sp, showMaker = p == 0)
                 Spacer(Modifier.height(28.dp))
                 when (p) {
                     0 -> {

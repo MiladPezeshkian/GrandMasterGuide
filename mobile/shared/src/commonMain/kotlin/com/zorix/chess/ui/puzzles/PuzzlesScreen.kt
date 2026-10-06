@@ -44,6 +44,10 @@ import com.zorix.chess.ui.board.PieceImages
 import com.zorix.chess.ui.board.boardColors
 import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.components.CoachBubble
+import com.zorix.chess.ui.components.HelpButton
+import com.zorix.chess.ui.components.HelpTopic
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import com.zorix.chess.ui.components.PrimaryButton
 import com.zorix.chess.ui.components.ScreenHeader
 import com.zorix.chess.ui.components.SecondaryButton
@@ -60,13 +64,18 @@ fun PuzzlesScreen(
     settings: Settings,
     pieces: PieceImages,
     onSpeak: (String) -> Unit,
+    onBuild: () -> Unit,
 ) {
     LaunchedEffect(state.loaded) { if (state.loaded && state.puzzle == null) trainer.start(PuzzleMode.RATED) }
     Column(Modifier.fillMaxSize()) {
         ScreenHeader(
             stringResource(Res.string.tab_puzzles),
             subtitle = if (state.mode == PuzzleMode.STREAK) stringResource(Res.string.puzzle_streak_now, state.streak)
-            else stringResource(Res.string.puzzle_rating_line, profile.puzzleRating, profile.puzzlesSolved),
+            else stringResource(Res.string.puzzle_solved_line, profile.puzzlesSolved),
+            actions = {
+                IconButton(onClick = onBuild) { Icon(AppIcons.Edit, stringResource(Res.string.action_build)) }
+                HelpButton(HelpTopic.PUZZLES)
+            },
         )
         LazyRow(Modifier.fillMaxWidth(), contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             item {
@@ -95,9 +104,6 @@ fun PuzzlesScreen(
                     PuzzleOutcome.FAILED -> stringResource(Res.string.puzzle_streak_over, state.streak) to MaterialTheme.colorScheme.error
                 }
                 Text(msg, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold), color = color, textAlign = TextAlign.Center)
-                state.ratingChange?.let { d ->
-                    Text("${if (d >= 0) "+" else ""}$d", color = if (d >= 0) ZorixColors.Best else MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelLarge)
-                }
                 Spacer(Modifier.height(8.dp))
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     ChessBoard(
@@ -118,8 +124,10 @@ fun PuzzlesScreen(
                     )
                 }
                 Spacer(Modifier.height(10.dp))
-                Text(stringResource(Res.string.puzzle_meta, p.rating, p.themes.filter { it in PuzzleTrainer.TRAINABLE }.take(3).map { themeLabel(it) }.joinToString(" · ")),
-                    style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                val themes = p.themes.filter { it in PuzzleTrainer.TRAINABLE }.take(3).map { themeLabel(it) }
+                if (themes.isNotEmpty() && state.outcome != PuzzleOutcome.SOLVING) {
+                    Text(themes.joinToString(" · "), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
                 state.explanation?.let { e ->
                     Spacer(Modifier.height(10.dp))
                     CoachBubble(e, onSpeak = { onSpeak(e) })

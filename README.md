@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="mobile/branding/out/zorix_chess_logo_light.png" width="460" alt="Zorix Chess">
+  <img src="mobile/branding/out/zorix_chess_logo_light.png" width="460" alt="GrandMaster Guide by Zorix">
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 
 ## English
 
-**Zorix Chess** (formerly *GrandMaster Guide*) is a chess analysis app that tells you the strongest move in any
+**GrandMaster Guide** (by **Zorix**) is a complete chess school and analysis app: it teaches chess from zero and tells you the strongest move in any
 position. It uses **Stockfish 19**, the world's strongest open-source chess engine, and runs it **on the device itself**:
 no account, no server, no internet connection — the Android app does not even request the internet permission.
 
@@ -33,7 +33,7 @@ no account, no server, no internet connection — the Android app does not even 
 
 | Platform | Package | Requirements |
 |---|---|---|
-| **Android** | `ZorixChess-*-android.apk` from [**Releases**](../../releases) | Android 8.0+ (arm64, armv7, x86_64) |
+| **Android** | `GrandMasterGuide-*-android.apk` from [**Releases**](../../releases) | Android 8.0+ (arm64, armv7, x86_64) |
 | **iOS / iPadOS** | `ZorixChess-*-ios-unsigned.ipa` from [**Releases**](../../releases) | iOS 15+, installed with Sideloadly / AltStore or your own signing certificate |
 | **Desktop** | `main.py` (Python) | Windows, macOS or Linux with Python 3.8+ and a Stockfish binary |
 
@@ -47,7 +47,7 @@ no account, no server, no internet connection — the Android app does not even 
 |---|---|
 | 🧑‍🏫 **Personal coach** | You enter your name and level on first launch; the coach talks to you by name. Every move is rated (**Brilliant !!, Great !, Best ★, Excellent, Good, Book, Inaccuracy ?!, Mistake ?, Miss, Blunder ??**) and explained: what it attacks or leaves hanging, the threat behind the opponent's move, the better move and the line the engine expects next. |
 | 🔊 **Coach voice** | Explanations, lessons and warnings are read aloud. Persian uses a neural voice that runs on the device ([sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) + Piper), English the system voice. |
-| 📚 **310 lessons** | Six step-by-step courses from zero — Basics, Checkmate Patterns, Tactics, Endgames, Openings (principles, traps, a full repertoire and memory drills) and Strategy — with stars and progress. Every exercise is verified with the chess rules and the engine. |
+| 📚 **322 lessons** | Seven step-by-step courses from zero — Basics, Chess Understanding, Checkmate Patterns, Tactics, Endgames, Openings (principles, traps, a full repertoire and memory drills) and Strategy — with stars and progress. Every exercise is verified with the chess rules and the engine. |
 | ⚔️ **Play Zorix** | 20 levels from 250 to 3200 Elo, a personal rating, unlockable levels, hints, take-backs and a coach that explains the bot's moves and warns about its threats. |
 | 📈 **Game review** | Accuracy for both sides, key moments and "retry" to find the better move yourself. |
 | 🧩 **Puzzles** | 709 rated puzzles with a puzzle rating, streak mode and theme training (forks, pins, skewers, mates…). |
@@ -153,7 +153,7 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 
 <div dir="rtl">
 
-**Zorix Chess** (نام قبلی: *GrandMaster Guide*) برنامه‌ای برای تحلیل شطرنج است که در هر وضعیتی **بهترین حرکت** را
+**GrandMaster Guide** (ساخت **Zorix**) یک مدرسه‌ی کامل شطرنج و برنامه‌ی تحلیل است که شطرنج را از صفر آموزش می‌دهد و در هر وضعیتی **بهترین حرکت** را
 نشان می‌دهد. موتور آن **Stockfish 19**، قوی‌ترین موتور شطرنج متن‌باز دنیا، است و **روی خود دستگاه** اجرا می‌شود؛
 بدون حساب کاربری، بدون سرور و **بدون نیاز به اینترنت**.
 
@@ -169,7 +169,7 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 ### امکانات
 - **مربی شخصی:** در اولین اجرا اسم و سطح‌تان را وارد می‌کنید و مربی با اسم خودتان صحبت می‌کند. هر حرکت ارزیابی می‌شود (درخشان، عالی، بهترین، خوب، کتابی، نادقیق، اشتباه، از دست رفته، اشتباه فاحش) و دلیلش توضیح داده می‌شود: تهدیدها، مهره‌های بی‌دفاع، حرکت بهتر و پیش‌بینی ادامه‌ی بازی.
 - **صدای مربی:** توضیحات و درس‌ها با صدای طبیعی فارسی خوانده می‌شوند؛ صدا روی خود گوشی و بدون اینترنت ساخته می‌شود.
-- **۳۱۰ درس تعاملی در ۶ دوره** قدم‌به‌قدم از صفر: مبانی، الگوهای مات، تاکتیک، آخربازی، گشایش‌ها و استراتژی؛ همه‌ی تمرین‌ها با قوانین شطرنج و موتور بررسی شده‌اند.
+- **۳۲۲ درس تعاملی در ۷ دوره** قدم‌به‌قدم از صفر: مبانی، درک شطرنج، الگوهای مات، تاکتیک، آخربازی، گشایش‌ها و استراتژی؛ همه‌ی تمرین‌ها با قوانین شطرنج و موتور بررسی شده‌اند.
 - **بازی با Zorix در ۲۰ سطح** با ریتینگ شخصی، باز شدن سطح‌ها، راهنما و توضیح حرکت‌های ربات؛ و **بررسی بازی** با دقت، لحظه‌های کلیدی و «دوباره امتحان کن».
 - **۷۰۹ معمای ریتینگ‌دار**، حالت پشت سر هم و تمرین بر اساس موضوع.
 - **بهترین حرکت** با زمان فکر قابل تنظیم (۰٫۵ تا ۳۰ ثانیه)، فلش روی صفحه، ارزیابی و ادامه‌ی خط؛ با یک لمس اجرا می‌شود.
@@ -194,7 +194,7 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 
 ## Credits & license
 
-- **Zorix Chess** app code, design and logo — © Milad Pezeshkian. All rights reserved.
+- **GrandMaster Guide** by Zorix — app code, design and logo © Milad Pezeshkian. All rights reserved.
 - **Stockfish 19** — © the Stockfish developers, [GNU GPL v3](mobile/stockfish/Copying.txt). The complete engine
   source is included in [`mobile/stockfish`](mobile/stockfish). On iOS the engine is linked into the app, so
   distributions of the iOS build must comply with the GPL.

@@ -312,7 +312,7 @@ private fun SuggestionContent(view: EngineView, onPlay: () -> Unit, onDismiss: (
     }
 }
 
-private val lineColors = listOf(ZorixColors.Best, ZorixColors.Line2, ZorixColors.Line3)
+private val lineColors get() = listOf(ZorixColors.Best, ZorixColors.Line2, ZorixColors.Line3)
 
 @Composable
 private fun AnalysisContent(view: EngineView?, onPlayLine: (Int) -> Unit) {

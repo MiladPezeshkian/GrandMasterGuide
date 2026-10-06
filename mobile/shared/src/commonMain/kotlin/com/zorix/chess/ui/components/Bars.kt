@@ -68,7 +68,7 @@ import com.zorix.chess.ui.theme.ZorixColors
 /** Actions of the top-bar overflow menu. */
 enum class MenuAction(val labelRes: StringResource, val icon: ImageVector) {
     NEW_GAME(Res.string.action_new_game, AppIcons.Add),
-    EDIT_POSITION(Res.string.action_edit_position, AppIcons.Edit),
+    EDIT_POSITION(Res.string.action_build, AppIcons.Edit),
     LOAD_FEN(Res.string.action_load_fen, AppIcons.Paste),
     COPY_FEN(Res.string.action_copy_fen, AppIcons.Copy),
     COPY_PGN(Res.string.action_copy_pgn, AppIcons.Copy),
@@ -94,12 +94,13 @@ fun ZorixTopBar(
                         contentDescription = null,
                         modifier = Modifier.height(26.dp).width(43.dp),
                     )
-                    Spacer(Modifier.width(10.dp))
-                    ZorixWordmark(fontSize = 15.sp)
+                    Spacer(Modifier.width(8.dp))
+                    AppWordmark(fontSize = 11.sp)
                 }
             }
         },
         actions = {
+            HelpButton(HelpTopic.ANALYSIS)
             if (onLearn != null) {
                 IconButton(onClick = onLearn) {
                     Icon(AppIcons.School, contentDescription = stringResource(Res.string.action_learn), tint = MaterialTheme.colorScheme.onSurface)
@@ -259,7 +260,7 @@ fun ActionBar(
     onBestMove: () -> Unit,
     onStop: () -> Unit,
     onFlip: () -> Unit,
-    onSettings: () -> Unit,
+    onBuild: () -> Unit,
     modifier: Modifier = Modifier,
     applyNavigationInsets: Boolean = true,
 ) {
@@ -277,7 +278,7 @@ fun ActionBar(
             ActionItem(AppIcons.Redo, stringResource(Res.string.action_redo), canRedo, onRedo)
             BestMoveButton(thinking, onBestMove, onStop)
             ActionItem(AppIcons.Flip, stringResource(Res.string.action_flip), true, onFlip)
-            ActionItem(AppIcons.Settings, stringResource(Res.string.action_settings), true, onSettings)
+            ActionItem(AppIcons.Edit, stringResource(Res.string.action_build), true, onBuild)
         }
     }
 }
@@ -307,7 +308,7 @@ private fun RowScope.BestMoveButton(thinking: Boolean, onBestMove: () -> Unit, o
             .padding(horizontal = 4.dp)
             .height(52.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(Brush.verticalGradient(listOf(Color(0xFFF23A44), Color(0xFFC3121C))))
+            .background(ZorixColors.ButtonGradient)
             .clickable(onClick = if (thinking) onStop else onBestMove),
         contentAlignment = Alignment.Center,
     ) {

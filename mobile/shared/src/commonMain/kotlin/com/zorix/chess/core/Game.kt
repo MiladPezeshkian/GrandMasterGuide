@@ -81,11 +81,11 @@ class Game private constructor(
     }
 
     /** Exports the played line (not the undone moves) as PGN. */
-    fun toPgn(event: String = "Zorix Chess analysis", date: String = pgnDate()): String = buildString {
+    fun toPgn(event: String = "GrandMaster Guide analysis", date: String = pgnDate()): String = buildString {
         val result = status.result.pgn
         val tags = linkedMapOf(
             "Event" to event,
-            "Site" to "Zorix Chess",
+            "Site" to "GrandMaster Guide",
             "Date" to date,
             "Round" to "-",
             "White" to "?",

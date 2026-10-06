@@ -56,7 +56,7 @@ fun LearnHub(
 ) {
     Column(Modifier.fillMaxSize()) {
         val total = courses.sumOf { it.lessons.size }
-        ScreenHeader(stringResource(Res.string.learn_title), subtitle = stringResource(Res.string.learn_subtitle, total))
+        ScreenHeader(stringResource(Res.string.learn_title), subtitle = stringResource(Res.string.learn_subtitle, total), actions = { com.zorix.chess.ui.components.HelpButton(com.zorix.chess.ui.components.HelpTopic.LEARN) })
         if (courses.isEmpty()) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
             return@Column
@@ -97,7 +97,7 @@ fun CourseScreen(
     onLesson: (Lesson) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        ScreenHeader(course.title.localized(lang), onBack = onBack, subtitle = stringResource(Res.string.learn_progress, course.lessons.count { it.id in stars }, course.lessons.size))
+        ScreenHeader(course.title.localized(lang), onBack = onBack, subtitle = stringResource(Res.string.learn_progress, course.lessons.count { it.id in stars }, course.lessons.size), actions = { com.zorix.chess.ui.components.HelpButton(com.zorix.chess.ui.components.HelpTopic.LEARN) })
         val all = course.lessons
         // A lesson is open when the previous one is done (or it is the first of a chapter already reached).
         val firstOpen = all.indexOfFirst { it.id !in stars }.let { if (it < 0) all.size else it }

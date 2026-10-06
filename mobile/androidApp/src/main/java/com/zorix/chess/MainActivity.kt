@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.zorix.chess.controller.AppController
@@ -55,6 +56,13 @@ class MainActivity : ComponentActivity() {
         val platform = object : PlatformActions {
             override val versionName: String = BuildConfig.VERSION_NAME
             override val maxThreads: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(1)
+
+            override fun setLightSystemBars(light: Boolean) {
+                WindowCompat.getInsetsController(window, window.decorView).apply {
+                    isAppearanceLightStatusBars = light
+                    isAppearanceLightNavigationBars = light
+                }
+            }
 
             override fun sharePgn(pgn: String) {
                 val send = Intent(Intent.ACTION_SEND).apply {

@@ -79,7 +79,7 @@ fun ReviewScreen(
     val game = state.game ?: return
     val data = state.review
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
-        ScreenHeader(stringResource(Res.string.review_title), onBack = onBack, subtitle = data?.opening)
+        ScreenHeader(stringResource(Res.string.review_title), onBack = onBack, subtitle = data?.opening, actions = { com.zorix.chess.ui.components.HelpButton(com.zorix.chess.ui.components.HelpTopic.REVIEW) })
         if (data == null) {
             Column(Modifier.fillMaxSize().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                 CircularProgressIndicator()

@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.zorix.chess.resources.*
+import com.zorix.chess.controller.AppThemeId
 import com.zorix.chess.controller.BoardThemeId
 import com.zorix.chess.controller.EngineStatus
 import com.zorix.chess.controller.Settings
@@ -54,57 +55,69 @@ import com.zorix.chess.ui.components.formatSeconds
 import com.zorix.chess.ui.label
 import com.zorix.chess.ui.theme.NumberStyle
 import com.zorix.chess.ui.theme.ZorixColors
+import com.zorix.chess.ui.theme.paletteOf
+import com.zorix.chess.ui.AboutDialog
+import com.zorix.chess.ui.components.HelpButton
+import com.zorix.chess.ui.components.HelpTopic
+import com.zorix.chess.ui.components.ScreenHeader
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.graphics.Brush
 import kotlin.math.roundToInt
 
-@OptIn(ExperimentalMaterial3Api::class)
+/** The settings tab: profile, appearance, language, coach, engine and board options, and About. */
 @Composable
-fun SettingsSheet(
+fun SettingsScreen(
     settings: Settings,
     engine: EngineStatus,
     maxThreads: Int,
+    versionName: String,
     onChange: ((Settings) -> Settings) -> Unit,
-    onDismiss: () -> Unit,
-    profileName: String? = null,
-    onRename: ((String) -> Unit)? = null,
+    profileName: String,
+    onRename: (String) -> Unit,
 ) {
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-    ) {
+    var showAbout by remember { mutableStateOf(false) }
+    Column(Modifier.fillMaxSize()) {
+        ScreenHeader(stringResource(Res.string.settings_title), actions = { HelpButton(HelpTopic.SETTINGS) })
         Column(
             Modifier
                 .fillMaxWidth()
+                .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
-                .navigationBarsPadding()
-                .padding(bottom = 16.dp),
+                .padding(bottom = 24.dp),
         ) {
-            Text(stringResource(Res.string.settings_title), style = MaterialTheme.typography.titleLarge)
-            Spacer(Modifier.height(16.dp))
+            SectionTitle(stringResource(Res.string.settings_profile))
+            var name by remember(profileName) { mutableStateOf(profileName) }
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it.take(24); onRename(name) },
+                singleLine = true,
+                label = { Text(stringResource(Res.string.onboard_name_hint)) },
+                leadingIcon = { Icon(AppIcons.Person, null) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(Modifier.height(24.dp))
 
-            if (profileName != null && onRename != null) {
-                SectionTitle(stringResource(Res.string.settings_profile))
-                var name by remember(profileName) { mutableStateOf(profileName) }
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = { name = it.take(24); onRename(name) },
-                    singleLine = true,
-                    label = { Text(stringResource(Res.string.onboard_name_hint)) },
-                    leadingIcon = { Icon(AppIcons.Person, null) },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Spacer(Modifier.height(24.dp))
+            SectionTitle(stringResource(Res.string.settings_appearance))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                AppThemeId.entries.forEach { theme ->
+                    AppThemeCard(theme, selected = settings.appTheme == theme, modifier = Modifier.weight(1f)) {
+                        onChange { it.copy(appTheme = theme) }
+                    }
+                }
             }
+            Spacer(Modifier.height(24.dp))
 
             SectionTitle(stringResource(Res.string.settings_language))
-            val languages = listOf(null to stringResource(Res.string.language_system), "en" to "English", "fa" to "فارسی", "ckb" to "کوردی")
+            val languages = listOf(null to stringResource(Res.string.language_system), "fa" to "فارسی", "ckb" to "کوردی", "en" to "English")
             Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                languages.forEach { (code, name) ->
+                languages.forEach { (code, label) ->
                     FilterChip(
                         selected = settings.language == code,
                         onClick = { onChange { it.copy(language = code) } },
-                        label = { Text(name) },
+                        label = { Text(label) },
                         leadingIcon = if (code == null) ({ Icon(AppIcons.Language, null, Modifier.size(18.dp)) }) else null,
                     )
                 }
@@ -113,18 +126,11 @@ fun SettingsSheet(
 
             SectionTitle(stringResource(Res.string.settings_learning))
             SwitchRow(stringResource(Res.string.settings_coach), settings.coachMode) { v -> onChange { it.copy(coachMode = v) } }
-            Text(
-                stringResource(Res.string.settings_coach_hint),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            Hint(stringResource(Res.string.settings_coach_hint))
             SwitchRow(stringResource(Res.string.settings_voice), settings.voice) { v -> onChange { it.copy(voice = v) } }
-            Text(
-                stringResource(Res.string.settings_voice_hint),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            Hint(stringResource(Res.string.settings_voice_hint))
             SwitchRow(stringResource(Res.string.settings_explain_bot), settings.explainBotMoves) { v -> onChange { it.copy(explainBotMoves = v) } }
+            Hint(stringResource(Res.string.settings_explain_bot_hint))
             Spacer(Modifier.height(24.dp))
 
             SectionTitle(stringResource(Res.string.settings_engine))
@@ -140,8 +146,10 @@ fun SettingsSheet(
                 valueRange = Settings.MIN_THINK_MS.toFloat()..Settings.MAX_THINK_MS.toFloat(),
                 steps = steps - 1,
             )
+            Hint(stringResource(Res.string.settings_think_time_hint))
 
             if (maxThreads > 1) {
+                Spacer(Modifier.height(12.dp))
                 ValueRow(stringResource(Res.string.settings_threads), settings.threads.toString())
                 Slider(
                     value = settings.threads.toFloat(),
@@ -149,18 +157,22 @@ fun SettingsSheet(
                     valueRange = 1f..maxThreads.toFloat(),
                     steps = (maxThreads - 2).coerceAtLeast(0),
                 )
+                Hint(stringResource(Res.string.settings_threads_hint, maxThreads))
             }
 
+            Spacer(Modifier.height(12.dp))
             ValueRow(stringResource(Res.string.settings_hash), stringResource(Res.string.mb_value, settings.hashMb))
             ChipRow(Settings.HASH_CHOICES, settings.hashMb, { it.toString() }) { mb ->
                 onChange { it.copy(hashMb = mb) }
             }
+            Hint(stringResource(Res.string.settings_hash_hint))
             Spacer(Modifier.height(12.dp))
 
             ValueRow(stringResource(Res.string.settings_lines), settings.analysisLines.toString())
             ChipRow((1..Settings.MAX_LINES).toList(), settings.analysisLines, { it.toString() }) { n ->
                 onChange { it.copy(analysisLines = n) }
             }
+            Hint(stringResource(Res.string.settings_lines_hint))
 
             if (engine is EngineStatus.Ready) {
                 Spacer(Modifier.height(8.dp))
@@ -188,7 +200,60 @@ fun SettingsSheet(
             SwitchRow(stringResource(Res.string.settings_arrows), settings.showArrows) { v -> onChange { it.copy(showArrows = v) } }
             SwitchRow(stringResource(Res.string.settings_animations), settings.animateMoves) { v -> onChange { it.copy(animateMoves = v) } }
             SwitchRow(stringResource(Res.string.settings_haptics), settings.haptics) { v -> onChange { it.copy(haptics = v) } }
+
+            Spacer(Modifier.height(24.dp))
+            SectionTitle(stringResource(Res.string.action_about))
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .clickable { showAbout = true }
+                    .padding(14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(AppIcons.Info, null, tint = ZorixColors.Red)
+                Spacer(Modifier.width(12.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(Res.string.app_name), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(Res.string.about_version, versionName), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
         }
+    }
+    if (showAbout) AboutDialog(versionName) { showAbout = false }
+}
+
+@Composable
+private fun Hint(text: String) {
+    Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 4.dp))
+}
+
+/** A small preview of an app style: its background, a card and the accent colour. */
+@Composable
+private fun AppThemeCard(theme: AppThemeId, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
+    val p = paletteOf(theme)
+    Column(
+        modifier
+            .clip(RoundedCornerShape(16.dp))
+            .border(BorderStroke(if (selected) 3.dp else 1.dp, if (selected) ZorixColors.Red else MaterialTheme.colorScheme.outline), RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
+            .background(p.background)
+            .padding(12.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(18.dp).clip(RoundedCornerShape(9.dp)).background(Brush.verticalGradient(p.buttonGradient)))
+            Spacer(Modifier.width(8.dp))
+            Box(Modifier.height(8.dp).weight(1f).clip(RoundedCornerShape(4.dp)).background(p.surfaceHighest))
+        }
+        Spacer(Modifier.height(10.dp))
+        Box(Modifier.fillMaxWidth().height(26.dp).clip(RoundedCornerShape(8.dp)).background(p.surfaceHigh))
+        Spacer(Modifier.height(10.dp))
+        Text(
+            stringResource(if (theme == AppThemeId.ZORIX) Res.string.theme_zorix else Res.string.theme_sky),
+            style = MaterialTheme.typography.labelLarge,
+            color = p.text,
+        )
     }
 }
 

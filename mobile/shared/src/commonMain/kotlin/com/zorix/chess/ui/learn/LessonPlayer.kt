@@ -106,7 +106,7 @@ fun LessonPlayer(
                 Spacer(Modifier.height(4.dp))
                 Progress(if (!started) 0f else (ui.index + if (ui.status == StepStatus.SOLVED) 1 else 0).toFloat() / session.stepCount)
             }
-            Spacer(Modifier.width(12.dp))
+            com.zorix.chess.ui.components.HelpButton(com.zorix.chess.ui.components.HelpTopic.LESSON)
         }
         val r = result
         when {

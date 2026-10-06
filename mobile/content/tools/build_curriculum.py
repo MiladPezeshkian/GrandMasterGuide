@@ -66,8 +66,8 @@ def main():
     cb.USED = set()
     print(f"{len(puzzles)} mined puzzles")
     os.makedirs(os.path.join(OUT, "learn"), exist_ok=True)
-    import course_basics, course_mates
-    modules = [course_basics, course_mates]
+    import course_basics, course_concepts, course_mates
+    modules = [course_basics, course_concepts, course_mates]
     for extra in ["course_tactics", "course_endgames", "course_openings", "course_strategy"]:
         try:
             modules.append(__import__(extra))

@@ -32,8 +32,8 @@ android {
         applicationId = "com.zorix.chess"
         minSdk = minApi
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.3.2"
+        versionCode = 7
+        versionName = "2.0.0"
 
         ndk { abiFilters += stockfishAbis }
     }

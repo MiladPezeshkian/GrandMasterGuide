@@ -48,7 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.zorix.chess.resources.*
 import com.zorix.chess.controller.EngineStatus
 import com.zorix.chess.ui.components.BrandUnderline
-import com.zorix.chess.ui.components.ZorixWordmark
+import com.zorix.chess.ui.components.AppWordmark
 import com.zorix.chess.ui.theme.ZorixColors
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -63,7 +63,7 @@ private val Emphasized = CubicBezierEasing(0.2f, 0f, 0f, 1f)
 
 /**
  * Animated brand intro: the ZC emblem (continuing from the system splash) lifts up with a light
- * sweep, "ZORIX CHESS" tracks in, the red line draws out, then the whole screen fades away.
+ * sweep, "GRANDMASTER GUIDE" tracks in, the red line draws out, then the whole screen fades away.
  * It also covers the one-time copy of the engine's neural network on first launch.
  */
 @Composable
@@ -150,10 +150,11 @@ fun SplashScreen(engine: EngineStatus, onFinished: () -> Unit) {
             Modifier.padding(top = 110.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            ZorixWordmark(
-                fontSize = 24.sp,
-                letterSpacing = (0.62f - 0.34f * word.value).em,
+            AppWordmark(
+                fontSize = 17.sp,
+                letterSpacing = (0.42f - 0.28f * word.value).em,
                 alpha = word.value,
+                showMaker = true,
                 modifier = Modifier.graphicsLayer { translationY = 18.dp.toPx() * (1f - word.value) },
             )
             Spacer(Modifier.height(14.dp))

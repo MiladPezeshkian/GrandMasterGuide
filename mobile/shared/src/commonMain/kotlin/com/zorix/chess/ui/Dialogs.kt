@@ -33,7 +33,7 @@ import org.jetbrains.compose.resources.StringResource
 import com.zorix.chess.controller.ChessController
 import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.components.BrandUnderline
-import com.zorix.chess.ui.components.ZorixWordmark
+import com.zorix.chess.ui.components.AppWordmark
 import com.zorix.chess.ui.theme.ZorixColors
 
 /** Paste / type a FEN. [onLoad] returns an error or null when the position was loaded. */
@@ -99,7 +99,7 @@ fun AboutDialog(versionName: String, onDismiss: () -> Unit) {
             ) {
                 Image(painterResource(Res.drawable.zc_emblem), contentDescription = null, modifier = Modifier.width(110.dp))
                 Spacer(Modifier.height(14.dp))
-                ZorixWordmark(fontSize = 18.sp)
+                AppWordmark(fontSize = 13.sp, showMaker = true)
                 Spacer(Modifier.height(8.dp))
                 BrandUnderline(Modifier.width(200.dp).height(2.dp))
                 Spacer(Modifier.height(12.dp))

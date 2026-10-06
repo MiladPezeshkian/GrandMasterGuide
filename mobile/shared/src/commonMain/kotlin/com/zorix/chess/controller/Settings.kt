@@ -7,6 +7,9 @@ import kotlinx.atomicfu.locks.synchronized
 /** Board colour schemes offered in the settings. */
 enum class BoardThemeId { CLASSIC, WALNUT, GREEN, BLUE, GRAPHITE }
 
+/** App appearance: the dark Zorix style (black and red) or the light sky-blue style. */
+enum class AppThemeId { ZORIX, SKY }
+
 /** User preferences. Everything is stored locally; nothing ever leaves the device. */
 data class Settings(
     /** Think time for "Best move", like the slider of the desktop version (0.5 s - 30 s). */
@@ -29,6 +32,7 @@ data class Settings(
     val voice: Boolean = true,
     /** Zorix explains its own moves in play mode. */
     val explainBotMoves: Boolean = true,
+    val appTheme: AppThemeId = AppThemeId.ZORIX,
 ) {
     companion object {
         const val DEFAULT_THINK_MS = 2000
@@ -61,6 +65,8 @@ data class Settings(
                 language = store.getString("language")?.takeIf { it in LANGUAGES },
                 voice = bool("voice", d.voice),
                 explainBotMoves = bool("explainBotMoves", d.explainBotMoves),
+                appTheme = store.getString("appTheme")
+                    ?.let { name -> AppThemeId.entries.firstOrNull { it.name == name } } ?: d.appTheme,
             )
         }
     }
@@ -80,6 +86,7 @@ data class Settings(
         store.putString("language", language)
         store.putString("voice", voice.toString())
         store.putString("explainBotMoves", explainBotMoves.toString())
+        store.putString("appTheme", appTheme.name)
     }
 }
 

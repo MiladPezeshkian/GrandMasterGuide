@@ -103,7 +103,7 @@ fun HeroCard(modifier: Modifier = Modifier, onClick: (() -> Unit)? = null, conte
     Box(
         modifier
             .clip(RoundedCornerShape(24.dp))
-            .background(Brush.linearGradient(listOf(Color(0xFFB0141E), Color(0xFF5A0610), Color(0xFF22080B))))
+            .background(Brush.linearGradient(ZorixColors.palette.heroGradient))
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(20.dp),
     ) { content() }

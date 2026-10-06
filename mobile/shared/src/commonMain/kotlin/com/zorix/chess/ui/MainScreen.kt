@@ -67,8 +67,6 @@ import com.zorix.chess.ui.components.MoveStrip
 import com.zorix.chess.ui.components.ScoreChip
 import com.zorix.chess.ui.components.TurnIndicator
 import com.zorix.chess.ui.components.ZorixTopBar
-import com.zorix.chess.ui.editor.PositionEditor
-import com.zorix.chess.ui.settings.SettingsSheet
 import com.zorix.chess.ui.theme.ZorixColors
 import kotlinx.coroutines.launch
 
@@ -77,19 +75,20 @@ interface PlatformActions {
     val versionName: String
     val maxThreads: Int
     fun sharePgn(pgn: String)
+
+    /** Dark status-bar icons for the light app style. */
+    fun setLightSystemBars(light: Boolean) {}
 }
 
 @Composable
-fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformActions) {
+fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformActions, onBuild: () -> Unit) {
     val pieces = rememberPieceImages()
     val snackbar = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val clipboard = LocalClipboardManager.current
     val haptics = LocalHapticFeedback.current
-    var showSettings by rememberSaveable { mutableStateOf(false) }
     var showFen by rememberSaveable { mutableStateOf(false) }
     var showAbout by rememberSaveable { mutableStateOf(false) }
-    var showEditor by rememberSaveable { mutableStateOf(false) }
 
     val messageTexts = UiMessage.entries.associateWith { stringResource(it.label()) }
     val texts by rememberUpdatedState(messageTexts)
@@ -104,10 +103,6 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
         if (state.moveCounter > 0 && state.settings.haptics) haptics.performHapticFeedback(HapticFeedbackType.TextHandleMove)
     }
 
-    PlatformBackHandler(enabled = showEditor) {
-        showEditor = false
-    }
-
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val landscape = maxWidth > maxHeight && maxWidth >= 560.dp
         val actionBar: @Composable (Boolean) -> Unit = { insets ->
@@ -120,7 +115,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                 onBestMove = c::requestBestMove,
                 onStop = c::stopThinking,
                 onFlip = c::flipBoard,
-                onSettings = { showSettings = true },
+                onBuild = onBuild,
                 applyNavigationInsets = insets,
             )
         }
@@ -130,7 +125,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                 ZorixTopBar(analysisOn = state.analysisOn, onToggleAnalysis = c::setAnalysis, onLearn = null, onMenu = { action ->
                     when (action) {
                         MenuAction.NEW_GAME -> c.newGame()
-                        MenuAction.EDIT_POSITION -> showEditor = true
+                        MenuAction.EDIT_POSITION -> onBuild()
                         MenuAction.LOAD_FEN -> showFen = true
                         MenuAction.COPY_FEN -> {
                             clipboard.setText(AnnotatedString(c.fen()))
@@ -145,7 +140,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                     }
                 })
             },
-            bottomBar = { if (!landscape) actionBar(true) },
+            bottomBar = { if (!landscape) actionBar(false) },
             snackbarHost = { SnackbarHost(snackbar) },
         ) { padding ->
             BoxWithConstraints(Modifier.padding(padding).fillMaxSize()) {
@@ -183,30 +178,8 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
         }
     }
 
-    if (showSettings) {
-        SettingsSheet(
-            settings = state.settings,
-            engine = state.engine,
-            maxThreads = platform.maxThreads,
-            onChange = c::updateSettings,
-            onDismiss = { showSettings = false },
-        )
-    }
     if (showFen) FenDialog(initial = "", onLoad = c::loadFen, onDismiss = { showFen = false })
     if (showAbout) AboutDialog(platform.versionName) { showAbout = false }
-    AnimatedVisibility(visible = showEditor, enter = fadeIn(), exit = fadeOut()) {
-        PositionEditor(
-            initial = state.game.position,
-            flipped = state.flipped,
-            colors = boardColors(state.settings.boardTheme),
-            pieces = pieces,
-            onCancel = { showEditor = false },
-            onDone = {
-                showEditor = false
-                c.setPosition(it)
-            },
-        )
-    }
 }
 
 @Composable
@@ -236,7 +209,7 @@ private fun Panel(state: ChessUiState, c: ChessController, modifier: Modifier = 
     )
 }
 
-private val arrowColors = listOf(ZorixColors.Best, ZorixColors.Line2, ZorixColors.Line3)
+private val arrowColors get() = listOf(ZorixColors.Best, ZorixColors.Line2, ZorixColors.Line3)
 
 private fun arrowsFor(state: ChessUiState): List<BoardArrow> {
     if (!state.settings.showArrows || state.game.status.isOver) return emptyList()

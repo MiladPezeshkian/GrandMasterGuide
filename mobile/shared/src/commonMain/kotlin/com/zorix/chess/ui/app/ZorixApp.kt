@@ -7,6 +7,16 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,7 +60,6 @@ import com.zorix.chess.ui.MainScreen
 import com.zorix.chess.ui.PlatformActions
 import com.zorix.chess.ui.board.rememberPieceImages
 import com.zorix.chess.ui.components.AppIcons
-import com.zorix.chess.ui.home.HomeScreen
 import com.zorix.chess.ui.learn.CourseScreen
 import com.zorix.chess.ui.learn.LearnHub
 import com.zorix.chess.ui.learn.LessonPlayer
@@ -59,17 +68,22 @@ import com.zorix.chess.ui.play.GameScreen
 import com.zorix.chess.ui.play.PlayHub
 import com.zorix.chess.ui.puzzles.PuzzlesScreen
 import com.zorix.chess.ui.review.ReviewScreen
-import com.zorix.chess.ui.settings.SettingsSheet
+import com.zorix.chess.ui.settings.SettingsScreen
+import com.zorix.chess.ui.editor.BuilderScreen
+import com.zorix.chess.ui.board.boardColors
+import com.zorix.chess.ui.theme.ZorixTheme
+import com.zorix.chess.controller.AppThemeId
 import com.zorix.chess.ui.splash.SplashScreen
 import com.zorix.chess.ui.theme.ZorixColors
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
-private enum class Tab { HOME, PLAY, LEARN, PUZZLES, ANALYSIS }
+private enum class Tab { SETTINGS, PLAY, ANALYSIS, LEARN, PUZZLES }
 
 private sealed interface Overlay {
     data object Game : Overlay
     data object Review : Overlay
+    data object Builder : Overlay
     data class CourseView(val course: Course) : Overlay
     data class LessonView(val course: Course, val lesson: Lesson, val session: LessonSession) : Overlay
 }
@@ -93,6 +107,9 @@ fun ZorixApp(app: AppController, platform: PlatformActions) {
     val boardState by app.board.state.collectAsState()
     val language = boardState.settings.language
     var splashDone by rememberSaveable { mutableStateOf(false) }
+    val light = boardState.settings.appTheme == AppThemeId.SKY
+    LaunchedEffect(light) { platform.setLightSystemBars(light) }
+    ZorixTheme(boardState.settings.appTheme) {
     CompositionLocalProvider(LocalAppLocale provides language) {
         key(language) {
             val lang = resolve(language, LocalAppLocale.current)
@@ -117,13 +134,13 @@ fun ZorixApp(app: AppController, platform: PlatformActions) {
             }
         }
     }
+    }
 }
 
 @Composable
 private fun Shell(app: AppController, platform: PlatformActions, lang: String) {
-    var tab by rememberSaveable { mutableStateOf(Tab.HOME) }
+    var tab by rememberSaveable { mutableStateOf(Tab.ANALYSIS) }
     var overlay by remember { mutableStateOf<Overlay?>(null) }
-    var showSettings by rememberSaveable { mutableStateOf(false) }
     val boardState by app.board.state.collectAsState()
     val profile by app.profile.profile.collectAsState()
     val courses by app.courses.collectAsState()
@@ -141,10 +158,10 @@ private fun Shell(app: AppController, platform: PlatformActions, lang: String) {
         app.board.setVisible(tab == Tab.ANALYSIS && overlay == null)
         app.play.visible = overlay == Overlay.Game
     }
-    PlatformBackHandler(enabled = overlay != null || tab != Tab.HOME) {
+    PlatformBackHandler(enabled = overlay != null || tab != Tab.ANALYSIS) {
         when (val o = overlay) {
             is Overlay.LessonView -> overlay = Overlay.CourseView(o.course)
-            null -> tab = Tab.HOME
+            null -> tab = Tab.ANALYSIS
             else -> overlay = null
         }
     }
@@ -160,34 +177,34 @@ private fun Shell(app: AppController, platform: PlatformActions, lang: String) {
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f)) {
             when (tab) {
-                Tab.HOME -> HomeScreen(
-                    profile = profile,
-                    lang = lang,
-                    next = if (courses.isEmpty()) null else app.nextLesson(),
-                    lessonsTotal = courses.sumOf { it.lessons.size },
-                    recommended = Bots.recommended(profile.rating),
-                    onContinue = ::openLesson,
-                    onPlay = { startGame(it, Side.WHITE) },
-                    onPuzzles = { tab = Tab.PUZZLES },
-                    onAnalysis = { tab = Tab.ANALYSIS },
-                    onSettings = { showSettings = true },
-                    onSpeak = { if (lang != "ckb") speak(Speakable.of(it, speechLang)) },
+                Tab.SETTINGS -> SettingsScreen(
+                    settings = settings,
+                    engine = boardState.engine,
+                    maxThreads = platform.maxThreads,
+                    versionName = platform.versionName,
+                    onChange = app.board::updateSettings,
+                    profileName = profile.name,
+                    onRename = app.profile::rename,
                 )
                 Tab.PLAY -> PlayHub(profile, playState, onResume = { overlay = Overlay.Game }, onStart = ::startGame)
+                Tab.ANALYSIS -> MainScreen(boardState, app.board, platform, onBuild = { overlay = Overlay.Builder })
                 Tab.LEARN -> LearnHub(courses, lang, app::progress) { overlay = Overlay.CourseView(it) }
-                Tab.PUZZLES -> PuzzlesScreen(puzzleState, app.puzzles, profile, settings, pieces, onSpeak = { speak(Speakable.of(it, speechLang)) })
-                Tab.ANALYSIS -> MainScreen(boardState, app.board, platform)
+                Tab.PUZZLES -> PuzzlesScreen(
+                    puzzleState, app.puzzles, profile, settings, pieces,
+                    onSpeak = { speak(Speakable.of(it, speechLang)) },
+                    onBuild = { overlay = Overlay.Builder },
+                )
             }
         }
         if (overlay == null) {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
-                NavItem(tab == Tab.HOME, { tab = Tab.HOME }, stringResource(Res.string.tab_home)) { Icon(AppIcons.Home, null) }
+                NavItem(tab == Tab.SETTINGS, { tab = Tab.SETTINGS }, stringResource(Res.string.tab_settings)) { Icon(AppIcons.Settings, null) }
                 NavItem(tab == Tab.PLAY, { tab = Tab.PLAY }, stringResource(Res.string.tab_play)) {
                     Image(painterResource(Res.drawable.piece_wn), null, Modifier.size(24.dp))
                 }
+                MainNavItem(tab == Tab.ANALYSIS, { tab = Tab.ANALYSIS }, stringResource(Res.string.tab_analysis))
                 NavItem(tab == Tab.LEARN, { tab = Tab.LEARN }, stringResource(Res.string.tab_learn)) { Icon(AppIcons.School, null) }
                 NavItem(tab == Tab.PUZZLES, { tab = Tab.PUZZLES }, stringResource(Res.string.tab_puzzles)) { Icon(AppIcons.Puzzle, null) }
-                NavItem(tab == Tab.ANALYSIS, { tab = Tab.ANALYSIS }, stringResource(Res.string.tab_analysis)) { Icon(AppIcons.Analysis, null) }
             }
         }
     }
@@ -209,6 +226,17 @@ private fun Shell(app: AppController, platform: PlatformActions, lang: String) {
                     onBack = { overlay = if (playState.active) Overlay.Game else null },
                     onSpeak = { speak(Speakable.of(it, speechLang)) },
                 )
+                Overlay.Builder -> BuilderScreen(
+                    initial = boardState.game.position,
+                    colors = boardColors(settings.boardTheme),
+                    pieces = pieces,
+                    onCancel = { overlay = null },
+                    onAnalyze = { position ->
+                        app.board.setPosition(position)
+                        overlay = null
+                        tab = Tab.ANALYSIS
+                    },
+                )
                 is Overlay.CourseView -> CourseScreen(o.course, lang, profile.lessonStars, onBack = { overlay = null }) { openLesson(o.course, it) }
                 is Overlay.LessonView -> key(o.lesson.id) {
                     val lessons = o.course.lessons
@@ -229,17 +257,6 @@ private fun Shell(app: AppController, platform: PlatformActions, lang: String) {
             }
         }
     }
-    if (showSettings) {
-        SettingsSheet(
-            settings = settings,
-            engine = boardState.engine,
-            maxThreads = platform.maxThreads,
-            onChange = app.board::updateSettings,
-            onDismiss = { showSettings = false },
-            profileName = profile.name,
-            onRename = app.profile::rename,
-        )
-    }
 }
 
 @Composable
@@ -255,4 +272,32 @@ private fun androidx.compose.foundation.layout.RowScope.NavItem(selected: Boolea
             indicatorColor = ZorixColors.Red,
         ),
     )
+}
+
+/** The analysis board is the heart of the app: its tab sits in the middle as a large round button. */
+@Composable
+private fun androidx.compose.foundation.layout.RowScope.MainNavItem(selected: Boolean, onClick: () -> Unit, label: String) {
+    Column(
+        Modifier.weight(1f).fillMaxHeight().clickable(onClick = onClick),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Box(
+            Modifier
+                .size(54.dp)
+                .shadow(if (selected) 10.dp else 4.dp, CircleShape)
+                .clip(CircleShape)
+                .background(ZorixColors.ButtonGradient),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(AppIcons.Analysis, null, tint = Color.White, modifier = Modifier.size(28.dp))
+        }
+        Spacer(Modifier.height(2.dp))
+        Text(
+            label,
+            style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+            color = if (selected) ZorixColors.RedBright else MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+        )
+    }
 }

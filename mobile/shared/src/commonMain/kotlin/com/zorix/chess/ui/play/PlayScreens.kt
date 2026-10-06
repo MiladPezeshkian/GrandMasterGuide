@@ -65,6 +65,8 @@ import com.zorix.chess.ui.board.boardColors
 import com.zorix.chess.ui.color
 import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.components.CoachAvatar
+import com.zorix.chess.ui.components.HelpButton
+import com.zorix.chess.ui.components.HelpTopic
 import com.zorix.chess.ui.components.CoachBubble
 import com.zorix.chess.ui.components.MoveStrip
 import com.zorix.chess.ui.components.Pill
@@ -110,11 +112,10 @@ fun botName(bot: Bot): String = stringResource(Res.string.bot_name, bot.level)
 /** The level map: 20 Zorix opponents, unlocked by winning. */
 @Composable
 fun PlayHub(profile: Profile, active: PlayState, onResume: () -> Unit, onStart: (Bot, Side?) -> Unit) {
-    val unlocked = profile.unlockedLevel(Bots.levels) { Bots.byLevel(it).elo }
     val recommended = Bots.recommended(profile.rating)
     var chosen by remember { mutableStateOf<Bot?>(null) }
     Column(Modifier.fillMaxSize()) {
-        ScreenHeader(stringResource(Res.string.play_title), subtitle = stringResource(Res.string.play_subtitle, profile.rating))
+        ScreenHeader(stringResource(Res.string.play_title), subtitle = stringResource(Res.string.play_subtitle_plain), actions = { HelpButton(HelpTopic.PLAY) })
         LazyVerticalGrid(
             columns = GridCells.Adaptive(150.dp),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
@@ -129,7 +130,7 @@ fun PlayHub(profile: Profile, active: PlayState, onResume: () -> Unit, onStart: 
                             Spacer(Modifier.width(10.dp))
                             Column(Modifier.weight(1f)) {
                                 Text(stringResource(Res.string.play_resume), style = MaterialTheme.typography.titleMedium, color = Color.White)
-                                Text("${botName(active.bot)} · ${active.bot.elo}", color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.bodySmall)
+                                Text("${botName(active.bot)} · ${tierName(active.bot.tier)}", color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.bodySmall)
                             }
                         }
                     }
@@ -139,8 +140,8 @@ fun PlayHub(profile: Profile, active: PlayState, onResume: () -> Unit, onStart: 
                 Text(stringResource(Res.string.play_levels_hint), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 4.dp))
             }
             items(Bots.all) { bot ->
-                BotCard(bot, locked = bot.level > unlocked, stars = profile.levelStars[bot.level] ?: 0, recommended = bot == recommended) {
-                    if (bot.level <= unlocked) chosen = bot
+                BotCard(bot, locked = false, stars = profile.levelStars[bot.level] ?: 0, recommended = bot == recommended) {
+                    chosen = bot
                 }
             }
         }
@@ -148,7 +149,7 @@ fun PlayHub(profile: Profile, active: PlayState, onResume: () -> Unit, onStart: 
     chosen?.let { bot ->
         AlertDialog(
             onDismissRequest = { chosen = null },
-            title = { Text("${botName(bot)} · ${bot.elo}") },
+            title = { Text(botName(bot)) },
             text = {
                 Column {
                     Text(tierName(bot.tier), color = bot.tier.color, style = MaterialTheme.typography.titleSmall)
@@ -189,7 +190,6 @@ private fun BotCard(bot: Bot, locked: Boolean, stars: Int, recommended: Boolean,
         Spacer(Modifier.height(10.dp))
         Text(botName(bot), style = MaterialTheme.typography.titleSmall, color = if (locked) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
         Text(tierName(bot.tier), style = MaterialTheme.typography.labelMedium, color = tint)
-        Text(bot.elo.toString(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (recommended && !locked) {
             Spacer(Modifier.height(6.dp))
             Pill(stringResource(Res.string.play_recommended), ZorixColors.Red)
@@ -212,18 +212,19 @@ fun GameScreen(
     var confirmResign by remember { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         ScreenHeader(
-            "${botName(state.bot)} · ${state.bot.elo}",
+            botName(state.bot),
             onBack = onBack,
             subtitle = tierName(state.bot.tier),
             actions = {
                 IconButton(onClick = play::speakAgain) { Icon(AppIcons.VolumeUp, stringResource(Res.string.action_listen)) }
+                HelpButton(HelpTopic.GAME)
             },
         )
         BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
             val boardSize = min(maxWidth - 24.dp, maxHeight * 0.58f)
             Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
                 PlayerBar(
-                    name = botName(state.bot), rating = state.bot.elo, isZorix = true,
+                    name = botName(state.bot), isZorix = true,
                     thinking = state.botThinking, modifier = Modifier.width(boardSize),
                 )
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
@@ -245,7 +246,7 @@ fun GameScreen(
                         onPromotion = { t -> if (t == null) play.onPromotionCancelled() else play.onPromotionChosen(t) },
                     )
                 }
-                PlayerBar(name = profile.name.ifBlank { stringResource(Res.string.default_player) }, rating = profile.rating, isZorix = false, thinking = false, modifier = Modifier.width(boardSize))
+                PlayerBar(name = profile.name.ifBlank { stringResource(Res.string.default_player) }, isZorix = false, thinking = false, modifier = Modifier.width(boardSize))
                 MoveStrip(state.game, onGoTo = {}, modifier = Modifier.padding(horizontal = 8.dp), feedback = state.feedback)
                 Column(Modifier.padding(horizontal = 12.dp)) {
                     val fb = state.lastFeedback
@@ -294,15 +295,13 @@ fun GameScreen(
 }
 
 @Composable
-private fun PlayerBar(name: String, rating: Int, isZorix: Boolean, thinking: Boolean, modifier: Modifier) {
+private fun PlayerBar(name: String, isZorix: Boolean, thinking: Boolean, modifier: Modifier) {
     Row(modifier.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         if (isZorix) CoachAvatar(32.dp) else Box(Modifier.size(32.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surfaceContainerHighest), contentAlignment = Alignment.Center) {
             Icon(AppIcons.Person, null, modifier = Modifier.size(20.dp))
         }
         Spacer(Modifier.width(10.dp))
         Text(name, style = MaterialTheme.typography.titleSmall)
-        Spacer(Modifier.width(8.dp))
-        Text("($rating)", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.weight(1f))
         if (thinking) {
             CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
@@ -333,7 +332,6 @@ private fun GameAction(icon: androidx.compose.ui.graphics.vector.ImageVector?, l
 @Composable
 private fun ResultDialog(state: PlayState, onReview: () -> Unit, onRematch: () -> Unit, onClose: () -> Unit, onNext: () -> Unit) {
     val r = state.result ?: return
-    val delta = r.ratingAfter - r.ratingBefore
     AlertDialog(
         onDismissRequest = {},
         icon = { Icon(if (r.outcome == GameOutcome.WIN) AppIcons.Trophy else AppIcons.Flag, null, tint = if (r.outcome == GameOutcome.WIN) Color(0xFFFFC53D) else MaterialTheme.colorScheme.onSurfaceVariant) },
@@ -352,11 +350,11 @@ private fun ResultDialog(state: PlayState, onReview: () -> Unit, onRematch: () -
         text = {
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "${r.ratingAfter}  (${if (delta >= 0) "+" else ""}$delta)",
-                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                    color = if (delta >= 0) ZorixColors.Best else MaterialTheme.colorScheme.error,
+                    stringResource(Res.string.result_review_hint),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
                 )
-                Text(stringResource(Res.string.stat_rating), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(12.dp))
                 PrimaryButton(stringResource(Res.string.action_review), onReview, Modifier.fillMaxWidth(), icon = AppIcons.Chart)
                 Spacer(Modifier.height(8.dp))

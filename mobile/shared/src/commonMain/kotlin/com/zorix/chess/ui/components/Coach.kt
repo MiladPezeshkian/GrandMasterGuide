@@ -36,6 +36,7 @@ import com.zorix.chess.resources.*
 import com.zorix.chess.ui.color
 import com.zorix.chess.ui.label
 import com.zorix.chess.ui.symbol
+import com.zorix.chess.ui.theme.ZorixColors
 import com.zorix.chess.ui.theme.notation
 import org.jetbrains.compose.resources.stringResource
 
@@ -127,12 +128,12 @@ private fun CoachVerdict(f: MoveFeedback) {
                         .padding(horizontal = 10.dp, vertical = 5.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Icon(AppIcons.Bulb, null, tint = Color(0xFF2FD27C), modifier = Modifier.size(16.dp))
+                    Icon(AppIcons.Bulb, null, tint = ZorixColors.Best, modifier = Modifier.size(16.dp))
                     Spacer(Modifier.width(6.dp))
                     Text(
                         stringResource(Res.string.coach_best_was, best),
                         style = MaterialTheme.typography.labelLarge,
-                        color = Color(0xFF2FD27C),
+                        color = ZorixColors.Best,
                     )
                 }
             }

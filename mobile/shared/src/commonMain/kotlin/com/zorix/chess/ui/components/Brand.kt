@@ -1,6 +1,7 @@
 package com.zorix.chess.ui.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -49,6 +50,42 @@ fun ZorixWordmark(
             Text("ZORIX", style = style.copy(brush = ZorixColors.RedGradient, alpha = alpha))
             Spacer(Modifier.width(with(LocalDensity.current) { (fontSize * 0.35f).toDp() }))
             Text("CHESS", style = style.copy(brush = secondWord, alpha = alpha))
+        }
+    }
+}
+
+/**
+ * The "GRANDMASTER GUIDE" wordmark: GRANDMASTER in the accent gradient, GUIDE in silver (or slate
+ * in the light style), with an optional small "BY ZORIX" line under it.
+ */
+@Composable
+fun AppWordmark(
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = 20.sp,
+    letterSpacing: TextUnit = 0.14.em,
+    alpha: Float = 1f,
+    showMaker: Boolean = false,
+) {
+    val style = TextStyle(
+        fontFamily = brandFont(),
+        fontWeight = FontWeight.Black,
+        fontSize = fontSize,
+        letterSpacing = letterSpacing,
+    )
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("GRANDMASTER", style = style.copy(brush = ZorixColors.RedGradient, alpha = alpha), maxLines = 1)
+                Spacer(Modifier.width(with(LocalDensity.current) { (fontSize * 0.4f).toDp() }))
+                Text("GUIDE", style = style.copy(brush = ZorixColors.SilverGradient, alpha = alpha), maxLines = 1)
+            }
+            if (showMaker) {
+                Text(
+                    "BY ZORIX",
+                    style = style.copy(fontSize = fontSize * 0.45f, letterSpacing = 0.5.em, fontWeight = FontWeight.Bold, color = ZorixColors.SilverDim.copy(alpha = alpha)),
+                    maxLines = 1,
+                )
+            }
         }
     }
 }

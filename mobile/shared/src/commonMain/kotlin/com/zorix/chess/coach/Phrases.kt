@@ -362,16 +362,16 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
 
     override fun headline(quality: CoachQuality, name: String, variant: Int): String {
         val options = when (quality) {
-            CoachQuality.BRILLIANT -> listOf("درخشان بود $name عزیزم!", "فوق‌العاده $name! یک حرکت درخشان!", "آفرین $name! ایده‌ی درخشانی بود.")
-            CoachQuality.GREAT -> listOf("عالی $name! تنها حرکت خوب را پیدا کردی.", "آفرین $name عزیزم، حرکت کلیدی را پیدا کردی!", "خیلی خوب $name! این تنها حرکت قوی بود.")
-            CoachQuality.BEST -> listOf("آفرین $name عزیزم! بهترین حرکت همین بود.", "عالی $name! دقیقاً همان حرکتی که یک استاد انجام می‌دهد.", "درست زدی $name جان، بهترین حرکت!")
-            CoachQuality.EXCELLENT -> listOf("خیلی خوب $name عزیزم.", "حرکت عالی‌ای بود $name.", "قوی بازی کردی $name جان.")
-            CoachQuality.GOOD -> listOf("حرکت خوبی بود $name.", "خوب است $name جان.", "حرکت محکمی بود $name عزیزم.")
-            CoachQuality.BOOK -> listOf("$name عزیزم، این حرکت تئوری گشایش است.", "حرکت کتابی، $name.", "خوب است $name، طبق تئوری گشایش.")
-            CoachQuality.INACCURACY -> listOf("$name عزیزم، این حرکت کمی نادقیق بود.", "$name جان، حرکت دقیق‌تری هم وجود داشت.", "بد نیست $name، ولی بهترش هم بود.")
-            CoachQuality.MISTAKE -> listOf("$name عزیزم، این حرکت اشتباه بود.", "دقت کن $name جان، این حرکت مشکل دارد.", "$name عزیزم، این یک اشتباه است.")
-            CoachQuality.MISS -> listOf("$name عزیزم، یک فرصت را از دست دادی!", "$name جان، یک ضربه‌ی برنده وجود داشت!", "دوباره نگاه کن $name، حرکت خیلی قوی‌تری بود.")
-            CoachQuality.BLUNDER -> listOf("مراقب باش $name عزیزم! این اشتباه بزرگی بود.", "اوه $name جان، اشتباه فاحش!", "$name عزیزم، این حرکت خیلی گران تمام می‌شود.")
+            CoachQuality.BRILLIANT -> listOf("درخشان بود، $name!", "حرکت فوق‌العاده‌ای بود، $name؛ یک ایده‌ی درخشان.", "$name، این یک حرکت درخشان است.")
+            CoachQuality.GREAT -> listOf("عالی، $name! تنها حرکت خوب را پیدا کردی.", "آفرین $name؛ حرکت کلیدی را پیدا کردی.", "خیلی خوب، $name. این تنها حرکت قوی بود.")
+            CoachQuality.BEST -> listOf("آفرین $name! بهترین حرکت همین بود.", "دقیق بود، $name؛ همان حرکتی که یک استاد بازی می‌کند.", "بهترین حرکت، $name.")
+            CoachQuality.EXCELLENT -> listOf("خیلی خوب، $name.", "حرکت بسیار خوبی بود، $name.", "قوی بازی کردی، $name.")
+            CoachQuality.GOOD -> listOf("حرکت خوبی بود، $name.", "قابل قبول است، $name.", "حرکت محکمی بود، $name.")
+            CoachQuality.BOOK -> listOf("$name، این حرکت طبق تئوری گشایش است.", "حرکت کتابی، $name.", "درست است، $name؛ طبق تئوری گشایش.")
+            CoachQuality.INACCURACY -> listOf("$name، این حرکت کمی نادقیق بود.", "$name، حرکت دقیق‌تری هم وجود داشت.", "بد نیست، $name، ولی بهترش هم بود.")
+            CoachQuality.MISTAKE -> listOf("$name، این حرکت اشتباه بود.", "دقت کن، $name؛ این حرکت مشکل دارد.", "$name، این یک اشتباه است.")
+            CoachQuality.MISS -> listOf("$name، یک فرصت را از دست دادی!", "$name، یک ضربه‌ی برنده وجود داشت!", "دوباره نگاه کن، $name؛ حرکت خیلی قوی‌تری وجود داشت.")
+            CoachQuality.BLUNDER -> listOf("مراقب باش، $name! این اشتباه بزرگی بود.", "$name، این یک اشتباه فاحش بود.", "$name، این حرکت خیلی گران تمام می‌شود.")
         }
         return options[variant.mod(options.size)]
     }
@@ -402,7 +402,7 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     }
 
     override fun opponentPlayed(opponent: String, san: String) = "$opponent بازی کرد: ${move(san)}."
-    override fun watchOut(name: String) = "مراقب باش $name عزیزم:"
+    override fun watchOut(name: String) = "مراقب باش، $name:"
     override fun bestMoveIs(san: String) = "بهترین حرکت ${move(san)} است."
     override fun expectedLine(line: String) = "ادامه‌ی پیش‌بینی‌شده: $line."
     override fun bookMove(opening: String) = "این گشایش «$opening» است."
@@ -534,16 +534,16 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
 
     override fun headline(quality: CoachQuality, name: String, variant: Int): String {
         val options = when (quality) {
-            CoachQuality.BRILLIANT -> listOf("نایاب بوو $name گیان!", "سەرسوڕهێنەرە $name! جوڵەیەکی درەوشاوە!", "دەستخۆش $name! بیرۆکەیەکی درەوشاوە بوو.")
-            CoachQuality.GREAT -> listOf("زۆر باشە $name! تاکە جوڵەی باشت دۆزییەوە.", "دەستخۆش $name گیان، جوڵە سەرەکییەکەت دۆزییەوە!", "ئافەرین $name! ئەمە تاکە جوڵەی بەهێز بوو.")
-            CoachQuality.BEST -> listOf("ئافەرین $name گیان! ئەمە باشترین جوڵە بوو.", "زۆر باشە $name! ڕێک ئەو جوڵەیەی ماستەرێک دەیکات.", "دەستخۆش $name، باشترین جوڵە!")
-            CoachQuality.EXCELLENT -> listOf("زۆر باشە $name گیان.", "جوڵەیەکی نایاب بوو $name.", "بەهێز یاریت کرد $name.")
-            CoachQuality.GOOD -> listOf("جوڵەیەکی باش بوو $name.", "باشە $name گیان.", "جوڵەیەکی پتەو بوو $name.")
-            CoachQuality.BOOK -> listOf("$name گیان، ئەمە تیۆری دەستپێکە.", "جوڵەیەکی کتێبی، $name.", "باشە $name، بەپێی تیۆری دەستپێک.")
-            CoachQuality.INACCURACY -> listOf("$name گیان، ئەم جوڵەیە کەمێک ناورد بوو.", "$name، جوڵەیەکی وردتر هەبوو.", "خراپ نییە $name، بەڵام باشتر هەبوو.")
-            CoachQuality.MISTAKE -> listOf("$name گیان، ئەم جوڵەیە هەڵە بوو.", "ئاگادار بە $name، ئەم جوڵەیە کێشەی هەیە.", "$name گیان، ئەمە هەڵەیەکە.")
-            CoachQuality.MISS -> listOf("$name گیان، دەرفەتێکت لەدەستدا!", "$name، لێدانێکی براوە هەبوو!", "دووبارە سەیر بکە $name، جوڵەیەکی زۆر بەهێزتر هەبوو.")
-            CoachQuality.BLUNDER -> listOf("ئاگادار بە $name گیان! ئەمە هەڵەیەکی گەورە بوو.", "ئۆی $name، هەڵەیەکی گەورە!", "$name گیان، ئەم جوڵەیە زۆر گران دەکەوێت.")
+            CoachQuality.BRILLIANT -> listOf("نایاب بوو $name!", "سەرسوڕهێنەرە $name! جوڵەیەکی درەوشاوە!", "دەستخۆش $name! بیرۆکەیەکی درەوشاوە بوو.")
+            CoachQuality.GREAT -> listOf("زۆر باشە $name! تاکە جوڵەی باشت دۆزییەوە.", "دەستخۆش $name، جوڵە سەرەکییەکەت دۆزییەوە!", "ئافەرین $name! ئەمە تاکە جوڵەی بەهێز بوو.")
+            CoachQuality.BEST -> listOf("ئافەرین $name! ئەمە باشترین جوڵە بوو.", "زۆر باشە $name! ڕێک ئەو جوڵەیەی ماستەرێک دەیکات.", "دەستخۆش $name، باشترین جوڵە!")
+            CoachQuality.EXCELLENT -> listOf("زۆر باشە $name.", "جوڵەیەکی نایاب بوو $name.", "بەهێز یاریت کرد $name.")
+            CoachQuality.GOOD -> listOf("جوڵەیەکی باش بوو $name.", "باشە $name.", "جوڵەیەکی پتەو بوو $name.")
+            CoachQuality.BOOK -> listOf("$name، ئەمە تیۆری دەستپێکە.", "جوڵەیەکی کتێبی، $name.", "باشە $name، بەپێی تیۆری دەستپێک.")
+            CoachQuality.INACCURACY -> listOf("$name، ئەم جوڵەیە کەمێک ناورد بوو.", "$name، جوڵەیەکی وردتر هەبوو.", "خراپ نییە $name، بەڵام باشتر هەبوو.")
+            CoachQuality.MISTAKE -> listOf("$name، ئەم جوڵەیە هەڵە بوو.", "ئاگادار بە $name، ئەم جوڵەیە کێشەی هەیە.", "$name، ئەمە هەڵەیەکە.")
+            CoachQuality.MISS -> listOf("$name، دەرفەتێکت لەدەستدا!", "$name، لێدانێکی براوە هەبوو!", "دووبارە سەیر بکە $name، جوڵەیەکی زۆر بەهێزتر هەبوو.")
+            CoachQuality.BLUNDER -> listOf("ئاگادار بە $name! ئەمە هەڵەیەکی گەورە بوو.", "ئۆی $name، هەڵەیەکی گەورە!", "$name، ئەم جوڵەیە زۆر گران دەکەوێت.")
         }
         return options[variant.mod(options.size)]
     }
@@ -574,7 +574,7 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     }
 
     override fun opponentPlayed(opponent: String, san: String) = "$opponent جوڵەی ${move(san)} یاری کرد."
-    override fun watchOut(name: String) = "ئاگادار بە $name گیان:"
+    override fun watchOut(name: String) = "ئاگادار بە، $name:"
     override fun bestMoveIs(san: String) = "باشترین جوڵە ${move(san)}ە."
     override fun expectedLine(line: String) = "بەردەوامی پێشبینیکراو: $line."
     override fun bookMove(opening: String) = "ئەمە دەستپێکی «$opening»ە."
