@@ -39,19 +39,20 @@ def nodes():
 
 
 def dismiss_system_dialog(found):
-    """A cold-booted emulator sometimes shows "Pixel Launcher isn't responding" over the app. Such a
-    dialog of another app is answered with "Wait"; the same dialog for this app fails the test."""
+    """A cold-booted emulator sometimes shows "Pixel Launcher isn't responding" over the app (error
+    dialogs are switched off in main(), this is the fallback). Such a dialog of another app is
+    answered with "Close app"; the same dialog for this app fails the test."""
     title = next((n.get("text") for n in found if (n.get("text") or "").endswith("isn't responding")), None)
     if title is None:
         return False
     if "GrandMaster" in title:
         shot("app_not_responding")
         raise RuntimeError(f"the app froze: {title}")
-    wait = next((n for n in found if n.get("text") == "Wait"), None)
-    if wait is None:
+    close = next((n for n in found if n.get("text") in ("Close app", "Wait")), None)
+    if close is None:
         adb("shell", "input", "keyevent", "4")
     else:
-        x, y = center(wait)
+        x, y = center(close)
         adb("shell", "input", "tap", str(x), str(y))
     print("dismissed a system dialog:", title, flush=True)
     time.sleep(2)
@@ -129,6 +130,9 @@ def scroll_down():
 
 def main():
     adb("logcat", "-c", check=False)
+    # No "isn't responding" dialogs of the (slow, cold-booted) emulator over the app; an ANR of this
+    # app is still caught from the log at the end.
+    adb("shell", "settings", "put", "global", "hide_error_dialogs", "1", check=False)
     adb("install", "-r", APK)
     adb("shell", "am", "start", "-W", "-n", f"{PKG}/.MainActivity")
     time.sleep(6)
@@ -210,7 +214,7 @@ def main():
     time.sleep(3)
     alive()
     log = crash_log()
-    fatal = [l for l in log.splitlines() if "FATAL EXCEPTION" in l or ("Fatal signal" in l)]
+    fatal = [l for l in log.splitlines() if "FATAL EXCEPTION" in l or "Fatal signal" in l or f"ANR in {PKG}" in l]
     if fatal:
         print("\n".join(fatal))
         raise RuntimeError("a crash was logged")
