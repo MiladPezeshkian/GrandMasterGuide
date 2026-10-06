@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -101,7 +104,8 @@ fun CourseScreen(
         val all = course.lessons
         // A lesson is open when the previous one is done (or it is the first of a chapter already reached).
         val firstOpen = all.indexOfFirst { it.id !in stars }.let { if (it < 0) all.size else it }
-        LazyColumn(contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
+        val navBar = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+        LazyColumn(contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp + navBar)) {
             for (ch in course.chapters) {
                 item(key = "h" + ch.id) {
                     Text(ch.title.localized(lang), style = MaterialTheme.typography.titleMedium, color = ZorixColors.RedBright, modifier = Modifier.padding(top = 18.dp, bottom = 8.dp))

@@ -41,13 +41,20 @@ def center(node):
 
 
 def find(text, timeout=30, exact=False):
+    """The node showing [text]. An exact match wins over a longer text that only contains it (a hint
+    such as «... «تحلیل وضعیت» را بزن» must not be tapped instead of the button)."""
     end = time.time() + timeout
     while time.time() < end:
+        partial = None
         for n in nodes():
             for attr in ("text", "content-desc"):
-                v = n.get(attr) or ""
-                if (v == text) if exact else (text in v):
+                v = (n.get(attr) or "").strip()
+                if v == text:
                     return n
+                if not exact and partial is None and text in v:
+                    partial = n
+        if partial is not None:
+            return partial
         alive()
         time.sleep(1)
     return None
@@ -117,17 +124,20 @@ def main():
     shot("analysis")
 
     # Analysis: play e2-e4 by tapping squares is screen dependent; ask for the best move instead.
-    tap("بهترین حرکت")
-    time.sleep(6)
+    tap("بهترین حرکت", exact=True)
+    if find("بهترین حرکت برای", timeout=45) is None:
+        shot("no_best_move")
+        raise RuntimeError("the engine did not return a best move")
     alive()
     shot("analysis_best_move")
 
     # Puzzle builder from the analysis action bar.
-    tap("ساخت پازل")
+    tap("ساخت پازل", exact=True)
     shot("builder")
-    tap("تحلیل وضعیت")
+    tap("تحلیل وضعیت", exact=True)
     time.sleep(3)
     alive()
+    shot("analysis_after_builder")
 
     # Play tab.
     tap("بازی", exact=True)

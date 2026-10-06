@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -153,7 +154,7 @@ fun ReviewScreen(
                         SectionTitle(stringResource(Res.string.review_key_moments))
                         moments.forEach { m -> MomentRow(m, onShow = { review.goTo(m.index + 1) }, onRetry = { review.startRetry(m) }) }
                     }
-                    Spacer(Modifier.height(24.dp))
+                    Spacer(Modifier.navigationBarsPadding().height(24.dp))
                 }
             }
         }

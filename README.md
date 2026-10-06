@@ -4,11 +4,11 @@
 
 <p align="center">
   <b>Learn chess from zero with a personal coach that knows your name, explains every move and talks to you — plus the best move in any position. Powered by Stockfish 19, entirely on your device.</b><br>
-  Android · iOS · Windows / macOS / Linux
+  Android · Windows / macOS / Linux
 </p>
 
 <p align="center">
-  <a href="../../releases"><img alt="Download" src="https://img.shields.io/badge/download-Android%20%7C%20iOS-E3202B?style=for-the-badge"></a>
+  <a href="../../releases"><img alt="Download" src="https://img.shields.io/badge/download-Android-E3202B?style=for-the-badge"></a>
   <img alt="Offline" src="https://img.shields.io/badge/works-100%25%20offline-2FD27C?style=for-the-badge">
   <img alt="Engine" src="https://img.shields.io/badge/engine-Stockfish%2019-3A3A45?style=for-the-badge">
 </p>
@@ -34,12 +34,10 @@ no account, no server, no internet connection — the Android app does not even 
 | Platform | Package | Requirements |
 |---|---|---|
 | **Android** | `GrandMasterGuide-*-android.apk` from [**Releases**](../../releases) | Android 8.0+ (arm64, armv7, x86_64) |
-| **iOS / iPadOS** | `ZorixChess-*-ios-unsigned.ipa` from [**Releases**](../../releases) | iOS 15+, installed with Sideloadly / AltStore or your own signing certificate |
 | **Desktop** | `main.py` (Python) | Windows, macOS or Linux with Python 3.8+ and a Stockfish binary |
 
-> **Installing the iOS build.** Apple only runs signed apps. The published IPA is unsigned, so install it with
-> [Sideloadly](https://sideloadly.io) or [AltStore](https://altstore.io) (both work from Windows) using your Apple ID,
-> or re-sign it with an Apple Developer certificate. Distribution through the App Store requires an Apple Developer account.
+> The iOS version is paused: releases contain the Android app only. The iOS project (`mobile/iosApp`) still builds
+> when the workflow is run manually.
 
 ### Features
 
@@ -48,16 +46,17 @@ no account, no server, no internet connection — the Android app does not even 
 | 🧑‍🏫 **Personal coach** | You enter your name and level on first launch; the coach talks to you by name. Every move is rated (**Brilliant !!, Great !, Best ★, Excellent, Good, Book, Inaccuracy ?!, Mistake ?, Miss, Blunder ??**) and explained: what it attacks or leaves hanging, the threat behind the opponent's move, the better move and the line the engine expects next. |
 | 🔊 **Coach voice** | Explanations, lessons and warnings are read aloud. Persian uses a neural voice that runs on the device ([sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) + Piper), English the system voice. |
 | 📚 **322 lessons** | Seven step-by-step courses from zero — Basics, Chess Understanding, Checkmate Patterns, Tactics, Endgames, Openings (principles, traps, a full repertoire and memory drills) and Strategy — with stars and progress. Every exercise is verified with the chess rules and the engine. |
-| ⚔️ **Play Zorix** | 20 levels from 250 to 3200 Elo, a personal rating, unlockable levels, hints, take-backs and a coach that explains the bot's moves and warns about its threats. |
+| ⚔️ **Play Zorix** | 20 levels from beginner to master, all open from the start, with hints, take-backs and a coach that explains the bot's moves and warns about its threats. No ratings: the app is about learning. |
 | 📈 **Game review** | Accuracy for both sides, key moments and "retry" to find the better move yourself. |
-| 🧩 **Puzzles** | 709 rated puzzles with a puzzle rating, streak mode and theme training (forks, pins, skewers, mates…). |
+| 🧩 **Puzzles** | 709 engine-checked puzzles from easy to hard, streak mode and theme training (forks, pins, skewers, mates…). |
 | 🎯 **Best move** | Stockfish searches the position for an adjustable time (0.5 – 30 s) and shows the move as an arrow, with its evaluation (`+1.25`, `#3`) and the expected continuation. One tap plays it. |
 | 📈 **Live analysis** | Continuous analysis with up to three candidate lines, colour-coded arrows, depth and speed, plus an evaluation bar. |
 | ♛ **Correct promotion** | A pawn reaching the last rank opens a picker for **Queen, Knight, Rook or Bishop** — no more automatic queening. |
 | ✋ **Natural input** | Tap-tap or drag-and-drop, legal-move hints, smooth move animations, check and last-move highlights, board flip. |
-| ♟️ **Any position** | Visual position editor (pieces, side to move, castling rights) with live validation that explains what is wrong, FEN import/export, PGN copy and share. |
+| ♟️ **Puzzle builder** | Build any position and analyse it: both kings are always on the board, every other piece can be placed anywhere and in any number (up to 32 pieces). Side to move, castling rights, live validation that explains what is wrong, FEN import/export, PGN copy and share. |
+| ❔ **Help on every screen** | A **?** button on every screen explains what the section does — including the engine settings (think time, CPU threads, memory, lines). |
 | ⏮️ **Game navigation** | Undo / redo, a scrollable move list with jump-to-move, automatic game-over detection (mate, stalemate, repetition, 50 moves, insufficient material). |
-| 🎨 **Design** | Dark theme in the Zorix brand colours, animated intro, five board themes, phones, tablets and landscape. |
+| 🎨 **Design** | Two styles — dark **Zorix** (black and red) and light **Sky** (white and sky blue) — animated intro, five board themes, phones, tablets and landscape. |
 | 🌐 **Languages** | English, Persian (فارسی) and Kurdish Sorani (کوردی), selectable in the app, with a complete right-to-left layout (chess notation always stays left-to-right). |
 | 💾 **Private & offline** | Settings and the current game are stored locally; nothing ever leaves the device. |
 
@@ -118,7 +117,8 @@ Choose your team under *Signing & Capabilities* and run on an iPhone. The Xcode 
 the shared Kotlin code and Stockfish for iOS automatically.
 
 **Automated builds** — every push that touches `mobile/` runs [`release.yml`](.github/workflows/release.yml):
-unit tests, the Android APK, the iOS IPA and a GitHub release containing both.
+unit tests, the Android APK, an end-to-end smoke test of that APK on an Android emulator and a GitHub release.
+The iOS IPA is built only when the workflow is started manually.
 
 ---
 
@@ -161,32 +161,30 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 از صفحه‌ی [**Releases**](../../releases) دانلود کنید:
 
 - **اندروید (نسخه‌ی ۸ به بالا):** فایل `android.apk` را روی گوشی باز کنید و اجازه‌ی «نصب از منابع ناشناس» را بدهید.
-- **آیفون و آیپد (iOS 15 به بالا):** فایل `ios-unsigned.ipa` امضا نشده است. آن را با **Sideloadly** یا **AltStore**
-  (روی ویندوز هم کار می‌کنند) و Apple ID خودتان نصب کنید، یا با گواهی Apple Developer امضا کنید.
-  انتشار در App Store به حساب Apple Developer نیاز دارد.
+- **آیفون:** نسخه‌ی iOS فعلاً متوقف است و در انتشارها فقط نسخه‌ی اندروید وجود دارد.
 - **دسکتاپ:** فایل `main.py` با پایتون (راهنما در بخش انگلیسی بالا).
 
 ### امکانات
 - **مربی شخصی:** در اولین اجرا اسم و سطح‌تان را وارد می‌کنید و مربی با اسم خودتان صحبت می‌کند. هر حرکت ارزیابی می‌شود (درخشان، عالی، بهترین، خوب، کتابی، نادقیق، اشتباه، از دست رفته، اشتباه فاحش) و دلیلش توضیح داده می‌شود: تهدیدها، مهره‌های بی‌دفاع، حرکت بهتر و پیش‌بینی ادامه‌ی بازی.
 - **صدای مربی:** توضیحات و درس‌ها با صدای طبیعی فارسی خوانده می‌شوند؛ صدا روی خود گوشی و بدون اینترنت ساخته می‌شود.
 - **۳۲۲ درس تعاملی در ۷ دوره** قدم‌به‌قدم از صفر: مبانی، درک شطرنج، الگوهای مات، تاکتیک، آخربازی، گشایش‌ها و استراتژی؛ همه‌ی تمرین‌ها با قوانین شطرنج و موتور بررسی شده‌اند.
-- **بازی با Zorix در ۲۰ سطح** با ریتینگ شخصی، باز شدن سطح‌ها، راهنما و توضیح حرکت‌های ربات؛ و **بررسی بازی** با دقت، لحظه‌های کلیدی و «دوباره امتحان کن».
-- **۷۰۹ معمای ریتینگ‌دار**، حالت پشت سر هم و تمرین بر اساس موضوع.
+- **بازی با Zorix در ۲۰ سطح** از مبتدی تا استاد (همه‌ی سطح‌ها از اول باز هستند)، با راهنما و توضیح حرکت‌های ربات؛ و **بررسی بازی** با دقت، لحظه‌های کلیدی و «دوباره امتحان کن». برنامه ریتینگ ندارد؛ هدفش آموزش است.
+- **۷۰۹ معما** از آسان تا سخت که همه با موتور بررسی شده‌اند، حالت پشت سر هم و تمرین بر اساس موضوع.
 - **بهترین حرکت** با زمان فکر قابل تنظیم (۰٫۵ تا ۳۰ ثانیه)، فلش روی صفحه، ارزیابی و ادامه‌ی خط؛ با یک لمس اجرا می‌شود.
 - **تحلیل زنده** تا سه خط هم‌زمان، با فلش‌های رنگی و نوار ارزیابی.
 - **ارتقای درست سرباز:** انتخاب وزیر، اسب، رخ یا فیل (دیگر خودکار وزیر نمی‌شود).
 - حرکت با **لمس یا کشیدن**، نمایش حرکت‌های مجاز، انیمیشن، برگشت و جلو، لیست حرکت‌ها و چرخش صفحه.
-- **چیدن هر وضعیت دلخواه** با بررسی زنده و توضیح خطا، ورود و خروج FEN، کپی و اشتراک PGN.
+- **ساخت پازل و تحلیل:** هر دو شاه همیشه روی صفحه هستند و بقیه‌ی مهره‌ها را به هر تعداد (تا ۳۲ مهره) هر جا بخواهید می‌گذارید؛ با بررسی زنده و توضیح خطا، ورود و خروج FEN، کپی و اشتراک PGN.
+- **راهنمای «؟» در همه‌ی صفحه‌ها**، به‌خصوص برای تنظیمات موتور (زمان فکر، رشته‌های پردازنده، حافظه و خط‌ها).
 - تشخیص خودکار پایان بازی (مات، پات، تکرار سه‌باره، قانون ۵۰ حرکت، کمبود مهره).
-- طراحی تیره با رنگ‌های برند Zorix، اسپلش متحرک، ۵ رنگ صفحه، پشتیبانی از تبلت و حالت افقی.
+- دو ظاهر: **Zorix** (تیره، مشکی و قرمز) و **آسمانی** (روشن، سفید و آبی)؛ اسپلش متحرک، ۵ رنگ صفحه، پشتیبانی از تبلت و حالت افقی.
 - **فارسی، کوردی (سورانی) و انگلیسی** با چیدمان کامل راست‌به‌چپ؛ انتخاب زبان از تنظیمات.
 - تنظیمات و بازی فعلی فقط روی خود دستگاه ذخیره می‌شوند.
 
 ### ساخت از سورس
 - **اندروید:** پوشه‌ی **`mobile`** را در Android Studio باز کنید، یک بار NDK نسخه‌ی 27.2 را از SDK Manager نصب کنید و
   **Run** را بزنید. توضیحات کامل: [mobile/README.md](mobile/README.md)
-- **iOS:** روی مک با Xcode 16: `xcodegen generate` در پوشه‌ی `mobile/iosApp` و سپس اجرا از Xcode.
-  بدون مک هم GitHub Actions نسخه‌ی iOS را خودکار می‌سازد.
+- **iOS (متوقف):** روی مک با Xcode 16: `xcodegen generate` در پوشه‌ی `mobile/iosApp` و سپس اجرا از Xcode.
 
 </div>
 

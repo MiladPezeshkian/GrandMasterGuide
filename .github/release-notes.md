@@ -26,7 +26,7 @@
 **GrandMaster Guide 2.0 — by Zorix.** A complete, fully offline chess school:
 - 322 lessons in 7 courses, including the new *Chess Understanding* course.
 - A coach that explains every move, in text and voice.
-- 20 levels of play and rated puzzles.
+- 20 levels of play (all open, no ratings) and 709 engine-checked puzzles.
 - A puzzle builder in which both kings are always on the board.
 - Analysis with Stockfish 19.
 - A "?" help button on every screen.
