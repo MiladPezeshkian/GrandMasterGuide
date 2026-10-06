@@ -112,7 +112,7 @@
     <string name="editor_eraser">Eraser</string>
 
     <string name="about_version">Version %1$s</string>
-    <string name="about_body">GrandMaster Guide is a complete chess school in your pocket, made by Zorix. It teaches chess step by step from the very first move with more than 300 interactive lessons in six courses, explains every move with a personal coach in text and voice, lets you play against 20 levels of the engine, train with puzzles, build your own positions and analyse any game with Stockfish 19, the strongest chess engine in the world. Everything runs on your phone, completely offline: no account and no internet connection are needed, and nothing leaves your device.</string>
+    <string name="about_body">GrandMaster Guide is a complete chess school in your pocket, made by Zorix. It teaches chess step by step from the very first move with 322 interactive lessons in seven courses, explains every move with a personal coach in text and voice, lets you play against 20 levels of the engine, train with puzzles, build your own positions and analyse any game with Stockfish 19, the strongest chess engine in the world. Everything runs on your phone, completely offline: no account and no internet connection are needed, and nothing leaves your device.</string>
     <string name="about_credits">Credits</string>
     <string name="about_engine">Zorix engine core: based on Stockfish 19 (GNU GPL v3)</string>
     <string name="about_voice">Coach voice: sherpa-onnx (Apache 2.0) with the Piper voice “ganji” (MIT, CC0 data) and espeak-ng (GPL v3)</string>
@@ -200,7 +200,7 @@
     <string name="onboard_welcome_body">Learn, play and improve with a personal coach — fully offline.</string>
     <string name="play_choose_color">Choose your colour:</string>
     <string name="play_draw_declined">Zorix declines the draw.</string>
-    <string name="play_levels_hint">Beat a level to unlock the next one. 3 stars = a win without hints or takebacks.</string>
+    <string name="play_levels_hint">All 20 levels are open — play any of them. 3 stars = a win without hints or takebacks.</string>
     <string name="play_random">Random</string>
     <string name="play_recommended">Recommended</string>
     <string name="play_resume">Continue your game</string>
@@ -332,7 +332,7 @@
         <item>Try again|At a mistake, tap “Try again” and find the better move yourself.</item>
     </string-array>
     <string-array name="help_learn">
-        <item>Courses|Six courses take you from zero to an advanced level: Chess Basics, Checkmate Patterns, Tactics, Endgames, Openings and Strategy. If you are new to chess, start with Chess Basics.</item>
+        <item>Courses|Seven courses take you from zero to an advanced level: Chess Basics, Chess Understanding, Checkmate Patterns, Tactics, Endgames, Openings and Strategy. If you are new to chess, start with Chess Basics.</item>
         <item>Step by step|Lessons open one after another: finishing a lesson opens the next one. Each lesson gives up to three stars.</item>
         <item>Kinds of exercises|Explanations with diagrams, moving a piece to stars, captures, quizzes, finding the best move, puzzles, mate in N, playing opening lines and playing endgames out against Zorix.</item>
     </string-array>

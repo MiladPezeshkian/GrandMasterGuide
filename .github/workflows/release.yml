@@ -204,7 +204,9 @@ jobs:
             kind="--prerelease" ; title="GrandMaster Guide ${APP_VERSION} (build ${{ github.run_number }}) — test build, not for stores"
           fi
           rm -f out/signed.txt
-          gh release create "$TAG" out/*.apk \
-            --target "${{ github.sha }}" $kind \
+          # Create the tag with git first: if GitHub refuses it, git prints the exact reason.
+          git tag "$TAG" "${{ github.sha }}"
+          git push origin "refs/tags/$TAG"
+          gh release create "$TAG" out/*.apk --verify-tag $kind \
             --title "$title" \
             --notes-file .github/release-notes.md

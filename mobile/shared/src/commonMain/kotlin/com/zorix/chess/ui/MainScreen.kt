@@ -3,6 +3,7 @@ package com.zorix.chess.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -68,6 +71,7 @@ import com.zorix.chess.ui.components.ScoreChip
 import com.zorix.chess.ui.components.TurnIndicator
 import com.zorix.chess.ui.components.ZorixTopBar
 import com.zorix.chess.ui.theme.ZorixColors
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /** Things only the Android layer can do. */
@@ -80,6 +84,7 @@ interface PlatformActions {
     fun setLightSystemBars(light: Boolean) {}
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformActions, onBuild: () -> Unit) {
     val pieces = rememberPieceImages()
@@ -161,6 +166,15 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                     }
                 } else {
                     val boardSize = min(maxWidth - 32.dp, maxHeight * 0.64f)
+                    // When the best move arrives, scroll its card (with the "play" button) fully into view.
+                    val panelInView = remember { BringIntoViewRequester() }
+                    val hintReady = state.hint is HintState.Ready
+                    LaunchedEffect(hintReady) {
+                        if (hintReady) {
+                            delay(120) // let the card lay out first
+                            panelInView.bringIntoView()
+                        }
+                    }
                     Column(Modifier.fillMaxSize()) {
                         StatusRow(state, Modifier.padding(horizontal = 8.dp))
                         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -169,7 +183,7 @@ fun MainScreen(state: ChessUiState, c: ChessController, platform: PlatformAction
                         Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
                             MoveStrip(state.game, c::goTo, Modifier.padding(horizontal = 4.dp), state.feedback)
                             CoachCard(state, Modifier.padding(start = 12.dp, end = 12.dp, bottom = 10.dp))
-                            Panel(state, c, Modifier.padding(horizontal = 12.dp))
+                            Panel(state, c, Modifier.padding(horizontal = 12.dp).bringIntoViewRequester(panelInView))
                             Spacer(Modifier.height(12.dp))
                         }
                     }

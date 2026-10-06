@@ -40,19 +40,22 @@ def center(node):
     return (x1 + x2) // 2, (y1 + y2) // 2
 
 
-def find(text, timeout=30, exact=False):
+def find(text, timeout=30, exact=False, last=False):
     """The node showing [text]. An exact match wins over a longer text that only contains it (a hint
-    such as «... «تحلیل وضعیت» را بزن» must not be tapped instead of the button)."""
+    such as «... «تحلیل وضعیت» را بزن» must not be tapped instead of the button). [last] picks the
+    last exact match (a lesson card whose title repeats its chapter heading)."""
     end = time.time() + timeout
     while time.time() < end:
-        partial = None
+        exacts, partial = [], None
         for n in nodes():
             for attr in ("text", "content-desc"):
                 v = (n.get(attr) or "").strip()
                 if v == text:
-                    return n
-                if not exact and partial is None and text in v:
+                    exacts.append(n)
+                elif not exact and partial is None and text in v:
                     partial = n
+        if exacts:
+            return exacts[-1] if last else exacts[0]
         if partial is not None:
             return partial
         alive()
@@ -60,8 +63,8 @@ def find(text, timeout=30, exact=False):
     return None
 
 
-def tap(text, timeout=30, exact=False, required=True):
-    n = find(text, timeout, exact)
+def tap(text, timeout=30, exact=False, required=True, last=False):
+    n = find(text, timeout, exact, last)
     if n is None:
         if required:
             shot(f"missing_{re.sub(r'[^a-z0-9]+', '_', text.encode('ascii', 'ignore').decode().lower()) or 'text'}")
@@ -149,8 +152,11 @@ def main():
     shot("learn")
     tap("مبانی شطرنج")
     shot("course")
-    tap("صفحه‌ی شطرنج")
-    time.sleep(4)
+    tap("صفحه‌ی شطرنج", exact=True, last=True)  # the lesson card, not the chapter heading above it
+    if find("شروع", timeout=20, exact=True) is None:
+        shot("lesson_not_open")
+        raise RuntimeError("the lesson did not open")
+    time.sleep(3)
     alive()
     shot("lesson")
     adb("shell", "input", "keyevent", "4")  # back to the course

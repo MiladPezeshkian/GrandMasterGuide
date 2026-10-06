@@ -2,6 +2,7 @@ package com.zorix.chess.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -147,7 +148,8 @@ fun TurnIndicator(side: Side, modifier: Modifier = Modifier) {
             Modifier
                 .size(12.dp)
                 .clip(RoundedCornerShape(3.dp))
-                .background(if (side == Side.WHITE) ZorixColors.EvalWhite else Color(0xFF050507)),
+                .background(if (side == Side.WHITE) ZorixColors.EvalWhite else Color(0xFF050507))
+                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(3.dp)), // visible on the light style too
         )
         Spacer(Modifier.width(8.dp))
         Text(
