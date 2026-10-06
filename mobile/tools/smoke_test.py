@@ -30,9 +30,32 @@ def nodes():
         xml = adb("shell", "cat", "/sdcard/ui.xml", check=False)
         if "<hierarchy" in xml:
             root = ET.fromstring(xml[xml.index("<hierarchy"):])
-            return list(root.iter("node"))
+            found = list(root.iter("node"))
+            if dismiss_system_dialog(found):
+                continue
+            return found
         time.sleep(1)
     return []
+
+
+def dismiss_system_dialog(found):
+    """A cold-booted emulator sometimes shows "Pixel Launcher isn't responding" over the app. Such a
+    dialog of another app is answered with "Wait"; the same dialog for this app fails the test."""
+    title = next((n.get("text") for n in found if (n.get("text") or "").endswith("isn't responding")), None)
+    if title is None:
+        return False
+    if "GrandMaster" in title:
+        shot("app_not_responding")
+        raise RuntimeError(f"the app froze: {title}")
+    wait = next((n for n in found if n.get("text") == "Wait"), None)
+    if wait is None:
+        adb("shell", "input", "keyevent", "4")
+    else:
+        x, y = center(wait)
+        adb("shell", "input", "tap", str(x), str(y))
+    print("dismissed a system dialog:", title, flush=True)
+    time.sleep(2)
+    return True
 
 
 def center(node):
