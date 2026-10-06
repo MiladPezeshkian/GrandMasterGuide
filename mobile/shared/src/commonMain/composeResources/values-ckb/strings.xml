@@ -200,7 +200,7 @@
     <string name="exp_club">یاریزانی یانە</string>
     <string name="exp_club_body">دەستپێک و تاکتیکەکان دەزانم.</string>
     <string name="exp_strong">یاریزانی بەهێز</string>
-    <string name="exp_strong_body">یاریزانی پاڵەوانێتی بە ڕێتینگی زیاتر لە ١٨٠٠.</string>
+    <string name="exp_strong_body">لە پاڵەوانێتییەکاندا و لە ئاستێکی بەرزدا یاری دەکەم.</string>
     <string name="home_all_done">هەموو وانەکانت تەواو کردووە. سەرسوڕهێنەرە!</string>
     <string name="home_analysis_body">باشترین جوڵە و شیکاری</string>
     <string name="home_continue">بەردەوامبوونی فێربوون</string>
@@ -227,7 +227,7 @@
     <string name="lesson_squares_done">%1$d لە %2$d ڕاست</string>
     <string name="lesson_start">دەستپێکردن</string>
     <string name="onboard_finish">با دەست پێبکەین!</string>
-    <string name="onboard_level_body">Zorix وانەکان و ڕکابەرەکان لەگەڵ ئاستی تۆ ڕێکدەخات.</string>
+    <string name="onboard_level_body">وانەکان و ڕکابەرەکان بەپێی ئاستی تۆ پێشنیار دەکرێن.</string>
     <string name="onboard_level_title">%1$s، چەند شەترەنج دەزانیت؟</string>
     <string name="onboard_name_body">ڕاهێنەرەکەت بە ناوی خۆت بانگت دەکات.</string>
     <string name="onboard_name_hint">ناوی تۆ</string>

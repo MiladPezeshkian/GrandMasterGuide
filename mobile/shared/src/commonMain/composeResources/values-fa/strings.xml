@@ -210,7 +210,7 @@
     <string name="exp_club">بازیکن باشگاهی</string>
     <string name="exp_club_body">گشایش‌ها و تاکتیک‌ها را بلدم.</string>
     <string name="exp_strong">بازیکن قوی</string>
-    <string name="exp_strong_body">بازیکن مسابقات با ریتینگ بالای ۱۸۰۰.</string>
+    <string name="exp_strong_body">در مسابقات و در سطح بالا بازی می‌کنم.</string>
     <string name="home_all_done">همه‌ی درس‌ها را تمام کرده‌ای. عالی است!</string>
     <string name="home_analysis_body">بهترین حرکت و تحلیل</string>
     <string name="home_continue">ادامه‌ی یادگیری</string>
@@ -237,7 +237,7 @@
     <string name="lesson_squares_done">%1$d از %2$d درست</string>
     <string name="lesson_start">شروع</string>
     <string name="onboard_finish">شروع کنیم!</string>
-    <string name="onboard_level_body">Zorix درس‌ها و حریف‌ها را با سطح تو تنظیم می‌کند.</string>
+    <string name="onboard_level_body">درس‌ها و حریف‌ها بر اساس سطح تو پیشنهاد می‌شوند.</string>
     <string name="onboard_level_title">%1$s، چقدر شطرنج بلدی؟</string>
     <string name="onboard_name_body">مربی‌ات تو را با اسمت صدا می‌زند.</string>
     <string name="onboard_name_hint">نام تو</string>

@@ -10,7 +10,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.Alignment
@@ -27,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -116,7 +116,9 @@ fun ZorixApp(app: AppController, platform: PlatformActions) {
             LaunchedEffect(lang) { app.setLanguage(lang) }
             val direction = if (lang in RTL) LayoutDirection.Rtl else LayoutDirection.Ltr
             CompositionLocalProvider(LocalLayoutDirection provides direction) {
-                Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+                // The Surface also sets the default text colour for the theme (light text on the dark style).
+                Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background, contentColor = MaterialTheme.colorScheme.onBackground) {
+                Box(Modifier.fillMaxSize()) {
                     val profile by app.profile.profile.collectAsState()
                     if (!profile.onboarded) {
                         Onboarding(
@@ -130,6 +132,7 @@ fun ZorixApp(app: AppController, platform: PlatformActions) {
                     AnimatedVisibility(visible = !splashDone, enter = fadeIn(), exit = fadeOut()) {
                         SplashScreen(engine = boardState.engine, onFinished = { splashDone = true })
                     }
+                }
                 }
             }
         }
@@ -278,7 +281,8 @@ private fun androidx.compose.foundation.layout.RowScope.NavItem(selected: Boolea
 @Composable
 private fun androidx.compose.foundation.layout.RowScope.MainNavItem(selected: Boolean, onClick: () -> Unit, label: String) {
     Column(
-        Modifier.weight(1f).fillMaxHeight().clickable(onClick = onClick),
+        // A fixed height: NavigationBar does not bound its row, so filling the height would take the whole screen.
+        Modifier.weight(1f).height(80.dp).clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

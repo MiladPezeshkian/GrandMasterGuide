@@ -212,7 +212,7 @@
     <string name="exp_club">Club player</string>
     <string name="exp_club_body">I know openings and tactics.</string>
     <string name="exp_strong">Strong player</string>
-    <string name="exp_strong_body">Tournament player, rated 1800+.</string>
+    <string name="exp_strong_body">I play tournaments at a high level.</string>
     <string name="home_all_done">You have finished every lesson. Impressive!</string>
     <string name="home_analysis_body">Best move &amp; analysis</string>
     <string name="home_continue">Continue learning</string>
@@ -239,7 +239,7 @@
     <string name="lesson_squares_done">%1$d of %2$d correct</string>
     <string name="lesson_start">Start</string>
     <string name="onboard_finish">Let\'s begin!</string>
-    <string name="onboard_level_body">Zorix adapts the lessons and the opponents to you.</string>
+    <string name="onboard_level_body">Lessons and opponents will be chosen for your level.</string>
     <string name="onboard_level_title">How well do you play, %1$s?</string>
     <string name="onboard_name_body">Your coach will call you by your name.</string>
     <string name="onboard_name_hint">Your name</string>
