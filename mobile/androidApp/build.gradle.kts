@@ -32,8 +32,8 @@ android {
         applicationId = "com.zorix.chess"
         minSdk = minApi
         targetSdk = 35
-        versionCode = 7
-        versionName = "2.0.0"
+        versionCode = 8
+        versionName = "2.1.0"
 
         ndk { abiFilters += stockfishAbis }
     }
@@ -128,15 +128,20 @@ val downloadStockfishNet = tasks.register<DownloadStockfishNetTask>("downloadSto
 }
 
 // ---------------------------------------------------------------------------------------------
-// Coach voice: sherpa-onnx (speech engine) and the Persian Piper voice, see VoiceAssets.
+// Coach voice: sherpa-onnx (speech engine) and the Piper voices, see VoiceAssets.
 // ---------------------------------------------------------------------------------------------
 
 val provideVoice = tasks.register<ProvideAndroidVoiceTask>("provideVoice") {
     group = "zorix"
-    description = "Provides the offline Persian voice and the sherpa-onnx speech engine."
+    description = "Provides the offline voices (Persian, Kurdish, English) and the sherpa-onnx speech engine."
     abis.set(stockfishAbis.filter { it in VoiceAssets.ANDROID_ABIS })
     required.set(providers.gradleProperty("zorix.voice.required").map { it.toBoolean() }.orElse(false))
     cacheDir.set(rootProject.layout.projectDirectory.dir(".voice"))
+    kurdishSources.from(
+        fileTree(rootProject.layout.projectDirectory.dir("shared/src/commonMain/composeResources/files/learn")) { include("*.json") },
+        rootProject.layout.projectDirectory.file("shared/src/commonMain/composeResources/values-ckb/strings.xml"),
+        rootProject.layout.projectDirectory.file("shared/src/commonMain/kotlin/com/zorix/chess/coach/Phrases.kt"),
+    )
     jniLibsDir.set(layout.buildDirectory.dir("generated/voice/jniLibs"))
     assetsDir.set(layout.buildDirectory.dir("generated/voice/assets"))
 }

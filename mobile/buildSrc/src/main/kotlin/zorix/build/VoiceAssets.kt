@@ -3,14 +3,18 @@ package zorix.build
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.ArchiveOperations
+import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.logging.Logger
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.net.HttpURLConnection
@@ -19,10 +23,11 @@ import java.security.MessageDigest
 import javax.inject.Inject
 
 /**
- * The coach's offline Persian voice: the sherpa-onnx speech engine (Apache-2.0) and the Piper
- * "fa_IR amir" voice (MIT, trained on a CC0 dataset), int8-quantised. Everything is downloaded
- * once from the sherpa-onnx GitHub releases, checked against pinned SHA-256 sums, cached in
- * [cacheDir] and packed into the app, so the finished app speaks without the internet.
+ * The coach's offline voices: the sherpa-onnx speech engine (Apache-2.0), the Piper voice
+ * "fa_IR ganji" for Persian and Kurdish (MIT, CC0 data) and the Piper voice "en_US ljspeech"
+ * for English (MIT, public-domain data). Everything is downloaded once from the sherpa-onnx
+ * GitHub releases, checked against pinned SHA-256 sums, cached in [cacheDir] and packed into the
+ * app, so the finished app speaks without the internet.
  */
 object VoiceAssets {
     const val SHERPA_VERSION = "1.13.8"
@@ -42,6 +47,12 @@ object VoiceAssets {
         "vits-piper-fa_IR-ganji-medium.tar.bz2",
         "$RELEASES/tts-models/vits-piper-fa_IR-ganji-medium.tar.bz2",
         "6eae2acccd1b4460159fa5acdad4bb5d2df6d64d8da3e4029dbdff4db14e7a7a",
+    )
+
+    val ENGLISH_VOICE = Download(
+        "vits-piper-en_US-ljspeech-medium.tar.bz2",
+        "$RELEASES/tts-models/vits-piper-en_US-ljspeech-medium.tar.bz2",
+        "3dfb4b759d8be032a4903a9538d128b0fda2a06ab1de6cbc2d93a97e2dd83dba",
     )
 
     /** Android ABIs the engine is packed for (x86_64 emulators simply have no Persian voice). */
@@ -107,6 +118,51 @@ object VoiceAssets {
         File(target, "version").writeText(VOICE_ID)
     }
 
+    /**
+     * Unpacks the English voice into `<assetsRoot>/voice/en`: model.onnx and tokens.txt. It uses the
+     * pronunciation data (espeak-ng-data) of the Persian voice, which is the same.
+     */
+    fun unpackEnglishVoice(archive: File, assetsRoot: File, archives: ArchiveOperations, fs: FileSystemOperations) {
+        val target = File(assetsRoot, "voice/en")
+        target.deleteRecursively()
+        val root = "vits-piper-en_US-ljspeech-medium"
+        fs.copy {
+            from(archives.tarTree(archives.bzip2(archive)))
+            include("$root/en_US-ljspeech-medium.onnx", "$root/tokens.txt", "$root/MODEL_CARD")
+            eachFile {
+                val rel = relativePath.segments.drop(1).toMutableList()
+                if (rel.firstOrNull() == "en_US-ljspeech-medium.onnx") rel[0] = "model.onnx"
+                path = rel.joinToString("/")
+            }
+            includeEmptyDirs = false
+            into(target)
+        }
+        if (!File(target, "model.onnx").isFile || !File(target, "tokens.txt").isFile) {
+            throw GradleException("Voice: unexpected layout in ${archive.name}")
+        }
+    }
+
+    private val KURDISH_FIELD = Regex(""""ckb"\s*:\s*"((?:[^"\\]|\\.)*)"""")
+    private val ARABIC_WORD = Regex("[\\u0621-\\u06FF\\u200C]+")
+
+    /**
+     * The Kurdish words of the app (lessons, interface texts and the coach's phrases), one per line.
+     * The voice turns them into phonemes once, so Kurdish speech does not wait for unknown words.
+     */
+    fun kurdishWords(sources: Collection<File>): String {
+        val words = sortedSetOf<String>()
+        for (file in sources.filter { it.isFile }.sortedBy { it.path }) {
+            val text = file.readText()
+            val parts = when {
+                file.name.endsWith(".json") -> KURDISH_FIELD.findAll(text).map { it.groupValues[1] }.toList()
+                file.name.endsWith(".kt") -> listOf(text.substringAfter("class KurdishPhrases", ""))
+                else -> listOf(text)
+            }
+            for (part in parts) ARABIC_WORD.findAll(part).forEach { words += it.value.replace("\u200C", "") }
+        }
+        return words.filter { it.isNotBlank() }.joinToString("\n", postfix = "\n")
+    }
+
     private fun httpGet(url: String, dest: File, logger: Logger) {
         var current = URI(url)
         var connection: HttpURLConnection
@@ -165,9 +221,9 @@ object VoiceAssets {
 }
 
 /**
- * Android: the sherpa-onnx native libraries (as jniLibs) and the Persian voice (as assets).
- * When the download fails and [required] is false the app is built without the Persian voice
- * (the coach then shows its explanations as text only).
+ * Android: the sherpa-onnx native libraries (as jniLibs), the Persian and English voices and the
+ * Kurdish word list (as assets). When a download fails and [required] is false the app is built
+ * without the voices (the coach then uses the phone's own voice or shows text only).
  */
 abstract class ProvideAndroidVoiceTask : DefaultTask() {
     @get:Input
@@ -178,6 +234,11 @@ abstract class ProvideAndroidVoiceTask : DefaultTask() {
 
     @get:Internal
     abstract val cacheDir: DirectoryProperty
+
+    /** Lessons, Kurdish interface texts and the coach's phrases: the Kurdish words the voice prepares. */
+    @get:InputFiles
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val kurdishSources: ConfigurableFileCollection
 
     @get:OutputDirectory
     abstract val jniLibsDir: DirectoryProperty
@@ -210,12 +271,14 @@ abstract class ProvideAndroidVoiceTask : DefaultTask() {
                 if (!File(libs, "$abi/$so").isFile) throw GradleException("Voice: $so for $abi missing in ${libArchive.name}")
             }
             VoiceAssets.unpackVoice(VoiceAssets.fetch(VoiceAssets.PERSIAN_VOICE, cache, logger), assets, archives, fs)
-            logger.lifecycle("Voice: Persian voice and speech engine ready for ${wanted.joinToString()}")
+            VoiceAssets.unpackEnglishVoice(VoiceAssets.fetch(VoiceAssets.ENGLISH_VOICE, cache, logger), assets, archives, fs)
+            File(assets, "voice/ckb-words.txt").writeText(VoiceAssets.kurdishWords(kurdishSources.files))
+            logger.lifecycle("Voice: Persian, Kurdish and English voices and the speech engine ready for ${wanted.joinToString()}")
         } catch (e: Exception) {
             if (required.get()) throw e
             libs.deleteRecursively(); libs.mkdirs()
             assets.deleteRecursively(); assets.mkdirs()
-            logger.warn("Voice: building WITHOUT the Persian voice (${e.message}). Set -Pzorix.voice.required=true to make this an error.")
+            logger.warn("Voice: building WITHOUT the voices (${e.message}). Set -Pzorix.voice.required=true to make this an error.")
         }
     }
 }

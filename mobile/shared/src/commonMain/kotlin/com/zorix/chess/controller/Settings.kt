@@ -107,8 +107,11 @@ interface Speech {
     }
 }
 
-/** Language the voice uses for a display language (Kurdish text is read by the Persian voice). */
-fun speechLanguage(displayLang: String): String = if (displayLang == "ckb") "fa" else displayLang
+/**
+ * Language of the spoken text for a display language. Every language speaks its own text; on Android
+ * Kurdish is said by the Persian voice from Kurdish phonemes (see KurdishVoice).
+ */
+fun speechLanguage(displayLang: String): String = displayLang
 
 /** Minimal persistent storage (SharedPreferences on Android, a map in tests). */
 interface KeyValueStore {

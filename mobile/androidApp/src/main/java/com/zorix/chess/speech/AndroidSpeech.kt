@@ -15,16 +15,18 @@ import java.util.Locale
 /**
  * The coach's voice on Android.
  *
- * Persian (and Kurdish, read by the Persian voice) uses a neural Piper voice run by sherpa-onnx in
- * [VoiceService], a separate process, so a problem in the native speech engine can never close the
- * app. English uses the system text-to-speech engine.
+ * Persian, Kurdish and English use neural Piper voices run by sherpa-onnx in [VoiceService], a
+ * separate process, so a problem in the native speech engine can never close the app. The phone's
+ * own text-to-speech is only a fallback for an APK built without the voices.
  */
 class AndroidSpeech(context: Context) : Speech {
     private val app = context.applicationContext
 
     /** True when the voice files are inside the APK (they are left out if the build could not fetch them). */
-    private val persianPacked: Boolean =
-        runCatching { app.assets.list(VoiceService.VOICE_DIR)?.contains("model.onnx") == true }.getOrDefault(false)
+    private val persianPacked: Boolean = packed(VoiceService.FA_DIR)
+    private val englishPacked: Boolean = packed(VoiceService.EN_DIR)
+
+    private fun packed(dir: String) = runCatching { app.assets.list(dir)?.contains("model.onnx") == true }.getOrDefault(false)
 
     private var service: Messenger? = null
     private var binding = false
@@ -45,29 +47,44 @@ class AndroidSpeech(context: Context) : Speech {
         }
     }
 
-    // ---------------------------------------------------------------- system voice (English)
+    // ---------------------------------------------------------------- system voice (fallback)
 
     @Volatile private var systemReady = false
     private val system: TextToSpeech = TextToSpeech(app) { status -> systemReady = status == TextToSpeech.SUCCESS }
 
-    private val persianAvailable: Boolean get() = persianPacked && crashes < 2
+    private val voicesWork: Boolean get() = crashes < 2
+
+    /** True when [lang] is spoken by a neural voice. */
+    private fun neural(lang: String): Boolean = voicesWork && when (lang) {
+        "fa", "ckb" -> persianPacked
+        "en" -> englishPacked
+        else -> false
+    }
 
     override fun supports(lang: String): Boolean = when (lang) {
-        "fa" -> persianAvailable || systemSupports(Locale("fa", "IR"))
-        else -> systemSupports(Locale.US)
+        "fa" -> neural("fa") || systemSupports(Locale("fa", "IR"))
+        "ckb" -> neural("ckb")
+        else -> neural("en") || systemSupports(Locale.US)
     }
 
     override fun prepare(lang: String) {
-        if (lang == "fa" && persianAvailable) send(Message.obtain(null, VoiceService.MSG_PREPARE))
+        if (neural(lang)) {
+            val msg = Message.obtain(null, VoiceService.MSG_PREPARE)
+            msg.data = Bundle().apply { putString(VoiceService.KEY_LANG, lang) }
+            send(msg)
+        }
     }
 
     override fun speak(text: String, lang: String) {
         stop()
-        if (lang == "fa" && persianAvailable) {
+        if (neural(lang)) {
             val msg = Message.obtain(null, VoiceService.MSG_SPEAK)
-            msg.data = Bundle().apply { putString(VoiceService.KEY_TEXT, text) }
+            msg.data = Bundle().apply {
+                putString(VoiceService.KEY_TEXT, text)
+                putString(VoiceService.KEY_LANG, lang)
+            }
             send(msg)
-        } else if (systemReady) {
+        } else if (systemReady && lang != "ckb") {
             runCatching {
                 system.language = if (lang == "fa") Locale("fa", "IR") else Locale.US
                 system.speak(text, TextToSpeech.QUEUE_FLUSH, null, "zorix")
@@ -99,7 +116,7 @@ class AndroidSpeech(context: Context) : Speech {
     }
 
     private fun bind() {
-        if (binding || !persianAvailable) return
+        if (binding || !voicesWork || !(persianPacked || englishPacked)) return
         binding = runCatching {
             app.bindService(Intent(app, VoiceService::class.java), connection, Context.BIND_AUTO_CREATE)
         }.getOrDefault(false)

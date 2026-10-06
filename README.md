@@ -44,7 +44,7 @@ no account, no server, no internet connection — the Android app does not even 
 | | |
 |---|---|
 | 🧑‍🏫 **Personal coach** | You enter your name and level on first launch; the coach talks to you by name. Every move is rated (**Brilliant !!, Great !, Best ★, Excellent, Good, Book, Inaccuracy ?!, Mistake ?, Miss, Blunder ??**) and explained: what it attacks or leaves hanging, the threat behind the opponent's move, the better move and the line the engine expects next. |
-| 🔊 **Coach voice** | Explanations, lessons and warnings are read aloud. Persian uses a neural voice that runs on the device ([sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) + Piper), English the system voice. |
+| 🔊 **Coach voice** | Explanations, lessons and warnings are read aloud by natural neural voices that run on the device ([sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) + Piper): English, Persian, and Kurdish, which is read from its own text through Kurdish pronunciation rules. |
 | 📚 **322 lessons** | Seven step-by-step courses from zero — Basics, Chess Understanding, Checkmate Patterns, Tactics, Endgames, Openings (principles, traps, a full repertoire and memory drills) and Strategy — with stars and progress. Every exercise is verified with the chess rules and the engine. |
 | ⚔️ **Play Zorix** | 20 levels from beginner to master, all open from the start, with hints, take-backs and a coach that explains the bot's moves and warns about its threats. No ratings: the app is about learning. |
 | 📈 **Game review** | Accuracy for both sides, key moments and "retry" to find the better move yourself. |
@@ -166,7 +166,7 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
 
 ### امکانات
 - **مربی شخصی:** در اولین اجرا اسم و سطح‌تان را وارد می‌کنید و مربی با اسم خودتان صحبت می‌کند. هر حرکت ارزیابی می‌شود (درخشان، عالی، بهترین، خوب، کتابی، نادقیق، اشتباه، از دست رفته، اشتباه فاحش) و دلیلش توضیح داده می‌شود: تهدیدها، مهره‌های بی‌دفاع، حرکت بهتر و پیش‌بینی ادامه‌ی بازی.
-- **صدای مربی:** توضیحات و درس‌ها با صدای طبیعی فارسی خوانده می‌شوند؛ صدا روی خود گوشی و بدون اینترنت ساخته می‌شود.
+- **صدای مربی:** توضیحات و درس‌ها به فارسی، کوردی و انگلیسی با صدای طبیعی خوانده می‌شوند؛ متن کوردی با قواعد تلفظ کوردی خوانده می‌شود. صدا روی خود گوشی و بدون اینترنت ساخته می‌شود.
 - **۳۲۲ درس تعاملی در ۷ دوره** قدم‌به‌قدم از صفر: مبانی، درک شطرنج، الگوهای مات، تاکتیک، آخربازی، گشایش‌ها و استراتژی؛ همه‌ی تمرین‌ها با قوانین شطرنج و موتور بررسی شده‌اند.
 - **بازی با Zorix در ۲۰ سطح** از مبتدی تا استاد (همه‌ی سطح‌ها از اول باز هستند)، با راهنما و توضیح حرکت‌های ربات؛ و **بررسی بازی** با دقت، لحظه‌های کلیدی و «دوباره امتحان کن». برنامه ریتینگ ندارد؛ هدفش آموزش است.
 - **۷۰۹ معما** از آسان تا سخت که همه با موتور بررسی شده‌اند، حالت پشت سر هم و تمرین بر اساس موضوع.
@@ -197,6 +197,7 @@ On macOS/Linux use `:` instead of `;` in `--add-data`. Keyboard shortcuts: `Z` u
   source is included in [`mobile/stockfish`](mobile/stockfish). On iOS the engine is linked into the app, so
   distributions of the iOS build must comply with the GPL.
 - **Coach voice** — [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) (Apache 2.0, with ONNX Runtime, MIT, and
-  espeak-ng, GPL v3) and the Piper voice *fa_IR ganji* (MIT, trained on CC0 data).
+  espeak-ng, GPL v3), the Piper voices *fa_IR ganji* (MIT, trained on CC0 data) and *en_US ljspeech* (MIT, trained on the
+  public-domain LJ Speech dataset).
 - **Chess pieces** — Colin M.L. Burnett (*cburnett*), multi-licensed GFDL/BSD/GPL.
 - **Orbitron** typeface — Matt McInerney / The League of Moveable Type, SIL Open Font License.

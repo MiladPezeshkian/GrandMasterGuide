@@ -56,18 +56,20 @@ class IosSpeech : Speech {
 
     override fun supports(lang: String): Boolean = when (lang) {
         "fa" -> (voiceDir != null && !failed) || AVSpeechSynthesisVoice.voiceWithLanguage("fa-IR") != null
+        "ckb" -> voiceDir != null && !failed
         else -> true
     }
 
     override fun prepare(lang: String) {
-        if (lang == "fa" && voiceDir != null && !failed) dispatch_async(queue) { engine }
+        if ((lang == "fa" || lang == "ckb") && voiceDir != null && !failed) dispatch_async(queue) { engine }
     }
 
     override fun speak(text: String, lang: String) {
         stop()
         activateSession()
         val id = generation.value
-        if (lang == "fa" && voiceDir != null && !failed) {
+        // Kurdish is read by the Persian voice (its letters mapped to the closest Persian ones).
+        if ((lang == "fa" || lang == "ckb") && voiceDir != null && !failed) {
             val prepared = VoiceText.forPersianVoice(text)
             dispatch_async(queue) { speakPersian(prepared, id) }
         } else {

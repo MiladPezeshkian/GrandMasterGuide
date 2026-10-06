@@ -60,14 +60,14 @@ the Compose UI all live in `shared/`.
 - در iOS اجرای برنامه‌ی جداگانه ممنوع است، برای همین Stockfish داخل خود برنامه (روی یک thread جدا) اجرا می‌شود.
 
 ### صدای مربی (آفلاین)
-- مربی به فارسی با یک صدای عصبی (Piper، صدای «ganji») صحبت می‌کند که با موتور **sherpa-onnx** کاملاً روی خود گوشی ساخته می‌شود؛ انگلیسی با صدای خود سیستم خوانده می‌شود. متن کوردی با صدای فارسی خوانده می‌شود.
-- در اولین ساخت، کتابخانه‌های sherpa-onnx و فایل صدا (حدود ۶۰ مگابایت) **یک بار** از صفحه‌ی Releases پروژه‌ی sherpa-onnx دانلود، با SHA-256 بررسی و در `mobile/.voice/` نگه داشته می‌شوند.
-- اگر دانلود ممکن نباشد، برنامه بدون صدای فارسی ساخته می‌شود (توضیحات مربی به‌صورت متن باقی می‌مانند). با `-Pzorix.voice.required=true` این حالت خطا می‌شود (در CI فعال است).
+- مربی با صداهای عصبی Piper صحبت می‌کند که با موتور **sherpa-onnx** کاملاً روی خود گوشی ساخته می‌شوند: فارسی با صدای «ganji»، انگلیسی با صدای «ljspeech» و کوردی با همان صدای ganji که آواهای کوردی را از `KurdishVoice` (تبدیل املای سورانی به آوا) می‌گیرد.
+- در اولین ساخت، کتابخانه‌های sherpa-onnx و فایل‌های صدا (حدود ۱۲۰ مگابایت) **یک بار** از صفحه‌ی Releases پروژه‌ی sherpa-onnx دانلود، با SHA-256 بررسی و در `mobile/.voice/` نگه داشته می‌شوند.
+- اگر دانلود ممکن نباشد، برنامه بدون صداها ساخته می‌شود (توضیحات مربی به‌صورت متن باقی می‌مانند). با `-Pzorix.voice.required=true` این حالت خطا می‌شود (در CI فعال است).
 
 ### نکات
 - برای ساخت سریع‌تر روی گوشی واقعی، در `gradle.properties` مقدار `zorix.stockfish.abis=arm64-v8a` را بگذارید.
 - شبیه‌ساز اندروید (x86_64) هم پشتیبانی می‌شود.
-- حجم APK حدود ۱۵۰ مگابایت است (بیشترش شبکه‌ی عصبی Stockfish و صدای مربی).
+- حجم APK حدود ۲۳۰ مگابایت است (بیشترش شبکه‌ی عصبی Stockfish و صدای مربی).
 
 ---
 
@@ -99,12 +99,13 @@ Release APK: `gradlew :androidApp:assembleRelease` → `androidApp/build/outputs
   `iosApp/stockfish/build_ios.sh`, Stockfish for iOS with its network embedded.
 
 ### The coach's voice
-The coach speaks Persian with a neural voice (Piper *fa_IR ganji*) run on the device by
-[sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx); English uses the system text-to-speech voice, and Kurdish text is
-read by the Persian voice. On the first build `buildSrc/.../VoiceAssets.kt` downloads the sherpa-onnx libraries (Android
-`.so` files, the iOS `SherpaOnnxC.xcframework`) and the voice (~60 MB) from the sherpa-onnx GitHub releases, verifies their
-SHA-256 and caches them in `mobile/.voice/`. If the download fails the app is built without the Persian voice (the coach's
-explanations stay as text) unless `-Pzorix.voice.required=true` is set, as CI does.
+The coach speaks with neural Piper voices run on the device by [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx):
+Persian with *fa_IR ganji*, English with *en_US ljspeech*, and Kurdish with the ganji voice fed with Kurdish phonemes:
+`coach/KurdishVoice.kt` turns Sorani spelling into the voice's phoneme symbols, and the Android `VoiceService` hands them
+to the engine through a lexicon (prepared from the app's Kurdish words, extended on the fly). On the first build
+`buildSrc/.../VoiceAssets.kt` downloads the sherpa-onnx libraries (Android `.so` files, the iOS `SherpaOnnxC.xcframework`)
+and the voices (~120 MB) from the sherpa-onnx GitHub releases, verifies their SHA-256 and caches them in `mobile/.voice/`.
+If the download fails the app is built without the voices unless `-Pzorix.voice.required=true` is set, as CI does.
 
 ### How it works
 ```
@@ -145,7 +146,8 @@ branding/      Logo source, fonts, piece SVGs and generate_assets.py (regenerate
   separate program, like the desktop version. On iOS the engine is linked into the app, so iOS distributions must
   comply with the GPL.
 - **sherpa-onnx** (speech engine) – Apache License 2.0; it includes **ONNX Runtime** (MIT) and **espeak-ng** (GPL v3).
-- **Coach voice** – Piper voice *fa_IR ganji (medium)*, MIT, trained on a CC0 dataset.
+- **Coach voices** – Piper voices *fa_IR ganji (medium)*, MIT, trained on a CC0 dataset, and *en_US ljspeech (medium)*, MIT,
+  trained on the public-domain LJ Speech dataset.
 - **Chess pieces** – Colin M.L. Burnett (cburnett), BSD/GPL/GFDL multi-license.
 - **Orbitron font** – SIL Open Font License (`branding/fonts/OFL.txt`).
 - Zorix Chess app code and logo – © Milad Pezeshkian, all rights reserved.

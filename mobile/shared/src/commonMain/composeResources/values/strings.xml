@@ -115,7 +115,7 @@
     <string name="about_body">GrandMaster Guide is a complete chess school in your pocket, made by Zorix. It teaches chess step by step from the very first move with 322 interactive lessons in seven courses, explains every move with a personal coach in text and voice, lets you play against 20 levels of the engine, train with puzzles, build your own positions and analyse any game with Stockfish 19, the strongest chess engine in the world. Everything runs on your phone, completely offline: no account and no internet connection are needed, and nothing leaves your device.</string>
     <string name="about_credits">Credits</string>
     <string name="about_engine">Zorix engine core: based on Stockfish 19 (GNU GPL v3)</string>
-    <string name="about_voice">Coach voice: sherpa-onnx (Apache 2.0) with the Piper voice “ganji” (MIT, CC0 data) and espeak-ng (GPL v3)</string>
+    <string name="about_voice">Coach voices: sherpa-onnx (Apache 2.0), the Piper voices “ganji” for Persian and Kurdish (MIT, CC0 data) and “ljspeech” for English (MIT, public-domain data), and espeak-ng (GPL v3)</string>
     <string name="about_pieces">Chess pieces: Colin M.L. Burnett (cburnett)</string>
     <string name="about_font">Logo font: Orbitron by Matt McInerney, SIL Open Font License</string>
     <string name="about_author">Made by Zorix · Designed &amp; developed by Milad Pezeshkian</string>
@@ -229,7 +229,7 @@
     <string name="settings_explain_bot">Zorix explains its moves</string>
     <string name="settings_profile">Profile</string>
     <string name="settings_voice">Voice coach</string>
-    <string name="settings_voice_hint">The coach reads its explanations aloud (Persian and English voices, offline).</string>
+    <string name="settings_voice_hint">The coach reads its explanations aloud in English, Persian and Kurdish with natural voices that run on your phone, without the internet.</string>
     <string name="tab_analysis">Analysis</string>
     <string name="tab_learn">Learn</string>
     <string name="tab_play">Play</string>
@@ -353,7 +353,7 @@
         <item>Appearance|Zorix: dark style in black and red. Sky: light style in white and sky blue.</item>
         <item>Language|Persian, Kurdish (Sorani) or English. “System” follows the phone\'s language.</item>
         <item>Coach|Rates and explains every move you play on the analysis board.</item>
-        <item>Voice|Reads explanations aloud. Persian is spoken by a natural voice built into the app (no internet needed) and English by the phone\'s own voice. For Kurdish there is no offline Kurdish voice yet, so Kurdish lessons are read in Persian.</item>
+        <item>Voice|Reads explanations aloud with natural voices built into the app, with no internet needed: an English voice, a Persian voice, and for Kurdish the same voice speaking from Kurdish pronunciation rules, so the Kurdish text itself is read. Tap the speaker icon to hear an explanation again.</item>
         <item>Think time|How long the engine thinks when you tap Best move, from 0.5 to 30 seconds. Longer means deeper and more accurate, but slower. 2–5 seconds is enough for most positions; use 10–30 seconds for difficult endgames or sharp tactics.</item>
         <item>CPU threads|How many processor cores the engine uses at the same time. More threads analyse faster and deeper, but use more battery and warm the phone. A good choice is the number of cores minus one.</item>
         <item>Memory (hash)|Memory for the engine\'s table of positions it has already analysed, so it does not calculate them twice. 64 MB suits most phones; 128–256 MB helps long thinking times on phones with plenty of RAM.</item>
