@@ -38,4 +38,24 @@ class KurdishVoiceTest {
         val text = KurdishVoice.engineText(listOf(a, b))
         assertTrue(text.startsWith(KurdishVoice.BOS_KEY) && text.endsWith(KurdishVoice.EOS_KEY))
     }
+
+    @Test
+    fun lettersForTheNativeVoice() {
+        val known = "_^$ !\"-.:،؛؟ءابتجحخدرزسشعغفقلمنهوپچڕژڤکگڵۆیێە\u064A\u0654".toSet()
+        // ئ is read as ي + hamza, Arabic kaf becomes keheh, a number is spelled, the end gets a full stop.
+        val words = KurdishVoice.letterWords("ئەسپ ٣ كە", known)
+        assertEquals(listOf("\u064A\u0654ەسپ", "سێ", "کە."), words.map { it.ipa })
+        assertEquals(listOf("باشە؟"), KurdishVoice.letterWords("باشە؟", known).map { it.ipa })
+        // Punctuation on its own joins the word before it.
+        assertEquals(listOf("کش،", "باشە."), KurdishVoice.letterWords("کش ، باشە", known).map { it.ipa })
+    }
+
+    @Test
+    fun longSentencesAreSplitAtCommas() {
+        val long = "یەکەم بەشی ئەم ڕستەیە زۆر درێژە و بەردەوام دەبێت، دووەم بەشی ئەم ڕستەیە هەروەها درێژە، کۆتایی؟"
+        val parts = KurdishVoice.letterChunks(long)
+        assertTrue(parts.size > 1 && parts.all { it.length <= 70 + 1 })
+        assertTrue(parts.dropLast(1).all { it.endsWith(".") } && parts.last().endsWith("؟"))
+        assertEquals(listOf("کورت."), KurdishVoice.letterChunks("کورت."))
+    }
 }

@@ -119,6 +119,76 @@ object KurdishVoice {
         append(' ').append(EOS_KEY)
     }
 
+    // ------------------------------------------------------------------ native Sorani voice (letters)
+
+    /** Typed variants folded onto the letters the native Sorani voice was trained on. */
+    private val LETTER_FOLD = mapOf(
+        'ك' to "ک", 'ھ' to "ه", 'ہ' to "ه", 'ۀ' to "ە", 'ة' to "ە", 'ى' to "ی", 'ﻯ' to "ی", 'ﺉ' to "ئ", 'ٸ' to "ئ",
+        'ؤ' to "و", 'أ' to "ا", 'إ' to "ا", 'آ' to "ا", 'ٱ' to "ا", 'ڭ' to "گ", '\u200C' to "", '\u200D' to "", 'ـ' to "",
+        '“' to "\"", '”' to "\"", '—' to "-", '–' to "-", '…' to ".", '?' to "؟", ',' to "،", ';' to "؛",
+        // The voice reads ئ as its Unicode decomposition: ي followed by the hamza above.
+        'ئ' to "\u064A\u0654",
+    )
+    private val LETTER_PUNCT = setOf('!', '"', '-', '.', ':', '،', '؛', '؟')
+    private val SENTENCE_END = setOf('.', '؟', '!')
+
+    /**
+     * Words for the native Sorani voice (Vekol), which reads letters, not phonemes: [known] are the
+     * characters the voice has. Punctuation stays on the word before it; a sentence always ends with
+     * a full stop, question or exclamation mark, which tells the voice to finish.
+     */
+    fun letterWords(text: String, known: Set<Char>): List<Word> {
+        val folded = buildString { for (c in text) append(LETTER_FOLD[c] ?: c.toString()) }
+        val digits = buildString {
+            for (c in folded) append(
+                when (c) {
+                    in '٠'..'٩' -> '0' + (c - '٠')
+                    in '۰'..'۹' -> '0' + (c - '۰')
+                    else -> c
+                },
+            )
+        }
+        val spelled = Regex("""\d+""").replace(digits) { m ->
+            " " + (m.value.toIntOrNull()?.let(::numberWords) ?: m.value.map { ONES[it - '0'] }.joinToString(" ")) + " "
+        }
+        val out = ArrayList<Word>()
+        for (chunk in spelled.split(' ', '\n', '\t')) {
+            val w = chunk.filter { it in known && it != ' ' }
+            if (w.isEmpty()) continue
+            if (w.all { it in LETTER_PUNCT }) {
+                if (out.isNotEmpty()) out[out.lastIndex] = Word(out.last().ipa + w, "")
+            } else {
+                out += Word(w, "")
+            }
+        }
+        if (out.isNotEmpty() && out.last().ipa.last() !in SENTENCE_END) {
+            out[out.lastIndex] = Word(out.last().ipa.trimEnd { it in LETTER_PUNCT } + ".", "")
+        }
+        return out
+    }
+
+    /**
+     * A long sentence split at its commas into pieces of at most [max] characters, each closed with a
+     * full stop: the native voice may add a babbling tail to a very long input.
+     */
+    fun letterChunks(sentence: String, max: Int = 70): List<String> {
+        val text = sentence.trim()
+        if (text.length <= max) return listOf(text)
+        val pieces = ArrayList<String>()
+        var buf = StringBuilder()
+        for (part in Regex("""(?<=[،؛,;:])""").split(text)) {
+            if (buf.isNotEmpty() && buf.length + part.length > max) {
+                pieces += buf.toString()
+                buf = StringBuilder()
+            }
+            buf.append(part)
+        }
+        pieces += buf.toString()
+        val bare = pieces.map { it.trim().trimEnd('،', '؛', ',', ';', ':', '.', '؟', '?', '!').trim() }.filter { it.isNotEmpty() }
+        val end = text.last().takeIf { it == '؟' || it == '?' || it == '!' } ?: '.'
+        return bare.mapIndexed { i, c -> c + if (i == bare.lastIndex) end else '.' }
+    }
+
     // ------------------------------------------------------------------ Sorani spelling -> phonemes
 
     private fun isVowelLetter(c: Char?) = c != null && c in VOWELS

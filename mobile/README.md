@@ -100,9 +100,10 @@ Release APK: `gradlew :androidApp:assembleRelease` → `androidApp/build/outputs
 
 ### The coach's voice
 The coach speaks with neural Piper voices run on the device by [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx):
-Persian with *fa_IR ganji*, English with *en_US ljspeech*, and Kurdish with the ganji voice fed with Kurdish phonemes:
-`coach/KurdishVoice.kt` turns Sorani spelling into the voice's phoneme symbols, and the Android `VoiceService` hands them
-to the engine through a lexicon (prepared from the app's Kurdish words, extended on the fly). On the first build
+Persian with *fa_IR ganji*, English with *en_US ljspeech*, and Kurdish with the native Sorani voice *Vekol-TTS ckb edge*
+(Darvan Shvan, Revge, CC-BY-NC 4.0), which reads letters: `coach/KurdishVoice.kt` folds Sorani spelling onto its letters and the
+Android `VoiceService` hands them to the engine through a lexicon (prepared from the app's Kurdish words, extended on the fly).
+Without that voice, Kurdish falls back to the ganji voice fed with Kurdish phonemes. On the first build
 `buildSrc/.../VoiceAssets.kt` downloads the sherpa-onnx libraries (Android `.so` files, the iOS `SherpaOnnxC.xcframework`)
 and the voices (~120 MB) from the sherpa-onnx GitHub releases, verifies their SHA-256 and caches them in `mobile/.voice/`.
 If the download fails the app is built without the voices unless `-Pzorix.voice.required=true` is set, as CI does.
@@ -147,7 +148,8 @@ branding/      Logo source, fonts, piece SVGs and generate_assets.py (regenerate
   comply with the GPL.
 - **sherpa-onnx** (speech engine) – Apache License 2.0; it includes **ONNX Runtime** (MIT) and **espeak-ng** (GPL v3).
 - **Coach voices** – Piper voices *fa_IR ganji (medium)*, MIT, trained on a CC0 dataset, and *en_US ljspeech (medium)*, MIT,
-  trained on the public-domain LJ Speech dataset.
+  trained on the public-domain LJ Speech dataset; Kurdish: *Vekol-TTS ckb edge* by Darvan Shvan (Revge), CC-BY-NC 4.0 —
+  non-commercial only, so the app must stay free.
 - **Chess pieces** – Colin M.L. Burnett (cburnett), BSD/GPL/GFDL multi-license.
 - **Orbitron font** – SIL Open Font License (`branding/fonts/OFL.txt`).
 - Zorix Chess app code and logo – © Milad Pezeshkian, all rights reserved.

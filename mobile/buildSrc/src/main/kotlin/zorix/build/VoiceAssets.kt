@@ -55,6 +55,19 @@ object VoiceAssets {
         "3dfb4b759d8be032a4903a9538d128b0fda2a06ab1de6cbc2d93a97e2dd83dba",
     )
 
+    /**
+     * The native Sorani voice "Vekol-TTS ckb edge" by Revge (Darvan Shvan), CC-BY-NC 4.0, the same
+     * file as on Hugging Face (RevgeAI/vekol-tts-ckb-edge), mirrored on this repository's releases.
+     */
+    val KURDISH_VOICE = Download(
+        "vekol-tts-ckb-edge.onnx",
+        "https://github.com/MiladPezeshkian/GrandMasterGuide/releases/download/voice-ckb-vekol/model.onnx",
+        "92a30317e6e9a5bf7f61cca4e6f37d7ecff495677169e83e085757760c033f39",
+    )
+
+    /** The Vekol voice's symbols in id order (its model.onnx.json phoneme_id_map: id = position). */
+    private val KURDISH_SYMBOLS = listOf("_", "^", "$", " ", "\n", "!", "\"", "-", ".", ":", "،", "؛", "؟", "ء", "ا", "ب", "ت", "ج", "ح", "خ", "د", "ر", "ز", "س", "ش", "ع", "غ", "ف", "ق", "ل", "م", "ن", "ه", "و", "ي", "ٔ", "پ", "چ", "ڕ", "ژ", "ڤ", "ک", "گ", "ڵ", "ۆ", "ی", "ێ", "ە")
+
     /** Android ABIs the engine is packed for (x86_64 emulators simply have no Persian voice). */
     val ANDROID_ABIS = listOf("arm64-v8a", "armeabi-v7a")
 
@@ -140,6 +153,45 @@ object VoiceAssets {
         if (!File(target, "model.onnx").isFile || !File(target, "tokens.txt").isFile) {
             throw GradleException("Voice: unexpected layout in ${archive.name}")
         }
+    }
+
+    /**
+     * Unpacks the native Sorani voice into `<assetsRoot>/voice/ckb`: model.onnx (with the metadata
+     * sherpa-onnx reads appended to the ONNX file; the network itself is unchanged) and tokens.txt.
+     */
+    fun unpackKurdishVoice(model: File, assetsRoot: File) {
+        val target = File(assetsRoot, "voice/ckb").apply { deleteRecursively(); mkdirs() }
+        val meta = linkedMapOf(
+            "model_type" to "vits", "comment" to "piper", "language" to "Kurdish", "voice" to "ckb",
+            "has_espeak" to "0", "n_speakers" to "2", "sample_rate" to "22050", "add_blank" to "0",
+        )
+        File(target, "model.onnx").outputStream().use { out ->
+            model.inputStream().use { it.copyTo(out) }
+            for ((k, v) in meta) out.write(onnxMetadataEntry(k, v))
+        }
+        // The line break symbol is left out: it cannot be written on a line, and speech never uses it.
+        File(target, "tokens.txt").writeText(KURDISH_SYMBOLS.withIndex().filter { it.value != "\n" }.joinToString("") { (i, c) -> "$c $i\n" })
+        File(target, "NOTICE").writeText(
+            "Vekol-TTS (ckb edge) by Darvan Shvan, Revge - https://github.com/Revge/vekol-tts-ckb-edge\n" +
+                "Licensed CC-BY-NC 4.0 (non-commercial). Metadata for sherpa-onnx appended; weights unchanged.\n",
+        )
+    }
+
+    /** One ModelProto.metadata_props entry (protobuf field 14), which may be appended to an ONNX file. */
+    private fun onnxMetadataEntry(key: String, value: String): ByteArray {
+        fun varint(n: Int): ByteArray {
+            val out = java.io.ByteArrayOutputStream()
+            var v = n
+            while (true) {
+                if (v and 0x7F.inv() == 0) { out.write(v); return out.toByteArray() }
+                out.write((v and 0x7F) or 0x80)
+                v = v ushr 7
+            }
+        }
+        val k = key.toByteArray()
+        val v = value.toByteArray()
+        val body = byteArrayOf(0x0A) + varint(k.size) + k + byteArrayOf(0x12) + varint(v.size) + v
+        return byteArrayOf(0x72) + varint(body.size) + body
     }
 
     private val KURDISH_FIELD = Regex(""""ckb"\s*:\s*"((?:[^"\\]|\\.)*)"""")
@@ -272,6 +324,7 @@ abstract class ProvideAndroidVoiceTask : DefaultTask() {
             }
             VoiceAssets.unpackVoice(VoiceAssets.fetch(VoiceAssets.PERSIAN_VOICE, cache, logger), assets, archives, fs)
             VoiceAssets.unpackEnglishVoice(VoiceAssets.fetch(VoiceAssets.ENGLISH_VOICE, cache, logger), assets, archives, fs)
+            VoiceAssets.unpackKurdishVoice(VoiceAssets.fetch(VoiceAssets.KURDISH_VOICE, cache, logger), assets)
             File(assets, "voice/ckb-words.txt").writeText(VoiceAssets.kurdishWords(kurdishSources.files))
             logger.lifecycle("Voice: Persian, Kurdish and English voices and the speech engine ready for ${wanted.joinToString()}")
         } catch (e: Exception) {

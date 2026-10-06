@@ -339,7 +339,7 @@
     <string-array name="help_lesson">
         <item>Steps|Read or listen to the explanation, then solve each exercise. The bar at the top shows your progress through the lesson.</item>
         <item>Hint and solution|Hint highlights the piece to move. Solution shows the answer and explains it, but counts as a mistake.</item>
-        <item>Voice|When the voice is on, the coach reads the explanations aloud. Tap the speaker icon to hear one again.</item>
+        <item>Voice|Reads explanations aloud with natural voices built into the app, with no internet needed: an English voice, a Persian voice and a native Sorani Kurdish voice. Tap the speaker icon to hear an explanation again.</item>
         <item>Stars|No mistakes: three stars. One or two mistakes: two stars. More: one star. You can repeat any lesson to improve your result.</item>
     </string-array>
     <string-array name="help_puzzles">
