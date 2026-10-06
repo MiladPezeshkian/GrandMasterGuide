@@ -7,6 +7,11 @@ on:
       - ".github/workflows/release.yml"
       - ".github/release-notes.md"
   workflow_dispatch:
+    inputs:
+      ios:
+        description: "Also build the (paused) iOS IPA"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -122,8 +127,8 @@ jobs:
 
   ios:
     name: iOS IPA
-    # iOS is not part of the releases for now; run the workflow manually to build it.
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    # iOS is not part of the releases for now; run the workflow manually with "ios" ticked to build it.
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.ios }}
     runs-on: macos-15
     timeout-minutes: 90
     steps:
