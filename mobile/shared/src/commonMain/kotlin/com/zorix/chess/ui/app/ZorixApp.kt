@@ -59,6 +59,7 @@ import com.zorix.chess.resources.*
 import com.zorix.chess.ui.MainScreen
 import com.zorix.chess.ui.PlatformActions
 import com.zorix.chess.ui.board.rememberPieceImages
+import com.zorix.chess.ui.components.LocalSpeechStatus
 import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.learn.CourseScreen
 import com.zorix.chess.ui.learn.LearnHub
@@ -105,12 +106,13 @@ private fun resolve(setting: String?, system: String): String {
 @Composable
 fun ZorixApp(app: AppController, platform: PlatformActions) {
     val boardState by app.board.state.collectAsState()
+    val speechStatus by app.speechStatus.collectAsState()
     val language = boardState.settings.language
     var splashDone by rememberSaveable { mutableStateOf(false) }
     val light = boardState.settings.appTheme == AppThemeId.SKY
     LaunchedEffect(light) { platform.setLightSystemBars(light) }
     ZorixTheme(boardState.settings.appTheme) {
-    CompositionLocalProvider(LocalAppLocale provides language) {
+    CompositionLocalProvider(LocalAppLocale provides language, LocalSpeechStatus provides speechStatus) {
         key(language) {
             val lang = resolve(language, LocalAppLocale.current)
             LaunchedEffect(lang) { app.setLanguage(lang) }

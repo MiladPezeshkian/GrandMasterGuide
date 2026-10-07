@@ -36,6 +36,13 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.zorix.chess.controller.SpeechStatus
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -191,6 +198,30 @@ fun CoachAvatar(size: Dp = 40.dp) {
     }
 }
 
+/** What the coach's voice is doing (provided at the root of the app). */
+val LocalSpeechStatus = compositionLocalOf { SpeechStatus.IDLE }
+
+/**
+ * Next to a coach text: a small spinner with "Preparing voice…" until the voice starts, then a
+ * pulsing speaker while it speaks. Nothing when the voice is idle.
+ */
+@Composable
+fun VoiceIndicator(modifier: Modifier = Modifier) {
+    when (LocalSpeechStatus.current) {
+        SpeechStatus.PREPARING -> Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+            CircularProgressIndicator(Modifier.size(14.dp), strokeWidth = 2.dp, color = ZorixColors.RedBright)
+            Spacer(Modifier.width(6.dp))
+            Text(stringResource(Res.string.voice_preparing), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        SpeechStatus.SPEAKING -> {
+            val pulse = rememberInfiniteTransition(label = "voice")
+            val alpha by pulse.animateFloat(0.45f, 1f, infiniteRepeatable(tween(520), RepeatMode.Reverse), label = "voiceAlpha")
+            Icon(AppIcons.VolumeUp, null, tint = ZorixColors.RedBright.copy(alpha = alpha), modifier = modifier.size(18.dp))
+        }
+        SpeechStatus.IDLE -> Unit
+    }
+}
+
 /**
  * The coach speaking: avatar, title (with an optional verdict badge), the explanation and a
  * button to hear it again.
@@ -217,8 +248,12 @@ fun CoachBubble(
                     }
                     Spacer(Modifier.weight(1f))
                     if (onSpeak != null && !message.isNullOrBlank()) {
-                        IconButton(onClick = onSpeak, modifier = Modifier.size(32.dp)) {
-                            Icon(AppIcons.VolumeUp, stringResource(Res.string.action_listen), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                        if (LocalSpeechStatus.current == SpeechStatus.IDLE) {
+                            IconButton(onClick = onSpeak, modifier = Modifier.size(32.dp)) {
+                                Icon(AppIcons.VolumeUp, stringResource(Res.string.action_listen), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
+                            }
+                        } else {
+                            VoiceIndicator(Modifier.padding(horizontal = 6.dp))
                         }
                     }
                 }

@@ -3,6 +3,8 @@ package com.zorix.chess.controller
 import com.zorix.chess.engine.uci.EngineConnection
 import kotlinx.atomicfu.locks.SynchronizedObject
 import kotlinx.atomicfu.locks.synchronized
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 /** Board colour schemes offered in the settings. */
 enum class BoardThemeId { CLASSIC, WALNUT, GREEN, BLUE, GRAPHITE }
@@ -90,7 +92,12 @@ data class Settings(
     }
 }
 
-/** Text-to-speech for the coach's voice (neural Persian voice and the system English voice). */
+/** What the coach's voice is doing: shown as a loading indicator until the voice starts. */
+enum class SpeechStatus { IDLE, PREPARING, SPEAKING }
+
+private val idleSpeech: StateFlow<SpeechStatus> = MutableStateFlow(SpeechStatus.IDLE)
+
+/** Text-to-speech for the coach's voice (neural voices; the system voice as a fallback). */
 interface Speech {
     /** True when a voice for [lang] is installed and ready. */
     fun supports(lang: String): Boolean
@@ -99,6 +106,9 @@ interface Speech {
 
     /** Loads the voice for [lang] in the background so the first sentence starts without delay. */
     fun prepare(lang: String) = Unit
+
+    /** Preparing while the audio of the last [speak] is being made, speaking while it plays. */
+    val status: StateFlow<SpeechStatus> get() = idleSpeech
 
     object None : Speech {
         override fun supports(lang: String) = false

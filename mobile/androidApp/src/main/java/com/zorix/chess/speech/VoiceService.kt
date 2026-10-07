@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.Message
 import android.os.Messenger
+import android.os.Process
 import android.util.Log
 import com.k2fsa.sherpa.onnx.OfflineTts
 import com.k2fsa.sherpa.onnx.OfflineTtsConfig
@@ -32,9 +33,10 @@ import java.util.concurrent.atomic.AtomicInteger
  * - Kurdish: the native Sorani voice "Vekol" (Revge), which reads Sorani letters ([KurdishVoice]).
  * - English: the "ljspeech" voice with espeak-ng.
  *
- * Text is spoken piece by piece: while one piece plays, the next one is already being made, so speech
- * starts after the first (short) piece and has no gaps. One engine is loaded at a time; switching the
- * language releases the previous one.
+ * Text is spoken sentence by sentence, each sentence whole (so its intonation stays natural): while one
+ * sentence plays, the next one is already being made. The app is told when the voice starts and ends
+ * ([MSG_STARTED], [MSG_DONE]) so it can show a loading indicator until then. One engine is loaded at a
+ * time; switching the language releases the previous one.
  */
 class VoiceService : Service() {
     private val generation = AtomicInteger()
@@ -52,14 +54,18 @@ class VoiceService : Service() {
     @Volatile private var track: AudioTrack? = null
     @Volatile private var running = true
 
-    /** Audio of one piece of text, for the speech request [id]. */
-    private class Piece(val id: Int, val samples: FloatArray, val sampleRate: Int)
+    /**
+     * Audio of one sentence for the speech request [id]; the last piece of a request has [last] set (and
+     * may be empty). [reply] and [token] identify the request in the app.
+     */
+    private class Piece(val id: Int, val samples: FloatArray, val sampleRate: Int, val reply: Messenger?, val token: Int, val last: Boolean = false)
 
     override fun onCreate() {
         super.onCreate()
         inbox = HandlerThread("zorix-voice-inbox").apply { start() }
         messenger = Messenger(Inbox(inbox.looper))
         player = Thread(::play, "zorix-voice-player").apply { start() }
+        synth.execute { Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT) }
     }
 
     override fun onBind(intent: Intent?): IBinder = messenger.binder
@@ -87,7 +93,9 @@ class VoiceService : Service() {
                     stopAudio()
                     val id = generation.get()
                     val text = msg.data?.getString(KEY_TEXT).orEmpty()
-                    synth.execute { speak(text, lang, id) }
+                    val reply = msg.replyTo
+                    val token = msg.arg1
+                    synth.execute { speak(text, lang, id, reply, token) }
                 }
                 MSG_STOP -> stopAudio()
             }
@@ -100,10 +108,14 @@ class VoiceService : Service() {
         track?.let { runCatching { it.pause(); it.flush() } }
     }
 
-    /** Runs on [synth]: makes the audio piece by piece and hands each to the player as soon as it is ready. */
-    private fun speak(text: String, lang: String, id: Int) {
+    /** Runs on [synth]: makes the audio sentence by sentence and hands each to the player as soon as it is ready. */
+    private fun speak(text: String, lang: String, id: Int, reply: Messenger?, token: Int) {
         try {
-            val engine = engine(lang) ?: return
+            val engine = engine(lang)
+            if (engine == null) {
+                tell(reply, MSG_DONE, token)
+                return
+            }
             for (piece in pieces(text, lang)) {
                 if (id != generation.get()) return
                 var audio = engine.generate(piece, sid = 0, speed = SPEED)
@@ -117,38 +129,86 @@ class VoiceService : Service() {
                     }
                 }
                 if (id != generation.get()) return
-                queue.put(Piece(id, audio.samples, audio.sampleRate))
+                queue.put(Piece(id, audio.samples, audio.sampleRate, reply, token))
             }
         } catch (e: Throwable) {
             Log.e(TAG, "speech failed", e)
         }
+        // Always closes the request, so the app's indicator never stays on.
+        queue.put(Piece(id, FloatArray(0), 0, reply, token, last = true))
+    }
+
+    private fun tell(reply: Messenger?, what: Int, token: Int) {
+        runCatching { reply?.send(Message.obtain(null, what, token, 0)) }
     }
 
     /**
-     * The pieces of [text] the engine speaks one after another. The first piece of a long sentence is
-     * kept short (split at a comma) so the voice starts quickly.
+     * The sentences of [text], spoken whole. Only a very long Kurdish sentence is split at a comma
+     * (the Kurdish voice can babble at the end of a very long input).
      */
     private fun pieces(text: String, lang: String): List<String> {
         val prepared = if (lang == "fa") VoiceText.forPersianVoice(text) else text
         val sentences = VoiceText.sentences(prepared)
-        if (lang != "ckb") return sentences.flatMap { KurdishVoice.chunks(it, max = 160, firstMax = 90) }
+        if (lang != "ckb") return sentences
         val letters = kurdishTokens()
-        return sentences.flatMap { KurdishVoice.chunks(it) }.map { KurdishVoice.speechText(it, letters) }.filter { it.isNotEmpty() }
+        return sentences.flatMap { KurdishVoice.chunks(it, max = 200, firstMax = 220) }
+            .map { KurdishVoice.speechText(it, letters) }.filter { it.isNotEmpty() }
     }
 
-    /** The player thread: plays the pieces of the current request in order. */
+    /**
+     * The player thread (audio priority, so making the next sentence never starves playback): plays the
+     * sentences of the current request in order, with a short breath between them.
+     */
     private fun play() {
+        Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO)
+        var startedId = -1
+        var written = 0L
+        var base = 0L
         while (running) {
             val piece = try {
                 queue.take()
             } catch (e: InterruptedException) {
                 return
             }
-            if (piece.id != generation.get()) continue
+            if (piece.id != generation.get()) {
+                if (piece.last) tell(piece.reply, MSG_DONE, piece.token)
+                continue
+            }
+            if (piece.last) {
+                waitUntilPlayed(piece.id, base + written)
+                tell(piece.reply, MSG_DONE, piece.token)
+                continue
+            }
             val out = audioTrack(piece.sampleRate) ?: continue
+            if (startedId != piece.id) {
+                startedId = piece.id
+                base = headPosition(out)
+                written = 0L
+                tell(piece.reply, MSG_STARTED, piece.token)
+            } else {
+                // A short pause between two sentences, as a speaker takes a breath.
+                val pause = FloatArray(piece.sampleRate * SENTENCE_PAUSE_MS / 1000)
+                written += out.write(pause, 0, pause.size, AudioTrack.WRITE_BLOCKING).coerceAtLeast(0)
+            }
             if (out.playState != AudioTrack.PLAYSTATE_PLAYING) out.play()
-            // Blocks while playing; stopAudio() pauses the track, which returns early.
-            out.write(piece.samples, 0, piece.samples.size, AudioTrack.WRITE_BLOCKING)
+            // Blocks while the buffer is full; stopAudio() pauses the track, which returns early.
+            written += out.write(piece.samples, 0, piece.samples.size, AudioTrack.WRITE_BLOCKING).coerceAtLeast(0)
+        }
+    }
+
+    private fun headPosition(out: AudioTrack): Long = runCatching { out.playbackHeadPosition.toLong() and 0xFFFFFFFFL }.getOrDefault(0L)
+
+    /** Waits (at most 15 s) until the track has played up to frame [end] for request [id]. */
+    private fun waitUntilPlayed(id: Int, end: Long) {
+        val out = track ?: return
+        val deadline = System.currentTimeMillis() + 15_000
+        while (id == generation.get() && System.currentTimeMillis() < deadline) {
+            if (headPosition(out) >= end || out.playState != AudioTrack.PLAYSTATE_PLAYING) return
+            try {
+                Thread.sleep(30)
+            } catch (e: InterruptedException) {
+                return
+            }
         }
     }
 
@@ -239,7 +299,8 @@ class VoiceService : Service() {
                         .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
                         .build(),
                 )
-                .setBufferSizeInBytes(maxOf(min, sampleRate / 5 * 4))
+                // About a second of audio, so a busy processor never makes the voice stutter.
+                .setBufferSizeInBytes(maxOf(min, sampleRate * 4))
                 .setTransferMode(AudioTrack.MODE_STREAM)
                 .build()
         }.getOrNull()?.takeIf { it.state == AudioTrack.STATE_INITIALIZED }
@@ -257,9 +318,16 @@ class VoiceService : Service() {
         /** The Kurdish voice's normal pace (from its author): much longer audio means babble. */
         private const val SECONDS_PER_LETTER = 0.075f
 
+        /** Pause between two sentences. */
+        private const val SENTENCE_PAUSE_MS = 160
+
         const val MSG_PREPARE = 1
         const val MSG_SPEAK = 2
         const val MSG_STOP = 3
+
+        /** To the app: the voice of request arg1 started / finished (or was stopped). */
+        const val MSG_STARTED = 10
+        const val MSG_DONE = 11
         const val KEY_TEXT = "text"
         const val KEY_LANG = "lang"
     }

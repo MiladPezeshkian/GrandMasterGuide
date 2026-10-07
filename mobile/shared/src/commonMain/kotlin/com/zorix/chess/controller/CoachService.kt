@@ -33,7 +33,7 @@ object CoachService {
         move: Move,
         lang: String,
         name: String?,
-        thinkMs: Long = 500,
+        thinkMs: Long = 900,
     ): MoveFeedback? {
         val before = gameBefore.position
         val after = before.play(move)

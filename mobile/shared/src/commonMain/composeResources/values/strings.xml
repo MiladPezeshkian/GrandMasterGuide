@@ -361,4 +361,5 @@
         <item>Depth|The depth shown during analysis is how many half-moves ahead the engine has calculated. It grows with the think time and the number of threads; depth 20 or more is very strong.</item>
         <item>Board|Board colours, coordinates (a–h, 1–8), dots for legal moves, arrows, move animations and vibration.</item>
     </string-array>
+    <string name="voice_preparing">Preparing the voice…</string>
 </resources>

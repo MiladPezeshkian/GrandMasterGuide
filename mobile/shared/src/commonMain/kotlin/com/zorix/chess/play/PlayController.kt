@@ -163,7 +163,7 @@ class PlayController(
         coachJob = scope.launch {
             _state.update { it.copy(coachBusy = true) }
             try {
-                val fb = CoachService.rate(hub, before, move, lang, name, thinkMs = 350) ?: return@launch
+                val fb = CoachService.rate(hub, before, move, lang, name, thinkMs = 600) ?: return@launch
                 _state.update { it.copy(feedback = it.feedback + (feedbackKey(before.position.fen(), move) to fb)) }
                 say(fb.speech)
             } catch (e: CancellationException) {

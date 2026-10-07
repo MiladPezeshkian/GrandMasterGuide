@@ -50,6 +50,9 @@ class AppController(
     var language: String = "en"
         private set
 
+    /** The coach's voice: preparing (a loading indicator is shown), speaking or idle. */
+    val speechStatus: StateFlow<SpeechStatus> get() = speech.status
+
     init {
         loadContent()
     }

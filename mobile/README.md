@@ -103,7 +103,8 @@ The coach speaks with neural Piper voices run on the device by [sherpa-onnx](htt
 Persian with *fa_IR ganji*, English with *en_US ljspeech*, and Kurdish with the native Sorani voice *Vekol-TTS ckb edge*
 (Darvan Shvan, Revge, CC-BY-NC 4.0), which reads letters: `coach/KurdishVoice.kt` folds Sorani spelling onto its letters and the
 build appends sherpa-onnx metadata (`frontend=characters`) so the engine reads them directly. `VoiceService` makes the audio
-piece by piece on one thread while another plays it, so speech starts after a short first piece and has no gaps. On the first build
+sentence by sentence on one thread while an audio-priority thread plays it, and reports when the voice starts and ends so the
+app shows "Preparing the voice…" until then. On the first build
 `buildSrc/.../VoiceAssets.kt` downloads the sherpa-onnx libraries (Android `.so` files, the iOS `SherpaOnnxC.xcframework`)
 and the voices (~120 MB) from the sherpa-onnx GitHub releases, verifies their SHA-256 and caches them in `mobile/.voice/`.
 If the download fails the app is built without the voices unless `-Pzorix.voice.required=true` is set, as CI does.

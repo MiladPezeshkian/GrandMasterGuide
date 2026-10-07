@@ -8,8 +8,15 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.Message
 import android.os.Messenger
+import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import com.zorix.chess.controller.Speech
+import com.zorix.chess.controller.SpeechStatus
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.Locale
 
 /**
@@ -34,6 +41,25 @@ class AndroidSpeech(context: Context) : Speech {
     private var crashes = 0
     private var pending: Message? = null
 
+    private val _status = MutableStateFlow(SpeechStatus.IDLE)
+    override val status: StateFlow<SpeechStatus> = _status.asStateFlow()
+
+    private val main = Handler(Looper.getMainLooper())
+
+    /** Identifies the latest speech request; replies about older ones are ignored. */
+    private var token = 0
+
+    /** Receives "started" and "done" from the voice service (on the main thread). */
+    private val replies = Messenger(object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            if (msg.arg1 != token) return
+            when (msg.what) {
+                VoiceService.MSG_STARTED -> if (_status.value == SpeechStatus.PREPARING) _status.value = SpeechStatus.SPEAKING
+                VoiceService.MSG_DONE -> _status.value = SpeechStatus.IDLE
+            }
+        }
+    })
+
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
             service = binder?.let(::Messenger)
@@ -44,6 +70,7 @@ class AndroidSpeech(context: Context) : Speech {
         override fun onServiceDisconnected(name: ComponentName?) {
             // The voice process ended unexpectedly; after two failures the voice is switched off.
             service = null
+            _status.value = SpeechStatus.IDLE
             if (++crashes >= 2) unbind()
         }
     }
@@ -51,7 +78,22 @@ class AndroidSpeech(context: Context) : Speech {
     // ---------------------------------------------------------------- system voice (fallback)
 
     @Volatile private var systemReady = false
-    private val system: TextToSpeech = TextToSpeech(app) { status -> systemReady = status == TextToSpeech.SUCCESS }
+    private val system: TextToSpeech = TextToSpeech(app) { status -> systemReady = status == TextToSpeech.SUCCESS }.apply {
+        setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                if (utteranceId == "zorix-$token") _status.value = SpeechStatus.SPEAKING
+            }
+
+            override fun onDone(utteranceId: String?) {
+                if (utteranceId == "zorix-$token") _status.value = SpeechStatus.IDLE
+            }
+
+            @Deprecated("Deprecated in Java")
+            override fun onError(utteranceId: String?) {
+                if (utteranceId == "zorix-$token") _status.value = SpeechStatus.IDLE
+            }
+        })
+    }
 
     private val voicesWork: Boolean get() = crashes < 2
 
@@ -79,22 +121,30 @@ class AndroidSpeech(context: Context) : Speech {
 
     override fun speak(text: String, lang: String) {
         stop()
+        val id = ++token
         if (neural(lang)) {
-            val msg = Message.obtain(null, VoiceService.MSG_SPEAK)
+            _status.value = SpeechStatus.PREPARING
+            // Never leave the indicator on if the voice process cannot answer.
+            main.postDelayed({ if (token == id && _status.value == SpeechStatus.PREPARING) _status.value = SpeechStatus.IDLE }, 20_000)
+            val msg = Message.obtain(null, VoiceService.MSG_SPEAK, id, 0)
+            msg.replyTo = replies
             msg.data = Bundle().apply {
                 putString(VoiceService.KEY_TEXT, text)
                 putString(VoiceService.KEY_LANG, lang)
             }
             send(msg)
         } else if (systemReady && lang != "ckb") {
+            _status.value = SpeechStatus.PREPARING
             runCatching {
                 system.language = if (lang == "fa") Locale("fa", "IR") else Locale.US
-                system.speak(text, TextToSpeech.QUEUE_FLUSH, null, "zorix")
-            }
+                system.speak(text, TextToSpeech.QUEUE_FLUSH, null, "zorix-$id")
+            }.onFailure { _status.value = SpeechStatus.IDLE }
         }
     }
 
     override fun stop() {
+        token++
+        _status.value = SpeechStatus.IDLE
         service?.let { s -> runCatching { s.send(Message.obtain(null, VoiceService.MSG_STOP)) } }
         pending = null
         if (systemReady) runCatching { system.stop() }

@@ -58,6 +58,21 @@ object Coach {
             loss < 0.20 -> CoachQuality.MISTAKE
             else -> CoachQuality.BLUNDER
         }
+        // Win chances hardly move when one side is already far ahead, so a queen thrown away from
+        // +9 to +3 (or a forced mate given up) would look harmless. What matters there is the
+        // evaluation drop and the material actually handed over in the engine's line.
+        if ((a.afterScore.mate ?: 0) <= 0) {
+            val drop = centipawns(a.bestScore) - centipawns(a.afterScore)
+            val given = -Facts.outcome(a.before.play(a.move), a.replyPv, a.before.sideToMove).material
+            val missedMate = (a.bestScore.mate ?: 0) > 0
+            val floor = when {
+                given >= 250 && (drop >= 600 || missedMate) -> CoachQuality.BLUNDER
+                given >= 250 && drop >= 300 -> CoachQuality.MISTAKE
+                drop >= 900 -> CoachQuality.MISTAKE
+                else -> null
+            }
+            if (floor != null && SEVERITY.indexOf(floor) > SEVERITY.indexOf(q)) q = floor
+        }
         if (q == CoachQuality.BEST || q == CoachQuality.EXCELLENT) {
             val sacrifice = facts.any { it is Fact.Sacrifice && Attacks.value(it.piece.type) >= 300 } ||
                 facts.any { it is Fact.Captures && it.net <= -200 }
@@ -77,6 +92,14 @@ object Coach {
         }
         return q
     }
+
+    private val SEVERITY = listOf(
+        CoachQuality.BEST, CoachQuality.EXCELLENT, CoachQuality.GOOD,
+        CoachQuality.INACCURACY, CoachQuality.MISTAKE, CoachQuality.BLUNDER,
+    )
+
+    /** A score in centipawns for comparing evaluations; a forced mate counts as about 20 pawns. */
+    private fun centipawns(s: Score): Int = s.mate?.let { if (it > 0) 2000 - 20 * it else -2000 - 20 * it } ?: (s.centipawns ?: 0)
 
     /** Full coach message about a move the listener just played. */
     fun explainOwnMove(a: MoveAnalysis, lang: String, name: String?, speechLang: String = lang): CoachMessage {
