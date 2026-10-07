@@ -25,6 +25,7 @@ class AndroidSpeech(context: Context) : Speech {
     /** True when the voice files are inside the APK (they are left out if the build could not fetch them). */
     private val persianPacked: Boolean = packed(VoiceService.FA_DIR)
     private val englishPacked: Boolean = packed(VoiceService.EN_DIR)
+    private val kurdishPacked: Boolean = packed(VoiceService.CKB_DIR)
 
     private fun packed(dir: String) = runCatching { app.assets.list(dir)?.contains("model.onnx") == true }.getOrDefault(false)
 
@@ -56,7 +57,8 @@ class AndroidSpeech(context: Context) : Speech {
 
     /** True when [lang] is spoken by a neural voice. */
     private fun neural(lang: String): Boolean = voicesWork && when (lang) {
-        "fa", "ckb" -> persianPacked
+        "fa" -> persianPacked
+        "ckb" -> kurdishPacked
         "en" -> englishPacked
         else -> false
     }
@@ -116,7 +118,7 @@ class AndroidSpeech(context: Context) : Speech {
     }
 
     private fun bind() {
-        if (binding || !voicesWork || !(persianPacked || englishPacked)) return
+        if (binding || !voicesWork || !(persianPacked || englishPacked || kurdishPacked)) return
         binding = runCatching {
             app.bindService(Intent(app, VoiceService::class.java), connection, Context.BIND_AUTO_CREATE)
         }.getOrDefault(false)

@@ -32,8 +32,8 @@ android {
         applicationId = "com.zorix.chess"
         minSdk = minApi
         targetSdk = 35
-        versionCode = 9
-        versionName = "2.2.0"
+        versionCode = 10
+        versionName = "2.3.0"
 
         ndk { abiFilters += stockfishAbis }
     }
@@ -137,11 +137,6 @@ val provideVoice = tasks.register<ProvideAndroidVoiceTask>("provideVoice") {
     abis.set(stockfishAbis.filter { it in VoiceAssets.ANDROID_ABIS })
     required.set(providers.gradleProperty("zorix.voice.required").map { it.toBoolean() }.orElse(false))
     cacheDir.set(rootProject.layout.projectDirectory.dir(".voice"))
-    kurdishSources.from(
-        fileTree(rootProject.layout.projectDirectory.dir("shared/src/commonMain/composeResources/files/learn")) { include("*.json") },
-        rootProject.layout.projectDirectory.file("shared/src/commonMain/composeResources/values-ckb/strings.xml"),
-        rootProject.layout.projectDirectory.file("shared/src/commonMain/kotlin/com/zorix/chess/coach/Phrases.kt"),
-    )
     jniLibsDir.set(layout.buildDirectory.dir("generated/voice/jniLibs"))
     assetsDir.set(layout.buildDirectory.dir("generated/voice/assets"))
 }

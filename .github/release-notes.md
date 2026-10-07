@@ -1,8 +1,13 @@
 <div dir="rtl">
 
-## GrandMaster Guide 2.2 — ساخت Zorix
+## GrandMaster Guide 2.3 — ساخت Zorix
 
 یک مدرسه‌ی کامل شطرنج روی گوشی شما، **کاملاً آفلاین** و **رایگان**.
+
+### تازه‌های نسخه‌ی ۲٫۳ — صدای سریع‌تر و درست‌تر
+- **کوردی بدون «پپپ» و بدون جاانداختن:** صدای کوردی حالا حروف را مستقیم و دقیقاً به همان شکلی می‌خواند که آموزش دیده است؛ صداهای بی‌معنی و کلمه‌های جاافتاده برطرف شد.
+- **شروع سریع‌تر و بدون مکث:** تکه‌ی اول هر متن کوتاه است تا صدا زود شروع شود، و هم‌زمان با پخش هر جمله، جمله‌ی بعد ساخته می‌شود؛ دیگر بین جمله‌ها مکث نیست. صدای کوردی دیگر هیچ‌وقت برای کلمه‌ی تازه دوباره بارگذاری نمی‌شود.
+- اسم‌های لاتین (مثل Milad) و عددهای پسونددار در کوردی درست خوانده می‌شوند.
 
 ### تازه‌های نسخه‌ی ۲٫۲ — صدای بومی کوردی
 - **کوردی با صدای یک گوینده‌ی سورانی:** مربی متن‌های کوردی را با صدای عصبی بومی «Vekol» (ساخت Darvan Shvan، شرکت Revge) می‌خواند؛ تلفظ کاملاً کوردی، بدون لهجه، کاملاً آفلاین.
@@ -31,7 +36,7 @@
 ---
 
 ### English
-**GrandMaster Guide 2.2 — by Zorix.** A complete, fully offline and free chess school:
+**GrandMaster Guide 2.3 — by Zorix.** A complete, fully offline and free chess school:
 - 322 lessons in 7 courses, including the new *Chess Understanding* course.
 - A coach that explains every move, in text and in natural offline voices for English, Persian and Kurdish (a native Sorani voice).
 - 20 levels of play (all open, no ratings) and 709 engine-checked puzzles.

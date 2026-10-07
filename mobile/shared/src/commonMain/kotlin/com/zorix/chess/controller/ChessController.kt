@@ -379,6 +379,8 @@ class ChessController(
         _state.update { it.copy(settings = new) }
         new.save(store)
         if (!new.voice) speech.stop()
+        // Load the voice as soon as it is switched on, so the first explanation is not delayed.
+        if (new.voice && !old.voice) speech.prepare(speechLanguage(language))
         if (new.threads != old.threads || new.hashMb != old.hashMb) {
             scope.launch {
                 hub.applyOptions()

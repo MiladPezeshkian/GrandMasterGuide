@@ -3,18 +3,14 @@ package zorix.build
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.ArchiveOperations
-import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileSystemOperations
 import org.gradle.api.logging.Logger
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.PathSensitive
-import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.net.HttpURLConnection
@@ -157,13 +153,17 @@ object VoiceAssets {
 
     /**
      * Unpacks the native Sorani voice into `<assetsRoot>/voice/ckb`: model.onnx (with the metadata
-     * sherpa-onnx reads appended to the ONNX file; the network itself is unchanged) and tokens.txt.
+     * sherpa-onnx reads appended to the ONNX file, so it reads letters directly; the network itself is
+     * unchanged) and tokens.txt.
      */
     fun unpackKurdishVoice(model: File, assetsRoot: File) {
         val target = File(assetsRoot, "voice/ckb").apply { deleteRecursively(); mkdirs() }
         val meta = linkedMapOf(
             "model_type" to "vits", "comment" to "piper", "language" to "Kurdish", "voice" to "ckb",
-            "has_espeak" to "0", "n_speakers" to "2", "sample_rate" to "22050", "add_blank" to "0",
+            "n_speakers" to "2", "sample_rate" to "22050",
+            // The voice reads letters: ^ _ letter _ letter _ ... $, as in Piper's own runtime.
+            "frontend" to "characters", "add_blank" to "1", "blank_id" to "0", "pad_id" to "0",
+            "bos_id" to "1", "eos_id" to "2", "use_eos_bos" to "1",
         )
         File(target, "model.onnx").outputStream().use { out ->
             model.inputStream().use { it.copyTo(out) }
@@ -192,27 +192,6 @@ object VoiceAssets {
         val v = value.toByteArray()
         val body = byteArrayOf(0x0A) + varint(k.size) + k + byteArrayOf(0x12) + varint(v.size) + v
         return byteArrayOf(0x72) + varint(body.size) + body
-    }
-
-    private val KURDISH_FIELD = Regex(""""ckb"\s*:\s*"((?:[^"\\]|\\.)*)"""")
-    private val ARABIC_WORD = Regex("[\\u0621-\\u06FF\\u200C]+")
-
-    /**
-     * The Kurdish words of the app (lessons, interface texts and the coach's phrases), one per line.
-     * The voice turns them into phonemes once, so Kurdish speech does not wait for unknown words.
-     */
-    fun kurdishWords(sources: Collection<File>): String {
-        val words = sortedSetOf<String>()
-        for (file in sources.filter { it.isFile }.sortedBy { it.path }) {
-            val text = file.readText()
-            val parts = when {
-                file.name.endsWith(".json") -> KURDISH_FIELD.findAll(text).map { it.groupValues[1] }.toList()
-                file.name.endsWith(".kt") -> listOf(text.substringAfter("class KurdishPhrases", ""))
-                else -> listOf(text)
-            }
-            for (part in parts) ARABIC_WORD.findAll(part).forEach { words += it.value.replace("\u200C", "") }
-        }
-        return words.filter { it.isNotBlank() }.joinToString("\n", postfix = "\n")
     }
 
     private fun httpGet(url: String, dest: File, logger: Logger) {
@@ -273,8 +252,8 @@ object VoiceAssets {
 }
 
 /**
- * Android: the sherpa-onnx native libraries (as jniLibs), the Persian and English voices and the
- * Kurdish word list (as assets). When a download fails and [required] is false the app is built
+ * Android: the sherpa-onnx native libraries (as jniLibs) and the Persian, Kurdish and English voices
+ * (as assets). When a download fails and [required] is false the app is built
  * without the voices (the coach then uses the phone's own voice or shows text only).
  */
 abstract class ProvideAndroidVoiceTask : DefaultTask() {
@@ -286,11 +265,6 @@ abstract class ProvideAndroidVoiceTask : DefaultTask() {
 
     @get:Internal
     abstract val cacheDir: DirectoryProperty
-
-    /** Lessons, Kurdish interface texts and the coach's phrases: the Kurdish words the voice prepares. */
-    @get:InputFiles
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    abstract val kurdishSources: ConfigurableFileCollection
 
     @get:OutputDirectory
     abstract val jniLibsDir: DirectoryProperty
@@ -325,7 +299,6 @@ abstract class ProvideAndroidVoiceTask : DefaultTask() {
             VoiceAssets.unpackVoice(VoiceAssets.fetch(VoiceAssets.PERSIAN_VOICE, cache, logger), assets, archives, fs)
             VoiceAssets.unpackEnglishVoice(VoiceAssets.fetch(VoiceAssets.ENGLISH_VOICE, cache, logger), assets, archives, fs)
             VoiceAssets.unpackKurdishVoice(VoiceAssets.fetch(VoiceAssets.KURDISH_VOICE, cache, logger), assets)
-            File(assets, "voice/ckb-words.txt").writeText(VoiceAssets.kurdishWords(kurdishSources.files))
             logger.lifecycle("Voice: Persian, Kurdish and English voices and the speech engine ready for ${wanted.joinToString()}")
         } catch (e: Exception) {
             if (required.get()) throw e

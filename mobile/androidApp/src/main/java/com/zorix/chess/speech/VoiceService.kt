@@ -20,6 +20,7 @@ import com.zorix.chess.coach.KurdishVoice
 import com.zorix.chess.coach.VoiceText
 import java.io.File
 import java.util.concurrent.Executors
+import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -28,43 +29,45 @@ import java.util.concurrent.atomic.AtomicInteger
  * stops using the voices.
  *
  * - Persian: the "ganji" voice with its espeak-ng pronunciation rules.
- * - Kurdish: the native Sorani voice "Vekol" (Revge), which reads Sorani letters, through a lexicon.
- *   Without it, the Persian voice speaks Kurdish phonemes ([KurdishVoice]) the same way.
+ * - Kurdish: the native Sorani voice "Vekol" (Revge), which reads Sorani letters ([KurdishVoice]).
  * - English: the "ljspeech" voice with espeak-ng.
  *
- * One engine is loaded at a time; switching the language releases the previous one.
+ * Text is spoken piece by piece: while one piece plays, the next one is already being made, so speech
+ * starts after the first (short) piece and has no gaps. One engine is loaded at a time; switching the
+ * language releases the previous one.
  */
 class VoiceService : Service() {
     private val generation = AtomicInteger()
     private val synth = Executors.newSingleThreadExecutor { r -> Thread(r, "zorix-voice") }
+    private val queue = LinkedBlockingQueue<Piece>()
+    private lateinit var player: Thread
     private lateinit var inbox: HandlerThread
     private lateinit var messenger: Messenger
 
     // Only touched on [synth].
     private var tts: OfflineTts? = null
     private var ttsLang: String? = null
-    private var kurdishKeys: MutableSet<String>? = null
-    private var kurdishDir: File? = null
-    private var voiceTokens: Set<Char>? = null
     private var kurdishLetters: Set<Char>? = null
 
-    /** True when the native Sorani voice is packed (it is downloaded at build time). */
-    private val nativeKurdish: Boolean by lazy {
-        runCatching { assets.list(CKB_DIR)?.contains("model.onnx") == true }.getOrDefault(false)
-    }
-
     @Volatile private var track: AudioTrack? = null
+    @Volatile private var running = true
+
+    /** Audio of one piece of text, for the speech request [id]. */
+    private class Piece(val id: Int, val samples: FloatArray, val sampleRate: Int)
 
     override fun onCreate() {
         super.onCreate()
         inbox = HandlerThread("zorix-voice-inbox").apply { start() }
         messenger = Messenger(Inbox(inbox.looper))
+        player = Thread(::play, "zorix-voice-player").apply { start() }
     }
 
     override fun onBind(intent: Intent?): IBinder = messenger.binder
 
     override fun onDestroy() {
         stopAudio()
+        running = false
+        player.interrupt()
         synth.execute {
             releaseEngine()
             runCatching { track?.release() }
@@ -93,51 +96,59 @@ class VoiceService : Service() {
 
     private fun stopAudio() {
         generation.incrementAndGet()
+        queue.clear()
         track?.let { runCatching { it.pause(); it.flush() } }
     }
 
-    /** Runs on [synth]: one sentence at a time, each played as soon as it is ready. */
+    /** Runs on [synth]: makes the audio piece by piece and hands each to the player as soon as it is ready. */
     private fun speak(text: String, lang: String, id: Int) {
         try {
-            val prepared = if (lang == "fa") VoiceText.forPersianVoice(text) else text
-            for (sentence in VoiceText.sentences(prepared)) {
+            val engine = engine(lang) ?: return
+            for (piece in pieces(text, lang)) {
                 if (id != generation.get()) return
-                val inputs: List<String>
-                var letters = emptyList<Int>()
-                val engine: OfflineTts
+                var audio = engine.generate(piece, sid = 0, speed = SPEED)
                 if (lang == "ckb") {
-                    val parts = if (nativeKurdish) KurdishVoice.letterChunks(sentence) else listOf(sentence)
-                    val words = parts.map(::kurdishWords).filter { it.isNotEmpty() }
-                    if (words.isEmpty()) continue
-                    engine = kurdishEngine(words.flatten()) ?: return
-                    inputs = words.map(KurdishVoice::engineText)
-                    if (nativeKurdish) letters = words.map { w -> w.sumOf { it.ipa.length + 1 } }
-                } else {
-                    engine = engine(lang) ?: return
-                    inputs = listOf(sentence)
-                }
-                for ((k, input) in inputs.withIndex()) {
-                    var audio = engine.generate(input, sid = 0, speed = SPEED)
-                    // The native Kurdish voice now and then adds a babbling tail (about one render in
-                    // 25). Babble only makes the audio longer than its text allows, so such a render
-                    // is made again, at most twice, and the shortest one is kept.
-                    letters.getOrNull(k)?.let { n ->
-                        val limit = n * SECONDS_PER_LETTER / SPEED + 1.2f
-                        repeat(2) {
-                            if (audio.samples.size.toFloat() / audio.sampleRate <= limit || id != generation.get()) return@let
-                            val again = engine.generate(input, sid = 0, speed = SPEED)
-                            if (again.samples.size < audio.samples.size) audio = again
-                        }
+                    // A rare babbling tail only makes the audio longer than its text allows:
+                    // such a render is made again and the shorter one is kept.
+                    val limit = piece.length * SECONDS_PER_LETTER / SPEED + 1.2f
+                    if (audio.samples.size.toFloat() / audio.sampleRate > limit && id == generation.get()) {
+                        val again = engine.generate(piece, sid = 0, speed = SPEED)
+                        if (again.samples.size < audio.samples.size) audio = again
                     }
-                    if (id != generation.get()) return
-                    val out = audioTrack(audio.sampleRate) ?: return
-                    if (out.playState != AudioTrack.PLAYSTATE_PLAYING) out.play()
-                    // Blocks while playing; stopAudio() pauses the track, which returns early.
-                    out.write(audio.samples, 0, audio.samples.size, AudioTrack.WRITE_BLOCKING)
                 }
+                if (id != generation.get()) return
+                queue.put(Piece(id, audio.samples, audio.sampleRate))
             }
         } catch (e: Throwable) {
             Log.e(TAG, "speech failed", e)
+        }
+    }
+
+    /**
+     * The pieces of [text] the engine speaks one after another. The first piece of a long sentence is
+     * kept short (split at a comma) so the voice starts quickly.
+     */
+    private fun pieces(text: String, lang: String): List<String> {
+        val prepared = if (lang == "fa") VoiceText.forPersianVoice(text) else text
+        val sentences = VoiceText.sentences(prepared)
+        if (lang != "ckb") return sentences.flatMap { KurdishVoice.chunks(it, max = 160, firstMax = 90) }
+        val letters = kurdishTokens()
+        return sentences.flatMap { KurdishVoice.chunks(it) }.map { KurdishVoice.speechText(it, letters) }.filter { it.isNotEmpty() }
+    }
+
+    /** The player thread: plays the pieces of the current request in order. */
+    private fun play() {
+        while (running) {
+            val piece = try {
+                queue.take()
+            } catch (e: InterruptedException) {
+                return
+            }
+            if (piece.id != generation.get()) continue
+            val out = audioTrack(piece.sampleRate) ?: continue
+            if (out.playState != AudioTrack.PLAYSTATE_PLAYING) out.play()
+            // Blocks while playing; stopAudio() pauses the track, which returns early.
+            out.write(piece.samples, 0, piece.samples.size, AudioTrack.WRITE_BLOCKING)
         }
     }
 
@@ -164,159 +175,39 @@ class VoiceService : Service() {
 
     private fun load(lang: String): OfflineTts {
         val threads = (Runtime.getRuntime().availableProcessors() / 2).coerceIn(1, 4)
-        if (lang == "ckb") {
-            // The Kurdish lexicon is written at run time, so this engine reads files, not APK assets.
-            val dir = kurdishFiles()
-            val config = OfflineTtsConfig(
-                model = OfflineTtsModelConfig(
-                    vits = OfflineTtsVitsModelConfig(
-                        model = File(dir, "model.onnx").absolutePath,
-                        tokens = File(dir, "tokens.txt").absolutePath,
-                        lexicon = File(dir, LEXICON).absolutePath,
-                        // The native voice's own setting for a natural rhythm.
-                        noiseScaleW = if (nativeKurdish) 0.35f else 0.8f,
-                    ),
-                    numThreads = threads,
-                    debug = false,
-                    provider = "cpu",
-                ),
-                maxNumSentences = 1,
-            )
-            return OfflineTts(null, config)
+        val vits = when (lang) {
+            // Vekol reads letters (its tokens are Sorani letters), with its own rhythm setting.
+            "ckb" -> OfflineTtsVitsModelConfig(model = "$CKB_DIR/model.onnx", tokens = "$CKB_DIR/tokens.txt", noiseScaleW = 0.35f)
+            "en" -> OfflineTtsVitsModelConfig(model = "$EN_DIR/model.onnx", tokens = "$EN_DIR/tokens.txt", dataDir = unpackEspeakData().absolutePath)
+            else -> OfflineTtsVitsModelConfig(model = "$FA_DIR/model.onnx", tokens = "$FA_DIR/tokens.txt", dataDir = unpackEspeakData().absolutePath)
         }
-        val voice = if (lang == "en") EN_DIR else FA_DIR
         val config = OfflineTtsConfig(
-            model = OfflineTtsModelConfig(
-                vits = OfflineTtsVitsModelConfig(
-                    model = "$voice/model.onnx",
-                    tokens = "$voice/tokens.txt",
-                    dataDir = unpackEspeakData().absolutePath,
-                ),
-                numThreads = threads,
-                debug = false,
-                provider = "cpu",
-            ),
+            model = OfflineTtsModelConfig(vits = vits, numThreads = threads, debug = false, provider = "cpu"),
             maxNumSentences = 1,
         )
         return OfflineTts(assets, config)
     }
 
-    // ------------------------------------------------------------------------------ Kurdish
-
-    /** The Kurdish words of a sentence: letters for the native voice, phonemes for the Persian one. */
-    private fun kurdishWords(sentence: String): List<KurdishVoice.Word> {
-        if (nativeKurdish) return KurdishVoice.letterWords(sentence, kurdishTokens())
-        val known = tokenSet()
-        return KurdishVoice.words(sentence)
-            .map { it.copy(ipa = it.ipa.filter { c -> c in known }) }
-            .filter { it.ipa.isNotEmpty() }
-    }
-
-    /** The Kurdish engine, after adding any word its lexicon does not have yet (then it is reloaded). */
-    private fun kurdishEngine(words: List<KurdishVoice.Word>): OfflineTts? {
-        val dir = kurdishFiles()
-        val keys = kurdishKeys ?: loadKeys(dir).also { kurdishKeys = it }
-        val missing = words.distinctBy(KurdishVoice::key).filter { KurdishVoice.key(it) !in keys }
-        if (missing.isNotEmpty()) {
-            File(dir, LEXICON).appendText(missing.joinToString("") { KurdishVoice.lexiconLine(it) + "\n" })
-            missing.forEach { keys += KurdishVoice.key(it) }
-            if (ttsLang == "ckb") releaseEngine()
-        }
-        return engine("ckb")
-    }
-
-    private fun loadKeys(dir: File): MutableSet<String> =
-        File(dir, LEXICON).readLines().mapNotNullTo(HashSet()) { line -> line.substringBefore(' ').takeIf { it.isNotEmpty() } }
-
-    /**
-     * The Kurdish voice files: the model and tokens copied out of the APK once (the native Sorani
-     * voice, or else the Persian one), and a lexicon with every Kurdish word of the app in five forms
-     * (plain and before , . ? !).
-     */
-    private fun kurdishFiles(): File {
-        kurdishDir?.let { return it }
-        val dir = File(filesDir, "voice-ckb")
-        val stamp = File(dir, "version")
-        val words = runCatching { assets.open(CKB_WORDS).bufferedReader().use { it.readText() } }.getOrDefault("")
-        val wanted = "${assetVersion()}|$LEXICON_FORMAT|${words.hashCode()}|native=$nativeKurdish"
-        if (stamp.isFile && stamp.readText().trim() == wanted && File(dir, LEXICON).isFile && File(dir, "model.onnx").isFile) {
-            kurdishDir = dir
-            return dir
-        }
-        kurdishKeys = null
-        if (ttsLang == "ckb") releaseEngine()
-        dir.deleteRecursively()
-        dir.mkdirs()
-        val source = if (nativeKurdish) CKB_DIR else FA_DIR
-        copyAsset("$source/model.onnx", File(dir, "model.onnx"))
-        copyAsset("$source/tokens.txt", File(dir, "tokens.txt"))
-        val lines = LinkedHashMap<String, String>()
-        lines[KurdishVoice.BOS_KEY] = "${KurdishVoice.BOS_KEY} ^"
-        lines[KurdishVoice.EOS_KEY] = "${KurdishVoice.EOS_KEY} $"
-        val seeds = words.lines() + (0..100).flatMap { KurdishVoice.numberWords(it).split(' ') } + listOf("Zorix")
-        if (nativeKurdish) {
-            val letters = kurdishTokens()
-            for (word in seeds) {
-                val base = KurdishVoice.letterWords(word, letters).joinToString("") { it.ipa }.trimEnd('.')
-                if (base.isEmpty()) continue
-                for (p in listOf("", "،", ".", "؟", "!")) {
-                    val entry = KurdishVoice.Word(base + p, "")
-                    lines.getOrPut(KurdishVoice.key(entry)) { KurdishVoice.lexiconLine(entry) }
-                }
-            }
-        }
-        val known = tokenSet()
-        for (word in seeds.takeIf { !nativeKurdish }.orEmpty()) {
-            val w = word.trim()
-            if (w.isEmpty()) continue
-            val ipa = (if (w.all { it.code < 128 }) KurdishVoice.latinIpa(w) else KurdishVoice.wordIpa(w)).filter { it in known }
-            if (ipa.isEmpty()) continue
-            for (p in listOf("", ",", ".", "?", "!")) {
-                val entry = KurdishVoice.Word(ipa, p)
-                lines.getOrPut(KurdishVoice.key(entry)) { KurdishVoice.lexiconLine(entry) }
-            }
-        }
-        File(dir, LEXICON).writeText(lines.values.joinToString("\n", postfix = "\n"))
-        stamp.writeText(wanted)
-        kurdishDir = dir
-        return dir
-    }
-
-    /** The letters and marks the native Sorani voice knows (from its tokens.txt). */
+    /** The letters and marks the Kurdish voice knows (from its tokens.txt). */
     private fun kurdishTokens(): Set<Char> = kurdishLetters ?: assets.open("$CKB_DIR/tokens.txt").bufferedReader().useLines { lines ->
         lines.mapNotNull { line -> line.trimEnd().substringBeforeLast(' ').singleOrNull() }.filter { it != ' ' }.toSet()
     }.also { kurdishLetters = it }
 
-    /** The phoneme symbols the voice knows (from its tokens.txt), so no unknown symbol reaches it. */
-    private fun tokenSet(): Set<Char> = voiceTokens ?: assets.open("$FA_DIR/tokens.txt").bufferedReader().useLines { lines ->
-        lines.mapNotNull { line -> line.trimEnd().substringBeforeLast(' ').singleOrNull() }.filter { it != ' ' }.toSet()
-    }.also { voiceTokens = it }
-
     // ------------------------------------------------------------------------------ files
-
-    private fun assetVersion(): String = assets.open("$FA_DIR/version").bufferedReader().use { it.readText().trim() }
 
     /** espeak-ng (the pronunciation rules) reads its data from files, so it is copied out of the APK once. */
     private fun unpackEspeakData(): File {
         val root = File(filesDir, "voice-fa")
         val stamp = File(root, "version")
-        val wanted = assetVersion()
+        val wanted = assets.open("$FA_DIR/version").bufferedReader().use { it.readText().trim() }
         val data = File(root, "espeak-ng-data")
+        // Files of earlier versions (the Kurdish lexicon and its model copy) are no longer used.
+        File(filesDir, "voice-ckb").deleteRecursively()
         if (stamp.isFile && stamp.readText().trim() == wanted && data.isDirectory) return data
         root.deleteRecursively()
         copyAssets("$FA_DIR/espeak-ng-data", data)
         stamp.writeText(wanted)
         return data
-    }
-
-    private fun copyAsset(path: String, dest: File) {
-        dest.parentFile?.mkdirs()
-        val part = File(dest.path + ".part")
-        assets.open(path).use { input -> part.outputStream().use { input.copyTo(it, 1 shl 16) } }
-        if (!part.renameTo(dest)) {
-            part.copyTo(dest, overwrite = true)
-            part.delete()
-        }
     }
 
     private fun copyAssets(path: String, dest: File) {
@@ -361,14 +252,9 @@ class VoiceService : Service() {
         const val FA_DIR = "voice/fa"
         const val EN_DIR = "voice/en"
         const val CKB_DIR = "voice/ckb"
-        private const val CKB_WORDS = "voice/ckb-words.txt"
-        private const val LEXICON = "lexicon.txt"
-
-        /** Bump when [KurdishVoice] changes how it writes phonemes, so stored lexicons are rebuilt. */
-        private const val LEXICON_FORMAT = 2
         private const val SPEED = 0.95f
 
-        /** The native Kurdish voice's normal pace (from its author): longer audio means babble. */
+        /** The Kurdish voice's normal pace (from its author): much longer audio means babble. */
         private const val SECONDS_PER_LETTER = 0.075f
 
         const val MSG_PREPARE = 1
