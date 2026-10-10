@@ -121,6 +121,14 @@ def crash_log():
     return log
 
 
+def scroll_up():
+    size = re.findall(r"(\d+)x(\d+)", adb("shell", "wm", "size"))[-1]
+    w, h = int(size[0]), int(size[1])
+    for _ in range(3):
+        adb("shell", "input", "swipe", str(w // 2), str(int(h * 0.3)), str(w // 2), str(int(h * 0.8)), "300")
+    time.sleep(1)
+
+
 def scroll_down():
     size = re.findall(r"(\d+)x(\d+)", adb("shell", "wm", "size"))[-1]
     w, h = int(size[0]), int(size[1])
@@ -151,6 +159,10 @@ def main():
     tap("شروع کنیم!")
     time.sleep(8)  # intro animation and engine start
     alive()
+    # Start-up tip: closing other apps makes Zorix faster.
+    if find("متوجه شدم", timeout=10, exact=True) is not None:
+        shot("speed_tip")
+        tap("متوجه شدم", exact=True)
     shot("analysis")
 
     # Analysis: play e2-e4 by tapping squares is screen dependent; ask for the best move instead.
@@ -161,9 +173,26 @@ def main():
     alive()
     shot("analysis_best_move")
 
-    # Puzzle builder from the analysis action bar.
+    # Puzzle builder from the analysis action bar. "Clear" leaves the two kings; a new piece must
+    # then still be placeable (it used to be refused as "board full").
     tap("ساخت پازل", exact=True)
     shot("builder")
+    for _ in range(3):
+        if tap("پاک کردن", timeout=3, exact=True, required=False):
+            break
+        scroll_down()
+    scroll_up()
+    board = find("صفحه شطرنج", exact=True)
+    if board is None:
+        raise RuntimeError("the builder board is missing")
+    x1, y1, x2, y2 = map(int, re.findall(r"\d+", board.get("bounds")))
+    sq = (x2 - x1) / 8
+    adb("shell", "input", "tap", str(int(x1 + sq * 0.5)), str(int(y1 + sq * 5.5)))  # a3
+    time.sleep(1.5)
+    if find("3 از 32 مهره", timeout=5) is None and find("۳ از ۳۲ مهره", timeout=5) is None:
+        shot("builder_after_clear_failed")
+        raise RuntimeError("after clearing, a new piece could not be placed in the builder")
+    shot("builder_after_clear")
     tap("تحلیل وضعیت", exact=True)
     time.sleep(3)
     alive()
@@ -210,6 +239,14 @@ def main():
     tap("تحلیل", exact=True)
     time.sleep(2)
     shot("analysis_light")
+    tap("ساخت پازل", exact=True)
+    shot("builder_light")
+    adb("shell", "input", "keyevent", "4")
+    time.sleep(1)
+    for tab, name in (("بازی", "play_light"), ("آموزش", "learn_light"), ("معماها", "puzzles_light")):
+        tap(tab, exact=True)
+        time.sleep(2)
+        shot(name)
 
     time.sleep(3)
     alive()

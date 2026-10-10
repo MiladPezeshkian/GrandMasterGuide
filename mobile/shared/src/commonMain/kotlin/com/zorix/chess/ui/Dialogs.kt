@@ -137,3 +137,16 @@ fun AboutDialog(versionName: String, onDismiss: () -> Unit) {
         },
     )
 }
+
+/** Start-up tip: closing other apps leaves the engine and the voice more memory and processor time. */
+@Composable
+fun SpeedTipDialog(onDismiss: () -> Unit, onNever: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = { Icon(AppIcons.Bulb, null, tint = ZorixColors.Red) },
+        title = { Text(stringResource(Res.string.speed_tip_title)) },
+        text = { Text(stringResource(Res.string.speed_tip_body), style = MaterialTheme.typography.bodyMedium) },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(Res.string.speed_tip_ok)) } },
+        dismissButton = { TextButton(onClick = onNever) { Text(stringResource(Res.string.speed_tip_never)) } },
+    )
+}

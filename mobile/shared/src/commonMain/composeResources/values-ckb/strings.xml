@@ -350,4 +350,8 @@
         <item>تەختە|ڕەنگی تەختە، هێڵکارییەکان (a تا h و ١ تا ٨)، خاڵەکانی جوڵەی ڕێگەپێدراو، تیرەکان، جوڵەی ئەنیمەیشن و لەرزین.</item>
     </string-array>
     <string name="voice_preparing">ئامادەکردنی دەنگ…</string>
+    <string name="speed_tip_title">ئامۆژگاری بۆ خێرایی زیاتر</string>
+    <string name="speed_tip_body">ئەو بەرنامانەی تری لەسەر مۆبایلەکەت کراونەتەوە دایانبخە. بەم شێوەیە Zorix بیرگە و پرۆسێسەری زیاتری هەیە و شیکاری و دەنگی ڕاهێنەر بە ئاشکرا خێراتر دەبن.</string>
+    <string name="speed_tip_ok">تێگەیشتم</string>
+    <string name="speed_tip_never">جارێکی تر پیشان مەدە</string>
 </resources>

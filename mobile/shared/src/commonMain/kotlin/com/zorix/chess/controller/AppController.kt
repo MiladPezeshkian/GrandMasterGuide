@@ -112,6 +112,9 @@ class AppController(
         }
     }
 
+    /** Whether new coach texts will be read aloud with these [settings] in the current language. */
+    fun voiceReady(settings: Settings): Boolean = settings.voice && speech.supports(speechLanguage(language))
+
     fun stopSpeaking() = speech.stop()
 
     fun onBackground() {

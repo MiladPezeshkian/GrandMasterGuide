@@ -77,6 +77,8 @@ private fun CoachWorking() {
 @Composable
 private fun CoachVerdict(f: MoveFeedback) {
     val q = f.quality
+    // The explanation is read aloud: it shows when the voice starts, "Zorix is thinking…" until then.
+    val revealed = rememberCoachReveal(f.message.ifBlank { null })
     Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.Top) {
         Box(
             Modifier.size(40.dp).clip(CircleShape).background(q.color),
@@ -95,7 +97,7 @@ private fun CoachVerdict(f: MoveFeedback) {
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Spacer(Modifier.weight(1f))
-                VoiceIndicator()
+                VoiceIndicator(showPreparing = revealed)
             }
             Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -113,7 +115,9 @@ private fun CoachVerdict(f: MoveFeedback) {
                 f.scoreAfter?.let { ScoreChip(it) }
             }
             Spacer(Modifier.height(4.dp))
-            if (f.message.isNotBlank()) {
+            if (!revealed) {
+                CoachThinking(Modifier.padding(vertical = 2.dp))
+            } else if (f.message.isNotBlank()) {
                 Text(
                     f.message,
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp, lineHeight = 21.sp),

@@ -35,6 +35,8 @@ data class Settings(
     /** Zorix explains its own moves in play mode. */
     val explainBotMoves: Boolean = true,
     val appTheme: AppThemeId = AppThemeId.ZORIX,
+    /** At start-up, remind the player that closing other apps makes the engine and voice faster. */
+    val speedTip: Boolean = true,
 ) {
     companion object {
         const val DEFAULT_THINK_MS = 2000
@@ -69,6 +71,7 @@ data class Settings(
                 explainBotMoves = bool("explainBotMoves", d.explainBotMoves),
                 appTheme = store.getString("appTheme")
                     ?.let { name -> AppThemeId.entries.firstOrNull { it.name == name } } ?: d.appTheme,
+                speedTip = bool("speedTip", d.speedTip),
             )
         }
     }
@@ -89,6 +92,7 @@ data class Settings(
         store.putString("voice", voice.toString())
         store.putString("explainBotMoves", explainBotMoves.toString())
         store.putString("appTheme", appTheme.name)
+        store.putString("speedTip", speedTip.toString())
     }
 }
 

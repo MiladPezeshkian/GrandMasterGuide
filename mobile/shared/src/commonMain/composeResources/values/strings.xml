@@ -362,4 +362,8 @@
         <item>Board|Board colours, coordinates (a–h, 1–8), dots for legal moves, arrows, move animations and vibration.</item>
     </string-array>
     <string name="voice_preparing">Preparing the voice…</string>
+    <string name="speed_tip_title">Tip for a faster coach</string>
+    <string name="speed_tip_body">Close the other apps that are open on your phone. Zorix then has more memory and processor time, so analysis and the voice are noticeably faster.</string>
+    <string name="speed_tip_ok">Got it</string>
+    <string name="speed_tip_never">Don\'t show again</string>
 </resources>

@@ -39,6 +39,14 @@ import androidx.compose.runtime.Composable
 import com.zorix.chess.controller.SpeechStatus
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.animateFloat
@@ -201,14 +209,53 @@ fun CoachAvatar(size: Dp = 40.dp) {
 /** What the coach's voice is doing (provided at the root of the app). */
 val LocalSpeechStatus = compositionLocalOf { SpeechStatus.IDLE }
 
+/** Whether the coach reads new explanations aloud (voice switched on and available for the language). */
+val LocalVoiceOn = compositionLocalOf { false }
+
+/**
+ * Whether the coach text [message] may be shown yet. With the voice on, a new explanation waits
+ * until the voice starts reading it, so text and voice arrive together; until then the screen shows
+ * "Zorix is thinking…". If no voice is asked for within a moment (or it fails), the text shows anyway.
+ */
+@Composable
+fun rememberCoachReveal(message: String?, waitForVoice: Boolean = true): Boolean {
+    val voiceOn = LocalVoiceOn.current && waitForVoice
+    val status = rememberUpdatedState(LocalSpeechStatus.current)
+    var revealed by remember(message) { mutableStateOf(!voiceOn || message.isNullOrBlank()) }
+    LaunchedEffect(message, voiceOn) {
+        if (revealed) return@LaunchedEffect
+        if (!voiceOn) { revealed = true; return@LaunchedEffect }
+        val asked = withTimeoutOrNull(VOICE_REQUEST_WAIT_MS) { snapshotFlow { status.value }.first { it == SpeechStatus.PREPARING } }
+        if (asked != null) withTimeoutOrNull(VOICE_READY_WAIT_MS) { snapshotFlow { status.value }.first { it != SpeechStatus.PREPARING } }
+        revealed = true
+    }
+    return revealed
+}
+
+/** How long a new explanation waits for the voice to be asked for it (lessons start reading after a short pause). */
+private const val VOICE_REQUEST_WAIT_MS = 1_200L
+
+/** The longest a text waits for its voice (the voice itself gives up after 20 s). */
+private const val VOICE_READY_WAIT_MS = 21_000L
+
+/** "Zorix is thinking…" with a spinner, shown in place of a coach text until its voice is ready. */
+@Composable
+fun CoachThinking(modifier: Modifier = Modifier) {
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp, color = ZorixColors.RedBright)
+        Spacer(Modifier.width(10.dp))
+        Text(stringResource(Res.string.zorix_thinking), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
 /**
  * Next to a coach text: a small spinner with "Preparing voice…" until the voice starts, then a
  * pulsing speaker while it speaks. Nothing when the voice is idle.
  */
 @Composable
-fun VoiceIndicator(modifier: Modifier = Modifier) {
+fun VoiceIndicator(modifier: Modifier = Modifier, showPreparing: Boolean = true) {
     when (LocalSpeechStatus.current) {
-        SpeechStatus.PREPARING -> Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        SpeechStatus.PREPARING -> if (showPreparing) Row(modifier, verticalAlignment = Alignment.CenterVertically) {
             CircularProgressIndicator(Modifier.size(14.dp), strokeWidth = 2.dp, color = ZorixColors.RedBright)
             Spacer(Modifier.width(6.dp))
             Text(stringResource(Res.string.voice_preparing), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -234,7 +281,10 @@ fun CoachBubble(
     busy: Boolean = false,
     badge: (@Composable () -> Unit)? = null,
     onSpeak: (() -> Unit)? = null,
+    /** The text is read aloud automatically: show it together with the voice (see [rememberCoachReveal]). */
+    waitForVoice: Boolean = false,
 ) {
+    val revealed = rememberCoachReveal(message, waitForVoice)
     ZCard(modifier.fillMaxWidth(), padding = 14.dp) {
         Row(verticalAlignment = Alignment.Top) {
             CoachAvatar()
@@ -253,16 +303,18 @@ fun CoachBubble(
                                 Icon(AppIcons.VolumeUp, stringResource(Res.string.action_listen), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
                             }
                         } else {
-                            VoiceIndicator(Modifier.padding(horizontal = 6.dp))
+                            VoiceIndicator(Modifier.padding(horizontal = 6.dp), showPreparing = revealed)
                         }
                     }
                 }
                 AnimatedContent(
-                    targetState = if (busy && message == null) null else message,
+                    targetState = if (busy && message == null) null else if (!revealed) THINKING else message,
                     transitionSpec = { fadeIn(tween(220)) togetherWith fadeOut(tween(120)) },
                     label = "coach",
                 ) { m ->
-                    if (m == null) {
+                    if (m == THINKING) {
+                        CoachThinking(Modifier.padding(top = 6.dp))
+                    } else if (m == null) {
                         Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                             CircularProgressIndicator(Modifier.size(16.dp), strokeWidth = 2.dp)
                             Spacer(Modifier.width(10.dp))
@@ -280,6 +332,9 @@ fun CoachBubble(
         }
     }
 }
+
+/** Placeholder text standing for "waiting for the voice" in the coach bubble. */
+private const val THINKING = "\u0000thinking"
 
 /** Small rounded label. */
 @Composable

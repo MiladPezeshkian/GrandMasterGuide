@@ -96,14 +96,24 @@ fun PuzzlesScreen(
             Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Spacer(Modifier.height(8.dp))
                 val sideText = stringResource(if (!state.flipped) Res.string.puzzle_white_to_move else Res.string.puzzle_black_to_move)
-                val (msg, color) = when (state.outcome) {
-                    PuzzleOutcome.SOLVING -> sideText to MaterialTheme.colorScheme.onSurface
+                val verdict = when (state.outcome) {
+                    PuzzleOutcome.SOLVING -> null
                     PuzzleOutcome.CORRECT_STEP -> stringResource(Res.string.puzzle_correct) to ZorixColors.Best
                     PuzzleOutcome.WRONG -> stringResource(Res.string.puzzle_wrong) to MaterialTheme.colorScheme.error
                     PuzzleOutcome.SOLVED -> stringResource(Res.string.puzzle_solved) to ZorixColors.Best
                     PuzzleOutcome.FAILED -> stringResource(Res.string.puzzle_streak_over, state.streak) to MaterialTheme.colorScheme.error
                 }
-                Text(msg, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold), color = color, textAlign = TextAlign.Center)
+                // The task stays on screen; the verdict on the last move shows under it.
+                Text(sideText, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold), color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center)
+                verdict?.let { (msg, color) ->
+                    Text(
+                        msg,
+                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
+                        color = color,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 4.dp).clip(RoundedCornerShape(50)).background(color.copy(alpha = 0.14f)).padding(horizontal = 12.dp, vertical = 4.dp),
+                    )
+                }
                 Spacer(Modifier.height(8.dp))
                 CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     ChessBoard(

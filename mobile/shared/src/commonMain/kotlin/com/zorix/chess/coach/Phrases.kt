@@ -103,6 +103,10 @@ data class SanParts(
 class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override val lang = "en"
 
+    /** The opponent, named by colour: "your Black opponent". */
+    private fun foe(capital: Boolean = false) =
+        (if (capital) "Your " else "your ") + (if (listener.opposite == Side.WHITE) "White" else "Black") + " opponent"
+
     override fun pieceName(type: PieceType) = when (type) {
         PieceType.PAWN -> "pawn"
         PieceType.KNIGHT -> "knight"
@@ -116,7 +120,9 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         if (type == PieceType.KING) "your king" else "your ${pieceName(type)} on $square"
 
     override fun theirPiece(type: PieceType, square: String) =
-        if (type == PieceType.KING) "the king" else "the ${pieceName(type)} on $square"
+        if (type == PieceType.KING) "the $foeColour king" else "the $foeColour ${pieceName(type)} on $square"
+
+    private val foeColour = if (listener.opposite == Side.WHITE) "white" else "black"
 
     override fun spokenSquare(square: Int) = Squares.name(square)
     override fun number(n: Int) = n.toString()
@@ -181,7 +187,7 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         is Fact.Sacrifice -> "It sacrifices the ${pieceName(f.piece.type)}!"
         is Fact.Hangs -> "It leaves ${piece(f.piece)} undefended."
         Fact.KingWalksEarly -> "Moving the king this early gives up the right to castle."
-        Fact.QueenOutEarly -> "Bringing the queen out this early lets the opponent gain time by attacking it."
+        Fact.QueenOutEarly -> "Bringing the queen out this early lets ${foe()} gain time by attacking it."
         is Fact.AllowsMate -> "It allows mate in ${num(f.moves)}, starting with ${move(f.replySan)}."
         is Fact.LosesMaterial -> if (f.how is Fact.Captures && f.how.piece == f.lost) {
             "It leaves ${amount(f.lost, f.amount)} unprotected: after ${move(f.replySan)} it is lost."
@@ -193,7 +199,7 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         is Fact.WinsMaterial -> "It wins ${amount(f.won, f.amount)}."
         is Fact.ForcedMate -> if (f.moves <= 1) "It mates immediately." else "It leads to a forced mate in ${num(f.moves)}."
         is Fact.ThreatCapture -> "${cap(piece(f.piece))} is under attack${f.bySan?.let { " (${move(it)})" } ?: ""}."
-        is Fact.ThreatMate -> "The opponent threatens mate with ${move(f.mateSan)}!"
+        is Fact.ThreatMate -> "${foe(capital = true)} threatens mate with ${move(f.mateSan)}!"
     }
 
     private fun cap(s: String) = s.replaceFirstChar { it.uppercaseChar() }
@@ -226,11 +232,11 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
             CoachQuality.BLUNDER, CoachQuality.MISTAKE -> listOf(
                 "Before every move, ask: what does my opponent threaten, and which of my pieces are undefended?",
                 "Tip: check every capture and every check for both sides before you move.",
-                "Take your time: look at your opponent's last move and ask why it was played.",
+                "Take your time: look at the last move of ${foe()} and ask why it was played.",
             )
             CoachQuality.MISS -> listOf(
                 "Tip: always look for checks, captures and threats first — in that order.",
-                "When your opponent leaves a piece undefended, look for a way to win it.",
+                "When ${foe()} leaves a piece undefended, look for a way to win it.",
             )
             CoachQuality.INACCURACY -> listOf(
                 "Try to improve your least active piece.",
@@ -241,7 +247,7 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         return options[variant.mod(options.size)]
     }
 
-    override fun opponentPlayed(opponent: String, san: String) = "$opponent played ${move(san)}."
+    override fun opponentPlayed(opponent: String, san: String) = "$opponent, ${foe()}, played ${move(san)}."
     override fun watchOut(name: String) = "Watch out, $name:"
     override fun bestMoveIs(san: String) = "The best move is ${move(san)}."
     override fun expectedLine(line: String) = "Expected continuation: $line."
@@ -249,7 +255,7 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override fun sacrificeWorks() = "The sacrifice works — the attack is worth more than the material."
     override fun onlyMove() = "It was the only move that keeps the advantage."
     override fun equalPosition() = "The position is about equal."
-    override fun winning(side: Side) = if (side == listener) "You are winning." else "Your opponent is winning."
+    override fun winning(side: Side) = if (side == listener) "You are winning." else "${foe(capital = true)} is winning."
     override fun join(sentences: List<String>) = sentences.filter { it.isNotBlank() }.joinToString(" ")
 }
 
@@ -259,6 +265,9 @@ class EnglishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
 
 class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override val lang = "fa"
+
+    /** حریف با رنگش: «حریف سیاه» یا «حریف سفید». */
+    private val foe = if (listener.opposite == Side.WHITE) "حریف سفید" else "حریف سیاه"
 
     override fun pieceName(type: PieceType) = when (type) {
         PieceType.PAWN -> "سرباز"
@@ -275,7 +284,7 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         if (type == PieceType.KING) "شاه شما" else "${pieceName(type)} شما در $square"
 
     override fun theirPiece(type: PieceType, square: String) =
-        if (type == PieceType.KING) "شاه حریف" else "${pieceName(type)} حریف در $square"
+        if (type == PieceType.KING) "شاه $foe" else "${pieceName(type)} $foe در $square"
 
     private val files = listOf("آ", "بی", "سی", "دی", "ای", "اِف", "جی", "اِچ")
     private val words = listOf("صفر", "یک", "دو", "سه", "چهار", "پنج", "شش", "هفت", "هشت", "نه", "ده")
@@ -345,8 +354,8 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         is Fact.Sacrifice -> "این حرکت ${pieceName(f.piece.type)} را قربانی می‌کند!"
         is Fact.Hangs -> "این حرکت ${piece(f.piece)} را بی‌دفاع می‌گذارد."
         Fact.KingWalksEarly -> "حرکت دادن شاه در این مرحله، حق قلعه رفتن را از بین می‌برد."
-        Fact.QueenOutEarly -> "بیرون آوردن زودهنگام وزیر به حریف اجازه می‌دهد با حمله به آن وقت بخرد."
-        is Fact.AllowsMate -> "این حرکت به حریف اجازه می‌دهد در ${num(f.moves)} حرکت مات کند؛ شروعش با ${move(f.replySan)} است."
+        Fact.QueenOutEarly -> "بیرون آوردن زودهنگام وزیر به $foe اجازه می‌دهد با حمله به آن وقت بخرد."
+        is Fact.AllowsMate -> "این حرکت به $foe اجازه می‌دهد در ${num(f.moves)} حرکت مات کند؛ شروعش با ${move(f.replySan)} است."
         is Fact.LosesMaterial -> if (f.how is Fact.Captures && f.how.piece == f.lost) {
             "${amount(f.lost, f.amount)} بی‌دفاع می‌ماند و بعد از ${move(f.replySan)} از دست می‌رود."
         } else {
@@ -354,8 +363,8 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         }
         is Fact.WinsMaterial -> "این حرکت ${amount(f.won, f.amount)} را می‌برد."
         is Fact.ForcedMate -> if (f.moves <= 1) "این حرکت فوراً مات می‌کند." else "این حرکت به مات اجباری در ${num(f.moves)} حرکت می‌رسد."
-        is Fact.ThreatCapture -> "${piece(f.piece)} زیر حمله است${f.bySan?.let { "؛ حریف تهدید به ${move(it)} دارد" } ?: ""}."
-        is Fact.ThreatMate -> "حریف تهدید می‌کند که با ${move(f.mateSan)} مات کند!"
+        is Fact.ThreatCapture -> "${piece(f.piece)} زیر حمله است${f.bySan?.let { "؛ $foe تهدید به ${move(it)} دارد" } ?: ""}."
+        is Fact.ThreatMate -> "$foe تهدید می‌کند که با ${move(f.mateSan)} مات کند!"
     }
 
     override fun defaultName() = "دوست من"
@@ -379,18 +388,18 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override fun better(bestSan: String, reason: String?) =
         "حرکت بهتر ${move(bestSan)} بود." + (reason?.let { " $it" } ?: "")
 
-    override fun expect(replySan: String) = "پیش‌بینی من این است که حرکت بعدی حریف ${move(replySan)} باشد."
+    override fun expect(replySan: String) = "پیش‌بینی من این است که حرکت بعدی $foe ${move(replySan)} باشد."
 
     override fun tip(quality: CoachQuality, variant: Int): String? {
         val options = when (quality) {
             CoachQuality.BLUNDER, CoachQuality.MISTAKE -> listOf(
-                "قبل از هر حرکت از خودت بپرس: حریف چه تهدیدی دارد و کدام مهره‌ی من بی‌دفاع است؟",
+                "قبل از هر حرکت از خودت بپرس: $foe چه تهدیدی دارد و کدام مهره‌ی من بی‌دفاع است؟",
                 "نکته: قبل از حرکت، همه‌ی کیش‌ها و زدن‌های هر دو طرف را بررسی کن.",
-                "عجله نکن: به آخرین حرکت حریف نگاه کن و بپرس چرا آن را بازی کرد.",
+                "عجله نکن: به آخرین حرکت $foe نگاه کن و بپرس چرا آن را بازی کرد.",
             )
             CoachQuality.MISS -> listOf(
                 "نکته: همیشه اول کیش‌ها، بعد زدن‌ها و بعد تهدیدها را بررسی کن.",
-                "وقتی حریف مهره‌ای را بی‌دفاع می‌گذارد، دنبال راهی برای بردنش باش.",
+                "وقتی $foe مهره‌ای را بی‌دفاع می‌گذارد، دنبال راهی برای بردنش باش.",
             )
             CoachQuality.INACCURACY -> listOf(
                 "سعی کن غیرفعال‌ترین مهره‌ات را بهتر کنی.",
@@ -401,7 +410,7 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         return options[variant.mod(options.size)]
     }
 
-    override fun opponentPlayed(opponent: String, san: String) = "$opponent بازی کرد: ${move(san)}."
+    override fun opponentPlayed(opponent: String, san: String) = "$opponent، $foe، بازی کرد: ${move(san)}."
     override fun watchOut(name: String) = "مراقب باش، $name:"
     override fun bestMoveIs(san: String) = "بهترین حرکت ${move(san)} است."
     override fun expectedLine(line: String) = "ادامه‌ی پیش‌بینی‌شده: $line."
@@ -409,7 +418,7 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override fun sacrificeWorks() = "این قربانی جواب می‌دهد؛ حمله از مهره‌ی ازدست‌رفته ارزشمندتر است."
     override fun onlyMove() = "این تنها حرکتی بود که برتری را حفظ می‌کرد."
     override fun equalPosition() = "وضعیت تقریباً مساوی است."
-    override fun winning(side: Side) = if (side == listener) "شما در وضعیت برنده هستید." else "حریف در وضعیت برنده است."
+    override fun winning(side: Side) = if (side == listener) "شما در وضعیت برنده هستید." else "$foe در وضعیت برنده است."
     override fun join(sentences: List<String>) = sentences.filter { it.isNotBlank() }.joinToString(" ")
 
     companion object {
@@ -423,6 +432,9 @@ class PersianPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
 
 class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override val lang = "ckb"
+
+    /** ڕکابەر بە ڕەنگەکەی: «ڕکابەری ڕەش» یان «ڕکابەری سپی». */
+    private val foe = if (listener.opposite == Side.WHITE) "ڕکابەری سپی" else "ڕکابەری ڕەش"
 
     override fun pieceName(type: PieceType) = when (type) {
         PieceType.PAWN -> "سەرباز"
@@ -445,7 +457,7 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         if (type == PieceType.KING) "شاکەت" else "${yours(type)} لە $square"
 
     override fun theirPiece(type: PieceType, square: String) =
-        if (type == PieceType.KING) "شای ڕکابەر" else "${pieceName(type)}ی ڕکابەر لە $square"
+        if (type == PieceType.KING) "شای $foe" else "${pieceName(type)}ی $foe لە $square"
 
     private val files = listOf("ئەی", "بی", "سی", "دی", "ئی", "ئێف", "جی", "ئێچ")
     private val words = listOf("سفر", "یەک", "دوو", "سێ", "چوار", "پێنج", "شەش", "حەوت", "هەشت", "نۆ", "دە")
@@ -515,8 +527,8 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         is Fact.Sacrifice -> "${pieceName(f.piece.type)} دەکاتە قوربانی!"
         is Fact.Hangs -> "${piece(f.piece)} بێ پارێزەر بەجێ دەهێڵێت."
         Fact.KingWalksEarly -> "جوڵاندنی شا لەم قۆناغەدا مافی قەڵابەندی لەناو دەبات."
-        Fact.QueenOutEarly -> "دەرهێنانی وەزیر زوو، ڕێگە بە ڕکابەر دەدات بە هێرشکردنە سەری کات ببات."
-        is Fact.AllowsMate -> "ڕێگە دەدات ڕکابەر لە ${num(f.moves)} جوڵەدا مات بکات، بە ${move(f.replySan)}."
+        Fact.QueenOutEarly -> "دەرهێنانی وەزیر زوو، ڕێگە بە $foe دەدات بە هێرشکردنە سەری کات ببات."
+        is Fact.AllowsMate -> "ڕێگە دەدات $foe لە ${num(f.moves)} جوڵەدا مات بکات، بە ${move(f.replySan)}."
         is Fact.LosesMaterial -> if (f.how is Fact.Captures && f.how.piece == f.lost) {
             "${amount(f.lost, f.amount)} بێ پارێزەر دەمێنێت و دوای ${move(f.replySan)} لەدەست دەچێت."
         } else buildString {
@@ -527,7 +539,7 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         is Fact.WinsMaterial -> "${amount(f.won, f.amount)} دەباتەوە."
         is Fact.ForcedMate -> if (f.moves <= 1) "یەکسەر مات دەکات." else "دەگاتە ماتێکی ناچاری لە ${num(f.moves)} جوڵەدا."
         is Fact.ThreatCapture -> "${piece(f.piece)} لە ژێر هێرشدایە${f.bySan?.let { " (${move(it)})" } ?: ""}."
-        is Fact.ThreatMate -> "ڕکابەر هەڕەشەی مات دەکات بە ${move(f.mateSan)}!"
+        is Fact.ThreatMate -> "$foe هەڕەشەی مات دەکات بە ${move(f.mateSan)}!"
     }
 
     override fun defaultName() = "هاوڕێکەم"
@@ -551,18 +563,18 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override fun better(bestSan: String, reason: String?) =
         "باشتر بوو ${move(bestSan)} یاری بکەیت" + (reason?.let { ": $it" } ?: ".")
 
-    override fun expect(replySan: String) = "Zorix پێشبینی دەکات ڕکابەر ${move(replySan)} یاری بکات."
+    override fun expect(replySan: String) = "Zorix پێشبینی دەکات $foe ${move(replySan)} یاری بکات."
 
     override fun tip(quality: CoachQuality, variant: Int): String? {
         val options = when (quality) {
             CoachQuality.BLUNDER, CoachQuality.MISTAKE -> listOf(
-                "پێش هەر جوڵەیەک لە خۆت بپرسە: ڕکابەر چ هەڕەشەیەکی هەیە و کام مۆرەم بێ پارێزەرە؟",
+                "پێش هەر جوڵەیەک لە خۆت بپرسە: $foe چ هەڕەشەیەکی هەیە و کام مۆرەم بێ پارێزەرە؟",
                 "ئامۆژگاری: پێش جوڵە، هەموو کش و گرتنەکانی هەردوو لا بپشکنە.",
-                "پەلە مەکە: سەیری دوایین جوڵەی ڕکابەر بکە و بپرسە بۆچی کردی.",
+                "پەلە مەکە: سەیری دوایین جوڵەی $foe بکە و بپرسە بۆچی کردی.",
             )
             CoachQuality.MISS -> listOf(
                 "ئامۆژگاری: هەمیشە سەرەتا کش، پاشان گرتن و دواتر هەڕەشەکان بپشکنە.",
-                "کاتێک ڕکابەر مۆرەیەک بێ پارێزەر بەجێ دەهێڵێت، ڕێگەیەک بۆ بردنەوەی بدۆزەرەوە.",
+                "کاتێک $foe مۆرەیەک بێ پارێزەر بەجێ دەهێڵێت، ڕێگەیەک بۆ بردنەوەی بدۆزەرەوە.",
             )
             CoachQuality.INACCURACY -> listOf(
                 "هەوڵ بدە ناچالاکترین مۆرەکەت باشتر بکەیت.",
@@ -573,7 +585,7 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
         return options[variant.mod(options.size)]
     }
 
-    override fun opponentPlayed(opponent: String, san: String) = "$opponent جوڵەی ${move(san)} یاری کرد."
+    override fun opponentPlayed(opponent: String, san: String) = "$opponent، $foe، جوڵەی ${move(san)} یاری کرد."
     override fun watchOut(name: String) = "ئاگادار بە، $name:"
     override fun bestMoveIs(san: String) = "باشترین جوڵە ${move(san)}ە."
     override fun expectedLine(line: String) = "بەردەوامی پێشبینیکراو: $line."
@@ -581,7 +593,7 @@ class KurdishPhrases(mode: TextMode, listener: Side) : Phrases(mode, listener) {
     override fun sacrificeWorks() = "ئەم قوربانییە کار دەکات؛ هێرشەکە لە مۆرە لەدەستچووەکە بەنرخترە."
     override fun onlyMove() = "ئەمە تاکە جوڵەیەک بوو کە بەرتری دەپاراست."
     override fun equalPosition() = "دۆخەکە نزیکەی یەکسانە."
-    override fun winning(side: Side) = if (side == listener) "تۆ لە دۆخی بردنەوەدایت." else "ڕکابەر لە دۆخی بردنەوەدایە."
+    override fun winning(side: Side) = if (side == listener) "تۆ لە دۆخی بردنەوەدایت." else "$foe لە دۆخی بردنەوەدایە."
     override fun join(sentences: List<String>) = sentences.filter { it.isNotBlank() }.joinToString(" ")
 
     companion object {

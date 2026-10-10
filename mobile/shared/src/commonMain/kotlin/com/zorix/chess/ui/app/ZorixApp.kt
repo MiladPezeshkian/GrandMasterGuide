@@ -60,6 +60,8 @@ import com.zorix.chess.ui.MainScreen
 import com.zorix.chess.ui.PlatformActions
 import com.zorix.chess.ui.board.rememberPieceImages
 import com.zorix.chess.ui.components.LocalSpeechStatus
+import com.zorix.chess.ui.components.LocalVoiceOn
+import com.zorix.chess.ui.SpeedTipDialog
 import com.zorix.chess.ui.components.AppIcons
 import com.zorix.chess.ui.learn.CourseScreen
 import com.zorix.chess.ui.learn.LearnHub
@@ -112,7 +114,7 @@ fun ZorixApp(app: AppController, platform: PlatformActions) {
     val light = boardState.settings.appTheme == AppThemeId.SKY
     LaunchedEffect(light) { platform.setLightSystemBars(light) }
     ZorixTheme(boardState.settings.appTheme) {
-    CompositionLocalProvider(LocalAppLocale provides language, LocalSpeechStatus provides speechStatus) {
+    CompositionLocalProvider(LocalAppLocale provides language, LocalSpeechStatus provides speechStatus, LocalVoiceOn provides app.voiceReady(boardState.settings)) {
         key(language) {
             val lang = resolve(language, LocalAppLocale.current)
             LaunchedEffect(lang) { app.setLanguage(lang) }
@@ -130,6 +132,13 @@ fun ZorixApp(app: AppController, platform: PlatformActions) {
                         )
                     } else {
                         Shell(app, platform, lang)
+                    }
+                    var tipShown by rememberSaveable { mutableStateOf(false) }
+                    if (splashDone && profile.onboarded && boardState.settings.speedTip && !tipShown) {
+                        SpeedTipDialog(
+                            onDismiss = { tipShown = true },
+                            onNever = { tipShown = true; app.board.updateSettings { it.copy(speedTip = false) } },
+                        )
                     }
                     AnimatedVisibility(visible = !splashDone, enter = fadeIn(), exit = fadeOut()) {
                         SplashScreen(engine = boardState.engine, onFinished = { splashDone = true })

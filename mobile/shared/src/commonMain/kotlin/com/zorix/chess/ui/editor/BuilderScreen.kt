@@ -94,10 +94,13 @@ fun BuilderScreen(
         else -> null
     }
 
+    // Reads only remembered state: the board keeps this function from its first composition, so a
+    // value computed during composition (like the piece count) would be stale here.
     fun tap(square: Int) {
         notice = null
         val current = board[square]
         val placing = tool
+        val count = board.count { it != null }
         when {
             // The eraser removes anything but a king.
             placing == null -> if (current?.type == PieceType.KING) notice = Res.string.builder_king_stays else board[square] = null
@@ -270,7 +273,7 @@ private fun PaletteButton(selected: Boolean, onClick: () -> Unit, outlined: Bool
         Modifier
             .size(46.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(if (selected) ZorixColors.RedDeep else MaterialTheme.colorScheme.surfaceContainerHigh)
+            .background(if (selected) ZorixColors.Red.copy(alpha = 0.22f) else MaterialTheme.colorScheme.surfaceContainerHigh)
             .border(
                 if (selected) 2.dp else if (outlined) 1.dp else 0.dp,
                 if (selected) ZorixColors.Red else if (outlined) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.surfaceContainerHigh,

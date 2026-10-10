@@ -125,7 +125,7 @@ private fun IntroPage(text: String, onSpeak: () -> Unit, onStart: () -> Unit) {
         onSpeak()
     }
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
-        CoachBubble(text, onSpeak = onSpeak)
+        CoachBubble(text, onSpeak = onSpeak, waitForVoice = true)
         Spacer(Modifier.height(24.dp))
         PrimaryButton(stringResource(Res.string.lesson_start), onStart, Modifier.fillMaxWidth(), icon = AppIcons.Play)
     }
@@ -204,9 +204,9 @@ private fun StepPage(session: LessonSession, ui: StepUi, lang: String, speechLan
                     Spacer(Modifier.height(10.dp))
                 }
                 when (step) {
-                    is Step.Theory -> CoachBubble(step.prompt.localized(lang), onSpeak = { onSpeak(Speakable.of(step.prompt.localized(speechLang), speechLang)) })
+                    is Step.Theory -> CoachBubble(step.prompt.localized(lang), onSpeak = { onSpeak(Speakable.of(step.prompt.localized(speechLang), speechLang)) }, waitForVoice = true)
                     is Step.Quiz -> QuizOptions(step, ui, lang, session::onOption)
-                    else -> ui.message?.let { m -> CoachBubble(m, onSpeak = { onSpeak(ui.speech ?: Speakable.of(m, speechLang)) }) }
+                    else -> ui.message?.let { m -> CoachBubble(m, onSpeak = { onSpeak(ui.speech ?: Speakable.of(m, speechLang)) }, waitForVoice = ui.speech != null) }
                 }
                 Spacer(Modifier.height(12.dp))
             }
@@ -229,13 +229,30 @@ private fun PromptBar(step: Step, ui: StepUi, lang: String) {
         StepStatus.ACTIVE -> null
     }
     Column(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        AnimatedContent(targetState = status?.first ?: text, transitionSpec = { fadeIn(tween(180)) togetherWith fadeOut(tween(120)) }, label = "prompt") { t ->
+        // The task itself never leaves the screen: the verdict on the last answer shows under it.
+        if (step is Step.Squares) {
+            step.prompt.localized(lang).takeIf { it.isNotBlank() }?.let {
+                Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
+            }
+        }
+        AnimatedContent(targetState = text, transitionSpec = { fadeIn(tween(180)) togetherWith fadeOut(tween(120)) }, label = "prompt") { t ->
             if (t != null) {
                 Text(
                     t,
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = if (step is Step.Squares && ui.target != null) 26.sp else 17.sp, fontWeight = FontWeight.SemiBold),
-                    color = status?.second ?: MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center,
+                )
+            }
+        }
+        AnimatedContent(targetState = status, transitionSpec = { fadeIn(tween(180)) togetherWith fadeOut(tween(120)) }, label = "verdict") { s ->
+            if (s != null) {
+                Text(
+                    s.first,
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
+                    color = s.second,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 4.dp).clip(RoundedCornerShape(50)).background(s.second.copy(alpha = 0.14f)).padding(horizontal = 12.dp, vertical = 4.dp),
                 )
             }
         }

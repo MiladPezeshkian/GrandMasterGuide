@@ -115,7 +115,12 @@ class CoachTest {
         // Black threatens Qxh2 mate after ...Qh4? Use a simple back-rank threat instead.
         val before = Position.fromFen("6k1/5ppp/8/8/8/8/r4PPP/1R4K1 b - - 0 1")
         val msg = Coach.explainOpponentMove(before, Move.fromUci("a2a1")!!, "en", "Ali", "Zorix")
-        assertTrue(msg.display, msg.display.contains("Zorix played"))
+        // The opponent is named by colour in every language.
+        assertTrue(msg.display, msg.display.contains("Zorix, your Black opponent, played"))
+        val fa = Coach.explainOpponentMove(before, Move.fromUci("a2a1")!!, "fa", "علی", "Zorix")
+        assertTrue(fa.display, fa.display.contains("حریف سیاه"))
+        val ckb = Coach.explainOpponentMove(before, Move.fromUci("a2a1")!!, "ckb", "عەلی", "Zorix")
+        assertTrue(ckb.speech, ckb.speech.contains("ڕکابەری ڕەش"))
         println(msg.display)
         val hint = Coach.explainBestMove(
             Position.fromFen("8/4k3/8/8/1q6/2N5/8/6K1 w - - 0 1"), Move.fromUci("c3d5")!!,

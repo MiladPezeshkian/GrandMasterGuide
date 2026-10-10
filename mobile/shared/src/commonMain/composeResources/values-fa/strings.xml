@@ -361,4 +361,8 @@
         <item>صفحه|رنگ صفحه، مختصات (a تا h و ۱ تا ۸)، نقطه‌های حرکت مجاز، فلش‌ها، انیمیشن حرکت و لرزش.</item>
     </string-array>
     <string name="voice_preparing">آماده‌سازی صدا…</string>
+    <string name="speed_tip_title">نکته برای سرعت بیشتر</string>
+    <string name="speed_tip_body">برنامه‌های دیگری را که روی گوشی باز هستند ببندید. این‌طوری Zorix حافظه و پردازنده‌ی بیشتری دارد و تحلیل و صدای مربی به‌طور محسوسی سریع‌تر می‌شوند.</string>
+    <string name="speed_tip_ok">متوجه شدم</string>
+    <string name="speed_tip_never">دیگر نشان نده</string>
 </resources>

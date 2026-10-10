@@ -181,7 +181,7 @@ private fun BotCard(bot: Bot, locked: Boolean, stars: Int, recommended: Boolean,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(38.dp).clip(CircleShape).background(tint.copy(alpha = if (locked) 0.25f else 0.9f)), contentAlignment = Alignment.Center) {
-                if (locked) Icon(AppIcons.Lock, null, tint = Color.White.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
+                if (locked) Icon(AppIcons.Lock, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 else Text(bot.level.toString(), color = Color(0xFF101014), style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black))
             }
             Spacer(Modifier.weight(1f))
@@ -251,14 +251,15 @@ fun GameScreen(
                 Column(Modifier.padding(horizontal = 12.dp)) {
                     val fb = state.lastFeedback
                     when {
-                        state.hint != null -> CoachBubble(state.hint.display, badge = { Pill(stringResource(Res.string.action_hint), ZorixColors.Best, textColor = Color(0xFF101014)) }, onSpeak = play::speakAgain)
+                        state.hint != null -> CoachBubble(state.hint.display, waitForVoice = true, badge = { Pill(stringResource(Res.string.action_hint), ZorixColors.Best, textColor = Color(0xFF101014)) }, onSpeak = play::speakAgain)
                         state.coachBusy -> CoachBubble(null, busy = true)
                         fb != null && (state.botMessage == null || !state.userToMove) -> CoachBubble(
                             fb.message.ifBlank { null },
                             badge = { Pill("${fb.quality.symbol} ${stringResource(fb.quality.label())}", fb.quality.color, textColor = Color(0xFF101014)) },
                             onSpeak = play::speakAgain,
+                            waitForVoice = true,
                         )
-                        state.botMessage != null -> CoachBubble(state.botMessage.display, title = "Zorix", onSpeak = play::speakAgain)
+                        state.botMessage != null -> CoachBubble(state.botMessage.display, title = "Zorix", onSpeak = play::speakAgain, waitForVoice = true)
                     }
                     if (state.drawDeclined) {
                         Spacer(Modifier.height(8.dp))
