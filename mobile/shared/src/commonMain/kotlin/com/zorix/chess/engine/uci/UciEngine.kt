@@ -31,6 +31,12 @@ interface EngineConnection {
     /** Blocks until the next output line; null when the engine output ended. */
     fun readLine(): String?
 
+    /**
+     * The next output line without blocking a thread where the platform cannot block (the browser's
+     * engine runs in a Web Worker and answers asynchronously); elsewhere the same as [readLine].
+     */
+    suspend fun nextLine(): String? = readLine()
+
     val isAlive: Boolean
 
     /** Exit code once the engine has ended (may wait briefly), otherwise null. */
@@ -85,7 +91,7 @@ class UciEngine(private val connect: () -> EngineConnection) {
         scope.launch {
             try {
                 while (true) {
-                    val line = c.readLine() ?: break
+                    val line = c.nextLine() ?: break
                     if (line.startsWith("info string ERROR")) {
                         synchronized(errorsLock) { errors += line.removePrefix("info string ") }
                     }

@@ -1,0 +1,17 @@
+node_modules
+.next
+out
+.env
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+# Copied from the stockfish package by scripts/assets.mjs
+public/engine
+# Kotlin/JS build
+core/build
+core/.gradle
+core/.kotlin
+core/kotlin-js-store
+core/build.log
+.data
