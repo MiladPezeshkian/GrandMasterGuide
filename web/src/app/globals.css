@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/*
+ * Two styles, like the app: "zorix" (obsidian black, glossy red, chrome silver — from the logo)
+ * and "sky" (white and sky blue). Components use the semantic tokens below, never raw colours.
+ */
+:root,
+[data-theme="zorix"] {
+  color-scheme: dark;
+  --bg: #07070a;
+  --bg-2: #0d0d12;
+  --surface: #13131a;
+  --surface-2: #1b1b24;
+  --surface-3: #252530;
+  --line: #2b2b36;
+  --line-strong: #3a3a47;
+  --text: #f3f3f6;
+  --text-dim: #a8a9b6;
+  --text-faint: #6f707c;
+  --accent: #e3202b;
+  --accent-bright: #ff4b55;
+  --accent-deep: #8a0610;
+  --on-accent: #ffffff;
+  --silver: #d7d8de;
+  --best: #2fd27c;
+  --warn: #ffb02e;
+  --danger: #ff5c63;
+  --info: #4f9cff;
+  --glow: rgba(227, 32, 43, 0.35);
+  --glass: rgba(20, 20, 27, 0.62);
+  --glass-line: rgba(255, 255, 255, 0.07);
+  --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.8);
+  --grad-accent: linear-gradient(135deg, #ff5a5a 0%, #e20c18 48%, #7a000a 100%);
+  --grad-silver: linear-gradient(180deg, #fafafc 0%, #bebec6 55%, #7c7c86 100%);
+  --grad-button: linear-gradient(180deg, #f23a44 0%, #c3121c 100%);
+}
+
+[data-theme="sky"] {
+  color-scheme: light;
+  --bg: #f3f8fd;
+  --bg-2: #e9f2fb;
+  --surface: #ffffff;
+  --surface-2: #eef5fc;
+  --surface-3: #dcebf8;
+  --line: #d3e3f1;
+  --line-strong: #b3cde3;
+  --text: #0f1e2d;
+  --text-dim: #4f6377;
+  --text-faint: #7f91a3;
+  --accent: #0b8bd9;
+  --accent-bright: #0277bd;
+  --accent-deep: #075e99;
+  --on-accent: #ffffff;
+  --silver: #3b4d61;
+  --best: #138a4b;
+  --warn: #c56a00;
+  --danger: #c62828;
+  --info: #2563eb;
+  --glow: rgba(11, 139, 217, 0.25);
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-line: rgba(15, 30, 45, 0.08);
+  --shadow: 0 24px 60px -28px rgba(15, 50, 90, 0.35);
+  --grad-accent: linear-gradient(135deg, #4fc3f7 0%, #0b8bd9 50%, #075e99 100%);
+  --grad-silver: linear-gradient(180deg, #51647a 0%, #2c3d50 55%, #16222f 100%);
+  --grad-button: linear-gradient(180deg, #29a8f0 0%, #0a78c2 100%);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-dim: var(--text-dim);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-deep: var(--accent-deep);
+  --color-on-accent: var(--on-accent);
+  --color-silver: var(--silver);
+  --color-best: var(--best);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --font-sans: var(--font-body), var(--font-latin), system-ui, sans-serif;
+  --font-brand: var(--font-orbitron), var(--font-latin), sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Chess notation and numbers stay left-to-right inside Persian and Kurdish text. */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+}
+
+.text-gradient-accent {
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-silver {
+  background: var(--grad-silver);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  font-weight: 700;
+  min-height: 2.9rem;
+  padding: 0 1.25rem;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.btn-primary {
+  background: var(--grad-button);
+  color: var(--on-accent);
+  box-shadow: 0 10px 30px -10px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.btn-primary:hover {
+  box-shadow: 0 14px 40px -10px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.btn-ghost {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover {
+  background: var(--surface-3);
+}
+.btn-quiet {
+  color: var(--text-dim);
+  min-height: 2.4rem;
+  padding: 0 0.75rem;
+}
+.btn-quiet:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+.input {
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 0.9rem;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 0 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--glow);
+}
+.input::placeholder {
+  color: var(--text-faint);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-dim);
+  transition: all 0.15s;
+}
+.chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* Soft background light for hero sections. */
+.aurora {
+  background:
+    radial-gradient(60% 50% at 70% 20%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 70%),
+    radial-gradient(40% 40% at 15% 80%, color-mix(in srgb, var(--accent-deep) 30%, transparent) 0%, transparent 70%);
+}
+
+.grid-lines {
+  background-image: linear-gradient(var(--glass-line) 1px, transparent 1px), linear-gradient(90deg, var(--glass-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--glow);
+  }
+  100% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 1.6s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,70 @@
+{
+"centralize": [
+"1r3k1r/p3bpp1/1n2b3/4q2p/2p5/1P2P1P1/P1N1QPBP/R1B2RK1 w - - 0 19",
+"r1bq1b1r/ppp1k1pp/2n5/3Bp3/8/5Q2/PPPP1PPP/RNB1K2R b KQ - 0 8",
+"4rrk1/qpb3pp/p1p1Ppn1/3p1P2/1P6/P1NR3P/2P3P1/2B1QR1K b - - 0 26",
+"2r5/R2bk3/3pp1pp/8/3N1P2/2n4P/1N4PK/8 b - - 0 32",
+"2r4k/1p5p/pn3p2/4p1p1/1R4Pn/2PrB3/1P3P1P/R2B2K1 b - - 1 29",
+"1n1b4/1B3pk1/2p3p1/1p4Pr/pP3P2/P1P5/2NK3p/7R w - - 1 46"
+],
+"outpost": [
+"1r3k1r/p3bpp1/1n2b3/4q2p/2p5/1P2P1P1/P1N1QPBP/R1B2RK1 w - - 0 19",
+"4rrk1/qpb3pp/p1p1Ppn1/3p1P2/1P6/P1NR3P/2P3P1/2B1QR1K b - - 0 26",
+"3r1r2/pp3pNk/2q4p/4B3/1P1pP2P/2p2K2/2P5/2Q1R3 w - - 1 34",
+"2r5/R2bk3/3pp1pp/8/3N1P2/2n4P/1N4PK/8 b - - 0 32",
+"r3r1k1/2p5/p4n1p/6p1/PPNPp3/4PNbP/1P4P1/R2R1K2 w - - 0 25",
+"1r2r3/2p5/p5k1/6pp/PnNPp3/2R1P1bP/1P1NK1P1/5R2 w - - 4 31"
+],
+"isolatedPawn": [
+"2r2k1r/p3b1p1/1n2p3/4q3/2P1P3/6p1/P3QPBP/1RB2RK1 b - - 0 23",
+"3r1r1k/1pn5/p5p1/P2pbbqp/1P1N4/1Q2PNP1/4B1P1/2R2RK1 b - - 0 29",
+"4k1r1/1pp1bp1p/4p3/3q1pBQ/p6P/P7/1PP3P1/1K5R w - - 0 28",
+"5r2/1b3pk1/3Q2pp/p1p3n1/P1B1p1P1/1Pq1N3/2P5/3R3K w - - 2 40",
+"1r1q1rk1/1bpp1pp1/p6p/8/p1n2P2/2P4P/1P2N1P1/R1BQ1RK1 w - - 1 19",
+"2r2qkr/pp2p1b1/n2P3p/2n1N3/6Q1/8/PP3PPP/R1BR2K1 b - - 2 23"
+],
+"seventhRank": [
+"1nr5/3n1kp1/1r5p/pN2p2P/P2P4/8/1P2KP1B/6RR b - - 0 26",
+"8/1p3k2/p5p1/rP1R4/8/4P1pK/6P1/8 w - - 0 46",
+"8/pp4r1/n2k4/2np1R2/6P1/7P/P7/5RK1 w - - 3 43",
+"3b1n2/6k1/3P2pp/p3p3/Pr3rB1/1PK5/2P2NR1/3R4 b - - 0 38",
+"5k2/p2r4/R7/2p2rPp/3b3P/1P4N1/P5K1/2R5 b - - 4 47",
+"8/Bpnk2p1/4p1p1/r5Pp/1R6/7P/1P3P1K/8 w - - 0 40"
+],
+"createPasser": [
+"r4rk1/qpb3pp/p1p2pn1/3pP3/1P3P2/P1NR3P/2P3P1/2B1QR1K w - - 0 25",
+"4rn1k/1R5p/p2r4/2R5/5pP1/2P1P3/1P2B2P/6K1 w - - 3 37",
+"4k1r1/8/pbN2p2/4p2p/5P1p/1P6/P5PK/3R4 b - - 0 32",
+"2rr2k1/pp2qpp1/1n5p/2p5/3PPB2/P1PQ4/5PPP/1R2RK2 w - - 0 22"
+],
+"passedPawn": [
+"5r2/6k1/2b4p/p4pn1/P1BRp3/1P2N3/2P3K1/8 b - - 1 44",
+"8/2r2kp1/p1n4p/p5PP/1nP1RP2/8/8/3R1K2 b - - 0 32",
+"8/1r3k2/7p/p4n1P/p1P2P2/R7/Rn4K1/8 w - - 6 40",
+"1nB5/2p2pk1/1b4p1/1p4P1/pP5r/P1P2P1p/4K3/4N2R b - - 0 41",
+"8/p2rk3/R7/2prp1Pp/2Rb3P/1P6/P2N2K1/8 b - - 1 44",
+"2R5/8/8/8/2P2p2/2r1k3/8/3K4 b - - 25 65"
+],
+"openFile": [
+"8/2pk3p/p4pp1/np6/4r3/P3P2P/1PP3P1/2K1R2R w - - 0 25",
+"r5k1/6b1/pp4pp/n1p5/P3qr2/Q4N1P/1P2BPP1/3R1RK1 w - - 0 22",
+"8/1n1k2p1/3b3p/r6P/P2R1PK1/6P1/3R4/8 w - - 23 58",
+"5r2/6nk/1p3qp1/p2R4/P5QP/3B1p2/3P1P2/6K1 b - - 0 41",
+"6r1/p4kb1/3rp3/2p3Pp/4R2P/1P6/P3R1K1/6N1 w - - 2 37",
+"r1bk3r/p1p3pp/5n2/1pP1p1B1/2p1P3/5P2/P1K3PP/RN5R w - b6 0 13"
+],
+"tradeWhenAhead": [
+"1r6/4k1pp/4bp2/2r1P3/3R4/p1NB4/PP4PP/4K2R w K - 2 25"
+],
+"doubleRooks": [
+"r1r3k1/1b3p2/p3pP1p/1p1q1n1Q/1P1p1P2/P2B4/2P1R1PP/R5K1 w - - 1 31",
+"4kr2/2p5/4PB2/n4p1R/8/pbP3P1/3K1b2/5R2 w - - 2 37",
+"2r1r1k1/1pq3p1/p2bp2p/P2p1p2/3P4/1PP2NP1/2Q1RPKP/R7 w - - 4 25",
+"Q3rbk1/7p/1p2pPpn/r7/P2P1PP1/8/5BNP/R1R3K1 b - - 0 32"
+],
+"activeKing": [
+"8/4B3/2k5/p1p4R/1pp5/1P6/8/2K2r2 w - - 2 52",
+"8/5b1k/1R3N2/2p1P2r/2P2K2/6P1/r7/8 b - - 1 56",
+"1BRk4/5p2/B1b1p3/p1p2p2/5P2/8/Pr6/5K2 b - - 5 38"
+]
+}

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tagline">مربی کامل شطرنج شما — ساخت Zorix</string>
+    <string name="splash_preparing">در حال آماده‌سازی موتور… %1$s</string>
+    <string name="offline_badge">کاملاً آفلاین</string>
+
+    <string name="side_white">سفید</string>
+    <string name="side_black">سیاه</string>
+    <string name="turn_white">نوبت سفید</string>
+    <string name="turn_black">نوبت سیاه</string>
+
+    <string name="engine_preparing">در حال آماده‌سازی موتور…</string>
+    <string name="engine_starting">در حال راه‌اندازی موتور…</string>
+    <string name="engine_failed">موتور در دسترس نیست</string>
+    <string name="engine_retry">تلاش دوباره</string>
+
+    <string name="action_undo">برگشت</string>
+    <string name="action_redo">جلو</string>
+    <string name="action_best_move">بهترین حرکت</string>
+    <string name="action_stop">توقف</string>
+    <string name="action_flip">چرخش صفحه</string>
+    <string name="action_play">اجرا</string>
+    <string name="action_dismiss">بستن</string>
+    <string name="action_new_game">بازی جدید</string>
+    <string name="action_load_fen">بارگذاری FEN</string>
+    <string name="action_copy_fen">کپی FEN</string>
+    <string name="action_copy_pgn">کپی PGN</string>
+    <string name="action_share_pgn">اشتراک‌گذاری PGN</string>
+    <string name="action_about">درباره</string>
+    <string name="action_analysis">تحلیل زنده</string>
+    <string name="action_more">گزینه‌های بیشتر</string>
+    <string name="action_cancel">انصراف</string>
+    <string name="action_load">بارگذاری</string>
+    <string name="action_paste">چسباندن</string>
+    <string name="action_close">بستن</string>
+    <string name="action_first">اولین حرکت</string>
+    <string name="action_previous">حرکت قبلی</string>
+    <string name="action_next">حرکت بعدی</string>
+    <string name="action_last">آخرین حرکت</string>
+
+    <string name="hint_idle">روی «بهترین حرکت» بزنید تا Zorix قوی‌ترین حرکت را برای %1$s پیدا کند.</string>
+    <string name="hint_thinking">Zorix در حال فکر کردن است…</string>
+    <string name="hint_best_move">بهترین حرکت برای %1$s</string>
+    <string name="hint_depth">عمق %1$d</string>
+    <string name="analysis_title">تحلیل زنده</string>
+    <string name="analysis_waiting">در حال تحلیل…</string>
+    <string name="think_time_value">%1$s ثانیه</string>
+    <string name="moves_empty">هنوز حرکتی انجام نشده — روی صفحه حرکت کنید.</string>
+
+    <string name="game_over_checkmate_white">کیش و مات — سفید برنده شد</string>
+    <string name="game_over_checkmate_black">کیش و مات — سیاه برنده شد</string>
+    <string name="game_over_stalemate">پات — مساوی</string>
+    <string name="game_over_insufficient">مساوی — مهره کافی برای مات وجود ندارد</string>
+    <string name="game_over_fifty">مساوی — قانون ۵۰ حرکت</string>
+    <string name="game_over_repetition">مساوی — تکرار سه‌باره</string>
+
+    <string name="msg_illegal_move">حرکت غیرمجاز</string>
+    <string name="msg_game_over">بازی تمام شده است</string>
+    <string name="msg_engine_not_ready">موتور هنوز آماده نیست</string>
+    <string name="msg_no_legal_moves">در این وضعیت حرکت مجازی وجود ندارد</string>
+    <string name="msg_suggestion_outdated">این پیشنهاد مربوط به وضعیت دیگری است</string>
+    <string name="msg_fen_invalid">FEN نامعتبر است</string>
+    <string name="msg_fen_copied">FEN کپی شد</string>
+    <string name="msg_pgn_copied">PGN کپی شد</string>
+    <string name="msg_position_loaded">وضعیت بارگذاری شد</string>
+    <string name="msg_nothing_to_undo">حرکتی برای برگشت نیست</string>
+    <string name="msg_nothing_to_redo">حرکتی برای جلو رفتن نیست</string>
+
+    <string name="board_description">صفحه شطرنج</string>
+    <string name="promotion_hint">مهره‌ی ارتقا را انتخاب کنید</string>
+
+    <string name="fen_dialog_title">بارگذاری وضعیت (FEN)</string>
+    <string name="fen_dialog_hint">FEN را وارد یا جای‌گذاری کنید</string>
+    <string name="fen_error_malformed">این FEN معتبر نیست.</string>
+    <string name="problem_missing_king">هر طرف باید یک شاه داشته باشد.</string>
+    <string name="problem_too_many_kings">هر طرف فقط یک شاه می‌تواند داشته باشد.</string>
+    <string name="problem_pawn_on_back_rank">سرباز نمی‌تواند در ردیف اول یا آخر باشد.</string>
+    <string name="problem_too_many_pieces">تعداد مهره‌های یک طرف بیش از حد مجاز است.</string>
+    <string name="problem_opponent_in_check">طرفی که نوبتش نیست در حالت کیش است.</string>
+
+    <string name="settings_title">تنظیمات</string>
+    <string name="settings_engine">موتور</string>
+    <string name="settings_think_time">زمان فکر برای «بهترین حرکت»</string>
+    <string name="settings_threads">هسته‌های پردازنده</string>
+    <string name="settings_hash">حافظه‌ی Hash</string>
+    <string name="settings_lines">تعداد خطوط تحلیل زنده</string>
+    <string name="settings_board">صفحه</string>
+    <string name="settings_theme">رنگ صفحه</string>
+    <string name="settings_coordinates">نمایش مختصات</string>
+    <string name="settings_legal_moves">نمایش حرکت‌های مجاز</string>
+    <string name="settings_arrows">نمایش فلش‌های موتور</string>
+    <string name="settings_animations">انیمیشن حرکت</string>
+    <string name="settings_haptics">لرزش هنگام حرکت</string>
+    <string name="settings_engine_info">%1$s · %2$s</string>
+    <string name="mb_value">%1$d مگابایت</string>
+    <string name="theme_classic">کلاسیک</string>
+    <string name="theme_walnut">گردویی</string>
+    <string name="theme_green">سبز</string>
+    <string name="theme_blue">آبی</string>
+    <string name="theme_graphite">گرافیتی</string>
+
+    <string name="editor_side_to_move">نوبت حرکت</string>
+    <string name="editor_castling">قلعه</string>
+    <string name="editor_white_oo">سفید O-O</string>
+    <string name="editor_white_ooo">سفید O-O-O</string>
+    <string name="editor_black_oo">سیاه O-O</string>
+    <string name="editor_black_ooo">سیاه O-O-O</string>
+    <string name="editor_clear">پاک کردن</string>
+    <string name="editor_start">وضعیت شروع</string>
+    <string name="editor_eraser">پاک‌کن</string>
+
+    <string name="about_version">نسخه %1$s</string>
+    <string name="about_body">GrandMaster Guide یک مدرسه‌ی کامل شطرنج در جیب شماست، ساخت Zorix. شطرنج را از اولین حرکت، قدم‌به‌قدم و با ۳۲۲ درس تعاملی در هفت دوره آموزش می‌دهد؛ مربی شخصی هر حرکت را با متن و صدا توضیح می‌دهد؛ می‌توانید با ۲۰ سطح از موتور بازی کنید، با معما تمرین کنید، وضعیت دلخواه خودتان را بسازید و هر بازی را با Stockfish 19، قوی‌ترین موتور شطرنج دنیا، تحلیل کنید. همه‌چیز روی گوشی شما و کاملاً آفلاین اجرا می‌شود: نه حساب کاربری لازم است و نه اینترنت، و هیچ اطلاعاتی از گوشی شما خارج نمی‌شود.</string>
+    <string name="about_credits">اعتبارها</string>
+    <string name="about_engine">هسته‌ی موتور Zorix: بر پایه‌ی Stockfish 19 (مجوز GNU GPL v3)</string>
+    <string name="about_voice">صداهای مربی: sherpa-onnx (مجوز Apache 2.0)، صدای Piper «ganji» برای فارسی و کوردی (مجوز MIT، داده‌ی CC0)، صدای «ljspeech» برای انگلیسی (مجوز MIT، داده‌ی مالکیت عمومی) و espeak-ng (GPL v3)</string>
+    <string name="about_pieces">مهره‌ها: Colin M.L. Burnett (cburnett)</string>
+    <string name="about_font">فونت لوگو: Orbitron اثر Matt McInerney، مجوز SIL Open Font</string>
+    <string name="about_author">ساخت Zorix · طراحی و توسعه: میلاد پزشکیان</string>
+    <string name="about_rights">© Zorix · میلاد پزشکیان. تمامی حقوق محفوظ است.</string>
+    <string name="engine_name">موتور Zorix</string>
+
+    <string name="settings_language">زبان</string>
+    <string name="language_system">زبان دستگاه</string>
+    <string name="settings_learning">آموزش</string>
+    <string name="settings_coach">حالت مربی — ارزیابی حرکت‌های من</string>
+    <string name="settings_coach_hint">بعد از هر حرکت، Zorix می‌گوید حرکت بهترین، خوب، اشتباه یا اشتباه بزرگ بوده است.</string>
+    <string name="coach_title">مربی</string>
+    <string name="coach_evaluating">مربی در حال بررسی حرکت شماست…</string>
+    <string name="coach_best_was">بهترین حرکت %1$s بود</string>
+    <string name="quality_best">بهترین حرکت</string>
+    <string name="quality_excellent">عالی</string>
+    <string name="quality_good">خوب</string>
+    <string name="quality_inaccuracy">بی‌دقتی</string>
+    <string name="quality_mistake">اشتباه</string>
+    <string name="quality_blunder">اشتباه بزرگ</string>
+    <string name="action_learn">آموزش</string>
+    <string name="learn_title">آموزش شطرنج</string>
+    <string name="learn_progress">%1$d از %2$d حل شده</string>
+    <string name="puzzle_correct">درست است! حالا مات را کامل کنید.</string>
+    <string name="puzzle_wrong">نه دقیقاً — حرکت دیگری را امتحان کنید.</string>
+    <string name="puzzle_solved">کیش و مات! معما حل شد.</string>
+    <string name="puzzle_hint">راهنما</string>
+    <string name="puzzle_solution">راه‌حل</string>
+    <string name="puzzle_next">بعدی</string>
+    <string name="puzzle_retry">دوباره</string>
+    <string name="puzzle_mate1">مات در ۱</string>
+    <string name="puzzle_mate2">مات در ۲</string>
+    <string name="quality_brilliant">درخشان</string>
+    <string name="quality_great">حرکت عالی</string>
+    <string name="quality_book">حرکت کتابی</string>
+    <string name="quality_miss">فرصت ازدست‌رفته</string>
+    <string name="action_back">بازگشت</string>
+    <string name="action_draw">تساوی</string>
+    <string name="action_hint">راهنمایی</string>
+    <string name="action_listen">گوش دادن</string>
+    <string name="action_next_level">سطح بعد</string>
+    <string name="action_rematch">بازی دوباره</string>
+    <string name="action_resign">تسلیم</string>
+    <string name="action_review">بررسی بازی</string>
+    <string name="action_takeback">برگرداندن</string>
+    <string name="bot_name">Zorix %1$d</string>
+    <string name="coach_name">مربی Zorix</string>
+    <string name="default_player">بازیکن</string>
+    <string name="exp_new">تازه با شطرنج آشنا شده‌ام</string>
+    <string name="exp_new_body">از اول اول به من یاد بده.</string>
+    <string name="exp_rules">قوانین را بلدم</string>
+    <string name="exp_rules_body">می‌دانم مهره‌ها چطور حرکت می‌کنند.</string>
+    <string name="exp_casual">گاهی بازی می‌کنم</string>
+    <string name="exp_casual_body">با دوستان یا آنلاین بازی می‌کنم.</string>
+    <string name="exp_club">بازیکن باشگاهی</string>
+    <string name="exp_club_body">گشایش‌ها و تاکتیک‌ها را بلدم.</string>
+    <string name="exp_strong">بازیکن قوی</string>
+    <string name="exp_strong_body">در مسابقات و در سطح بالا بازی می‌کنم.</string>
+    <string name="learn_subtitle">%1$d درس</string>
+    <string name="lesson_back_to_course">بازگشت به دوره</string>
+    <string name="lesson_checking">در حال بررسی…</string>
+    <string name="lesson_done_title">درس تمام شد!</string>
+    <string name="lesson_failed">این بار نشد — دوباره تلاش کن.</string>
+    <string name="lesson_find_square">%1$s را پیدا کن</string>
+    <string name="lesson_meta">%1$d تمرین · سطح %2$d</string>
+    <string name="lesson_mistakes">اشتباه‌ها: %1$d</string>
+    <string name="lesson_moves_par">حرکت‌ها: %1$d (بهترین: %2$d)</string>
+    <string name="lesson_next">درس بعد</string>
+    <string name="lesson_perfect">بی‌نقص — بدون هیچ اشتباهی!</string>
+    <string name="lesson_round">%1$d / %2$d</string>
+    <string name="lesson_squares_done">%1$d از %2$d درست</string>
+    <string name="lesson_start">شروع</string>
+    <string name="onboard_finish">شروع کنیم!</string>
+    <string name="onboard_level_body">درس‌ها و حریف‌ها بر اساس سطح تو پیشنهاد می‌شوند.</string>
+    <string name="onboard_level_title">%1$s، چقدر شطرنج بلدی؟</string>
+    <string name="onboard_name_body">مربی‌ات تو را با اسمت صدا می‌زند.</string>
+    <string name="onboard_name_hint">نام تو</string>
+    <string name="onboard_name_title">اسمت چیست؟</string>
+    <string name="onboard_next">بعدی</string>
+    <string name="onboard_start">شروع کن</string>
+    <string name="onboard_welcome">به GrandMaster Guide خوش آمدی</string>
+    <string name="onboard_welcome_body">با یک مربی شخصی یاد بگیر، بازی کن و قوی‌تر شو — کاملاً آفلاین.</string>
+    <string name="play_choose_color">رنگ خود را انتخاب کن:</string>
+    <string name="play_draw_declined">Zorix تساوی را نپذیرفت.</string>
+    <string name="play_levels_hint">همه‌ی ۲۰ سطح باز هستند و هر کدام را بخواهی می‌توانی بازی کنی. ۳ ستاره = برد بدون راهنمایی و برگرداندن حرکت.</string>
+    <string name="play_random">تصادفی</string>
+    <string name="play_recommended">پیشنهادی</string>
+    <string name="play_resume">ادامه‌ی بازی</string>
+    <string name="play_title">بازی با Zorix</string>
+    <string name="puzzle_black_to_move">نوبت سیاه</string>
+    <string name="puzzle_white_to_move">نوبت سفید</string>
+    <string name="puzzle_mode_rated">تمرین</string>
+    <string name="puzzle_mode_streak">پیاپی</string>
+    <string name="puzzle_skip">رد کردن</string>
+    <string name="puzzle_streak_now">رکورد پیاپی: %1$d</string>
+    <string name="puzzle_streak_over">رکورد تمام شد: %1$d حل‌شده</string>
+    <string name="puzzle_try_again">دوباره</string>
+    <string name="resign_body">بازی به‌عنوان باخت حساب می‌شود.</string>
+    <string name="resign_title">تسلیم می‌شوی؟</string>
+    <string name="result_draw">مساوی</string>
+    <string name="result_loss">Zorix برد</string>
+    <string name="result_win">بردی!</string>
+    <string name="review_accuracy">دقت</string>
+    <string name="review_analysing">Zorix در حال بررسی بازی توست…</string>
+    <string name="review_back_to_game">بازگشت به بررسی</string>
+    <string name="review_key_moments">لحظه‌های کلیدی</string>
+    <string name="review_moves">حرکت‌های تو</string>
+    <string name="review_retry">تلاش دوباره</string>
+    <string name="review_retry_prompt">حرکتی بهتر از حرکتی که بازی کردی پیدا کن.</string>
+    <string name="review_title">بررسی بازی</string>
+    <string name="settings_explain_bot">Zorix حرکت‌هایش را توضیح دهد</string>
+    <string name="settings_profile">پروفایل</string>
+    <string name="settings_voice">مربی صوتی</string>
+    <string name="settings_voice_hint">مربی توضیحاتش را به فارسی، کوردی و انگلیسی با صدای طبیعی می‌خواند؛ صدا روی خود گوشی و بدون اینترنت ساخته می‌شود.</string>
+    <string name="tab_analysis">تحلیل</string>
+    <string name="tab_learn">آموزش</string>
+    <string name="tab_play">بازی</string>
+    <string name="tab_puzzles">معماها</string>
+    <string name="theme_attraction">جذب</string>
+    <string name="theme_defender">حذف مدافع</string>
+    <string name="theme_deflection">انحراف</string>
+    <string name="theme_discovered">حمله‌ی کشف‌شده</string>
+    <string name="theme_double_check">کیش دوبل</string>
+    <string name="theme_endgame">آخر بازی</string>
+    <string name="theme_fork">چنگال</string>
+    <string name="theme_hanging">مهره‌ی بی‌دفاع</string>
+    <string name="theme_mate">مات</string>
+    <string name="theme_opening">گشایش</string>
+    <string name="theme_pin">آچمز</string>
+    <string name="theme_promotion">ارتقا</string>
+    <string name="theme_quiet">حرکت آرام</string>
+    <string name="theme_sacrifice">قربانی</string>
+    <string name="theme_skewer">سیخ</string>
+    <string name="tier_beginner">مبتدی</string>
+    <string name="tier_novice">نوآموز</string>
+    <string name="tier_intermediate">متوسط</string>
+    <string name="tier_advanced">پیشرفته</string>
+    <string name="tier_expert">خبره</string>
+    <string name="tier_master">استاد</string>
+    <string name="tier_grandmaster">استاد بزرگ</string>
+    <string name="tier_zorix">Zorix Max</string>
+    <string name="zorix_thinking">Zorix در حال فکر کردن…</string>
+    <string name="app_name">GrandMaster Guide</string>
+    <string name="tab_settings">تنظیمات</string>
+    <string name="action_build">ساخت پازل</string>
+    <string name="action_help">راهنما</string>
+    <string name="help_got_it">متوجه شدم</string>
+    <string name="settings_appearance">ظاهر برنامه</string>
+    <string name="theme_zorix">Zorix (تیره)</string>
+    <string name="theme_sky">آسمانی (روشن)</string>
+    <string name="settings_explain_bot_hint">در بازی، مربی حرکت‌های Zorix را هم توضیح می‌دهد و درباره‌ی تهدیدهایش هشدار می‌دهد.</string>
+    <string name="settings_think_time_hint">مدت فکر کردن موتور وقتی «بهترین حرکت» را می‌زنید. فکر طولانی‌تر یعنی حرکت عمیق‌تر و دقیق‌تر.</string>
+    <string name="settings_threads_hint">تعداد هسته‌های پردازنده که موتور هم‌زمان استفاده می‌کند (این گوشی %1$d هسته دارد). هسته‌ی بیشتر یعنی تحلیل سریع‌تر، ولی مصرف باتری بیشتر.</string>
+    <string name="settings_hash_hint">حافظه برای وضعیت‌هایی که موتور قبلاً تحلیل کرده. ۶۴ مگابایت برای بیشتر گوشی‌ها مناسب است؛ برای زمان فکر طولانی بیشتر بگذارید.</string>
+    <string name="settings_lines_hint">تعداد حرکت‌های پیشنهادی که تحلیل زنده هم‌زمان نشان می‌دهد.</string>
+    <string name="play_subtitle_plain">۲۰ سطح، از مبتدی تا استاد بزرگ</string>
+    <string name="result_review_hint">بازی را بررسی کن تا بهترین حرکت‌ها، اشتباه‌ها و راه بهتر شدنت را ببینی.</string>
+    <string name="puzzle_solved_line">حل‌شده: %1$d</string>
+    <string name="builder_title">ساخت پازل و تحلیل</string>
+    <string name="builder_count">%1$d از %2$d مهره</string>
+    <string name="builder_king_stays">شاه‌ها همیشه روی صفحه هستند و حذف نمی‌شوند. برای جابه‌جایی، شاه را از پایین انتخاب کن.</string>
+    <string name="builder_pawn_rank">سرباز نمی‌تواند در ردیف اول یا آخر باشد.</string>
+    <string name="builder_full">صفحه پر است: حداکثر ۳۲ مهره، بیشترین تعدادی که موتور می‌تواند ارزیابی کند.</string>
+    <string name="builder_check">طرفی که نوبتش نیست کیش است؛ چنین وضعیتی در بازی پیش نمی‌آید. نوبت را عوض کن یا مهره‌ها را جابه‌جا کن.</string>
+    <string name="builder_ready">آماده است — «تحلیل وضعیت» را بزن.</string>
+    <string name="builder_move_king">جابه‌جایی شاه</string>
+    <string name="builder_tool_eraser">پاک‌کن: روی مهره بزن تا حذف شود.</string>
+    <string name="builder_tool_king">روی یک خانه بزن تا شاه به آنجا برود.</string>
+    <string name="builder_tool_piece">روی خانه‌ها بزن تا مهره قرار بگیرد؛ دوباره بزنی حذف می‌شود.</string>
+    <string name="builder_analyze">تحلیل وضعیت</string>
+    <string name="help_analysis_title">صفحه‌ی تحلیل</string>
+    <string name="help_builder_title">ساخت پازل و تحلیل</string>
+    <string name="help_play_title">بازی با Zorix</string>
+    <string name="help_game_title">هنگام بازی</string>
+    <string name="help_review_title">بررسی بازی</string>
+    <string name="help_learn_title">آموزش</string>
+    <string name="help_lesson_title">درس چطور کار می‌کند</string>
+    <string name="help_puzzles_title">معماها</string>
+    <string name="help_settings_title">توضیح تنظیمات</string>
+    <string-array name="help_analysis">
+        <item>این بخش چیست|صفحه‌ی اصلی برنامه. برای هر دو طرف حرکت بزنید یا هر وضعیتی را بچینید تا موتور — Stockfish 19، قوی‌ترین موتور شطرنج دنیا که روی خود گوشی اجرا می‌شود — بهترین حرکت را پیدا و وضعیت را ارزیابی کند.</item>
+        <item>حرکت دادن مهره‌ها|روی مهره و بعد روی خانه‌ی مقصد بزنید یا آن را بکشید. نقطه‌ها خانه‌های مجاز را نشان می‌دهند. وقتی سرباز به ردیف آخر برسد، مهره‌ی جدید را خودتان انتخاب می‌کنید (وزیر، رخ، فیل یا اسب).</item>
+        <item>بهترین حرکت|«بهترین حرکت» را بزنید: موتور به اندازه‌ی زمان تعیین‌شده در تنظیمات فکر می‌کند و حرکتش را با فلش سبز، همراه ارزیابی و ادامه‌ی پیش‌بینی‌شده نشان می‌دهد. با زدن روی پیشنهاد، آن حرکت انجام می‌شود.</item>
+        <item>تحلیل زنده|دکمه‌ی نمودار در بالا تحلیل پیوسته را روشن می‌کند: تا سه حرکت پیشنهادی (فلش‌های سبز، آبی و نارنجی)، نوار ارزیابی کنار صفحه و عمق جست‌وجو.</item>
+        <item>خواندن ارزیابی|‎+1.00 یعنی سفید حدود یک سرباز بهتر است؛ ‎−2.50 یعنی سیاه دو و نیم سرباز بهتر است؛ ‎#3 یعنی مات در ۳ حرکت. نوار کنار صفحه همین را با یک نگاه نشان می‌دهد.</item>
+        <item>مربی|وقتی مربی روشن است، هر حرکتی که می‌زنید ارزیابی (بهترین، عالی، خوب، نادقیق، اشتباه، اشتباه فاحش…) و توضیح داده می‌شود، همراه با حرکت بهتر.</item>
+        <item>حرکت‌ها، برگشت و جلو|روی هر حرکت در فهرست زیر صفحه بزنید تا به آن برسید. دکمه‌های برگشت و جلو در بازی عقب و جلو می‌روند.</item>
+        <item>ساخت پازل|دکمه‌ی مداد سازنده‌ی پازل را باز می‌کند: هر وضعیتی را که می‌خواهید بچینید و تحلیلش کنید.</item>
+        <item>منوی ⋮|بازی جدید، ساخت وضعیت، بارگذاری یا کپی FEN (توصیف یک‌خطی وضعیت)، کپی یا اشتراک بازی به‌صورت PGN (قالب استاندارد بازی) و درباره‌ی برنامه.</item>
+    </string-array>
+    <string-array name="help_builder">
+        <item>این بخش چیست|هر وضعیتی را بچینید — معمایی از یک کتاب، لحظه‌ای از بازی خودتان یا ایده‌ای که می‌خواهید امتحان کنید — و بگذارید موتور تحلیلش کند.</item>
+        <item>شاه‌ها|هر دو شاه همیشه روی صفحه هستند و حذف نمی‌شوند. برای جابه‌جایی شاه، آن را از پالت پایین (شاه قاب‌دار) انتخاب کنید و روی خانه‌ی جدید بزنید.</item>
+        <item>چیدن مهره‌ها|مهره را انتخاب کنید و روی خانه‌ها بزنید تا قرار بگیرد؛ با زدن دوباره روی همان مهره یا با پاک‌کن حذف می‌شود. از هر مهره هر تعداد که بخواهید می‌توانید بگذارید — در کل تا ۳۲ مهره، یعنی بیشترین تعدادی که موتور می‌تواند ارزیابی کند.</item>
+        <item>قوانینی که همچنان برقرارند|سرباز نمی‌تواند در ردیف اول یا آخر باشد. طرفی که نوبتش نیست نباید کیش باشد، چون چنین وضعیتی هرگز در بازی پیش نمی‌آید؛ نوبت را عوض کنید یا مهره‌ها را جابه‌جا کنید.</item>
+        <item>نوبت و قلعه|انتخاب کنید نوبت کیست. قلعه فقط وقتی مجاز است که شاه و آن رخ در خانه‌های اولیه‌شان باشند.</item>
+        <item>تحلیل|«تحلیل وضعیت» آن را در صفحه‌ی تحلیل باز می‌کند تا بهترین حرکت و تحلیل زنده مثل همیشه کار کنند. دکمه‌ی چرخش، صفحه را برمی‌گرداند.</item>
+    </string-array>
+    <string-array name="help_play">
+        <item>بازی با Zorix|۲۰ سطح، از مبتدی کامل (سطح ۱) تا قدرت کامل موتور (سطح ۲۰). سطح‌های پایین عمداً اشتباه‌های انسانی می‌کنند و سطح‌های بالا مثل بازیکن باشگاهی، استاد و استاد بزرگ بازی می‌کنند.</item>
+        <item>انتخاب سطح|سطحی که «پیشنهادی» علامت خورده برای شما مناسب‌تر است، ولی هر سطحی را می‌توانید بازی کنید. با بردن، در آن سطح ستاره می‌گیرید — سه ستاره برای بردن بدون راهنما و برگرداندن حرکت.</item>
+        <item>رنگ|قبل از بازی سفید، سیاه یا انتخاب تصادفی را بزنید.</item>
+    </string-array>
+    <string-array name="help_game">
+        <item>هنگام بازی|حرکت‌هایتان را روی صفحه بزنید تا Zorix جواب بدهد. مربی هر حرکت شما را ارزیابی و توضیح می‌دهد. اگر «توضیح حرکت‌های Zorix» در تنظیمات روشن باشد، حرکت‌های حریف را هم توضیح می‌دهد و از تهدیدهایش باخبرتان می‌کند.</item>
+        <item>راهنما|بهترین حرکت را با فلش و توضیحش نشان می‌دهد. بردن با استفاده از راهنما ستاره‌ی کمتری دارد.</item>
+        <item>برگرداندن حرکت|آخرین حرکت شما را همراه جواب Zorix برمی‌گرداند.</item>
+        <item>مساوی و تسلیم|پیشنهاد مساوی بدهید — Zorix فقط وقتی قبول می‌کند که وضعیت واقعاً برابر باشد — یا تسلیم شوید.</item>
+        <item>شنیدن|دکمه‌ی بلندگو آخرین توضیح را با صدا می‌خواند.</item>
+        <item>بعد از بازی|بررسی بازی را باز کنید تا دقتتان، لحظه‌های کلیدی را ببینید و حرکت‌های بهتر را خودتان پیدا کنید.</item>
+    </string-array>
+    <string-array name="help_review">
+        <item>بررسی بازی|همه‌ی حرکت‌های بازی ارزیابی می‌شوند. دقت (۰ تا ۱۰۰ درصد) نشان می‌دهد حرکت‌ها چقدر به بهترین حرکت‌های موتور نزدیک بوده‌اند.</item>
+        <item>لحظه‌های کلیدی|حرکت‌هایی که بیشترین تأثیر را در بازی داشتند: اشتباه‌ها، فرصت‌های از دست رفته و حرکت‌های عالی. روی هر کدام بزنید تا روی صفحه با توضیحش ببینید.</item>
+        <item>دوباره امتحان کن|روی یک اشتباه «دوباره امتحان کن» را بزنید و حرکت بهتر را خودتان پیدا کنید.</item>
+    </string-array>
+    <string-array name="help_learn">
+        <item>دوره‌ها|هفت دوره شما را از صفر تا سطح پیشرفته می‌برند: مبانی شطرنج، درک شطرنج، الگوهای مات، تاکتیک، آخر بازی، گشایش‌ها و استراتژی. اگر تازه شروع کرده‌اید، از مبانی شطرنج شروع کنید.</item>
+        <item>قدم‌به‌قدم|درس‌ها به ترتیب باز می‌شوند: با تمام کردن هر درس، درس بعدی باز می‌شود. هر درس تا سه ستاره دارد.</item>
+        <item>انواع تمرین|توضیح با تصویر صفحه، رساندن مهره به ستاره‌ها، زدن مهره‌ها، پرسش چندگزینه‌ای، پیدا کردن بهترین حرکت، معما، مات در چند حرکت، بازی کردن خط‌های گشایش و بازی کردن آخر بازی در برابر Zorix.</item>
+    </string-array>
+    <string-array name="help_lesson">
+        <item>مراحل|توضیح را بخوانید یا گوش کنید، بعد هر تمرین را حل کنید. نوار بالای صفحه پیشرفت شما در درس را نشان می‌دهد.</item>
+        <item>راهنما و راه‌حل|راهنما مهره‌ای را که باید حرکت کند مشخص می‌کند. راه‌حل جواب را نشان و توضیح می‌دهد، ولی یک اشتباه حساب می‌شود.</item>
+        <item>صدا|وقتی صدا روشن است، مربی توضیحات را با صدا می‌خواند. برای شنیدن دوباره روی آیکن بلندگو بزنید.</item>
+        <item>ستاره‌ها|بدون اشتباه: سه ستاره. یک یا دو اشتباه: دو ستاره. بیشتر: یک ستاره. هر درس را می‌توانید دوباره انجام دهید تا نتیجه‌تان بهتر شود.</item>
+    </string-array>
+    <string-array name="help_puzzles">
+        <item>معماها|وضعیت‌های واقعی با یک راه‌حل برنده. بهترین حرکت را برای طرفی که نوبتش است پیدا کنید؛ وقتی حریف جواب داد، ادامه دهید تا معما حل شود.</item>
+        <item>حالت‌ها|تمرین: با حل کردن، معماها سخت‌تر می‌شوند. پشت سر هم: تا می‌توانید پشت سر هم حل کنید — یک اشتباه سری را تمام می‌کند. موضوع‌ها: یک ایده را تمرین کنید، مثل چنگال، آچمز یا مات.</item>
+        <item>راهنما و راه‌حل|راهنما مهره‌ای را که باید حرکت کند مشخص می‌کند؛ راه‌حل جواب را بازی و توضیح می‌دهد.</item>
+        <item>پازل خودتان|دکمه‌ی مداد سازنده را باز می‌کند: هر وضعیتی را بچینید و تحلیلش کنید.</item>
+    </string-array>
+    <string-array name="help_settings">
+        <item>پروفایل|نامی که مربی هنگام صحبت با شما به کار می‌برد.</item>
+        <item>ظاهر|Zorix: سبک تیره با رنگ‌های مشکی و قرمز. آسمانی: سبک روشن با رنگ‌های سفید و آبی آسمانی.</item>
+        <item>زبان|فارسی، کوردی (سورانی) یا انگلیسی. «زبان سیستم» از زبان گوشی پیروی می‌کند.</item>
+        <item>مربی|هر حرکتی را که در صفحه‌ی تحلیل می‌زنید ارزیابی و توضیح می‌دهد.</item>
+        <item>صدا|توضیحات را با صداهای طبیعیِ داخل برنامه و بدون نیاز به اینترنت می‌خواند: یک صدای انگلیسی، یک صدای فارسی و یک صدای بومی کوردی سورانی. برای شنیدن دوباره‌ی هر توضیح روی آیکن بلندگو بزنید.</item>
+        <item>زمان فکر|مدت فکر کردن موتور وقتی «بهترین حرکت» را می‌زنید، از ۰٫۵ تا ۳۰ ثانیه. بیشتر یعنی عمیق‌تر و دقیق‌تر ولی کندتر. برای بیشتر وضعیت‌ها ۲ تا ۵ ثانیه کافی است؛ برای آخر بازی‌های سخت یا تاکتیک‌های پیچیده ۱۰ تا ۳۰ ثانیه بگذارید.</item>
+        <item>رشته‌های پردازنده|تعداد هسته‌های پردازنده که موتور هم‌زمان استفاده می‌کند. رشته‌ی بیشتر سریع‌تر و عمیق‌تر تحلیل می‌کند، ولی باتری بیشتری مصرف می‌کند و گوشی را گرم‌تر می‌کند. انتخاب خوب: تعداد هسته‌ها منهای یک.</item>
+        <item>حافظه (هش)|حافظه برای جدول وضعیت‌هایی که موتور قبلاً تحلیل کرده تا آن‌ها را دوباره حساب نکند. ۶۴ مگابایت برای بیشتر گوشی‌ها مناسب است؛ ۱۲۸ تا ۲۵۶ مگابایت برای زمان فکر طولانی در گوشی‌هایی با رم زیاد مفید است.</item>
+        <item>خط‌ها|تعداد حرکت‌های پیشنهادی در تحلیل زنده (۱ تا ۳). خط بیشتر اطلاعات بیشتری می‌دهد، ولی هر خط کمی کم‌عمق‌تر محاسبه می‌شود.</item>
+        <item>عمق|عمقی که هنگام تحلیل نمایش داده می‌شود یعنی موتور چند نیم‌حرکت جلوتر را محاسبه کرده است. با زمان فکر و تعداد رشته‌ها بیشتر می‌شود؛ عمق ۲۰ به بالا خیلی قوی است.</item>
+        <item>صفحه|رنگ صفحه، مختصات (a تا h و ۱ تا ۸)، نقطه‌های حرکت مجاز، فلش‌ها، انیمیشن حرکت و لرزش.</item>
+    </string-array>
+    <string name="voice_preparing">آماده‌سازی صدا…</string>
+    <string name="speed_tip_title">نکته برای سرعت بیشتر</string>
+    <string name="speed_tip_body">برنامه‌های دیگری را که روی گوشی باز هستند ببندید. این‌طوری Zorix حافظه و پردازنده‌ی بیشتری دارد و تحلیل و صدای مربی به‌طور محسوسی سریع‌تر می‌شوند.</string>
+    <string name="speed_tip_ok">متوجه شدم</string>
+    <string name="speed_tip_never">دیگر نشان نده</string>
+</resources>

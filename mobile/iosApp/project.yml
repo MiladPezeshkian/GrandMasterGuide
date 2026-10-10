@@ -1,0 +1,50 @@
+# Xcode project for Zorix Chess (iOS). Generate it with XcodeGen:
+#   brew install xcodegen && cd mobile/iosApp && xcodegen generate
+name: ZorixChess
+options:
+  bundleIdPrefix: com.zorix
+  deploymentTarget:
+    iOS: "15.0"
+settings:
+  base:
+    MARKETING_VERSION: "2.5.0"
+    CURRENT_PROJECT_VERSION: "12"
+targets:
+  ZorixChess:
+    type: application
+    platform: iOS
+    sources:
+      - path: ZorixChess
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zorix.chess
+        PRODUCT_NAME: ZorixChess
+        INFOPLIST_FILE: ZorixChess/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+        ENABLE_BITCODE: NO
+        FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)"
+        OTHER_LDFLAGS: "$(inherited) -framework Shared"
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"
+    preBuildScripts:
+      - name: Compile Kotlin (shared) and Stockfish
+        basedOnDependencyAnalysis: false
+        script: |
+          set -e
+          cd "$SRCROOT/.."
+          ./gradlew --no-daemon :shared:embedAndSignAppleFrameworkForXcode
+          # Coach voice: the sherpa-onnx framework and the Persian voice (provided by the Gradle build above).
+          VOICE="$SRCROOT/../shared/build/sherpa-ios"
+          FRAMEWORKS="$TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH"
+          mkdir -p "$FRAMEWORKS"
+          rm -rf "$FRAMEWORKS/SherpaOnnxC.framework"
+          cp -R "$VOICE/SherpaOnnxC.xcframework/ios-arm64/SherpaOnnxC.framework" "$FRAMEWORKS/"
+          if [ -n "$EXPANDED_CODE_SIGN_IDENTITY" ] && [ "$CODE_SIGNING_ALLOWED" != "NO" ]; then
+            codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --preserve-metadata=identifier,entitlements "$FRAMEWORKS/SherpaOnnxC.framework"
+          fi
+          RESOURCES="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
+          rm -rf "$RESOURCES/voice"
+          mkdir -p "$RESOURCES/voice"
+          cp -R "$VOICE/voice/fa" "$RESOURCES/voice/"

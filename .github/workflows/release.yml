@@ -1,0 +1,214 @@
+name: Build & Release (Android)
+
+on:
+  push:
+    paths:
+      - "mobile/**"
+      - ".github/workflows/release.yml"
+      - ".github/release-notes.md"
+  workflow_dispatch:
+    inputs:
+      ios:
+        description: "Also build the (paused) iOS IPA"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+env:
+  APP_VERSION: "2.5.0"
+
+jobs:
+  android:
+    name: Android APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Cache Stockfish network
+        uses: actions/cache@v4
+        with:
+          path: mobile/stockfish/nets
+          key: nnue-${{ hashFiles('mobile/stockfish/src/evaluate.h') }}
+      - name: Cache coach voice
+        uses: actions/cache@v4
+        with:
+          path: mobile/.voice
+          key: voice-${{ hashFiles('mobile/buildSrc/src/main/kotlin/zorix/build/VoiceAssets.kt') }}
+      - name: Install NDK
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;27.2.12479018" > /dev/null
+      - name: Unit tests
+        run: ./gradlew --no-daemon :shared:testDebugUnitTest
+      - name: Build release APK
+        id: build
+        env:
+          # The release key (repository secrets). Store releases need the same key for every
+          # version; without it the APK is signed with a throw-away debug key and marked as a test build.
+          KEYSTORE_BASE64: ${{ secrets.ZORIX_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ZORIX_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ZORIX_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ZORIX_KEY_PASSWORD }}
+        run: |
+          signing=""
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/zorix.jks"
+            signing="-Pzorix.keystore=$RUNNER_TEMP/zorix.jks -Pzorix.keystorePassword=$KEYSTORE_PASSWORD -Pzorix.keyAlias=$KEY_ALIAS -Pzorix.keyPassword=$KEY_PASSWORD"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::No release key configured (ZORIX_KEYSTORE_BASE64): this APK is a test build signed with a debug key."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+          fi
+          ./gradlew --no-daemon :androidApp:assembleRelease -Pzorix.voice.required=true $signing
+          rm -f "$RUNNER_TEMP/zorix.jks"
+      - name: Collect APK
+        run: |
+          mkdir -p ../out
+          suffix=""
+          if [ "${{ steps.build.outputs.signed }}" != "true" ]; then suffix="-TEST"; fi
+          cp androidApp/build/outputs/apk/release/androidApp-release.apk "../out/GrandMasterGuide-${APP_VERSION}-android${suffix}.apk"
+          echo "${{ steps.build.outputs.signed }}" > ../out/signed.txt
+          ls -la ../out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: |
+            out/*.apk
+            out/signed.txt
+
+  smoke:
+    name: Smoke test on an emulator
+    needs: [android]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: android
+          path: out
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run the app on an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          cores: 4
+          ram-size: 4096M
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: python3 mobile/tools/smoke_test.py "$(ls out/*.apk | head -1)" smoke-shots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-screenshots
+          path: smoke-shots
+      - name: Publish screenshots to the ci-screens branch
+        if: always()
+        run: |
+          [ -d smoke-shots ] || exit 0
+          cd smoke-shots
+          git init -q && git checkout -q -b ci-screens
+          git add -A
+          git -c user.name="ci" -c user.email="ci@users.noreply.github.com" commit -qm "Smoke test screenshots (run ${{ github.run_number }})"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-screens
+
+  ios:
+    name: iOS IPA
+    # iOS is not part of the releases for now; run the workflow manually with "ios" ticked to build it.
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.ios }}
+    runs-on: macos-15
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Select Xcode 16
+        run: |
+          XCODE=$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)
+          echo "Using $XCODE"
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
+      - name: Cache Stockfish network
+        uses: actions/cache@v4
+        with:
+          path: mobile/stockfish/nets
+          key: nnue-${{ hashFiles('mobile/stockfish/src/evaluate.h') }}
+      - name: Cache coach voice
+        uses: actions/cache@v4
+        with:
+          path: mobile/.voice
+          key: voice-${{ hashFiles('mobile/buildSrc/src/main/kotlin/zorix/build/VoiceAssets.kt') }}
+      - name: Generate Xcode project
+        working-directory: mobile/iosApp
+        run: |
+          brew list xcodegen >/dev/null 2>&1 || brew install xcodegen
+          xcodegen generate
+      - name: Build app (unsigned)
+        working-directory: mobile/iosApp
+        run: |
+          set -o pipefail
+          xcodebuild -project ZorixChess.xcodeproj -scheme ZorixChess -configuration Release \
+            -sdk iphoneos -destination 'generic/platform=iOS' -derivedDataPath build \
+            MARKETING_VERSION="$APP_VERSION" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build 2>&1 | tail -300
+      - name: Package IPA
+        run: |
+          APP=mobile/iosApp/build/Build/Products/Release-iphoneos/ZorixChess.app
+          ls -la "$APP" "$APP/Frameworks" "$APP/voice/fa"
+          mkdir -p out/Payload
+          cp -R "$APP" out/Payload/
+          (cd out && zip -qry "GrandMasterGuide-${APP_VERSION}-ios-unsigned.ipa" Payload && rm -rf Payload)
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: out/*.ipa
+
+  release:
+    name: Publish release
+    needs: [android, smoke]
+    # A commit message containing "[no release]" only builds and tests.
+    if: ${{ !contains(github.event.head_commit.message, '[no release]') }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -la out
+          TAG="v${APP_VERSION}-build.${{ github.run_number }}"
+          if [ "$(cat out/signed.txt 2>/dev/null)" = "true" ]; then
+            kind="" ; title="GrandMaster Guide ${APP_VERSION} (build ${{ github.run_number }})"
+          else
+            kind="--prerelease" ; title="GrandMaster Guide ${APP_VERSION} (build ${{ github.run_number }}) — test build, not for stores"
+          fi
+          rm -f out/signed.txt
+          # Create the tag with git first: if GitHub refuses it, git prints the exact reason.
+          git tag "$TAG" "${{ github.sha }}"
+          git push origin "refs/tags/$TAG"
+          gh release create "$TAG" out/*.apk --verify-tag $kind \
+            --title "$title" \
+            --notes-file .github/release-notes.md

@@ -1,0 +1,4 @@
+package = com.zorix.stockfish
+headers = zorix_stockfish.h
+staticLibraries = libzorixstockfish.a
+linkerOpts = -lc++

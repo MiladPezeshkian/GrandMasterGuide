@@ -1,0 +1,344 @@
+package zorix.build
+
+import org.gradle.api.DefaultTask
+import org.gradle.api.GradleException
+import org.gradle.api.file.ArchiveOperations
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileSystemOperations
+import org.gradle.api.logging.Logger
+import org.gradle.api.provider.ListProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.TaskAction
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URI
+import java.security.MessageDigest
+import javax.inject.Inject
+
+/**
+ * The coach's offline voices: the sherpa-onnx speech engine (Apache-2.0), the Piper voice
+ * "fa_IR ganji" for Persian and Kurdish (MIT, CC0 data) and the Piper voice "en_US ljspeech"
+ * for English (MIT, public-domain data). Everything is downloaded once from the sherpa-onnx
+ * GitHub releases, checked against pinned SHA-256 sums, cached in [cacheDir] and packed into the
+ * app, so the finished app speaks without the internet.
+ */
+object VoiceAssets {
+    const val SHERPA_VERSION = "1.13.8"
+    private const val RELEASES = "https://github.com/k2-fsa/sherpa-onnx/releases/download"
+
+    val ANDROID_LIBS = Download(
+        "sherpa-onnx-v$SHERPA_VERSION-android.tar.bz2",
+        "$RELEASES/v$SHERPA_VERSION/sherpa-onnx-v$SHERPA_VERSION-android.tar.bz2",
+        "2ff63469a71cb6009aa2e3ed5f4a670f8abdcbe4bb9ffd23776afc792a6b4f44",
+    )
+    val IOS_FRAMEWORK = Download(
+        "sherpa-onnx-v$SHERPA_VERSION-ios-shared-onnxruntime-static.xcframework.zip",
+        "$RELEASES/xcframework/sherpa-onnx-v$SHERPA_VERSION-ios-shared-onnxruntime-static.xcframework.zip",
+        "e259a7d3b38ad7dec49bb078252a30bb42ede8355e2bb130cf8c1c78ed131f75",
+    )
+    val PERSIAN_VOICE = Download(
+        "vits-piper-fa_IR-ganji-medium.tar.bz2",
+        "$RELEASES/tts-models/vits-piper-fa_IR-ganji-medium.tar.bz2",
+        "6eae2acccd1b4460159fa5acdad4bb5d2df6d64d8da3e4029dbdff4db14e7a7a",
+    )
+
+    val ENGLISH_VOICE = Download(
+        "vits-piper-en_US-ljspeech-medium.tar.bz2",
+        "$RELEASES/tts-models/vits-piper-en_US-ljspeech-medium.tar.bz2",
+        "3dfb4b759d8be032a4903a9538d128b0fda2a06ab1de6cbc2d93a97e2dd83dba",
+    )
+
+    /**
+     * The native Sorani voice "Vekol-TTS ckb edge" by Revge (Darvan Shvan), CC-BY-NC 4.0, the same
+     * file as on Hugging Face (RevgeAI/vekol-tts-ckb-edge), mirrored on this repository's releases.
+     */
+    val KURDISH_VOICE = Download(
+        "vekol-tts-ckb-edge.onnx",
+        "https://github.com/MiladPezeshkian/GrandMasterGuide/releases/download/voice-ckb-vekol/model.onnx",
+        "92a30317e6e9a5bf7f61cca4e6f37d7ecff495677169e83e085757760c033f39",
+    )
+
+    /** The Vekol voice's symbols in id order (its model.onnx.json phoneme_id_map: id = position). */
+    private val KURDISH_SYMBOLS = listOf("_", "^", "$", " ", "\n", "!", "\"", "-", ".", ":", "،", "؛", "؟", "ء", "ا", "ب", "ت", "ج", "ح", "خ", "د", "ر", "ز", "س", "ش", "ع", "غ", "ف", "ق", "ل", "م", "ن", "ه", "و", "ي", "ٔ", "پ", "چ", "ڕ", "ژ", "ڤ", "ک", "گ", "ڵ", "ۆ", "ی", "ێ", "ە")
+
+    /** Android ABIs the engine is packed for (x86_64 emulators simply have no Persian voice). */
+    val ANDROID_ABIS = listOf("arm64-v8a", "armeabi-v7a")
+
+    /** Only the JNI bridge and ONNX Runtime are needed on Android. */
+    val ANDROID_SO = listOf("libsherpa-onnx-jni.so", "libonnxruntime.so")
+
+    /** The parts of espeak-ng-data the Persian voice needs (2 MB instead of 19 MB). */
+    val ESPEAK_KEEP = listOf("phondata", "phonindex", "phontab", "intonations", "fa_dict", "en_dict", "lang/**", "voices/**")
+
+    /** Changes whenever the packed voice changes, so the app refreshes its unpacked copy. */
+    const val VOICE_ID = "fa-ganji-medium-1"
+
+    class Download(val name: String, val url: String, val sha256: String)
+
+    /** Returns the cached archive, downloading it first when it is missing or damaged. */
+    fun fetch(download: Download, cacheDir: File, logger: Logger): File {
+        cacheDir.mkdirs()
+        val file = File(cacheDir, download.name)
+        if (file.isFile && sha256(file) == download.sha256) return file
+        val part = File(cacheDir, download.name + ".part")
+        logger.lifecycle("Voice: downloading ${download.name} (one-time)...")
+        try {
+            httpGet(download.url, part, logger)
+        } catch (e: Exception) {
+            part.delete()
+            throw GradleException("Voice: could not download ${download.url}: ${e.message}", e)
+        }
+        val sum = sha256(part)
+        if (sum != download.sha256) {
+            part.delete()
+            throw GradleException("Voice: checksum mismatch for ${download.name} (got $sum, expected ${download.sha256})")
+        }
+        file.delete()
+        if (!part.renameTo(file)) {
+            part.copyTo(file, overwrite = true)
+            part.delete()
+        }
+        return file
+    }
+
+    /** Unpacks the Persian voice into `<assetsRoot>/voice/fa`: model.onnx, tokens.txt and espeak-ng-data. */
+    fun unpackVoice(archive: File, assetsRoot: File, archives: ArchiveOperations, fs: FileSystemOperations) {
+        val target = File(assetsRoot, "voice/fa")
+        target.deleteRecursively()
+        val root = "vits-piper-fa_IR-ganji-medium"
+        fs.copy {
+            from(archives.tarTree(archives.bzip2(archive)))
+            include("$root/fa_IR-ganji-medium.onnx", "$root/tokens.txt", "$root/MODEL_CARD")
+            ESPEAK_KEEP.forEach { include("$root/espeak-ng-data/$it") }
+            eachFile {
+                val rel = relativePath.segments.drop(1).toMutableList()
+                if (rel.firstOrNull() == "fa_IR-ganji-medium.onnx") rel[0] = "model.onnx"
+                path = rel.joinToString("/")
+            }
+            includeEmptyDirs = false
+            into(target)
+        }
+        if (!File(target, "model.onnx").isFile || !File(target, "espeak-ng-data/fa_dict").isFile) {
+            throw GradleException("Voice: unexpected layout in ${archive.name}")
+        }
+        File(target, "version").writeText(VOICE_ID)
+    }
+
+    /**
+     * Unpacks the English voice into `<assetsRoot>/voice/en`: model.onnx and tokens.txt. It uses the
+     * pronunciation data (espeak-ng-data) of the Persian voice, which is the same.
+     */
+    fun unpackEnglishVoice(archive: File, assetsRoot: File, archives: ArchiveOperations, fs: FileSystemOperations) {
+        val target = File(assetsRoot, "voice/en")
+        target.deleteRecursively()
+        val root = "vits-piper-en_US-ljspeech-medium"
+        fs.copy {
+            from(archives.tarTree(archives.bzip2(archive)))
+            include("$root/en_US-ljspeech-medium.onnx", "$root/tokens.txt", "$root/MODEL_CARD")
+            eachFile {
+                val rel = relativePath.segments.drop(1).toMutableList()
+                if (rel.firstOrNull() == "en_US-ljspeech-medium.onnx") rel[0] = "model.onnx"
+                path = rel.joinToString("/")
+            }
+            includeEmptyDirs = false
+            into(target)
+        }
+        if (!File(target, "model.onnx").isFile || !File(target, "tokens.txt").isFile) {
+            throw GradleException("Voice: unexpected layout in ${archive.name}")
+        }
+    }
+
+    /**
+     * Unpacks the native Sorani voice into `<assetsRoot>/voice/ckb`: model.onnx (with the metadata
+     * sherpa-onnx reads appended to the ONNX file, so it reads letters directly; the network itself is
+     * unchanged) and tokens.txt.
+     */
+    fun unpackKurdishVoice(model: File, assetsRoot: File) {
+        val target = File(assetsRoot, "voice/ckb").apply { deleteRecursively(); mkdirs() }
+        val meta = linkedMapOf(
+            "model_type" to "vits", "comment" to "piper", "language" to "Kurdish", "voice" to "ckb",
+            "n_speakers" to "2", "sample_rate" to "22050",
+            // The voice reads letters: ^ _ letter _ letter _ ... $, as in Piper's own runtime.
+            "frontend" to "characters", "add_blank" to "1", "blank_id" to "0", "pad_id" to "0",
+            "bos_id" to "1", "eos_id" to "2", "use_eos_bos" to "1",
+        )
+        File(target, "model.onnx").outputStream().use { out ->
+            model.inputStream().use { it.copyTo(out) }
+            for ((k, v) in meta) out.write(onnxMetadataEntry(k, v))
+        }
+        // The line break symbol is left out: it cannot be written on a line, and speech never uses it.
+        File(target, "tokens.txt").writeText(KURDISH_SYMBOLS.withIndex().filter { it.value != "\n" }.joinToString("") { (i, c) -> "$c $i\n" })
+        File(target, "NOTICE").writeText(
+            "Vekol-TTS (ckb edge) by Darvan Shvan, Revge - https://github.com/Revge/vekol-tts-ckb-edge\n" +
+                "Licensed CC-BY-NC 4.0 (non-commercial). Metadata for sherpa-onnx appended; weights unchanged.\n",
+        )
+    }
+
+    /** One ModelProto.metadata_props entry (protobuf field 14), which may be appended to an ONNX file. */
+    private fun onnxMetadataEntry(key: String, value: String): ByteArray {
+        fun varint(n: Int): ByteArray {
+            val out = java.io.ByteArrayOutputStream()
+            var v = n
+            while (true) {
+                if (v and 0x7F.inv() == 0) { out.write(v); return out.toByteArray() }
+                out.write((v and 0x7F) or 0x80)
+                v = v ushr 7
+            }
+        }
+        val k = key.toByteArray()
+        val v = value.toByteArray()
+        val body = byteArrayOf(0x0A) + varint(k.size) + k + byteArrayOf(0x12) + varint(v.size) + v
+        return byteArrayOf(0x72) + varint(body.size) + body
+    }
+
+    private fun httpGet(url: String, dest: File, logger: Logger) {
+        var current = URI(url)
+        var connection: HttpURLConnection
+        var redirects = 0
+        while (true) {
+            connection = current.toURL().openConnection() as HttpURLConnection
+            connection.instanceFollowRedirects = false
+            connection.connectTimeout = 30_000
+            connection.readTimeout = 120_000
+            connection.setRequestProperty("User-Agent", "ZorixChess-build")
+            val code = connection.responseCode
+            if (code in 300..399) {
+                val location = connection.getHeaderField("Location") ?: throw GradleException("redirect without location")
+                current = current.resolve(location)
+                connection.disconnect()
+                if (++redirects > 5) throw GradleException("too many redirects")
+                continue
+            }
+            if (code != 200) throw GradleException("HTTP $code")
+            break
+        }
+        val total = connection.contentLengthLong
+        connection.inputStream.use { input ->
+            dest.outputStream().use { output ->
+                val buffer = ByteArray(1 shl 16)
+                var done = 0L
+                var nextReport = 10L shl 20
+                while (true) {
+                    val n = input.read(buffer)
+                    if (n < 0) break
+                    output.write(buffer, 0, n)
+                    done += n
+                    if (done >= nextReport) {
+                        val of = if (total > 0) " of ${total shr 20} MB" else ""
+                        logger.lifecycle("Voice:   ${done shr 20} MB$of")
+                        nextReport += 10L shl 20
+                    }
+                }
+            }
+        }
+        connection.disconnect()
+    }
+
+    private fun sha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().use { input ->
+            val buffer = ByteArray(1 shl 16)
+            while (true) {
+                val n = input.read(buffer)
+                if (n < 0) break
+                digest.update(buffer, 0, n)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
+    }
+}
+
+/**
+ * Android: the sherpa-onnx native libraries (as jniLibs) and the Persian, Kurdish and English voices
+ * (as assets). When a download fails and [required] is false the app is built
+ * without the voices (the coach then uses the phone's own voice or shows text only).
+ */
+abstract class ProvideAndroidVoiceTask : DefaultTask() {
+    @get:Input
+    abstract val abis: ListProperty<String>
+
+    @get:Input
+    abstract val required: Property<Boolean>
+
+    @get:Internal
+    abstract val cacheDir: DirectoryProperty
+
+    @get:OutputDirectory
+    abstract val jniLibsDir: DirectoryProperty
+
+    @get:OutputDirectory
+    abstract val assetsDir: DirectoryProperty
+
+    @get:Inject
+    abstract val archives: ArchiveOperations
+
+    @get:Inject
+    abstract val fs: FileSystemOperations
+
+    @TaskAction
+    fun provide() {
+        val libs = jniLibsDir.get().asFile.apply { deleteRecursively(); mkdirs() }
+        val assets = assetsDir.get().asFile.apply { deleteRecursively(); mkdirs() }
+        try {
+            val cache = cacheDir.get().asFile
+            val libArchive = VoiceAssets.fetch(VoiceAssets.ANDROID_LIBS, cache, logger)
+            val wanted = abis.get()
+            fs.copy {
+                from(archives.tarTree(archives.bzip2(libArchive)))
+                wanted.forEach { abi -> VoiceAssets.ANDROID_SO.forEach { include("jniLibs/$abi/$it") } }
+                eachFile { path = relativePath.segments.drop(1).joinToString("/") }
+                includeEmptyDirs = false
+                into(libs)
+            }
+            for (abi in wanted) for (so in VoiceAssets.ANDROID_SO) {
+                if (!File(libs, "$abi/$so").isFile) throw GradleException("Voice: $so for $abi missing in ${libArchive.name}")
+            }
+            VoiceAssets.unpackVoice(VoiceAssets.fetch(VoiceAssets.PERSIAN_VOICE, cache, logger), assets, archives, fs)
+            VoiceAssets.unpackEnglishVoice(VoiceAssets.fetch(VoiceAssets.ENGLISH_VOICE, cache, logger), assets, archives, fs)
+            VoiceAssets.unpackKurdishVoice(VoiceAssets.fetch(VoiceAssets.KURDISH_VOICE, cache, logger), assets)
+            logger.lifecycle("Voice: Persian, Kurdish and English voices and the speech engine ready for ${wanted.joinToString()}")
+        } catch (e: Exception) {
+            if (required.get()) throw e
+            libs.deleteRecursively(); libs.mkdirs()
+            assets.deleteRecursively(); assets.mkdirs()
+            logger.warn("Voice: building WITHOUT the voices (${e.message}). Set -Pzorix.voice.required=true to make this an error.")
+        }
+    }
+}
+
+/**
+ * iOS: the sherpa-onnx framework (ONNX Runtime linked in) and the Persian voice files, which the
+ * Xcode build copies into the app bundle.
+ */
+abstract class ProvideIosVoiceTask : DefaultTask() {
+    @get:Internal
+    abstract val cacheDir: DirectoryProperty
+
+    /** Receives `SherpaOnnxC.xcframework` and `voice/fa`. */
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @get:Inject
+    abstract val archives: ArchiveOperations
+
+    @get:Inject
+    abstract val fs: FileSystemOperations
+
+    @TaskAction
+    fun provide() {
+        val out = outputDir.get().asFile
+        val cache = cacheDir.get().asFile
+        File(out, "SherpaOnnxC.xcframework").deleteRecursively()
+        fs.copy {
+            from(archives.zipTree(VoiceAssets.fetch(VoiceAssets.IOS_FRAMEWORK, cache, logger)))
+            into(out)
+        }
+        val binary = File(out, "SherpaOnnxC.xcframework/ios-arm64/SherpaOnnxC.framework/SherpaOnnxC")
+        if (!binary.isFile) throw GradleException("Voice: unexpected layout in ${VoiceAssets.IOS_FRAMEWORK.name}")
+        VoiceAssets.unpackVoice(VoiceAssets.fetch(VoiceAssets.PERSIAN_VOICE, cache, logger), out, archives, fs)
+        logger.lifecycle("Voice: sherpa-onnx framework and Persian voice ready for iOS")
+    }
+}

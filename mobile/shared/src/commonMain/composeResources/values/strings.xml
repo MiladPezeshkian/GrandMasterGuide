@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GrandMaster Guide</string>
+
+    <string name="tagline">Your complete chess coach — by Zorix</string>
+    <string name="splash_preparing">Preparing engine… %1$s</string>
+    <string name="offline_badge">Works offline</string>
+
+    <string name="side_white">White</string>
+    <string name="side_black">Black</string>
+    <string name="turn_white">White to move</string>
+    <string name="turn_black">Black to move</string>
+
+    <string name="engine_preparing">Preparing engine…</string>
+    <string name="engine_starting">Starting engine…</string>
+    <string name="engine_failed">Engine unavailable</string>
+    <string name="engine_retry">Retry</string>
+
+    <string name="action_undo">Undo</string>
+    <string name="action_redo">Redo</string>
+    <string name="action_best_move">Best move</string>
+    <string name="action_stop">Stop</string>
+    <string name="action_flip">Flip</string>
+    <string name="action_play">Play</string>
+    <string name="action_dismiss">Dismiss</string>
+    <string name="action_new_game">New game</string>
+    <string name="action_load_fen">Load FEN</string>
+    <string name="action_copy_fen">Copy FEN</string>
+    <string name="action_copy_pgn">Copy PGN</string>
+    <string name="action_share_pgn">Share PGN</string>
+    <string name="action_about">About</string>
+    <string name="action_analysis">Live analysis</string>
+    <string name="action_more">More options</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_load">Load</string>
+    <string name="action_paste">Paste</string>
+    <string name="action_close">Close</string>
+    <string name="action_first">First move</string>
+    <string name="action_previous">Previous move</string>
+    <string name="action_next">Next move</string>
+    <string name="action_last">Last move</string>
+
+    <string name="hint_idle">Tap “Best move” and Zorix will find the strongest move for %1$s.</string>
+    <string name="hint_thinking">Zorix is thinking…</string>
+    <string name="hint_best_move">Best move for %1$s</string>
+    <string name="hint_depth">Depth %1$d</string>
+    <string name="analysis_title">Live analysis</string>
+    <string name="analysis_waiting">Analysing…</string>
+    <string name="think_time_value">%1$s s</string>
+    <string name="moves_empty">No moves yet — play a move on the board.</string>
+
+    <string name="game_over_checkmate_white">Checkmate — White wins</string>
+    <string name="game_over_checkmate_black">Checkmate — Black wins</string>
+    <string name="game_over_stalemate">Stalemate — draw</string>
+    <string name="game_over_insufficient">Draw — insufficient material</string>
+    <string name="game_over_fifty">Draw — fifty-move rule</string>
+    <string name="game_over_repetition">Draw — threefold repetition</string>
+
+    <string name="msg_illegal_move">Illegal move</string>
+    <string name="msg_game_over">The game is over</string>
+    <string name="msg_engine_not_ready">The engine is not ready yet</string>
+    <string name="msg_no_legal_moves">No legal moves in this position</string>
+    <string name="msg_suggestion_outdated">That suggestion belongs to another position</string>
+    <string name="msg_fen_invalid">Invalid FEN</string>
+    <string name="msg_fen_copied">FEN copied</string>
+    <string name="msg_pgn_copied">PGN copied</string>
+    <string name="msg_position_loaded">Position loaded</string>
+    <string name="msg_nothing_to_undo">Nothing to undo</string>
+    <string name="msg_nothing_to_redo">Nothing to redo</string>
+
+    <string name="board_description">Chess board</string>
+    <string name="promotion_hint">Choose the promotion piece</string>
+
+    <string name="fen_dialog_title">Load position (FEN)</string>
+    <string name="fen_dialog_hint">Paste or type a FEN</string>
+    <string name="fen_error_malformed">This is not a valid FEN.</string>
+    <string name="problem_missing_king">Each side needs a king.</string>
+    <string name="problem_too_many_kings">Each side can have only one king.</string>
+    <string name="problem_pawn_on_back_rank">Pawns cannot stand on the first or last rank.</string>
+    <string name="problem_too_many_pieces">Too many pieces for one side.</string>
+    <string name="problem_opponent_in_check">The side that is not to move is in check.</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_engine">Engine</string>
+    <string name="settings_think_time">Think time for “Best move”</string>
+    <string name="settings_threads">CPU threads</string>
+    <string name="settings_hash">Hash memory</string>
+    <string name="settings_lines">Live analysis lines</string>
+    <string name="settings_board">Board</string>
+    <string name="settings_theme">Board theme</string>
+    <string name="settings_coordinates">Show coordinates</string>
+    <string name="settings_legal_moves">Show legal moves</string>
+    <string name="settings_arrows">Show engine arrows</string>
+    <string name="settings_animations">Animate moves</string>
+    <string name="settings_haptics">Vibrate on moves</string>
+    <string name="settings_engine_info">%1$s · %2$s</string>
+    <string name="mb_value">%1$d MB</string>
+    <string name="theme_classic">Classic</string>
+    <string name="theme_walnut">Walnut</string>
+    <string name="theme_green">Green</string>
+    <string name="theme_blue">Blue</string>
+    <string name="theme_graphite">Graphite</string>
+
+    <string name="editor_side_to_move">Side to move</string>
+    <string name="editor_castling">Castling</string>
+    <string name="editor_white_oo">White O-O</string>
+    <string name="editor_white_ooo">White O-O-O</string>
+    <string name="editor_black_oo">Black O-O</string>
+    <string name="editor_black_ooo">Black O-O-O</string>
+    <string name="editor_clear">Clear</string>
+    <string name="editor_start">Start position</string>
+    <string name="editor_eraser">Eraser</string>
+
+    <string name="about_version">Version %1$s</string>
+    <string name="about_body">GrandMaster Guide is a complete chess school in your pocket, made by Zorix. It teaches chess step by step from the very first move with 322 interactive lessons in seven courses, explains every move with a personal coach in text and voice, lets you play against 20 levels of the engine, train with puzzles, build your own positions and analyse any game with Stockfish 19, the strongest chess engine in the world. Everything runs on your phone, completely offline: no account and no internet connection are needed, and nothing leaves your device.</string>
+    <string name="about_credits">Credits</string>
+    <string name="about_engine">Zorix engine core: based on Stockfish 19 (GNU GPL v3)</string>
+    <string name="about_voice">Coach voices: sherpa-onnx (Apache 2.0), the Piper voices “ganji” for Persian and Kurdish (MIT, CC0 data) and “ljspeech” for English (MIT, public-domain data), and espeak-ng (GPL v3)</string>
+    <string name="about_pieces">Chess pieces: Colin M.L. Burnett (cburnett)</string>
+    <string name="about_font">Logo font: Orbitron by Matt McInerney, SIL Open Font License</string>
+    <string name="about_author">Made by Zorix · Designed &amp; developed by Milad Pezeshkian</string>
+    <string name="about_rights">© Zorix · Milad Pezeshkian. All rights reserved.</string>
+    <string name="engine_name">Zorix Engine</string>
+
+    <string name="settings_language">Language</string>
+    <string name="language_system">System</string>
+    <string name="settings_learning">Learning</string>
+    <string name="settings_coach">Coach mode — rate my moves</string>
+    <string name="settings_coach_hint">After every move Zorix tells you whether it was best, good, a mistake or a blunder.</string>
+    <string name="coach_title">Coach</string>
+    <string name="coach_evaluating">Coach is checking your move…</string>
+    <string name="coach_best_was">Best was %1$s</string>
+    <string name="quality_best">Best move</string>
+    <string name="quality_excellent">Excellent</string>
+    <string name="quality_good">Good</string>
+    <string name="quality_inaccuracy">Inaccuracy</string>
+    <string name="quality_mistake">Mistake</string>
+    <string name="quality_blunder">Blunder</string>
+    <string name="action_learn">Learn</string>
+    <string name="learn_title">Learn chess</string>
+    <string name="learn_progress">%1$d of %2$d solved</string>
+    <string name="puzzle_correct">Correct! Now finish the mate.</string>
+    <string name="puzzle_wrong">Not quite — try another move.</string>
+    <string name="puzzle_solved">Checkmate! Puzzle solved.</string>
+    <string name="puzzle_hint">Hint</string>
+    <string name="puzzle_solution">Solution</string>
+    <string name="puzzle_next">Next</string>
+    <string name="puzzle_retry">Retry</string>
+    <string name="puzzle_mate1">Mate in 1</string>
+    <string name="puzzle_mate2">Mate in 2</string>
+    <string name="quality_brilliant">Brilliant</string>
+    <string name="quality_great">Great move</string>
+    <string name="quality_book">Book move</string>
+    <string name="quality_miss">Missed win</string>
+    <string name="action_back">Back</string>
+    <string name="action_draw">Draw</string>
+    <string name="action_hint">Hint</string>
+    <string name="action_listen">Listen</string>
+    <string name="action_next_level">Next level</string>
+    <string name="action_rematch">Rematch</string>
+    <string name="action_resign">Resign</string>
+    <string name="action_review">Game review</string>
+    <string name="action_takeback">Take back</string>
+    <string name="bot_name">Zorix %1$d</string>
+    <string name="coach_name">Coach Zorix</string>
+    <string name="default_player">Player</string>
+    <string name="exp_new">I am new to chess</string>
+    <string name="exp_new_body">Teach me from the very beginning.</string>
+    <string name="exp_rules">I know the rules</string>
+    <string name="exp_rules_body">I know how the pieces move.</string>
+    <string name="exp_casual">I play sometimes</string>
+    <string name="exp_casual_body">I play with friends or online.</string>
+    <string name="exp_club">Club player</string>
+    <string name="exp_club_body">I know openings and tactics.</string>
+    <string name="exp_strong">Strong player</string>
+    <string name="exp_strong_body">I play tournaments at a high level.</string>
+    <string name="learn_subtitle">%1$d lessons</string>
+    <string name="lesson_back_to_course">Back to the course</string>
+    <string name="lesson_checking">Checking…</string>
+    <string name="lesson_done_title">Lesson complete!</string>
+    <string name="lesson_failed">Not this time — try again.</string>
+    <string name="lesson_find_square">Find %1$s</string>
+    <string name="lesson_meta">%1$d exercises · level %2$d</string>
+    <string name="lesson_mistakes">Mistakes: %1$d</string>
+    <string name="lesson_moves_par">Moves: %1$d (best: %2$d)</string>
+    <string name="lesson_next">Next lesson</string>
+    <string name="lesson_perfect">Perfect — no mistakes!</string>
+    <string name="lesson_round">%1$d / %2$d</string>
+    <string name="lesson_squares_done">%1$d of %2$d correct</string>
+    <string name="lesson_start">Start</string>
+    <string name="onboard_finish">Let\'s begin!</string>
+    <string name="onboard_level_body">Lessons and opponents will be chosen for your level.</string>
+    <string name="onboard_level_title">How well do you play, %1$s?</string>
+    <string name="onboard_name_body">Your coach will call you by your name.</string>
+    <string name="onboard_name_hint">Your name</string>
+    <string name="onboard_name_title">What is your name?</string>
+    <string name="onboard_next">Next</string>
+    <string name="onboard_start">Get started</string>
+    <string name="onboard_welcome">Welcome to GrandMaster Guide</string>
+    <string name="onboard_welcome_body">Learn, play and improve with a personal coach — fully offline.</string>
+    <string name="play_choose_color">Choose your colour:</string>
+    <string name="play_draw_declined">Zorix declines the draw.</string>
+    <string name="play_levels_hint">All 20 levels are open — play any of them. 3 stars = a win without hints or takebacks.</string>
+    <string name="play_random">Random</string>
+    <string name="play_recommended">Recommended</string>
+    <string name="play_resume">Continue your game</string>
+    <string name="play_title">Play vs Zorix</string>
+    <string name="puzzle_black_to_move">Black to move</string>
+    <string name="puzzle_white_to_move">White to move</string>
+    <string name="puzzle_mode_rated">Practice</string>
+    <string name="puzzle_mode_streak">Streak</string>
+    <string name="puzzle_skip">Skip</string>
+    <string name="puzzle_streak_now">Streak: %1$d</string>
+    <string name="puzzle_streak_over">Streak over: %1$d solved</string>
+    <string name="puzzle_try_again">Try again</string>
+    <string name="resign_body">The game will count as a loss.</string>
+    <string name="resign_title">Resign this game?</string>
+    <string name="result_draw">Draw</string>
+    <string name="result_loss">Zorix wins</string>
+    <string name="result_win">You win!</string>
+    <string name="review_accuracy">Accuracy</string>
+    <string name="review_analysing">Zorix is reviewing your game…</string>
+    <string name="review_back_to_game">Back to the review</string>
+    <string name="review_key_moments">Key moments</string>
+    <string name="review_moves">Your moves</string>
+    <string name="review_retry">Retry</string>
+    <string name="review_retry_prompt">Find a better move than the one you played.</string>
+    <string name="review_title">Game review</string>
+    <string name="settings_explain_bot">Zorix explains its moves</string>
+    <string name="settings_profile">Profile</string>
+    <string name="settings_voice">Voice coach</string>
+    <string name="settings_voice_hint">The coach reads its explanations aloud in English, Persian and Kurdish with natural voices that run on your phone, without the internet.</string>
+    <string name="tab_analysis">Analysis</string>
+    <string name="tab_learn">Learn</string>
+    <string name="tab_play">Play</string>
+    <string name="tab_puzzles">Puzzles</string>
+    <string name="theme_attraction">Attraction</string>
+    <string name="theme_defender">Remove the defender</string>
+    <string name="theme_deflection">Deflection</string>
+    <string name="theme_discovered">Discovered attack</string>
+    <string name="theme_double_check">Double check</string>
+    <string name="theme_endgame">Endgame</string>
+    <string name="theme_fork">Fork</string>
+    <string name="theme_hanging">Hanging piece</string>
+    <string name="theme_mate">Checkmate</string>
+    <string name="theme_opening">Opening</string>
+    <string name="theme_pin">Pin</string>
+    <string name="theme_promotion">Promotion</string>
+    <string name="theme_quiet">Quiet move</string>
+    <string name="theme_sacrifice">Sacrifice</string>
+    <string name="theme_skewer">Skewer</string>
+    <string name="tier_beginner">Beginner</string>
+    <string name="tier_novice">Novice</string>
+    <string name="tier_intermediate">Intermediate</string>
+    <string name="tier_advanced">Advanced</string>
+    <string name="tier_expert">Expert</string>
+    <string name="tier_master">Master</string>
+    <string name="tier_grandmaster">Grandmaster</string>
+    <string name="tier_zorix">Zorix Max</string>
+    <string name="zorix_thinking">Zorix is thinking…</string>
+    <string name="tab_settings">Settings</string>
+    <string name="action_build">Build a puzzle</string>
+    <string name="action_help">Help</string>
+    <string name="help_got_it">Got it</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="theme_zorix">Zorix (dark)</string>
+    <string name="theme_sky">Sky (light)</string>
+    <string name="settings_explain_bot_hint">In games, the coach also explains Zorix\'s moves and warns you about its threats.</string>
+    <string name="settings_think_time_hint">How long the engine thinks when you tap Best move. Longer thinking gives deeper, more accurate moves.</string>
+    <string name="settings_threads_hint">Processor cores the engine uses at the same time (this phone has %1$d). More cores = faster analysis, but more battery.</string>
+    <string name="settings_hash_hint">Memory for positions the engine has already analysed. 64 MB suits most phones; use more for long thinking times.</string>
+    <string name="settings_lines_hint">How many candidate moves live analysis shows at the same time.</string>
+    <string name="play_subtitle_plain">20 levels, from beginner to grandmaster</string>
+    <string name="result_review_hint">Review the game to see your best moves, your mistakes and how to improve.</string>
+    <string name="puzzle_solved_line">Solved: %1$d</string>
+    <string name="builder_title">Build a puzzle</string>
+    <string name="builder_count">%1$d of %2$d pieces</string>
+    <string name="builder_king_stays">The kings are always on the board. Choose a king in the palette to move it.</string>
+    <string name="builder_pawn_rank">A pawn cannot stand on the first or last rank.</string>
+    <string name="builder_full">The board is full: at most 32 pieces, the most the engine can evaluate.</string>
+    <string name="builder_check">The side that is not to move is in check — such a position cannot happen. Change the side to move or move the pieces.</string>
+    <string name="builder_ready">Ready — tap “Analyse position”.</string>
+    <string name="builder_move_king">Move the king</string>
+    <string name="builder_tool_eraser">Eraser: tap a piece to remove it.</string>
+    <string name="builder_tool_king">Tap a square to move this king there.</string>
+    <string name="builder_tool_piece">Tap squares to place the piece; tap it again to remove it.</string>
+    <string name="builder_analyze">Analyse position</string>
+    <string name="help_analysis_title">Analysis board</string>
+    <string name="help_builder_title">Building a puzzle</string>
+    <string name="help_play_title">Playing against Zorix</string>
+    <string name="help_game_title">During the game</string>
+    <string name="help_review_title">Game review</string>
+    <string name="help_learn_title">Lessons</string>
+    <string name="help_lesson_title">How a lesson works</string>
+    <string name="help_puzzles_title">Puzzles</string>
+    <string name="help_settings_title">Settings explained</string>
+    <string-array name="help_analysis">
+        <item>What it is|The main board of the app. Play moves for both sides or set up any position, and let the engine — Stockfish 19, the strongest chess engine in the world, running on your phone — find the best move and evaluate the position.</item>
+        <item>Moving pieces|Tap a piece and then a square, or drag it. Dots show the legal squares. When a pawn reaches the last rank you choose the new piece (queen, rook, bishop or knight).</item>
+        <item>Best move|Tap “Best move”: the engine thinks for the time chosen in Settings and draws its move as a green arrow, with the evaluation and the expected continuation. Tap the suggestion to play it.</item>
+        <item>Live analysis|The chart button at the top turns continuous analysis on: up to three candidate moves (green, blue and orange arrows), the evaluation bar beside the board and the search depth.</item>
+        <item>Reading the evaluation|+1.00 means White is better by about one pawn; −2.50 means Black is better by two and a half pawns; #3 means mate in 3 moves. The bar next to the board shows the same thing at a glance.</item>
+        <item>Coach|With the coach switched on, every move you play is rated (best, excellent, good, inaccuracy, mistake, blunder…) and explained, together with the better move.</item>
+        <item>Moves, undo and redo|Tap any move in the list under the board to jump to it. The undo and redo buttons step backwards and forwards through the game.</item>
+        <item>Build a puzzle|The pencil button opens the puzzle builder: set up any position and analyse it.</item>
+        <item>Menu ⋮|New game, build a position, load or copy FEN (a one-line text description of a position), copy or share the game as PGN (the standard game format), and About.</item>
+    </string-array>
+    <string-array name="help_builder">
+        <item>What it is|Set up any position — a puzzle from a book, a moment from your own game or an idea you want to test — and let the engine analyse it.</item>
+        <item>The kings|Both kings are always on the board and cannot be removed. To move a king, choose it in the palette (the outlined king) and tap the new square.</item>
+        <item>Placing pieces|Choose a piece and tap squares to place it; tap the same piece again to remove it, or use the eraser. You can use any number of each piece — up to 32 pieces in total, the most the engine can evaluate.</item>
+        <item>Rules that still apply|Pawns cannot stand on the first or last rank. The side that is not to move must not be in check, because such a position can never happen; change the side to move or move the pieces.</item>
+        <item>Side to move and castling|Choose who is to move. Castling can be allowed only while the king and that rook stand on their starting squares.</item>
+        <item>Analyse|“Analyse position” opens it on the analysis board, where Best move and live analysis work as usual. The flip button turns the board around.</item>
+    </string-array>
+    <string-array name="help_play">
+        <item>Play against Zorix|20 levels, from a complete beginner (level 1) to the full strength of the engine (level 20). The lower levels make human-like mistakes on purpose; the higher ones play like club players, masters and grandmasters.</item>
+        <item>Choosing a level|The level marked “Recommended” suits you best, but you can play any level. Winning earns stars on that level — three stars for a win without hints or take-backs.</item>
+        <item>Colour|Before the game choose White, Black or a random colour.</item>
+    </string-array>
+    <string-array name="help_game">
+        <item>During the game|Make your moves on the board and Zorix answers. The coach rates and explains every move you play. With “Explain Zorix\'s moves” switched on in Settings, it also explains the opponent\'s moves and warns you about its threats.</item>
+        <item>Hint|Shows the best move as an arrow with its explanation. A win with hints earns fewer stars.</item>
+        <item>Take back|Takes back your last move together with Zorix\'s reply.</item>
+        <item>Draw and resign|Offer a draw — Zorix accepts only when the position is really equal — or resign the game.</item>
+        <item>Listen|The speaker button reads the last explanation aloud.</item>
+        <item>After the game|Open the review to see your accuracy, the key moments and to find the better moves yourself.</item>
+    </string-array>
+    <string-array name="help_review">
+        <item>Game review|Every move of the game is rated. Accuracy (0–100%) shows how close the moves were to the engine\'s best moves.</item>
+        <item>Key moments|The moves that changed the game most: mistakes, missed chances and great moves. Tap one to see it on the board with its explanation.</item>
+        <item>Try again|At a mistake, tap “Try again” and find the better move yourself.</item>
+    </string-array>
+    <string-array name="help_learn">
+        <item>Courses|Seven courses take you from zero to an advanced level: Chess Basics, Chess Understanding, Checkmate Patterns, Tactics, Endgames, Openings and Strategy. If you are new to chess, start with Chess Basics.</item>
+        <item>Step by step|Lessons open one after another: finishing a lesson opens the next one. Each lesson gives up to three stars.</item>
+        <item>Kinds of exercises|Explanations with diagrams, moving a piece to stars, captures, quizzes, finding the best move, puzzles, mate in N, playing opening lines and playing endgames out against Zorix.</item>
+    </string-array>
+    <string-array name="help_lesson">
+        <item>Steps|Read or listen to the explanation, then solve each exercise. The bar at the top shows your progress through the lesson.</item>
+        <item>Hint and solution|Hint highlights the piece to move. Solution shows the answer and explains it, but counts as a mistake.</item>
+        <item>Voice|Reads explanations aloud with natural voices built into the app, with no internet needed: an English voice, a Persian voice and a native Sorani Kurdish voice. Tap the speaker icon to hear an explanation again.</item>
+        <item>Stars|No mistakes: three stars. One or two mistakes: two stars. More: one star. You can repeat any lesson to improve your result.</item>
+    </string-array>
+    <string-array name="help_puzzles">
+        <item>Puzzles|Real positions with one winning solution. Find the best move for the side to move; when the opponent answers, keep going until the puzzle is solved.</item>
+        <item>Modes|Practice: the puzzles get harder as you solve them. Streak: solve as many as you can in a row — one mistake ends the streak. Themes: practise one idea, such as forks, pins or mates.</item>
+        <item>Hint and solution|Hint highlights the piece to move; Solution plays the answer and explains it.</item>
+        <item>Your own puzzles|The pencil button opens the builder: set up any position and analyse it.</item>
+    </string-array>
+    <string-array name="help_settings">
+        <item>Profile|The name the coach uses when it talks to you.</item>
+        <item>Appearance|Zorix: dark style in black and red. Sky: light style in white and sky blue.</item>
+        <item>Language|Persian, Kurdish (Sorani) or English. “System” follows the phone\'s language.</item>
+        <item>Coach|Rates and explains every move you play on the analysis board.</item>
+        <item>Voice|Reads explanations aloud with natural voices built into the app, with no internet needed: an English voice, a Persian voice, and for Kurdish the same voice speaking from Kurdish pronunciation rules, so the Kurdish text itself is read. Tap the speaker icon to hear an explanation again.</item>
+        <item>Think time|How long the engine thinks when you tap Best move, from 0.5 to 30 seconds. Longer means deeper and more accurate, but slower. 2–5 seconds is enough for most positions; use 10–30 seconds for difficult endgames or sharp tactics.</item>
+        <item>CPU threads|How many processor cores the engine uses at the same time. More threads analyse faster and deeper, but use more battery and warm the phone. A good choice is the number of cores minus one.</item>
+        <item>Memory (hash)|Memory for the engine\'s table of positions it has already analysed, so it does not calculate them twice. 64 MB suits most phones; 128–256 MB helps long thinking times on phones with plenty of RAM.</item>
+        <item>Lines|How many candidate moves live analysis shows (1–3). More lines give more information, but each one is calculated a little less deeply.</item>
+        <item>Depth|The depth shown during analysis is how many half-moves ahead the engine has calculated. It grows with the think time and the number of threads; depth 20 or more is very strong.</item>
+        <item>Board|Board colours, coordinates (a–h, 1–8), dots for legal moves, arrows, move animations and vibration.</item>
+    </string-array>
+    <string name="voice_preparing">Preparing the voice…</string>
+    <string name="speed_tip_title">Tip for a faster coach</string>
+    <string name="speed_tip_body">Close the other apps that are open on your phone. Zorix then has more memory and processor time, so analysis and the voice are noticeably faster.</string>
+    <string name="speed_tip_ok">Got it</string>
+    <string name="speed_tip_never">Don\'t show again</string>
+</resources>

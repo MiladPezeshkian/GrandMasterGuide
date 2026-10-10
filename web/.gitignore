@@ -1,0 +1,18 @@
+node_modules
+.next
+out
+.env
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+# Copied from npm packages by scripts/assets.mjs
+public/engine
+public/ort
+# Kotlin/JS build
+core/build
+core/.gradle
+core/.kotlin
+core/kotlin-js-store
+core/build.log
+.data

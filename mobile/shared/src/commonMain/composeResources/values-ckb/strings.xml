@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kurdish (Sorani) -->
+<resources>
+    <string name="app_name">GrandMaster Guide</string>
+    <string name="tagline">ڕاهێنەری تەواوی شەترەنجی تۆ — دروستکراوی Zorix</string>
+    <string name="splash_preparing">ئامادەکردنی مەکینە… %1$s</string>
+    <string name="offline_badge">بەبێ ئینتەرنێت کار دەکات</string>
+    <string name="side_white">سپی</string>
+    <string name="side_black">ڕەش</string>
+    <string name="turn_white">نۆرەی سپی</string>
+    <string name="turn_black">نۆرەی ڕەش</string>
+    <string name="engine_preparing">ئامادەکردنی مەکینە…</string>
+    <string name="engine_starting">دەستپێکردنی مەکینە…</string>
+    <string name="engine_failed">مەکینە بەردەست نییە</string>
+    <string name="engine_retry">دووبارە هەوڵبدەرەوە</string>
+    <string name="action_undo">گەڕانەوە</string>
+    <string name="action_redo">پێشەوە</string>
+    <string name="action_best_move">باشترین جوڵە</string>
+    <string name="action_stop">وەستان</string>
+    <string name="action_flip">وەرگێڕان</string>
+    <string name="action_play">جێبەجێکردن</string>
+    <string name="action_dismiss">داخستن</string>
+    <string name="action_new_game">یاری نوێ</string>
+    <string name="action_load_fen">بارکردنی FEN</string>
+    <string name="action_copy_fen">کۆپیکردنی FEN</string>
+    <string name="action_copy_pgn">کۆپیکردنی PGN</string>
+    <string name="action_share_pgn">هاوبەشکردنی PGN</string>
+    <string name="action_about">دەربارە</string>
+    <string name="action_analysis">شیکردنەوەی ڕاستەوخۆ</string>
+    <string name="action_more">هەڵبژاردەی زیاتر</string>
+    <string name="action_cancel">هەڵوەشاندنەوە</string>
+    <string name="action_load">بارکردن</string>
+    <string name="action_paste">لکاندن</string>
+    <string name="action_close">داخستن</string>
+    <string name="action_first">یەکەم جوڵە</string>
+    <string name="action_previous">جوڵەی پێشوو</string>
+    <string name="action_next">جوڵەی دواتر</string>
+    <string name="action_last">دوایین جوڵە</string>
+    <string name="hint_idle">«باشترین جوڵە» دابگرە تا Zorix بەهێزترین جوڵە بۆ %1$s بدۆزێتەوە.</string>
+    <string name="hint_thinking">Zorix بیر دەکاتەوە…</string>
+    <string name="hint_best_move">باشترین جوڵە بۆ %1$s</string>
+    <string name="hint_depth">قووڵی %1$d</string>
+    <string name="analysis_title">شیکردنەوەی ڕاستەوخۆ</string>
+    <string name="analysis_waiting">شیکردنەوە…</string>
+    <string name="think_time_value">%1$s چرکە</string>
+    <string name="moves_empty">هێشتا هیچ جوڵەیەک نییە — لەسەر تەختەکە جوڵەیەک بکە.</string>
+    <string name="game_over_checkmate_white">کش‌مات — سپی بردیەوە</string>
+    <string name="game_over_checkmate_black">کش‌مات — ڕەش بردیەوە</string>
+    <string name="game_over_stalemate">پات — یەکسان</string>
+    <string name="game_over_insufficient">یەکسان — پارچەی پێویست بۆ مات نییە</string>
+    <string name="game_over_fifty">یەکسان — یاسای ٥٠ جوڵە</string>
+    <string name="game_over_repetition">یەکسان — دووبارەبوونەوەی سێ جار</string>
+    <string name="msg_illegal_move">جوڵەی نایاسایی</string>
+    <string name="msg_game_over">یاری کۆتایی هاتووە</string>
+    <string name="msg_engine_not_ready">مەکینە هێشتا ئامادە نییە</string>
+    <string name="msg_no_legal_moves">لەم دۆخەدا جوڵەی یاسایی نییە</string>
+    <string name="msg_suggestion_outdated">ئەو پێشنیارە هی دۆخێکی ترە</string>
+    <string name="msg_fen_invalid">FEN نادروستە</string>
+    <string name="msg_fen_copied">FEN کۆپی کرا</string>
+    <string name="msg_pgn_copied">PGN کۆپی کرا</string>
+    <string name="msg_position_loaded">دۆخەکە بارکرا</string>
+    <string name="msg_nothing_to_undo">هیچ شتێک بۆ گەڕانەوە نییە</string>
+    <string name="msg_nothing_to_redo">هیچ شتێک بۆ پێشەوە نییە</string>
+    <string name="board_description">تەختەی شەترەنج</string>
+    <string name="promotion_hint">پارچەی بەرزکردنەوە هەڵبژێرە</string>
+    <string name="fen_dialog_title">بارکردنی دۆخ (FEN)</string>
+    <string name="fen_dialog_hint">FEN بلکێنە یان بینووسە</string>
+    <string name="fen_error_malformed">ئەمە FEN ێکی دروست نییە.</string>
+    <string name="problem_missing_king">هەر لایەک پێویستی بە شایەک هەیە.</string>
+    <string name="problem_too_many_kings">هەر لایەک تەنها یەک شای دەبێت.</string>
+    <string name="problem_pawn_on_back_rank">سەرباز ناتوانێت لە ڕیزی یەکەم یان کۆتایی بێت.</string>
+    <string name="problem_too_many_pieces">پارچەکانی لایەک زۆرن.</string>
+    <string name="problem_opponent_in_check">ئەو لایەی نۆرەی نییە لە کشدایە.</string>
+    <string name="settings_title">ڕێکخستنەکان</string>
+    <string name="settings_engine">مەکینە</string>
+    <string name="settings_think_time">کاتی بیرکردنەوە بۆ «باشترین جوڵە»</string>
+    <string name="settings_threads">ناوکەکانی پرۆسێسەر</string>
+    <string name="settings_hash">بیرگەی Hash</string>
+    <string name="settings_lines">ژمارەی هێڵەکانی شیکردنەوە</string>
+    <string name="settings_board">تەختە</string>
+    <string name="settings_theme">ڕەنگی تەختە</string>
+    <string name="settings_coordinates">پیشاندانی هێماکان</string>
+    <string name="settings_legal_moves">پیشاندانی جوڵە یاساییەکان</string>
+    <string name="settings_arrows">پیشاندانی تیرەکانی مەکینە</string>
+    <string name="settings_animations">ئەنیمەیشنی جوڵە</string>
+    <string name="settings_haptics">لەرزین لە کاتی جوڵەدا</string>
+    <string name="settings_engine_info">%1$s · %2$s</string>
+    <string name="mb_value">%1$d مێگابایت</string>
+    <string name="theme_classic">کلاسیک</string>
+    <string name="theme_walnut">گوێزی</string>
+    <string name="theme_green">سەوز</string>
+    <string name="theme_blue">شین</string>
+    <string name="theme_graphite">گرافیتی</string>
+    <string name="editor_side_to_move">نۆرەی جوڵە</string>
+    <string name="editor_castling">قەڵابەندی</string>
+    <string name="editor_white_oo">سپی O-O</string>
+    <string name="editor_white_ooo">سپی O-O-O</string>
+    <string name="editor_black_oo">ڕەش O-O</string>
+    <string name="editor_black_ooo">ڕەش O-O-O</string>
+    <string name="editor_clear">پاککردنەوە</string>
+    <string name="editor_start">دۆخی دەستپێک</string>
+    <string name="editor_eraser">سڕەرەوە</string>
+    <string name="about_version">وەشانی %1$s</string>
+    <string name="about_body">GrandMaster Guide قوتابخانەیەکی تەواوی شەترەنجە لە گیرفانتدا، دروستکراوی Zorix. شەترەنج لە یەکەم جوڵەوە، هەنگاو بە هەنگاو و بە ٣٢٢ وانەی کارلێککەر لە حەوت خولدا فێر دەکات؛ ڕاهێنەرێکی تایبەت هەموو جوڵەیەک بە نووسین و دەنگ ڕوون دەکاتەوە؛ دەتوانیت لەگەڵ ٢٠ ئاستی مەکینەکە یاری بکەیت، بە مەتەڵ ڕاهێنان بکەیت، دۆخی دڵخوازی خۆت دروست بکەیت و هەر یارییەک بە Stockfish 19، بەهێزترین مەکینەی شەترەنجی جیهان، شی بکەیتەوە. هەموو شتێک لەسەر مۆبایلەکەت و بە تەواوی بێ ئینتەرنێت کار دەکات: نە هەژمار پێویستە نە ئینتەرنێت، و هیچ زانیارییەک لە ئامێرەکەت ناچێتە دەرەوە.</string>
+    <string name="about_credits">سوپاس و ناساندن</string>
+    <string name="about_engine">ناوکی مەکینەی Zorix: لەسەر بنەمای Stockfish 19 (مۆڵەتی GNU GPL v3)</string>
+    <string name="about_voice">دەنگەکانی ڕاهێنەر: sherpa-onnx (مۆڵەتی Apache 2.0)، دەنگی Piper «ganji» بۆ فارسی و کوردی (مۆڵەتی MIT، داتای CC0)، دەنگی «ljspeech» بۆ ئینگلیزی (مۆڵەتی MIT، داتای گشتی) و espeak-ng (GPL v3)</string>
+    <string name="about_pieces">پارچەکان: Colin M.L. Burnett (cburnett)</string>
+    <string name="about_font">فۆنتی لۆگۆ: Orbitron لە Matt McInerney، مۆڵەتی SIL Open Font</string>
+    <string name="about_author">دروستکراوی Zorix · دیزاین و پەرەپێدان: میلاد پزشکیان</string>
+    <string name="about_rights">© Zorix · میلاد پزشکیان. هەموو مافەکان پارێزراون.</string>
+    <string name="engine_name">مەکینەی Zorix</string>
+    <string name="settings_language">زمان</string>
+    <string name="language_system">زمانی ئامێر</string>
+    <string name="settings_learning">فێربوون</string>
+    <string name="settings_coach">دۆخی ڕاهێنەر — هەڵسەنگاندنی جوڵەکانم</string>
+    <string name="settings_coach_hint">دوای هەر جوڵەیەک Zorix پێت دەڵێت باشترین، باش، هەڵە یان هەڵەی گەورە بووە.</string>
+    <string name="coach_title">ڕاهێنەر</string>
+    <string name="coach_evaluating">ڕاهێنەر جوڵەکەت دەپشکنێت…</string>
+    <string name="coach_best_was">باشترین جوڵە %1$s بوو</string>
+    <string name="quality_best">باشترین جوڵە</string>
+    <string name="quality_excellent">نایاب</string>
+    <string name="quality_good">باش</string>
+    <string name="quality_inaccuracy">ناوردی</string>
+    <string name="quality_mistake">هەڵە</string>
+    <string name="quality_blunder">هەڵەی گەورە</string>
+    <string name="action_learn">فێربوون</string>
+    <string name="learn_title">فێربوونی شەترەنج</string>
+    <string name="learn_progress">%1$d لە %2$d چارەسەرکراوە</string>
+    <string name="puzzle_correct">ڕاستە! ئێستا کش‌ماتەکە تەواو بکە.</string>
+    <string name="puzzle_wrong">تەواو نییە — جوڵەیەکی تر تاقی بکەرەوە.</string>
+    <string name="puzzle_solved">کش‌مات! مەتەڵەکە چارەسەرکرا.</string>
+    <string name="puzzle_hint">ڕێنمایی</string>
+    <string name="puzzle_solution">چارەسەر</string>
+    <string name="puzzle_next">دواتر</string>
+    <string name="puzzle_retry">دووبارە</string>
+    <string name="puzzle_mate1">مات لە ١</string>
+    <string name="puzzle_mate2">مات لە ٢</string>
+    <string name="quality_brilliant">درەوشاوە</string>
+    <string name="quality_great">جوڵەی گەورە</string>
+    <string name="quality_book">جوڵەی کتێبی</string>
+    <string name="quality_miss">دەرفەتی لەدەستچوو</string>
+    <string name="action_back">گەڕانەوە</string>
+    <string name="action_draw">یەکسانی</string>
+    <string name="action_hint">ئاماژە</string>
+    <string name="action_listen">گوێگرتن</string>
+    <string name="action_next_level">ئاستی دواتر</string>
+    <string name="action_rematch">یاریی دووبارە</string>
+    <string name="action_resign">خۆبەدەستەوەدان</string>
+    <string name="action_review">پێداچوونەوەی یاری</string>
+    <string name="action_takeback">گەڕاندنەوە</string>
+    <string name="bot_name">Zorix %1$d</string>
+    <string name="coach_name">ڕاهێنەری Zorix</string>
+    <string name="default_player">یاریزان</string>
+    <string name="exp_new">تازە شەترەنج دەناسم</string>
+    <string name="exp_new_body">لە سەرەتاوە فێرم بکە.</string>
+    <string name="exp_rules">یاساکان دەزانم</string>
+    <string name="exp_rules_body">دەزانم مۆرەکان چۆن دەجوڵێن.</string>
+    <string name="exp_casual">هەندێک جار یاری دەکەم</string>
+    <string name="exp_casual_body">لەگەڵ هاوڕێکانم یان ئۆنلاین یاری دەکەم.</string>
+    <string name="exp_club">یاریزانی یانە</string>
+    <string name="exp_club_body">دەستپێک و تاکتیکەکان دەزانم.</string>
+    <string name="exp_strong">یاریزانی بەهێز</string>
+    <string name="exp_strong_body">لە پاڵەوانێتییەکاندا و لە ئاستێکی بەرزدا یاری دەکەم.</string>
+    <string name="learn_subtitle">%1$d وانە</string>
+    <string name="lesson_back_to_course">گەڕانەوە بۆ خولەکە</string>
+    <string name="lesson_checking">پشکنین…</string>
+    <string name="lesson_done_title">وانەکە تەواو بوو!</string>
+    <string name="lesson_failed">ئەمجارە نەبوو — دووبارە هەوڵ بدەرەوە.</string>
+    <string name="lesson_find_square">%1$s بدۆزەرەوە</string>
+    <string name="lesson_meta">%1$d ڕاهێنان · ئاست %2$d</string>
+    <string name="lesson_mistakes">هەڵەکان: %1$d</string>
+    <string name="lesson_moves_par">جوڵەکان: %1$d (باشترین: %2$d)</string>
+    <string name="lesson_next">وانەی دواتر</string>
+    <string name="lesson_perfect">بێ کەموکوڕی — بەبێ هیچ هەڵەیەک!</string>
+    <string name="lesson_round">%1$d / %2$d</string>
+    <string name="lesson_squares_done">%1$d لە %2$d ڕاست</string>
+    <string name="lesson_start">دەستپێکردن</string>
+    <string name="onboard_finish">با دەست پێبکەین!</string>
+    <string name="onboard_level_body">وانەکان و ڕکابەرەکان بەپێی ئاستی تۆ پێشنیار دەکرێن.</string>
+    <string name="onboard_level_title">%1$s، چەند شەترەنج دەزانیت؟</string>
+    <string name="onboard_name_body">ڕاهێنەرەکەت بە ناوی خۆت بانگت دەکات.</string>
+    <string name="onboard_name_hint">ناوی تۆ</string>
+    <string name="onboard_name_title">ناوت چییە؟</string>
+    <string name="onboard_next">دواتر</string>
+    <string name="onboard_start">دەست پێبکە</string>
+    <string name="onboard_welcome">بەخێربێیت بۆ GrandMaster Guide</string>
+    <string name="onboard_welcome_body">لەگەڵ ڕاهێنەرێکی تایبەت فێربە، یاری بکە و بەهێزتر ببە — بە تەواوی بێ ئینتەرنێت.</string>
+    <string name="play_choose_color">ڕەنگی خۆت هەڵبژێرە:</string>
+    <string name="play_draw_declined">Zorix یەکسانییەکەی ڕەتکردەوە.</string>
+    <string name="play_levels_hint">هەموو ٢٠ ئاستەکە کراوەن و دەتوانیت یاری لە هەر کامێکیان بکەیت. ٣ ئەستێرە = بردنەوە بەبێ ئاماژە و گەڕاندنەوەی جوڵە.</string>
+    <string name="play_random">هەڕەمەکی</string>
+    <string name="play_recommended">پێشنیارکراو</string>
+    <string name="play_resume">بەردەوامبوونی یارییەکەت</string>
+    <string name="play_title">یاری لەگەڵ Zorix</string>
+    <string name="puzzle_black_to_move">نۆرەی ڕەش</string>
+    <string name="puzzle_white_to_move">نۆرەی سپی</string>
+    <string name="puzzle_mode_rated">ڕاهێنان</string>
+    <string name="puzzle_mode_streak">زنجیرە</string>
+    <string name="puzzle_skip">تێپەڕاندن</string>
+    <string name="puzzle_streak_now">زنجیرە: %1$d</string>
+    <string name="puzzle_streak_over">زنجیرەکە کۆتایی هات: %1$d چارەسەرکراو</string>
+    <string name="puzzle_try_again">دووبارە</string>
+    <string name="resign_body">یارییەکە وەک دۆڕان هەژمار دەکرێت.</string>
+    <string name="resign_title">خۆت بەدەستەوە دەدەیت؟</string>
+    <string name="result_draw">یەکسان</string>
+    <string name="result_loss">Zorix بردیەوە</string>
+    <string name="result_win">بردتەوە!</string>
+    <string name="review_accuracy">وردی</string>
+    <string name="review_analysing">Zorix یارییەکەت دەپشکنێت…</string>
+    <string name="review_back_to_game">گەڕانەوە بۆ پێداچوونەوە</string>
+    <string name="review_key_moments">ساتە گرنگەکان</string>
+    <string name="review_moves">جوڵەکانت</string>
+    <string name="review_retry">دووبارە</string>
+    <string name="review_retry_prompt">جوڵەیەک باشتر لەوەی کردت بدۆزەرەوە.</string>
+    <string name="review_title">پێداچوونەوەی یاری</string>
+    <string name="settings_explain_bot">Zorix جوڵەکانی ڕوون بکاتەوە</string>
+    <string name="settings_profile">پرۆفایل</string>
+    <string name="settings_voice">ڕاهێنەری دەنگی</string>
+    <string name="settings_voice_hint">ڕاهێنەر ڕوونکردنەوەکانی بە کوردی، فارسی و ئینگلیزی بە دەنگێکی سروشتی دەخوێنێتەوە؛ دەنگەکە لەسەر مۆبایلەکەت و بێ ئینتەرنێت دروست دەکرێت.</string>
+    <string name="tab_analysis">شیکاری</string>
+    <string name="tab_learn">فێربوون</string>
+    <string name="tab_play">یاری</string>
+    <string name="tab_puzzles">مەتەڵەکان</string>
+    <string name="theme_attraction">ڕاکێشان</string>
+    <string name="theme_defender">لابردنی بەرگریکار</string>
+    <string name="theme_deflection">لادان</string>
+    <string name="theme_discovered">هێرشی ئاشکراکراو</string>
+    <string name="theme_double_check">کشی دووانە</string>
+    <string name="theme_endgame">کۆتایی یاری</string>
+    <string name="theme_fork">دووشاخە</string>
+    <string name="theme_hanging">مۆرەی بێ پارێزەر</string>
+    <string name="theme_mate">کش‌مات</string>
+    <string name="theme_opening">دەستپێک</string>
+    <string name="theme_pin">بەستنەوە</string>
+    <string name="theme_promotion">بەرزبوونەوە</string>
+    <string name="theme_quiet">جوڵەی ئارام</string>
+    <string name="theme_sacrifice">قوربانی</string>
+    <string name="theme_skewer">شیش</string>
+    <string name="tier_beginner">سەرەتایی</string>
+    <string name="tier_novice">تازەفێر</string>
+    <string name="tier_intermediate">مامناوەند</string>
+    <string name="tier_advanced">پێشکەوتوو</string>
+    <string name="tier_expert">شارەزا</string>
+    <string name="tier_master">ماستەر</string>
+    <string name="tier_grandmaster">ماستەری گەورە</string>
+    <string name="tier_zorix">Zorix Max</string>
+    <string name="zorix_thinking">Zorix بیر دەکاتەوە…</string>
+    <string name="tab_settings">ڕێکخستنەکان</string>
+    <string name="action_build">دروستکردنی مەتەڵ</string>
+    <string name="action_help">ڕێنمایی</string>
+    <string name="help_got_it">تێگەیشتم</string>
+    <string name="settings_appearance">ڕووکار</string>
+    <string name="theme_zorix">Zorix (تاریک)</string>
+    <string name="theme_sky">ئاسمانی (ڕووناک)</string>
+    <string name="settings_explain_bot_hint">لە یاریدا، ڕاهێنەر جوڵەکانی Zorix-یش ڕوون دەکاتەوە و ئاگادارت دەکاتەوە لە هەڕەشەکانی.</string>
+    <string name="settings_think_time_hint">ماوەی بیرکردنەوەی مەکینە کاتێک «باشترین جوڵە» دەدەیت. بیرکردنەوەی درێژتر واتە جوڵەی قووڵتر و وردتر.</string>
+    <string name="settings_threads_hint">ژمارەی ناوکەکانی پرۆسێسەر کە مەکینە لە یەک کاتدا بەکاریان دەهێنێت (ئەم مۆبایلە %1$d ناوکی هەیە). ناوکی زیاتر واتە شیکاریی خێراتر، بەڵام باتری زیاتر.</string>
+    <string name="settings_hash_hint">بیرگە بۆ ئەو دۆخانەی مەکینە پێشتر شیی کردوونەتەوە. ٦٤ مێگابایت بۆ زۆربەی مۆبایلەکان گونجاوە؛ بۆ کاتی بیرکردنەوەی درێژ زیاتری دابنێ.</string>
+    <string name="settings_lines_hint">ژمارەی ئەو جوڵە پێشنیارکراوانەی شیکاریی زیندوو لە یەک کاتدا پیشانی دەدات.</string>
+    <string name="play_subtitle_plain">٢٠ ئاست، لە سەرەتاییەوە تا گەورە مامۆستا</string>
+    <string name="result_review_hint">یارییەکە پێدا بچۆرەوە بۆ ئەوەی باشترین جوڵەکان، هەڵەکان و ڕێگای باشتربوونت ببینیت.</string>
+    <string name="puzzle_solved_line">چارەسەرکراو: %1$d</string>
+    <string name="builder_title">دروستکردنی مەتەڵ و شیکاری</string>
+    <string name="builder_count">%1$d لە %2$d مۆرە</string>
+    <string name="builder_king_stays">شاکان هەمیشە لەسەر تەختەکەن و لا نابرێن. بۆ جوڵاندن، شاکە لە خوارەوە هەڵبژێرە.</string>
+    <string name="builder_pawn_rank">سەرباز ناتوانێت لە ڕیزی یەکەم یان کۆتایی بێت.</string>
+    <string name="builder_full">تەختەکە پڕە: زۆرترین ٣٢ مۆرە، زۆرترین ژمارە کە مەکینە دەتوانێت هەڵیبسەنگێنێت.</string>
+    <string name="builder_check">ئەو لایەنەی نۆرەی نییە لە کشدایە؛ دۆخی وا لە یاریدا ڕوونادات. نۆرە بگۆڕە یان مۆرەکان بجوڵێنە.</string>
+    <string name="builder_ready">ئامادەیە — «شیکاریی دۆخ» دابگرە.</string>
+    <string name="builder_move_king">جوڵاندنی شا</string>
+    <string name="builder_tool_eraser">سڕەرەوە: دەست لە مۆرەیەک بدە بۆ لابردنی.</string>
+    <string name="builder_tool_king">دەست لە خانەیەک بدە بۆ ئەوەی شاکە بچێتە ئەوێ.</string>
+    <string name="builder_tool_piece">دەست لە خانەکان بدە بۆ دانانی مۆرەکە؛ دووبارە دەست لێی بدەیتەوە لادەبرێت.</string>
+    <string name="builder_analyze">شیکاریی دۆخ</string>
+    <string name="help_analysis_title">تەختەی شیکاری</string>
+    <string name="help_builder_title">دروستکردنی مەتەڵ و شیکاری</string>
+    <string name="help_play_title">یاری لەگەڵ Zorix</string>
+    <string name="help_game_title">لە کاتی یاریدا</string>
+    <string name="help_review_title">پێداچوونەوەی یاری</string>
+    <string name="help_learn_title">وانەکان</string>
+    <string name="help_lesson_title">وانە چۆن کار دەکات</string>
+    <string name="help_puzzles_title">مەتەڵەکان</string>
+    <string name="help_settings_title">ڕوونکردنەوەی ڕێکخستنەکان</string>
+    <string-array name="help_analysis">
+        <item>ئەم بەشە چییە|تەختەی سەرەکیی بەرنامەکە. بۆ هەردوو لایەن جوڵە بکە یان هەر دۆخێک دابنێ، با مەکینەکە — Stockfish 19، بەهێزترین مەکینەی شەترەنجی جیهان کە لەسەر مۆبایلەکەت کار دەکات — باشترین جوڵە بدۆزێتەوە و دۆخەکە هەڵبسەنگێنێت.</item>
+        <item>جوڵاندنی مۆرەکان|دەست لە مۆرەیەک و پاشان لە خانەیەک بدە، یان ڕایبکێشە. خاڵەکان خانە ڕێگەپێدراوەکان پیشان دەدەن. کاتێک سەرباز دەگاتە ڕیزی کۆتایی، مۆرە نوێیەکە خۆت هەڵدەبژێریت (وەزیر، قەڵا، فیل یان ئەسپ).</item>
+        <item>باشترین جوڵە|«باشترین جوڵە» دابگرە: مەکینە بە ئەندازەی ئەو کاتەی لە ڕێکخستنەکان دیاریکراوە بیر دەکاتەوە و جوڵەکەی بە تیرێکی سەوز، لەگەڵ هەڵسەنگاندن و درێژەی پێشبینیکراو پیشان دەدات. دەست لە پێشنیارەکە بدە بۆ ئەنجامدانی.</item>
+        <item>شیکاریی زیندوو|دوگمەی هێڵکاری لە سەرەوە شیکاریی بەردەوام دادەگیرسێنێت: تا سێ جوڵەی پێشنیارکراو (تیری سەوز، شین و پرتەقاڵی)، شریتی هەڵسەنگاندن لە تەنیشت تەختەکە و قووڵایی گەڕان.</item>
+        <item>خوێندنەوەی هەڵسەنگاندن|‎+1.00 واتە سپی نزیکەی یەک سەرباز باشترە؛ ‎−2.50 واتە ڕەش دوو سەرباز و نیو باشترە؛ ‎#3 واتە کشمات لە ٣ جوڵەدا. شریتەکەی تەنیشت تەختەکە هەمان شت بە یەک سەیرکردن پیشان دەدات.</item>
+        <item>ڕاهێنەر|کاتێک ڕاهێنەر داگیرساوە، هەر جوڵەیەک دەیکەیت هەڵدەسەنگێنرێت (باشترین، نایاب، باش، ناورد، هەڵە، هەڵەی گەورە…) و ڕوون دەکرێتەوە، لەگەڵ جوڵە باشترەکە.</item>
+        <item>جوڵەکان، گەڕانەوە و پێشەوە|دەست لە هەر جوڵەیەک لە لیستەکەی ژێر تەختەکە بدە بۆ گەیشتن پێی. دوگمەکانی گەڕانەوە و پێشەوە لە یارییەکەدا دەچنە دواوە و پێشەوە.</item>
+        <item>دروستکردنی مەتەڵ|دوگمەی پێنووس دروستکەری مەتەڵ دەکاتەوە: هەر دۆخێک دەتەوێت دایبنێ و شیی بکەرەوە.</item>
+        <item>مێنیوی ⋮|یاریی نوێ، دروستکردنی دۆخ، بارکردن یان کۆپیکردنی FEN (وەسفی یەک‌هێڵیی دۆخ)، کۆپیکردن یان هاوبەشکردنی یاری وەک PGN (شێوازی ستانداردی یاری) و دەربارە.</item>
+    </string-array>
+    <string-array name="help_builder">
+        <item>ئەم بەشە چییە|هەر دۆخێک دابنێ — مەتەڵێک لە کتێبێکەوە، ساتێک لە یاریی خۆت یان بیرۆکەیەک کە دەتەوێت تاقی بکەیتەوە — با مەکینەکە شیی بکاتەوە.</item>
+        <item>شاکان|هەردوو شا هەمیشە لەسەر تەختەکەن و لا نابرێن. بۆ جوڵاندنی شا، لە پالێتەکەی خوارەوە هەڵیبژێرە (شا چوارچێوەدارەکە) و دەست لە خانە نوێیەکە بدە.</item>
+        <item>دانانی مۆرەکان|مۆرەیەک هەڵبژێرە و دەست لە خانەکان بدە بۆ دانانی؛ بە دووبارە دەستلێدانی هەمان مۆرە یان بە سڕەرەوە لادەبرێت. لە هەر مۆرەیەک هەر ژمارەیەک بتەوێت دادەنرێت — بە گشتی تا ٣٢ مۆرە، زۆرترین ژمارە کە مەکینە دەتوانێت هەڵیبسەنگێنێت.</item>
+        <item>یاساکان کە هێشتا هەن|سەرباز ناتوانێت لە ڕیزی یەکەم یان کۆتایی بێت. ئەو لایەنەی نۆرەی نییە نابێت لە کشدا بێت، چونکە دۆخی وا هەرگیز لە یاریدا ڕوونادات؛ نۆرە بگۆڕە یان مۆرەکان بجوڵێنە.</item>
+        <item>نۆرە و قەڵابەندی|هەڵبژێرە نۆرەی کێیە. قەڵابەندی تەنها ڕێگەپێدراوە کاتێک شا و ئەو قەڵایە لە خانە سەرەتاییەکانیاندا بن.</item>
+        <item>شیکاری|«شیکاریی دۆخ» لە تەختەی شیکاریدا دەیکاتەوە، بۆ ئەوەی باشترین جوڵە و شیکاریی زیندوو وەک هەمیشە کار بکەن. دوگمەی سووڕاندن تەختەکە هەڵدەگێڕێتەوە.</item>
+    </string-array>
+    <string-array name="help_play">
+        <item>یاری لەگەڵ Zorix|٢٠ ئاست، لە سەرەتاییی تەواوەوە (ئاستی ١) تا هێزی تەواوی مەکینە (ئاستی ٢٠). ئاستە نزمەکان بە ئەنقەست هەڵەی مرۆڤانە دەکەن و ئاستە بەرزەکان وەک یاریزانی یانە، مامۆستا و گەورە مامۆستا یاری دەکەن.</item>
+        <item>هەڵبژاردنی ئاست|ئەو ئاستەی «پێشنیارکراو»ی لەسەرە بۆ تۆ گونجاوترە، بەڵام دەتوانیت هەر ئاستێک یاری بکەیت. بە بردنەوە، لەو ئاستەدا ئەستێرە وەردەگریت — سێ ئەستێرە بۆ بردنەوە بەبێ ئاماژە و گەڕاندنەوەی جوڵە.</item>
+        <item>ڕەنگ|پێش یاری سپی، ڕەش یان هەڵبژاردنی هەڕەمەکی دیاری بکە.</item>
+    </string-array>
+    <string-array name="help_game">
+        <item>لە کاتی یاریدا|جوڵەکانت لەسەر تەختەکە بکە و Zorix وەڵام دەداتەوە. ڕاهێنەر هەموو جوڵەیەکت هەڵدەسەنگێنێت و ڕوونی دەکاتەوە. ئەگەر «ڕوونکردنەوەی جوڵەکانی Zorix» لە ڕێکخستنەکان داگیرسابێت، جوڵەکانی ڕکابەریش ڕوون دەکاتەوە و ئاگادارت دەکاتەوە لە هەڕەشەکانی.</item>
+        <item>ئاماژە|باشترین جوڵە بە تیر و ڕوونکردنەوەکەی پیشان دەدات. بردنەوە بە بەکارهێنانی ئاماژە ئەستێرەی کەمترە.</item>
+        <item>گەڕاندنەوەی جوڵە|دوایین جوڵەت لەگەڵ وەڵامی Zorix دەگەڕێنێتەوە.</item>
+        <item>یەکسانی و خۆبەدەستەوەدان|یەکسانی پێشنیار بکە — Zorix تەنها کاتێک قبووڵی دەکات کە دۆخەکە بەڕاستی یەکسان بێت — یان خۆت بەدەستەوە بدە.</item>
+        <item>گوێگرتن|دوگمەی بڵندگۆ دوایین ڕوونکردنەوە بە دەنگ دەخوێنێتەوە.</item>
+        <item>دوای یاری|پێداچوونەوە بکەرەوە بۆ بینینی وردییەکەت و ساتە گرنگەکان، و بۆ ئەوەی جوڵە باشترەکان خۆت بدۆزیتەوە.</item>
+    </string-array>
+    <string-array name="help_review">
+        <item>پێداچوونەوەی یاری|هەموو جوڵەکانی یارییەکە هەڵدەسەنگێنرێن. وردی (٠ تا ١٠٠٪) پیشان دەدات جوڵەکان چەند نزیک بوون لە باشترین جوڵەکانی مەکینە.</item>
+        <item>ساتە گرنگەکان|ئەو جوڵانەی زۆرترین کاریگەرییان لە یارییەکەدا هەبوو: هەڵەکان، دەرفەتە لەدەستچووەکان و جوڵە نایابەکان. دەست لە هەر یەکێکیان بدە بۆ بینینی لەسەر تەختەکە لەگەڵ ڕوونکردنەوەکەی.</item>
+        <item>دووبارە هەوڵ بدەرەوە|لەسەر هەڵەیەک «دووبارە هەوڵ بدەرەوە» دابگرە و جوڵە باشترەکە خۆت بدۆزەرەوە.</item>
+    </string-array>
+    <string-array name="help_learn">
+        <item>خولەکان|حەوت خول لە سفرەوە تا ئاستی پێشکەوتوو دەتبەن: بنەماکانی شەترەنج، تێگەیشتنی شەترەنج، شێوازەکانی کشمات، تاکتیک، کۆتایی یاری، دەستپێکەکان و ستراتیژی. ئەگەر تازە دەستت پێکردووە، لە بنەماکانی شەترەنجەوە دەست پێبکە.</item>
+        <item>هەنگاو بە هەنگاو|وانەکان بە ڕیز دەکرێنەوە: تەواوکردنی هەر وانەیەک وانەی دواتر دەکاتەوە. هەر وانەیەک تا سێ ئەستێرەی هەیە.</item>
+        <item>جۆرەکانی ڕاهێنان|ڕوونکردنەوە بە وێنەی تەختە، گەیاندنی مۆرە بە ئەستێرەکان، گرتنی مۆرەکان، پرسیاری چەند هەڵبژاردە، دۆزینەوەی باشترین جوڵە، مەتەڵ، کشمات لە چەند جوڵەدا، یاریکردنی هێڵەکانی دەستپێک و یاریکردنی کۆتایی یاری دژی Zorix.</item>
+    </string-array>
+    <string-array name="help_lesson">
+        <item>هەنگاوەکان|ڕوونکردنەوەکە بخوێنەرەوە یان گوێی لێ بگرە، پاشان هەر ڕاهێنانێک چارەسەر بکە. شریتەکەی سەرەوە پێشکەوتنت لە وانەکەدا پیشان دەدات.</item>
+        <item>ئاماژە و چارەسەر|ئاماژە ئەو مۆرەیە دیاری دەکات کە دەبێت بجوڵێت. چارەسەر وەڵامەکە پیشان دەدات و ڕوونی دەکاتەوە، بەڵام وەک هەڵەیەک دەژمێردرێت.</item>
+        <item>دەنگ|کاتێک دەنگ داگیرساوە، ڕاهێنەر ڕوونکردنەوەکان بە دەنگ دەخوێنێتەوە. بۆ گوێگرتنەوە دەست لە ئایکۆنی بڵندگۆ بدە.</item>
+        <item>ئەستێرەکان|بەبێ هەڵە: سێ ئەستێرە. یەک یان دوو هەڵە: دوو ئەستێرە. زیاتر: یەک ئەستێرە. دەتوانیت هەر وانەیەک دووبارە بکەیتەوە بۆ باشترکردنی ئەنجامەکەت.</item>
+    </string-array>
+    <string-array name="help_puzzles">
+        <item>مەتەڵەکان|دۆخی ڕاستەقینە بە یەک چارەسەری براوە. باشترین جوڵە بۆ ئەو لایەنەی نۆرەیەتی بدۆزەرەوە؛ کاتێک ڕکابەر وەڵامی دایەوە، بەردەوام بە تا مەتەڵەکە چارەسەر دەبێت.</item>
+        <item>دۆخەکان|ڕاهێنان: بە چارەسەرکردن، مەتەڵەکان قورستر دەبن. بەدوای یەکدا: هەتا دەتوانیت بەدوای یەکدا چارەسەر بکە — یەک هەڵە زنجیرەکە تەواو دەکات. بابەتەکان: یەک بیرۆکە ڕاهێنان بکە، وەک دووشاخە، بەستنەوە یان کشمات.</item>
+        <item>ئاماژە و چارەسەر|ئاماژە ئەو مۆرەیە دیاری دەکات کە دەبێت بجوڵێت؛ چارەسەر وەڵامەکە یاری دەکات و ڕوونی دەکاتەوە.</item>
+        <item>مەتەڵی خۆت|دوگمەی پێنووس دروستکەرەکە دەکاتەوە: هەر دۆخێک دابنێ و شیی بکەرەوە.</item>
+    </string-array>
+    <string-array name="help_settings">
+        <item>پرۆفایل|ئەو ناوەی ڕاهێنەر لە کاتی قسەکردن لەگەڵت بەکاری دەهێنێت.</item>
+        <item>ڕووکار|Zorix: شێوازی تاریک بە ڕەش و سوور. ئاسمانی: شێوازی ڕووناک بە سپی و شینی ئاسمانی.</item>
+        <item>زمان|فارسی، کوردی (سۆرانی) یان ئینگلیزی. «زمانی سیستەم» زمانی مۆبایلەکە پەیڕەو دەکات.</item>
+        <item>ڕاهێنەر|هەر جوڵەیەک لە تەختەی شیکاریدا دەیکەیت هەڵدەسەنگێنێت و ڕوونی دەکاتەوە.</item>
+        <item>دەنگ|ڕوونکردنەوەکان بە دەنگی سروشتیی ناو بەرنامەکە و بەبێ ئینتەرنێت دەخوێنێتەوە: دەنگێکی ئینگلیزی، دەنگێکی فارسی و دەنگێکی ڕەسەنی کوردیی سۆرانی. بۆ گوێگرتنەوە لە هەر ڕوونکردنەوەیەک دەست لە ئایکۆنی بڵندگۆ بدە.</item>
+        <item>کاتی بیرکردنەوە|ماوەی بیرکردنەوەی مەکینە کاتێک «باشترین جوڵە» دەدەیت، لە ٠٫٥ تا ٣٠ چرکە. زیاتر واتە قووڵتر و وردتر بەڵام خاوتر. بۆ زۆربەی دۆخەکان ٢ تا ٥ چرکە بەسە؛ بۆ کۆتایی یارییە قورسەکان یان تاکتیکە ئاڵۆزەکان ١٠ تا ٣٠ چرکە دابنێ.</item>
+        <item>دەزووەکانی پرۆسێسەر|ژمارەی ناوکەکانی پرۆسێسەر کە مەکینە لە یەک کاتدا بەکاریان دەهێنێت. دەزووی زیاتر خێراتر و قووڵتر شی دەکاتەوە، بەڵام باتری زیاتر بەکاردەهێنێت و مۆبایلەکە گەرمتر دەکات. هەڵبژاردنی باش: ژمارەی ناوکەکان کەم یەک.</item>
+        <item>بیرگە (هاش)|بیرگە بۆ خشتەی ئەو دۆخانەی مەکینە پێشتر شیی کردوونەتەوە، بۆ ئەوەی دووبارە حسابیان نەکات. ٦٤ مێگابایت بۆ زۆربەی مۆبایلەکان گونجاوە؛ ١٢٨ تا ٢٥٦ مێگابایت بۆ کاتی بیرکردنەوەی درێژ لە مۆبایلی ڕامی زۆردا سوودی هەیە.</item>
+        <item>هێڵەکان|ژمارەی جوڵە پێشنیارکراوەکان لە شیکاریی زیندوودا (١ تا ٣). هێڵی زیاتر زانیاری زیاتر دەدات، بەڵام هەر هێڵێک کەمێک کەمقووڵتر حساب دەکرێت.</item>
+        <item>قووڵایی|ئەو قووڵاییەی لە کاتی شیکاریدا پیشان دەدرێت واتە مەکینە چەند نیوە-جوڵە بۆ پێشەوە حسابی کردووە. لەگەڵ کاتی بیرکردنەوە و ژمارەی دەزووەکان زیاد دەبێت؛ قووڵایی ٢٠ و سەرووتر زۆر بەهێزە.</item>
+        <item>تەختە|ڕەنگی تەختە، هێڵکارییەکان (a تا h و ١ تا ٨)، خاڵەکانی جوڵەی ڕێگەپێدراو، تیرەکان، جوڵەی ئەنیمەیشن و لەرزین.</item>
+    </string-array>
+    <string name="voice_preparing">ئامادەکردنی دەنگ…</string>
+    <string name="speed_tip_title">ئامۆژگاری بۆ خێرایی زیاتر</string>
+    <string name="speed_tip_body">ئەو بەرنامانەی تری لەسەر مۆبایلەکەت کراونەتەوە دایانبخە. بەم شێوەیە Zorix بیرگە و پرۆسێسەری زیاتری هەیە و شیکاری و دەنگی ڕاهێنەر بە ئاشکرا خێراتر دەبن.</string>
+    <string name="speed_tip_ok">تێگەیشتم</string>
+    <string name="speed_tip_never">جارێکی تر پیشان مەدە</string>
+</resources>
