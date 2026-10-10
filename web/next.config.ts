@@ -17,6 +17,8 @@ const config: NextConfig = {
       // Engine, models and lesson content never change under the same name.
       { source: "/engine/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
       { source: "/models/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      { source: "/ort/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
+      { source: "/voices/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=2592000" }] },
       { source: "/content/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }] },
     ];
   },

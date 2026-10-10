@@ -7,6 +7,10 @@ The chess school of the GrandMaster Guide app on the web, by Zorix. Designed and
   rated puzzles, the 20 Zorix levels and game review are the app's Kotlin code (`../mobile/shared`) compiled to
   JavaScript (`core/` → `src/core/`). **Stockfish 19** (WebAssembly) runs in a Web Worker. The site therefore
   rates and explains moves exactly like the app.
+- **The coach's voice:** Sorani Kurdish is the app's own neural voice **Vekol**, run in the browser with ONNX Runtime
+  Web (`public/voices/`, 39 MB, downloaded once and kept in the browser's cache). Persian and English use the
+  browser's voices (Microsoft Edge and Android have natural ones). As in the app, "Zorix is thinking…" shows until
+  the voice is ready, then the text and the voice come together.
 - **Accounts:** sign-up with an emailed 6-digit code, sign-in by email or username, password reset by code.
   Everything is free once signed in; progress is saved to the account.
 - **Play with friends:** a game link (`/g/<id>`) or an invitation by username; clocks, draw offers, resign, abort,
@@ -58,5 +62,7 @@ After changing `src/lib/db/schema.ts`: `npm run db:generate` (writes a migration
 ## Credits
 
 Stockfish 19 (GPL-3.0) and Stockfish.js (GPL-3.0); "The King - 3DDecember Day5" by Batuhan13 (CC BY 4.0);
-cburnett pieces (BSD); Vazirmatn, Orbitron, Inter (OFL); three.js, React Three Fiber, drei (MIT); Lucide (ISC).
+cburnett pieces (BSD); Vazirmatn, Orbitron, Inter (OFL); three.js, React Three Fiber, drei (MIT); Lucide (ISC);
+ONNX Runtime Web (MIT). The Kurdish voice "Vekol" is by Darvan Shvan (Revge), CC BY-NC 4.0, used with the
+author's permission in this free school (see `public/voices/ckb/NOTICE.md`).
 See `/credits` on the site. The site is free software under the GPL-3.0.

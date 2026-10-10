@@ -6,8 +6,9 @@ out
 *.tsbuildinfo
 next-env.d.ts
 .vercel
-# Copied from the stockfish package by scripts/assets.mjs
+# Copied from npm packages by scripts/assets.mjs
 public/engine
+public/ort
 # Kotlin/JS build
 core/build
 core/.gradle

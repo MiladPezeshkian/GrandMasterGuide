@@ -2,7 +2,9 @@
 
 package com.zorix.chess.web
 
+import com.zorix.chess.coach.KurdishVoice
 import com.zorix.chess.coach.Speakable
+import com.zorix.chess.coach.VoiceText
 import com.zorix.chess.controller.AppController
 import com.zorix.chess.controller.speechLanguage
 import com.zorix.chess.controller.AppThemeId
@@ -109,6 +111,16 @@ class ZorixCore(
 
     /** Whether new coach texts will be read aloud (voice on and available for the language). */
     fun voiceReady(): Boolean = app.voiceReady(app.board.state.value.settings)
+
+    /**
+     * What the Kurdish voice (Vekol, which reads Sorani letters) says for [text], piece by piece, as in
+     * the app: sentences (a very long one split at its commas) in the letters the voice knows ([letters]).
+     */
+    fun kurdishPieces(text: String, letters: String): Array<String> {
+        val known = letters.toSet()
+        return VoiceText.sentences(text).flatMap { KurdishVoice.chunks(it, max = 200, firstMax = 220) }
+            .map { KurdishVoice.speechText(it, known) }.filter { it.isNotEmpty() }.toTypedArray()
+    }
 
     fun voiceStarted(token: Int) = speech.started(token)
     fun voiceDone(token: Int) = speech.done(token)

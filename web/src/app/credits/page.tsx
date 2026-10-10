@@ -21,6 +21,7 @@ const CREDITS: { name: string; by: string; license: string; url: string; use: st
   { name: "Inter", by: "Rasmus Andersson", license: "OFL-1.1", url: "https://rsms.me/inter/", use: "Latin text" },
   { name: "three.js, React Three Fiber, drei", by: "mrdoob, Poimandres", license: "MIT", url: "https://github.com/pmndrs/react-three-fiber", use: "3D" },
   { name: "Lucide", by: "Lucide contributors", license: "ISC", url: "https://lucide.dev", use: "Icons" },
+  { name: "ONNX Runtime Web", by: "Microsoft", license: "MIT", url: "https://onnxruntime.ai", use: "Neural voice in the browser" },
 ];
 
 export default async function Credits() {

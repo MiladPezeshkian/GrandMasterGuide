@@ -89,8 +89,10 @@ export function ZorixProvider({ initialState, userId, children }: { initialState
   const [core, setCore] = useState<ZorixCore | null>(null);
   const storageRef = useRef<AccountStorage | null>(null);
   const voiceRef = useRef<Voice | null>(null);
+  const coreRef = useRef<ZorixCore | null>(null);
   if (typeof window !== "undefined" && !storageRef.current) storageRef.current = new AccountStorage(initialState, userId);
-  if (typeof window !== "undefined" && !voiceRef.current) voiceRef.current = createVoice();
+  // Kurdish text is cut into the voice's pieces by the app's own rules (KurdishVoice), in the core.
+  if (typeof window !== "undefined" && !voiceRef.current) voiceRef.current = createVoice((text, letters) => coreRef.current?.kurdishPieces(text, letters) ?? []);
 
   // Create the core once: the app's logic with Stockfish in a Web Worker.
   useEffect(() => {
@@ -112,7 +114,7 @@ export function ZorixProvider({ initialState, userId, children }: { initialState
           supports: (l: string) => voice.supports(l),
           speak: (text: string, l: string, token: number) => voice.speak(text, l, () => instance?.voiceStarted(token), () => instance?.voiceDone(token)),
           stop: () => voice.stop(),
-          prepare: () => undefined,
+          prepare: (l: string) => voice.prepare(l),
         },
         (path: string) => fetch(`/content/${path}`).then((r) => {
           if (!r.ok) throw new Error(`${path}: ${r.status}`);
@@ -121,10 +123,12 @@ export function ZorixProvider({ initialState, userId, children }: { initialState
         Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) - 1)),
       );
       instance.subscribe((channel: string, state: unknown) => store.set(channel as Channel, state));
+      coreRef.current = instance;
       setCore(instance);
     })();
     return () => {
       disposed = true;
+      if (coreRef.current === instance) coreRef.current = null;
       instance?.close();
     };
   }, [store]);

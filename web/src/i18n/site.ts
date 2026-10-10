@@ -144,7 +144,7 @@ const en = {
   board_view: "Board view",
   saved: "Saved to your account",
   speed_tip: "Tip: close other heavy tabs and apps — the engine and the voice get faster.",
-  voice_browser_note: "The coach's voice uses your browser's voices. If your language has no voice, the coach shows text only.",
+  voice_browser_note: "Kurdish uses Zorix's own voice (downloaded once, about 40 MB). Persian and English use your browser's voices; if your browser has none, the coach shows text only.",
 
   // ------------------------------------------------------------ online games
   friends_title: "Play with friends",
@@ -424,7 +424,7 @@ const fa: Dict = {
   board_view: "نمای صفحه",
   saved: "در حساب شما ذخیره شد",
   speed_tip: "نکته: تب‌ها و برنامه‌های سنگین دیگر را ببندید تا موتور و صدا سریع‌تر شوند.",
-  voice_browser_note: "صدای مربی از صداهای مرورگر شما استفاده می‌کند. اگر مرورگر برای زبانتان صدا نداشته باشد، مربی فقط متن نشان می‌دهد.",
+  voice_browser_note: "کُردی با صدای خود زوریکس پخش می‌شود (یک بار دانلود، حدود ۴۰ مگابایت). فارسی و انگلیسی از صداهای مرورگر شما استفاده می‌کنند؛ اگر مرورگر صدا نداشته باشد، مربی فقط متن نشان می‌دهد.",
 
   friends_title: "بازی با دوستان",
   friends_sub: "بازی بسازید و لینکش را بفرستید، یا بازیکنی را با نام کاربری‌اش دعوت کنید.",
@@ -699,7 +699,7 @@ const ckb: Partial<Dict> = {
   board_view: "شێوەی تەختە",
   saved: "لە هەژمارەکەتدا پاشەکەوت کرا",
   speed_tip: "ئامۆژگاری: تابە و بەرنامە قورسەکانی تر دابخە تا بزوێنەر و دەنگ خێراتر بن.",
-  voice_browser_note: "دەنگی ڕاهێنەر دەنگەکانی وێبگەڕەکەت بەکاردەهێنێت. ئەگەر وێبگەڕ دەنگی زمانەکەتی نەبێت، ڕاهێنەر تەنها دەق پیشان دەدات.",
+  voice_browser_note: "کوردی بە دەنگی خودی Zorix دەخوێنرێتەوە (یەک جار دادەبەزێت، نزیکەی ٤٠ مێگابایت). فارسی و ئینگلیزی دەنگەکانی وێبگەڕەکەت بەکاردەهێنن؛ ئەگەر وێبگەڕ دەنگی نەبێت، ڕاهێنەر تەنها دەق پیشان دەدات.",
 
   friends_title: "یاری لەگەڵ هاوڕێکان",
   friends_sub: "یارییەک دروست بکە و بەستەرەکەی بنێرە، یان یاریزانێک بە ناوی بەکارهێنەرەکەی بانگهێشت بکە.",

@@ -18,16 +18,16 @@ class atomicfu$AtomicRefArray$ref {
       tmp_1[tmp_0] = atomic$ref$1(null);
       tmp_0 = tmp_0 + 1 | 0;
     }
-    tmp.ql_1 = tmp_1;
+    tmp.sl_1 = tmp_1;
   }
-  rl() {
-    return this.ql_1.length;
+  tl() {
+    return this.sl_1.length;
   }
   atomicfu$get(index) {
-    return this.ql_1[index];
+    return this.sl_1[index];
   }
   get atomicfu$size() {
-    return this.rl();
+    return this.tl();
   }
 }
 class atomicfu$TraceBase {
@@ -51,10 +51,10 @@ class AtomicRef {
   constructor(value) {
     this.kotlinx$atomicfu$value = value;
   }
-  sl(_set____db54di) {
+  ul(_set____db54di) {
     this.kotlinx$atomicfu$value = _set____db54di;
   }
-  tl() {
+  vl() {
     return this.kotlinx$atomicfu$value;
   }
   atomicfu$compareAndSet(expect, update) {
@@ -76,10 +76,10 @@ class AtomicBoolean {
   constructor(value) {
     this.kotlinx$atomicfu$value = value;
   }
-  ul(_set____db54di) {
+  wl(_set____db54di) {
     this.kotlinx$atomicfu$value = _set____db54di;
   }
-  tl() {
+  vl() {
     return this.kotlinx$atomicfu$value;
   }
   atomicfu$compareAndSet(expect, update) {
@@ -101,10 +101,10 @@ class AtomicLong {
   constructor(value) {
     this.kotlinx$atomicfu$value = value;
   }
-  vl(_set____db54di) {
+  xl(_set____db54di) {
     this.kotlinx$atomicfu$value = _set____db54di;
   }
-  tl() {
+  vl() {
     return this.kotlinx$atomicfu$value;
   }
   atomicfu$compareAndSet(expect, update) {
@@ -153,10 +153,10 @@ class AtomicInt {
   constructor(value) {
     this.kotlinx$atomicfu$value = value;
   }
-  wl(_set____db54di) {
+  yl(_set____db54di) {
     this.kotlinx$atomicfu$value = _set____db54di;
   }
-  tl() {
+  vl() {
     return this.kotlinx$atomicfu$value;
   }
   atomicfu$compareAndSet(expect, update) {

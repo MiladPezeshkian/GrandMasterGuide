@@ -10,6 +10,7 @@ export declare class ZorixCore {
     speakDisplay(text: string): void;
     stopSpeaking(): void;
     voiceReady(): boolean;
+    kurdishPieces(text: string, letters: string): Array<string>;
     voiceStarted(token: number): void;
     voiceDone(token: number): void;
     close(): void;

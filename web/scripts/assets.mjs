@@ -1,5 +1,6 @@
 // Copies what the site serves from other parts of the repository:
 //  - Stockfish 19 (WebAssembly, lite single-threaded build) from the npm package -> public/engine
+//  - ONNX Runtime Web (for the Kurdish voice) -> public/ort
 //  - the app's lessons and puzzles -> public/content/files
 //  - the app's piece artwork -> public/pieces
 //  - the app's texts (en/fa/ckb strings.xml) -> src/i18n/app.generated.json
@@ -26,6 +27,13 @@ const sf = path.join(web, "node_modules/stockfish/bin");
 fs.mkdirSync(path.join(web, "public/engine"), { recursive: true });
 for (const f of ["stockfish-19-lite-single.js", "stockfish-19-lite-single.wasm"]) {
   fs.copyFileSync(path.join(sf, f), path.join(web, "public/engine", f));
+}
+
+// ONNX Runtime (WebAssembly) for the Kurdish voice.
+const ort = path.join(web, "node_modules/onnxruntime-web/dist");
+fs.mkdirSync(path.join(web, "public/ort"), { recursive: true });
+for (const f of ["ort.wasm.min.mjs", "ort-wasm-simd-threaded.mjs", "ort-wasm-simd-threaded.wasm"]) {
+  fs.copyFileSync(path.join(ort, f), path.join(web, "public/ort", f));
 }
 
 if (fs.existsSync(res)) {
