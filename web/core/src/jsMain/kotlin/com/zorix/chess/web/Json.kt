@@ -52,20 +52,21 @@ internal fun position(p: Position?): dynamic = p?.let {
     )
 }
 
+private fun plyJson(p: com.zorix.chess.core.Ply, feedback: Map<String, MoveFeedback>): dynamic = json(
+    "uci" to p.move.uci,
+    "san" to p.san,
+    "fen" to p.after.fen(),
+    "side" to side(p.before.sideToMove),
+    "quality" to feedback[feedbackKey(p.before.fen(), p.move)]?.quality?.name?.lowercase(),
+)
+
 internal fun game(g: Game, feedback: Map<String, MoveFeedback> = emptyMap()): dynamic = json(
+    "line" to arr(g.fullLine.map { plyJson(it, feedback) }),
     "startFen" to g.start.fen(),
     "fen" to g.position.fen(),
     "turn" to side(g.position.sideToMove),
     "check" to g.position.isAttacked(g.position.kingSquare(g.position.sideToMove), g.position.sideToMove.opposite),
-    "plies" to arr(g.plies.map { p ->
-        json(
-            "uci" to p.move.uci,
-            "san" to p.san,
-            "fen" to p.after.fen(),
-            "side" to side(p.before.sideToMove),
-            "quality" to feedback[feedbackKey(p.before.fen(), p.move)]?.quality?.name?.lowercase(),
-        )
-    }),
+    "plies" to arr(g.plies.map { plyJson(it, feedback) }),
     "redo" to g.fullLine.size - g.plies.size,
     "lastMove" to g.lastMove?.uci,
     "canUndo" to g.canUndo,

@@ -7551,6 +7551,21 @@ class Position {
   a1e(move) {
     return this.e1d().q2(move);
   }
+  w20(from) {
+    // Inline function 'kotlin.collections.filter' call
+    // Inline function 'kotlin.collections.filterTo' call
+    var this_0 = this.e1d();
+    var destination = ArrayList.h();
+    var tmp0_iterator = this_0.x();
+    while (tmp0_iterator.y()) {
+      var element = tmp0_iterator.z();
+      // Inline function 'com.zorix.chess.core.Position.legalMovesFrom.<anonymous>' call
+      if (element.d1e_1 === from) {
+        destination.k(element);
+      }
+    }
+    return destination;
+  }
   z1t(from, to) {
     var tmp$ret$0;
     $l$block_0: {
@@ -7692,7 +7707,7 @@ class Position {
             bishops = bishops + 1 | 0;
             // Inline function 'kotlin.collections.plusAssign' call
 
-            var element = Squares_instance.w20(sq);
+            var element = Squares_instance.x20(sq);
             bishopColors.k(element);
             break;
           default:
@@ -7828,7 +7843,7 @@ class Tactics {
     }
     return destination;
   }
-  x20(position, move, depth) {
+  y20(position, move, depth) {
     if (!position.a1e(move))
       return false;
     var after = position.n1d(move);
@@ -7873,7 +7888,7 @@ class Tactics {
           while (tmp0_iterator_0.y()) {
             var element_0 = tmp0_iterator_0.z();
             // Inline function 'com.zorix.chess.core.Tactics.forcesMate.<anonymous>.<anonymous>' call
-            if (Tactics_instance.x20(next, element_0, depth - 1 | 0)) {
+            if (Tactics_instance.y20(next, element_0, depth - 1 | 0)) {
               tmp$ret$1 = true;
               break $l$block_1;
             }
@@ -7889,7 +7904,7 @@ class Tactics {
     }
     return tmp$ret$0;
   }
-  y20(position, depth) {
+  z20(position, depth) {
     // Inline function 'kotlin.collections.filter' call
     // Inline function 'kotlin.collections.filterTo' call
     var this_0 = position.e1d();
@@ -7898,13 +7913,13 @@ class Tactics {
     while (tmp0_iterator.y()) {
       var element = tmp0_iterator.z();
       // Inline function 'com.zorix.chess.core.Tactics.solutions.<anonymous>' call
-      if (Tactics_instance.x20(position, element, depth)) {
+      if (Tactics_instance.y20(position, element, depth)) {
         destination.k(element);
       }
     }
     return destination;
   }
-  z20(position, move, depth) {
+  a21(position, move, depth) {
     var after = position.n1d(move);
     var tmp$ret$0;
     $l$block_0: {
@@ -7941,7 +7956,7 @@ class Tactics {
         while (tmp0_iterator.y()) {
           var element = tmp0_iterator.z();
           // Inline function 'com.zorix.chess.core.Tactics.bestDefence.<anonymous>.<anonymous>' call
-          if (Tactics_instance.x20(next, element, depth - 1 | 0)) {
+          if (Tactics_instance.y20(next, element, depth - 1 | 0)) {
             count = count + 1 | 0;
             checkCountOverflow(count);
           }
@@ -7972,7 +7987,7 @@ class Tactics {
           while (tmp0_iterator_0.y()) {
             var element_0 = tmp0_iterator_0.z();
             // Inline function 'com.zorix.chess.core.Tactics.bestDefence.<anonymous>.<anonymous>' call
-            if (Tactics_instance.x20(next_0, element_0, depth - 1 | 0)) {
+            if (Tactics_instance.y20(next_0, element_0, depth - 1 | 0)) {
               count_0 = count_0 + 1 | 0;
               checkCountOverflow(count_0);
             }
@@ -8098,7 +8113,7 @@ class Squares {
   b20(file, rank) {
     return (0 <= file ? file <= 7 : false) && (0 <= rank ? rank <= 7 : false);
   }
-  w20(square) {
+  x20(square) {
     return ((this.i1g(square) + this.k1g(square) | 0) % 2 | 0) === 1;
   }
   d1h(square) {
@@ -8246,32 +8261,32 @@ class Move {
 }
 class PositionProblem extends Enum {}
 class EngineException extends Exception {
-  static c21(message, cause) {
+  static d21(message, cause) {
     cause = cause === VOID ? null : cause;
     var $this = this.sc(message, cause);
-    captureStack($this, $this.b21_1);
+    captureStack($this, $this.c21_1);
     return $this;
   }
 }
 class EngineConnection {}
 function nextLine($completion) {
-  return this.e21();
+  return this.f21();
 }
 function exitCode() {
   return null;
 }
 class sam$kotlin_Comparator$0_3 {
   constructor(function_0) {
-    this.h21_1 = function_0;
+    this.i21_1 = function_0;
   }
   yg(a, b) {
-    return this.h21_1(a, b);
+    return this.i21_1(a, b);
   }
   compare(a, b) {
     return this.yg(a, b);
   }
   x3() {
-    return this.h21_1;
+    return this.i21_1;
   }
   equals(other) {
     var tmp;
@@ -8294,15 +8309,15 @@ class sam$kotlin_Comparator$0_3 {
 }
 class SearchCollector {
   constructor(multiPv) {
-    this.a22_1 = multiPv;
-    this.b22_1 = HashMap.c8();
-    this.c22_1 = 0;
-    this.d22_1 = new Long(0, 0);
+    this.b22_1 = multiPv;
+    this.c22_1 = HashMap.c8();
+    this.d22_1 = 0;
     this.e22_1 = new Long(0, 0);
     this.f22_1 = new Long(0, 0);
+    this.g22_1 = new Long(0, 0);
   }
-  h22(text) {
-    var tmp0_elvis_lhs = UciParser_instance.j22(text);
+  i22(text) {
+    var tmp0_elvis_lhs = UciParser_instance.k22(text);
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return false;
@@ -8310,32 +8325,32 @@ class SearchCollector {
       tmp = tmp0_elvis_lhs;
     }
     var info = tmp;
-    var tmp1_safe_receiver = info.p22_1;
+    var tmp1_safe_receiver = info.q22_1;
     if (tmp1_safe_receiver == null)
       null;
     else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      this.d22_1 = tmp1_safe_receiver;
+      this.e22_1 = tmp1_safe_receiver;
     }
-    var tmp2_safe_receiver = info.q22_1;
+    var tmp2_safe_receiver = info.r22_1;
     if (tmp2_safe_receiver == null)
       null;
     else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      this.e22_1 = tmp2_safe_receiver;
+      this.f22_1 = tmp2_safe_receiver;
     }
-    var tmp3_safe_receiver = info.r22_1;
+    var tmp3_safe_receiver = info.s22_1;
     if (tmp3_safe_receiver == null)
       null;
     else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      this.f22_1 = tmp3_safe_receiver;
+      this.g22_1 = tmp3_safe_receiver;
     }
-    var pv = info.t22_1;
-    var score = info.n22_1;
+    var pv = info.u22_1;
+    var score = info.o22_1;
     var tmp_0;
     var tmp_1;
     // Inline function 'kotlin.collections.isNullOrEmpty' call
@@ -8348,77 +8363,77 @@ class SearchCollector {
     if (tmp_1) {
       tmp_0 = true;
     } else {
-      tmp_0 = info.k22_1 == null;
+      tmp_0 = info.l22_1 == null;
     }
     if (tmp_0)
       return false;
-    var tmp4_elvis_lhs = info.m22_1;
+    var tmp4_elvis_lhs = info.n22_1;
     var index = tmp4_elvis_lhs == null ? 1 : tmp4_elvis_lhs;
-    if (index > this.a22_1)
+    if (index > this.b22_1)
       return false;
-    if (!(info.o22_1 == null) && this.b22_1.w2(index))
+    if (!(info.p22_1 == null) && this.c22_1.w2(index))
       return false;
     // Inline function 'kotlin.collections.set' call
-    var this_0 = this.b22_1;
-    var tmp5_elvis_lhs = info.l22_1;
-    var tmp_2 = tmp5_elvis_lhs == null ? info.k22_1 : tmp5_elvis_lhs;
-    var tmp6_elvis_lhs = info.p22_1;
-    var tmp_3 = tmp6_elvis_lhs == null ? this.d22_1 : tmp6_elvis_lhs;
-    var tmp7_elvis_lhs = info.q22_1;
-    var tmp_4 = tmp7_elvis_lhs == null ? this.e22_1 : tmp7_elvis_lhs;
-    var tmp8_elvis_lhs = info.r22_1;
-    var value = new PvLine(index, info.k22_1, tmp_2, score, info.o22_1, pv, tmp_3, tmp_4, tmp8_elvis_lhs == null ? this.f22_1 : tmp8_elvis_lhs, info.s22_1);
+    var this_0 = this.c22_1;
+    var tmp5_elvis_lhs = info.m22_1;
+    var tmp_2 = tmp5_elvis_lhs == null ? info.l22_1 : tmp5_elvis_lhs;
+    var tmp6_elvis_lhs = info.q22_1;
+    var tmp_3 = tmp6_elvis_lhs == null ? this.e22_1 : tmp6_elvis_lhs;
+    var tmp7_elvis_lhs = info.r22_1;
+    var tmp_4 = tmp7_elvis_lhs == null ? this.f22_1 : tmp7_elvis_lhs;
+    var tmp8_elvis_lhs = info.s22_1;
+    var value = new PvLine(index, info.l22_1, tmp_2, score, info.p22_1, pv, tmp_3, tmp_4, tmp8_elvis_lhs == null ? this.g22_1 : tmp8_elvis_lhs, info.t22_1);
     this_0.r5(index, value);
     if (index === 1)
-      this.c22_1 = info.k22_1;
+      this.d22_1 = info.l22_1;
     return true;
   }
-  v22(best, ponder, finished) {
+  w22(best, ponder, finished) {
     // Inline function 'kotlin.collections.sortedBy' call
-    var this_0 = this.b22_1.a3();
+    var this_0 = this.c22_1.a3();
     // Inline function 'kotlin.comparisons.compareBy' call
     var tmp = UciEngine$SearchCollector$snapshot$lambda;
     var tmp$ret$0 = new sam$kotlin_Comparator$0_3(tmp);
     var tmp$ret$1 = sortedWith(this_0, tmp$ret$0);
-    return new AnalysisSnapshot(tmp$ret$1, this.c22_1, this.d22_1, this.e22_1, this.f22_1, best, ponder, finished);
+    return new AnalysisSnapshot(tmp$ret$1, this.d22_1, this.e22_1, this.f22_1, this.g22_1, best, ponder, finished);
   }
-  g22(best, ponder, finished, $super) {
+  h22(best, ponder, finished, $super) {
     best = best === VOID ? null : best;
     ponder = ponder === VOID ? null : ponder;
     finished = finished === VOID ? false : finished;
-    return $super === VOID ? this.v22(best, ponder, finished) : $super.v22.call(this, best, ponder, finished);
+    return $super === VOID ? this.w22(best, ponder, finished) : $super.w22.call(this, best, ponder, finished);
   }
-  i22(bestLine) {
-    var _destruct__k2r9zo = UciParser_instance.w22(bestLine);
+  j22(bestLine) {
+    var _destruct__k2r9zo = UciParser_instance.x22(bestLine);
     var best = _destruct__k2r9zo.sd();
     var ponder = _destruct__k2r9zo.td();
-    var first = this.b22_1.y2(1);
+    var first = this.c22_1.y2(1);
     if (!(best == null) && !(first == null) && !(firstOrNull(first.d1r_1) == best)) {
       // Inline function 'kotlin.collections.set' call
-      var this_0 = this.b22_1;
-      var value = first.x22(VOID, VOID, VOID, VOID, VOID, plus_1(listOf_0(best), listOfNotNull_0(ponder)));
+      var this_0 = this.c22_1;
+      var value = first.y22(VOID, VOID, VOID, VOID, VOID, plus_1(listOf_0(best), listOfNotNull_0(ponder)));
       this_0.r5(1, value);
     }
-    return this.v22(best, ponder, true);
+    return this.w22(best, ponder, true);
   }
 }
 class Companion_11 {
   constructor() {
     Companion_instance_12 = this;
-    this.y22_1 = 12;
-    this.z22_1 = mapOf([to('UCI_LimitStrength', 'false'), to('Skill Level', '20')]);
-    this.a23_1 = new Long(15000, 0);
-    this.b23_1 = new Long(60000, 0);
-    this.c23_1 = new Long(5000, 0);
+    this.z22_1 = 12;
+    this.a23_1 = mapOf([to('UCI_LimitStrength', 'false'), to('Skill Level', '20')]);
+    this.b23_1 = new Long(15000, 0);
+    this.c23_1 = new Long(60000, 0);
+    this.d23_1 = new Long(5000, 0);
   }
-  d23(elo) {
+  e23(elo) {
     return mapOf([to('UCI_LimitStrength', 'true'), to('UCI_Elo', coerceIn(elo, 1320, 3190).toString()), to('Skill Level', '20')]);
   }
 }
 class UciEngine$start$slambda {
   constructor(this$0, $options) {
-    this.i21_1 = this$0;
-    this.j21_1 = $options;
+    this.j21_1 = this$0;
+    this.k21_1 = $options;
   }
   c15($this$withContext, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_16.bind(VOID, this, $this$withContext), $completion);
@@ -8429,9 +8444,9 @@ class UciEngine$start$slambda {
 }
 class UciEngine$startLocked$slambda {
   constructor($c, this$0, $channel) {
-    this.k21_1 = $c;
-    this.l21_1 = this$0;
-    this.m21_1 = $channel;
+    this.l21_1 = $c;
+    this.m21_1 = this$0;
+    this.n21_1 = $channel;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_17.bind(VOID, this, $this$launch), $completion);
@@ -8442,7 +8457,7 @@ class UciEngine$startLocked$slambda {
 }
 class UciEngine$startLocked$slambda_0 {
   constructor(this$0) {
-    this.n21_1 = this$0;
+    this.o21_1 = this$0;
   }
   c15($this$withTimeout, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_18.bind(VOID, this, $this$withTimeout), $completion);
@@ -8453,8 +8468,8 @@ class UciEngine$startLocked$slambda_0 {
 }
 class UciEngine$setOptions$slambda {
   constructor(this$0, $options) {
-    this.o21_1 = this$0;
-    this.p21_1 = $options;
+    this.p21_1 = this$0;
+    this.q21_1 = $options;
   }
   c15($this$withContext, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_19.bind(VOID, this, $this$withContext), $completion);
@@ -8465,7 +8480,7 @@ class UciEngine$setOptions$slambda {
 }
 class UciEngine$newGame$slambda {
   constructor(this$0) {
-    this.q21_1 = this$0;
+    this.r21_1 = this$0;
   }
   c15($this$withContext, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_20.bind(VOID, this, $this$withContext), $completion);
@@ -8476,12 +8491,12 @@ class UciEngine$newGame$slambda {
 }
 class UciEngine$search$slambda {
   constructor(this$0, $positionArgs, $limit, $multiPv, $options, $onUpdate) {
-    this.r21_1 = this$0;
-    this.s21_1 = $positionArgs;
-    this.t21_1 = $limit;
-    this.u21_1 = $multiPv;
-    this.v21_1 = $options;
-    this.w21_1 = $onUpdate;
+    this.s21_1 = this$0;
+    this.t21_1 = $positionArgs;
+    this.u21_1 = $limit;
+    this.v21_1 = $multiPv;
+    this.w21_1 = $options;
+    this.x21_1 = $onUpdate;
   }
   c15($this$withContext, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_21.bind(VOID, this, $this$withContext), $completion);
@@ -8492,7 +8507,7 @@ class UciEngine$search$slambda {
 }
 class UciEngine$searchLocked$slambda {
   constructor(this$0) {
-    this.x21_1 = this$0;
+    this.y21_1 = this$0;
   }
   c15($this$withContext, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_22.bind(VOID, this, $this$withContext), $completion);
@@ -8503,7 +8518,7 @@ class UciEngine$searchLocked$slambda {
 }
 class UciEngine$abortSearch$slambda {
   constructor(this$0) {
-    this.y21_1 = this$0;
+    this.z21_1 = this$0;
   }
   c15($this$withTimeoutOrNull, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_23.bind(VOID, this, $this$withTimeoutOrNull), $completion);
@@ -8514,7 +8529,7 @@ class UciEngine$abortSearch$slambda {
 }
 class UciEngine$syncLocked$slambda {
   constructor(this$0) {
-    this.z21_1 = this$0;
+    this.a22_1 = this$0;
   }
   c15($this$withTimeout, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_24.bind(VOID, this, $this$withTimeout), $completion);
@@ -8553,13 +8568,13 @@ class UciEngine {
     var tmp = get_ioDispatcher();
     return withContext(tmp, UciEngine$newGame$slambda_0(this), $completion);
   }
-  e23(positionArgs, limit, multiPv, options, onUpdate, $completion) {
+  f23(positionArgs, limit, multiPv, options, onUpdate, $completion) {
     var tmp = get_ioDispatcher();
     return withContext(tmp, UciEngine$search$slambda_0(this, positionArgs, limit, multiPv, options, onUpdate), $completion);
   }
   e1s(positionArgs, limit, multiPv, options, onUpdate, $completion, $super) {
     multiPv = multiPv === VOID ? 1 : multiPv;
-    options = options === VOID ? Companion_getInstance_11().z22_1 : options;
+    options = options === VOID ? Companion_getInstance_11().a23_1 : options;
     var tmp;
     if (onUpdate === VOID) {
       tmp = UciEngine$search$lambda;
@@ -8567,7 +8582,7 @@ class UciEngine {
       tmp = onUpdate;
     }
     onUpdate = tmp;
-    return $super === VOID ? this.e23(positionArgs, limit, multiPv, options, onUpdate, $completion) : $super.e23.call(this, positionArgs, limit, multiPv, options, onUpdate, $completion);
+    return $super === VOID ? this.f23(positionArgs, limit, multiPv, options, onUpdate, $completion) : $super.f23.call(this, positionArgs, limit, multiPv, options, onUpdate, $completion);
   }
   l1v() {
     if (this.d1s_1) {
@@ -8603,7 +8618,7 @@ class UciEngine {
     var tmp_0;
     try {
       // Inline function 'kotlin.Companion.success' call
-      c.d21('stop');
+      c.e21('stop');
       tmp_0 = _Result___init__impl__xyqfz8(Unit_instance);
     } catch ($p) {
       var tmp_1;
@@ -8671,12 +8686,12 @@ class Score {
   d1w(whiteToMove) {
     return whiteToMove ? this : this.i1w();
   }
-  f23(cap) {
+  g23(cap) {
     return !(this.m1b_1 == null) ? this.m1b_1 > 0 ? cap : -cap : !(this.l1b_1 == null) ? coerceIn_1(this.l1b_1 / 100.0, -cap, cap) : 0.0;
   }
-  g23(cap, $super) {
+  h23(cap, $super) {
     cap = cap === VOID ? 10.0 : cap;
-    return $super === VOID ? this.f23(cap) : $super.f23.call(this, cap);
+    return $super === VOID ? this.g23(cap) : $super.g23.call(this, cap);
   }
   m1d() {
     var tmp;
@@ -8714,17 +8729,17 @@ class Score {
 }
 class Wdl {
   constructor(win, draw, loss) {
-    this.h23_1 = win;
-    this.i23_1 = draw;
-    this.j23_1 = loss;
+    this.i23_1 = win;
+    this.j23_1 = draw;
+    this.k23_1 = loss;
   }
   toString() {
-    return 'Wdl(win=' + this.h23_1 + ', draw=' + this.i23_1 + ', loss=' + this.j23_1 + ')';
+    return 'Wdl(win=' + this.i23_1 + ', draw=' + this.j23_1 + ', loss=' + this.k23_1 + ')';
   }
   hashCode() {
-    var result = this.h23_1;
-    result = imul(result, 31) + this.i23_1 | 0;
+    var result = this.i23_1;
     result = imul(result, 31) + this.j23_1 | 0;
+    result = imul(result, 31) + this.k23_1 | 0;
     return result;
   }
   equals(other) {
@@ -8733,11 +8748,11 @@ class Wdl {
     if (!(other instanceof Wdl))
       return false;
     var tmp0_other_with_cast = other instanceof Wdl ? other : THROW_CCE();
-    if (!(this.h23_1 === tmp0_other_with_cast.h23_1))
-      return false;
     if (!(this.i23_1 === tmp0_other_with_cast.i23_1))
       return false;
     if (!(this.j23_1 === tmp0_other_with_cast.j23_1))
+      return false;
+    if (!(this.k23_1 === tmp0_other_with_cast.k23_1))
       return false;
     return true;
   }
@@ -8756,10 +8771,10 @@ class PvLine {
     this.g1r_1 = timeMs;
     this.h1r_1 = wdl;
   }
-  k23(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl) {
+  l23(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl) {
     return new PvLine(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl);
   }
-  x22(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl, $super) {
+  y22(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl, $super) {
     multipv = multipv === VOID ? this.y1q_1 : multipv;
     depth = depth === VOID ? this.z1q_1 : depth;
     selDepth = selDepth === VOID ? this.a1r_1 : selDepth;
@@ -8770,7 +8785,7 @@ class PvLine {
     nps = nps === VOID ? this.f1r_1 : nps;
     timeMs = timeMs === VOID ? this.g1r_1 : timeMs;
     wdl = wdl === VOID ? this.h1r_1 : wdl;
-    return $super === VOID ? this.k23(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl) : $super.k23.call(this, multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl);
+    return $super === VOID ? this.l23(multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl) : $super.l23.call(this, multipv, depth, selDepth, score, bound, pv, nodes, nps, timeMs, wdl);
   }
   toString() {
     return 'PvLine(multipv=' + this.y1q_1 + ', depth=' + this.z1q_1 + ', selDepth=' + this.a1r_1 + ', score=' + this.b1r_1.toString() + ', bound=' + toString(this.c1r_1) + ', pv=' + toString_0(this.d1r_1) + ', nodes=' + this.e1r_1.toString() + ', nps=' + this.f1r_1.toString() + ', timeMs=' + this.g1r_1.toString() + ', wdl=' + toString(this.h1r_1) + ')';
@@ -8880,16 +8895,16 @@ class AnalysisSnapshot {
 }
 class MoveTime {
   constructor(millis) {
-    this.l23_1 = millis;
+    this.m23_1 = millis;
   }
   g1e() {
-    return 'movetime ' + this.l23_1.toString();
+    return 'movetime ' + this.m23_1.toString();
   }
   toString() {
-    return 'MoveTime(millis=' + this.l23_1.toString() + ')';
+    return 'MoveTime(millis=' + this.m23_1.toString() + ')';
   }
   hashCode() {
-    return this.l23_1.hashCode();
+    return this.m23_1.hashCode();
   }
   equals(other) {
     if (this === other)
@@ -8897,23 +8912,23 @@ class MoveTime {
     if (!(other instanceof MoveTime))
       return false;
     var tmp0_other_with_cast = other instanceof MoveTime ? other : THROW_CCE();
-    if (!this.l23_1.equals(tmp0_other_with_cast.l23_1))
+    if (!this.m23_1.equals(tmp0_other_with_cast.m23_1))
       return false;
     return true;
   }
 }
 class Depth {
   constructor(plies) {
-    this.m23_1 = plies;
+    this.n23_1 = plies;
   }
   g1e() {
-    return 'depth ' + this.m23_1;
+    return 'depth ' + this.n23_1;
   }
   toString() {
-    return 'Depth(plies=' + this.m23_1 + ')';
+    return 'Depth(plies=' + this.n23_1 + ')';
   }
   hashCode() {
-    return this.m23_1;
+    return this.n23_1;
   }
   equals(other) {
     if (this === other)
@@ -8921,7 +8936,7 @@ class Depth {
     if (!(other instanceof Depth))
       return false;
     var tmp0_other_with_cast = other instanceof Depth ? other : THROW_CCE();
-    if (!(this.m23_1 === tmp0_other_with_cast.m23_1))
+    if (!(this.n23_1 === tmp0_other_with_cast.n23_1))
       return false;
     return true;
   }
@@ -8958,50 +8973,50 @@ class InfoLine {
     wdl = wdl === VOID ? null : wdl;
     pv = pv === VOID ? null : pv;
     string = string === VOID ? null : string;
-    this.k22_1 = depth;
-    this.l22_1 = selDepth;
-    this.m22_1 = multipv;
-    this.n22_1 = score;
-    this.o22_1 = bound;
-    this.p22_1 = nodes;
-    this.q22_1 = nps;
-    this.r22_1 = timeMs;
-    this.s22_1 = wdl;
-    this.t22_1 = pv;
-    this.u22_1 = string;
+    this.l22_1 = depth;
+    this.m22_1 = selDepth;
+    this.n22_1 = multipv;
+    this.o22_1 = score;
+    this.p22_1 = bound;
+    this.q22_1 = nodes;
+    this.r22_1 = nps;
+    this.s22_1 = timeMs;
+    this.t22_1 = wdl;
+    this.u22_1 = pv;
+    this.v22_1 = string;
   }
-  n23(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string) {
+  o23(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string) {
     return new InfoLine(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string);
   }
-  o23(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string, $super) {
-    depth = depth === VOID ? this.k22_1 : depth;
-    selDepth = selDepth === VOID ? this.l22_1 : selDepth;
-    multipv = multipv === VOID ? this.m22_1 : multipv;
-    score = score === VOID ? this.n22_1 : score;
-    bound = bound === VOID ? this.o22_1 : bound;
-    nodes = nodes === VOID ? this.p22_1 : nodes;
-    nps = nps === VOID ? this.q22_1 : nps;
-    timeMs = timeMs === VOID ? this.r22_1 : timeMs;
-    wdl = wdl === VOID ? this.s22_1 : wdl;
-    pv = pv === VOID ? this.t22_1 : pv;
-    string = string === VOID ? this.u22_1 : string;
-    return $super === VOID ? this.n23(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string) : $super.n23.call(this, depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string);
+  p23(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string, $super) {
+    depth = depth === VOID ? this.l22_1 : depth;
+    selDepth = selDepth === VOID ? this.m22_1 : selDepth;
+    multipv = multipv === VOID ? this.n22_1 : multipv;
+    score = score === VOID ? this.o22_1 : score;
+    bound = bound === VOID ? this.p22_1 : bound;
+    nodes = nodes === VOID ? this.q22_1 : nodes;
+    nps = nps === VOID ? this.r22_1 : nps;
+    timeMs = timeMs === VOID ? this.s22_1 : timeMs;
+    wdl = wdl === VOID ? this.t22_1 : wdl;
+    pv = pv === VOID ? this.u22_1 : pv;
+    string = string === VOID ? this.v22_1 : string;
+    return $super === VOID ? this.o23(depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string) : $super.o23.call(this, depth, selDepth, multipv, score, bound, nodes, nps, timeMs, wdl, pv, string);
   }
   toString() {
-    return 'InfoLine(depth=' + this.k22_1 + ', selDepth=' + this.l22_1 + ', multipv=' + this.m22_1 + ', score=' + toString(this.n22_1) + ', bound=' + toString(this.o22_1) + ', nodes=' + toString(this.p22_1) + ', nps=' + toString(this.q22_1) + ', timeMs=' + toString(this.r22_1) + ', wdl=' + toString(this.s22_1) + ', pv=' + toString(this.t22_1) + ', string=' + this.u22_1 + ')';
+    return 'InfoLine(depth=' + this.l22_1 + ', selDepth=' + this.m22_1 + ', multipv=' + this.n22_1 + ', score=' + toString(this.o22_1) + ', bound=' + toString(this.p22_1) + ', nodes=' + toString(this.q22_1) + ', nps=' + toString(this.r22_1) + ', timeMs=' + toString(this.s22_1) + ', wdl=' + toString(this.t22_1) + ', pv=' + toString(this.u22_1) + ', string=' + this.v22_1 + ')';
   }
   hashCode() {
-    var result = this.k22_1 == null ? 0 : this.k22_1;
-    result = imul(result, 31) + (this.l22_1 == null ? 0 : this.l22_1) | 0;
+    var result = this.l22_1 == null ? 0 : this.l22_1;
     result = imul(result, 31) + (this.m22_1 == null ? 0 : this.m22_1) | 0;
-    result = imul(result, 31) + (this.n22_1 == null ? 0 : this.n22_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.n22_1 == null ? 0 : this.n22_1) | 0;
     result = imul(result, 31) + (this.o22_1 == null ? 0 : this.o22_1.hashCode()) | 0;
     result = imul(result, 31) + (this.p22_1 == null ? 0 : this.p22_1.hashCode()) | 0;
     result = imul(result, 31) + (this.q22_1 == null ? 0 : this.q22_1.hashCode()) | 0;
     result = imul(result, 31) + (this.r22_1 == null ? 0 : this.r22_1.hashCode()) | 0;
     result = imul(result, 31) + (this.s22_1 == null ? 0 : this.s22_1.hashCode()) | 0;
-    result = imul(result, 31) + (this.t22_1 == null ? 0 : hashCode(this.t22_1)) | 0;
-    result = imul(result, 31) + (this.u22_1 == null ? 0 : getStringHashCode(this.u22_1)) | 0;
+    result = imul(result, 31) + (this.t22_1 == null ? 0 : this.t22_1.hashCode()) | 0;
+    result = imul(result, 31) + (this.u22_1 == null ? 0 : hashCode(this.u22_1)) | 0;
+    result = imul(result, 31) + (this.v22_1 == null ? 0 : getStringHashCode(this.v22_1)) | 0;
     return result;
   }
   equals(other) {
@@ -9010,13 +9025,11 @@ class InfoLine {
     if (!(other instanceof InfoLine))
       return false;
     var tmp0_other_with_cast = other instanceof InfoLine ? other : THROW_CCE();
-    if (!(this.k22_1 == tmp0_other_with_cast.k22_1))
-      return false;
     if (!(this.l22_1 == tmp0_other_with_cast.l22_1))
       return false;
     if (!(this.m22_1 == tmp0_other_with_cast.m22_1))
       return false;
-    if (!equals(this.n22_1, tmp0_other_with_cast.n22_1))
+    if (!(this.n22_1 == tmp0_other_with_cast.n22_1))
       return false;
     if (!equals(this.o22_1, tmp0_other_with_cast.o22_1))
       return false;
@@ -9030,13 +9043,15 @@ class InfoLine {
       return false;
     if (!equals(this.t22_1, tmp0_other_with_cast.t22_1))
       return false;
-    if (!(this.u22_1 == tmp0_other_with_cast.u22_1))
+    if (!equals(this.u22_1, tmp0_other_with_cast.u22_1))
+      return false;
+    if (!(this.v22_1 == tmp0_other_with_cast.v22_1))
       return false;
     return true;
   }
 }
 class UciParser {
-  j22(line) {
+  k22(line) {
     // Inline function 'kotlin.text.split' call
     // Inline function 'kotlin.text.trim' call
     var this_0 = toString_0(trim(isCharSequence(line) ? line : THROW_CCE()));
@@ -9051,37 +9066,37 @@ class UciParser {
           var tmp = info;
           i = i + 1 | 0;
           var tmp1_safe_receiver = getOrNull(t, i);
-          info = tmp.o23(tmp1_safe_receiver == null ? null : toIntOrNull(tmp1_safe_receiver));
+          info = tmp.p23(tmp1_safe_receiver == null ? null : toIntOrNull(tmp1_safe_receiver));
           break;
         case 'seldepth':
           var tmp_0 = info;
           i = i + 1 | 0;
           var tmp2_safe_receiver = getOrNull(t, i);
-          info = tmp_0.o23(VOID, tmp2_safe_receiver == null ? null : toIntOrNull(tmp2_safe_receiver));
+          info = tmp_0.p23(VOID, tmp2_safe_receiver == null ? null : toIntOrNull(tmp2_safe_receiver));
           break;
         case 'multipv':
           var tmp_1 = info;
           i = i + 1 | 0;
           var tmp3_safe_receiver = getOrNull(t, i);
-          info = tmp_1.o23(VOID, VOID, tmp3_safe_receiver == null ? null : toIntOrNull(tmp3_safe_receiver));
+          info = tmp_1.p23(VOID, VOID, tmp3_safe_receiver == null ? null : toIntOrNull(tmp3_safe_receiver));
           break;
         case 'nodes':
           var tmp_2 = info;
           i = i + 1 | 0;
           var tmp4_safe_receiver = getOrNull(t, i);
-          info = tmp_2.o23(VOID, VOID, VOID, VOID, VOID, tmp4_safe_receiver == null ? null : toLongOrNull(tmp4_safe_receiver));
+          info = tmp_2.p23(VOID, VOID, VOID, VOID, VOID, tmp4_safe_receiver == null ? null : toLongOrNull(tmp4_safe_receiver));
           break;
         case 'nps':
           var tmp_3 = info;
           i = i + 1 | 0;
           var tmp5_safe_receiver = getOrNull(t, i);
-          info = tmp_3.o23(VOID, VOID, VOID, VOID, VOID, VOID, tmp5_safe_receiver == null ? null : toLongOrNull(tmp5_safe_receiver));
+          info = tmp_3.p23(VOID, VOID, VOID, VOID, VOID, VOID, tmp5_safe_receiver == null ? null : toLongOrNull(tmp5_safe_receiver));
           break;
         case 'time':
           var tmp_4 = info;
           i = i + 1 | 0;
           var tmp6_safe_receiver = getOrNull(t, i);
-          info = tmp_4.o23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp6_safe_receiver == null ? null : toLongOrNull(tmp6_safe_receiver));
+          info = tmp_4.p23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp6_safe_receiver == null ? null : toLongOrNull(tmp6_safe_receiver));
           break;
         case 'score':
           i = i + 1 | 0;
@@ -9091,10 +9106,10 @@ class UciParser {
           var value = tmp7_safe_receiver == null ? null : toIntOrNull(tmp7_safe_receiver);
           switch (kind) {
             case 'cp':
-              info = info.o23(VOID, VOID, VOID, new Score(value));
+              info = info.p23(VOID, VOID, VOID, new Score(value));
               break;
             case 'mate':
-              info = info.o23(VOID, VOID, VOID, new Score(VOID, value));
+              info = info.p23(VOID, VOID, VOID, new Score(VOID, value));
               break;
             default:
               info = info;
@@ -9103,10 +9118,10 @@ class UciParser {
 
           var tmp9_subject = getOrNull(t, i + 1 | 0);
           if (tmp9_subject === 'lowerbound') {
-            info = info.o23(VOID, VOID, VOID, VOID, Bound_LOWER_getInstance());
+            info = info.p23(VOID, VOID, VOID, VOID, Bound_LOWER_getInstance());
             i = i + 1 | 0;
           } else if (tmp9_subject === 'upperbound') {
-            info = info.o23(VOID, VOID, VOID, VOID, Bound_UPPER_getInstance());
+            info = info.p23(VOID, VOID, VOID, VOID, Bound_UPPER_getInstance());
             i = i + 1 | 0;
           }
 
@@ -9119,15 +9134,15 @@ class UciParser {
           var tmp12_safe_receiver = getOrNull(t, i + 3 | 0);
           var l = tmp12_safe_receiver == null ? null : toIntOrNull(tmp12_safe_receiver);
           if (!(w == null) && !(d == null) && !(l == null))
-            info = info.o23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, new Wdl(w, d, l));
+            info = info.p23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, new Wdl(w, d, l));
           i = i + 3 | 0;
           break;
         case 'pv':
-          info = info.o23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, toList_0(t.t2(i + 1 | 0, t.a1())));
+          info = info.p23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, toList_0(t.t2(i + 1 | 0, t.a1())));
           i = t.a1();
           break;
         case 'string':
-          info = info.o23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, joinToString(t.t2(i + 1 | 0, t.a1()), ' '));
+          info = info.p23(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, joinToString(t.t2(i + 1 | 0, t.a1()), ' '));
           i = t.a1();
           break;
         case 'currmove':
@@ -9144,7 +9159,7 @@ class UciParser {
     }
     return info;
   }
-  w22(line) {
+  x22(line) {
     // Inline function 'kotlin.text.split' call
     // Inline function 'kotlin.text.trim' call
     var this_0 = toString_0(trim(isCharSequence(line) ? line : THROW_CCE()));
@@ -9173,9 +9188,9 @@ class UciParser {
 class Companion_12 {
   constructor() {
     Companion_instance_13 = this;
-    this.p23_1 = new Text(emptyMap());
+    this.q23_1 = new Text(emptyMap());
   }
-  q23(any) {
+  r23(any) {
     var tmp;
     if (!(any == null) ? typeof any === 'string' : false) {
       tmp = new Text(mapOf_0(to('en', any)));
@@ -9218,7 +9233,7 @@ class Companion_12 {
         }
         tmp = new Text(toMap(destination));
       } else {
-        tmp = this.p23_1;
+        tmp = this.q23_1;
       }
     }
     return tmp;
@@ -9227,15 +9242,15 @@ class Companion_12 {
 class Text {
   constructor(values) {
     Companion_getInstance_12();
-    this.r23_1 = values;
+    this.s23_1 = values;
   }
   jg(lang) {
-    var tmp0_elvis_lhs = this.r23_1.y2(lang);
-    var tmp1_elvis_lhs = tmp0_elvis_lhs == null ? this.r23_1.y2('en') : tmp0_elvis_lhs;
+    var tmp0_elvis_lhs = this.s23_1.y2(lang);
+    var tmp1_elvis_lhs = tmp0_elvis_lhs == null ? this.s23_1.y2('en') : tmp0_elvis_lhs;
     var tmp;
     if (tmp1_elvis_lhs == null) {
       // Inline function 'kotlin.text.orEmpty' call
-      var tmp0_elvis_lhs_0 = firstOrNull_1(this.r23_1.a3());
+      var tmp0_elvis_lhs_0 = firstOrNull_1(this.s23_1.a3());
       tmp = tmp0_elvis_lhs_0 == null ? '' : tmp0_elvis_lhs_0;
     } else {
       tmp = tmp1_elvis_lhs;
@@ -9244,7 +9259,7 @@ class Text {
   }
 }
 class Companion_13 {
-  s23(s) {
+  t23(s) {
     var tmp$ret$1;
     $l$block: {
       // Inline function 'kotlin.collections.firstOrNull' call
@@ -9266,22 +9281,22 @@ class Goal extends Enum {}
 class PlayGoal extends Enum {}
 class Theory {
   constructor(prompt, fen, arrows, marks) {
-    this.t23_1 = prompt;
-    this.u23_1 = fen;
-    this.v23_1 = arrows;
-    this.w23_1 = marks;
+    this.u23_1 = prompt;
+    this.v23_1 = fen;
+    this.w23_1 = arrows;
+    this.x23_1 = marks;
   }
-  x23() {
-    return this.t23_1;
+  y23() {
+    return this.u23_1;
   }
   toString() {
-    return 'Theory(prompt=' + toString_0(this.t23_1) + ', fen=' + this.u23_1 + ', arrows=' + toString_0(this.v23_1) + ', marks=' + toString_0(this.w23_1) + ')';
+    return 'Theory(prompt=' + toString_0(this.u23_1) + ', fen=' + this.v23_1 + ', arrows=' + toString_0(this.w23_1) + ', marks=' + toString_0(this.x23_1) + ')';
   }
   hashCode() {
-    var result = hashCode(this.t23_1);
-    result = imul(result, 31) + (this.u23_1 == null ? 0 : getStringHashCode(this.u23_1)) | 0;
-    result = imul(result, 31) + hashCode(this.v23_1) | 0;
+    var result = hashCode(this.u23_1);
+    result = imul(result, 31) + (this.v23_1 == null ? 0 : getStringHashCode(this.v23_1)) | 0;
     result = imul(result, 31) + hashCode(this.w23_1) | 0;
+    result = imul(result, 31) + hashCode(this.x23_1) | 0;
     return result;
   }
   equals(other) {
@@ -9290,35 +9305,35 @@ class Theory {
     if (!(other instanceof Theory))
       return false;
     var tmp0_other_with_cast = other instanceof Theory ? other : THROW_CCE();
-    if (!equals(this.t23_1, tmp0_other_with_cast.t23_1))
+    if (!equals(this.u23_1, tmp0_other_with_cast.u23_1))
       return false;
-    if (!(this.u23_1 == tmp0_other_with_cast.u23_1))
-      return false;
-    if (!equals(this.v23_1, tmp0_other_with_cast.v23_1))
+    if (!(this.v23_1 == tmp0_other_with_cast.v23_1))
       return false;
     if (!equals(this.w23_1, tmp0_other_with_cast.w23_1))
+      return false;
+    if (!equals(this.x23_1, tmp0_other_with_cast.x23_1))
       return false;
     return true;
   }
 }
 class Stars {
   constructor(prompt, fen, stars, par) {
-    this.y23_1 = prompt;
-    this.z23_1 = fen;
-    this.a24_1 = stars;
-    this.b24_1 = par;
+    this.z23_1 = prompt;
+    this.a24_1 = fen;
+    this.b24_1 = stars;
+    this.c24_1 = par;
   }
-  x23() {
-    return this.y23_1;
+  y23() {
+    return this.z23_1;
   }
   toString() {
-    return 'Stars(prompt=' + toString_0(this.y23_1) + ', fen=' + this.z23_1 + ', stars=' + toString_0(this.a24_1) + ', par=' + this.b24_1 + ')';
+    return 'Stars(prompt=' + toString_0(this.z23_1) + ', fen=' + this.a24_1 + ', stars=' + toString_0(this.b24_1) + ', par=' + this.c24_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.y23_1);
-    result = imul(result, 31) + getStringHashCode(this.z23_1) | 0;
-    result = imul(result, 31) + hashCode(this.a24_1) | 0;
-    result = imul(result, 31) + this.b24_1 | 0;
+    var result = hashCode(this.z23_1);
+    result = imul(result, 31) + getStringHashCode(this.a24_1) | 0;
+    result = imul(result, 31) + hashCode(this.b24_1) | 0;
+    result = imul(result, 31) + this.c24_1 | 0;
     return result;
   }
   equals(other) {
@@ -9327,33 +9342,33 @@ class Stars {
     if (!(other instanceof Stars))
       return false;
     var tmp0_other_with_cast = other instanceof Stars ? other : THROW_CCE();
-    if (!equals(this.y23_1, tmp0_other_with_cast.y23_1))
+    if (!equals(this.z23_1, tmp0_other_with_cast.z23_1))
       return false;
-    if (!(this.z23_1 === tmp0_other_with_cast.z23_1))
+    if (!(this.a24_1 === tmp0_other_with_cast.a24_1))
       return false;
-    if (!equals(this.a24_1, tmp0_other_with_cast.a24_1))
+    if (!equals(this.b24_1, tmp0_other_with_cast.b24_1))
       return false;
-    if (!(this.b24_1 === tmp0_other_with_cast.b24_1))
+    if (!(this.c24_1 === tmp0_other_with_cast.c24_1))
       return false;
     return true;
   }
 }
 class Capture {
   constructor(prompt, fen, par) {
-    this.c24_1 = prompt;
-    this.d24_1 = fen;
-    this.e24_1 = par;
+    this.d24_1 = prompt;
+    this.e24_1 = fen;
+    this.f24_1 = par;
   }
-  x23() {
-    return this.c24_1;
+  y23() {
+    return this.d24_1;
   }
   toString() {
-    return 'Capture(prompt=' + toString_0(this.c24_1) + ', fen=' + this.d24_1 + ', par=' + this.e24_1 + ')';
+    return 'Capture(prompt=' + toString_0(this.d24_1) + ', fen=' + this.e24_1 + ', par=' + this.f24_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.c24_1);
-    result = imul(result, 31) + getStringHashCode(this.d24_1) | 0;
-    result = imul(result, 31) + this.e24_1 | 0;
+    var result = hashCode(this.d24_1);
+    result = imul(result, 31) + getStringHashCode(this.e24_1) | 0;
+    result = imul(result, 31) + this.f24_1 | 0;
     return result;
   }
   equals(other) {
@@ -9362,39 +9377,39 @@ class Capture {
     if (!(other instanceof Capture))
       return false;
     var tmp0_other_with_cast = other instanceof Capture ? other : THROW_CCE();
-    if (!equals(this.c24_1, tmp0_other_with_cast.c24_1))
-      return false;
-    if (!(this.d24_1 === tmp0_other_with_cast.d24_1))
+    if (!equals(this.d24_1, tmp0_other_with_cast.d24_1))
       return false;
     if (!(this.e24_1 === tmp0_other_with_cast.e24_1))
+      return false;
+    if (!(this.f24_1 === tmp0_other_with_cast.f24_1))
       return false;
     return true;
   }
 }
 class Puzzle {
   constructor(prompt, fen, moves, pre, last, rating, themes) {
-    this.f24_1 = prompt;
-    this.g24_1 = fen;
-    this.h24_1 = moves;
-    this.i24_1 = pre;
-    this.j24_1 = last;
-    this.k24_1 = rating;
-    this.l24_1 = themes;
+    this.g24_1 = prompt;
+    this.h24_1 = fen;
+    this.i24_1 = moves;
+    this.j24_1 = pre;
+    this.k24_1 = last;
+    this.l24_1 = rating;
+    this.m24_1 = themes;
   }
-  x23() {
-    return this.f24_1;
+  y23() {
+    return this.g24_1;
   }
   toString() {
-    return 'Puzzle(prompt=' + toString_0(this.f24_1) + ', fen=' + this.g24_1 + ', moves=' + toString_0(this.h24_1) + ', pre=' + this.i24_1 + ', last=' + this.j24_1 + ', rating=' + this.k24_1 + ', themes=' + toString_0(this.l24_1) + ')';
+    return 'Puzzle(prompt=' + toString_0(this.g24_1) + ', fen=' + this.h24_1 + ', moves=' + toString_0(this.i24_1) + ', pre=' + this.j24_1 + ', last=' + this.k24_1 + ', rating=' + this.l24_1 + ', themes=' + toString_0(this.m24_1) + ')';
   }
   hashCode() {
-    var result = hashCode(this.f24_1);
-    result = imul(result, 31) + getStringHashCode(this.g24_1) | 0;
-    result = imul(result, 31) + hashCode(this.h24_1) | 0;
-    result = imul(result, 31) + (this.i24_1 == null ? 0 : getStringHashCode(this.i24_1)) | 0;
+    var result = hashCode(this.g24_1);
+    result = imul(result, 31) + getStringHashCode(this.h24_1) | 0;
+    result = imul(result, 31) + hashCode(this.i24_1) | 0;
     result = imul(result, 31) + (this.j24_1 == null ? 0 : getStringHashCode(this.j24_1)) | 0;
-    result = imul(result, 31) + this.k24_1 | 0;
-    result = imul(result, 31) + hashCode(this.l24_1) | 0;
+    result = imul(result, 31) + (this.k24_1 == null ? 0 : getStringHashCode(this.k24_1)) | 0;
+    result = imul(result, 31) + this.l24_1 | 0;
+    result = imul(result, 31) + hashCode(this.m24_1) | 0;
     return result;
   }
   equals(other) {
@@ -9403,39 +9418,39 @@ class Puzzle {
     if (!(other instanceof Puzzle))
       return false;
     var tmp0_other_with_cast = other instanceof Puzzle ? other : THROW_CCE();
-    if (!equals(this.f24_1, tmp0_other_with_cast.f24_1))
+    if (!equals(this.g24_1, tmp0_other_with_cast.g24_1))
       return false;
-    if (!(this.g24_1 === tmp0_other_with_cast.g24_1))
+    if (!(this.h24_1 === tmp0_other_with_cast.h24_1))
       return false;
-    if (!equals(this.h24_1, tmp0_other_with_cast.h24_1))
-      return false;
-    if (!(this.i24_1 == tmp0_other_with_cast.i24_1))
+    if (!equals(this.i24_1, tmp0_other_with_cast.i24_1))
       return false;
     if (!(this.j24_1 == tmp0_other_with_cast.j24_1))
       return false;
-    if (!(this.k24_1 === tmp0_other_with_cast.k24_1))
+    if (!(this.k24_1 == tmp0_other_with_cast.k24_1))
       return false;
-    if (!equals(this.l24_1, tmp0_other_with_cast.l24_1))
+    if (!(this.l24_1 === tmp0_other_with_cast.l24_1))
+      return false;
+    if (!equals(this.m24_1, tmp0_other_with_cast.m24_1))
       return false;
     return true;
   }
 }
 class Mate {
   constructor(prompt, fen, n) {
-    this.m24_1 = prompt;
-    this.n24_1 = fen;
-    this.o24_1 = n;
+    this.n24_1 = prompt;
+    this.o24_1 = fen;
+    this.p24_1 = n;
   }
-  x23() {
-    return this.m24_1;
+  y23() {
+    return this.n24_1;
   }
   toString() {
-    return 'Mate(prompt=' + toString_0(this.m24_1) + ', fen=' + this.n24_1 + ', n=' + this.o24_1 + ')';
+    return 'Mate(prompt=' + toString_0(this.n24_1) + ', fen=' + this.o24_1 + ', n=' + this.p24_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.m24_1);
-    result = imul(result, 31) + getStringHashCode(this.n24_1) | 0;
-    result = imul(result, 31) + this.o24_1 | 0;
+    var result = hashCode(this.n24_1);
+    result = imul(result, 31) + getStringHashCode(this.o24_1) | 0;
+    result = imul(result, 31) + this.p24_1 | 0;
     return result;
   }
   equals(other) {
@@ -9444,31 +9459,31 @@ class Mate {
     if (!(other instanceof Mate))
       return false;
     var tmp0_other_with_cast = other instanceof Mate ? other : THROW_CCE();
-    if (!equals(this.m24_1, tmp0_other_with_cast.m24_1))
-      return false;
-    if (!(this.n24_1 === tmp0_other_with_cast.n24_1))
+    if (!equals(this.n24_1, tmp0_other_with_cast.n24_1))
       return false;
     if (!(this.o24_1 === tmp0_other_with_cast.o24_1))
+      return false;
+    if (!(this.p24_1 === tmp0_other_with_cast.p24_1))
       return false;
     return true;
   }
 }
 class GoalStep {
   constructor(prompt, fen, goal) {
-    this.p24_1 = prompt;
-    this.q24_1 = fen;
-    this.r24_1 = goal;
+    this.q24_1 = prompt;
+    this.r24_1 = fen;
+    this.s24_1 = goal;
   }
-  x23() {
-    return this.p24_1;
+  y23() {
+    return this.q24_1;
   }
   toString() {
-    return 'GoalStep(prompt=' + toString_0(this.p24_1) + ', fen=' + this.q24_1 + ', goal=' + this.r24_1.toString() + ')';
+    return 'GoalStep(prompt=' + toString_0(this.q24_1) + ', fen=' + this.r24_1 + ', goal=' + this.s24_1.toString() + ')';
   }
   hashCode() {
-    var result = hashCode(this.p24_1);
-    result = imul(result, 31) + getStringHashCode(this.q24_1) | 0;
-    result = imul(result, 31) + this.r24_1.hashCode() | 0;
+    var result = hashCode(this.q24_1);
+    result = imul(result, 31) + getStringHashCode(this.r24_1) | 0;
+    result = imul(result, 31) + this.s24_1.hashCode() | 0;
     return result;
   }
   equals(other) {
@@ -9477,37 +9492,37 @@ class GoalStep {
     if (!(other instanceof GoalStep))
       return false;
     var tmp0_other_with_cast = other instanceof GoalStep ? other : THROW_CCE();
-    if (!equals(this.p24_1, tmp0_other_with_cast.p24_1))
+    if (!equals(this.q24_1, tmp0_other_with_cast.q24_1))
       return false;
-    if (!(this.q24_1 === tmp0_other_with_cast.q24_1))
+    if (!(this.r24_1 === tmp0_other_with_cast.r24_1))
       return false;
-    if (!this.r24_1.equals(tmp0_other_with_cast.r24_1))
+    if (!this.s24_1.equals(tmp0_other_with_cast.s24_1))
       return false;
     return true;
   }
 }
 class Quiz {
   constructor(prompt, fen, options, answer, explain, marks) {
-    this.s24_1 = prompt;
-    this.t24_1 = fen;
-    this.u24_1 = options;
-    this.v24_1 = answer;
-    this.w24_1 = explain;
-    this.x24_1 = marks;
+    this.t24_1 = prompt;
+    this.u24_1 = fen;
+    this.v24_1 = options;
+    this.w24_1 = answer;
+    this.x24_1 = explain;
+    this.y24_1 = marks;
   }
-  x23() {
-    return this.s24_1;
+  y23() {
+    return this.t24_1;
   }
   toString() {
-    return 'Quiz(prompt=' + toString_0(this.s24_1) + ', fen=' + this.t24_1 + ', options=' + toString_0(this.u24_1) + ', answer=' + this.v24_1 + ', explain=' + toString_0(this.w24_1) + ', marks=' + toString_0(this.x24_1) + ')';
+    return 'Quiz(prompt=' + toString_0(this.t24_1) + ', fen=' + this.u24_1 + ', options=' + toString_0(this.v24_1) + ', answer=' + this.w24_1 + ', explain=' + toString_0(this.x24_1) + ', marks=' + toString_0(this.y24_1) + ')';
   }
   hashCode() {
-    var result = hashCode(this.s24_1);
-    result = imul(result, 31) + (this.t24_1 == null ? 0 : getStringHashCode(this.t24_1)) | 0;
-    result = imul(result, 31) + hashCode(this.u24_1) | 0;
-    result = imul(result, 31) + this.v24_1 | 0;
-    result = imul(result, 31) + hashCode(this.w24_1) | 0;
+    var result = hashCode(this.t24_1);
+    result = imul(result, 31) + (this.u24_1 == null ? 0 : getStringHashCode(this.u24_1)) | 0;
+    result = imul(result, 31) + hashCode(this.v24_1) | 0;
+    result = imul(result, 31) + this.w24_1 | 0;
     result = imul(result, 31) + hashCode(this.x24_1) | 0;
+    result = imul(result, 31) + hashCode(this.y24_1) | 0;
     return result;
   }
   equals(other) {
@@ -9516,37 +9531,37 @@ class Quiz {
     if (!(other instanceof Quiz))
       return false;
     var tmp0_other_with_cast = other instanceof Quiz ? other : THROW_CCE();
-    if (!equals(this.s24_1, tmp0_other_with_cast.s24_1))
+    if (!equals(this.t24_1, tmp0_other_with_cast.t24_1))
       return false;
-    if (!(this.t24_1 == tmp0_other_with_cast.t24_1))
+    if (!(this.u24_1 == tmp0_other_with_cast.u24_1))
       return false;
-    if (!equals(this.u24_1, tmp0_other_with_cast.u24_1))
+    if (!equals(this.v24_1, tmp0_other_with_cast.v24_1))
       return false;
-    if (!(this.v24_1 === tmp0_other_with_cast.v24_1))
-      return false;
-    if (!equals(this.w24_1, tmp0_other_with_cast.w24_1))
+    if (!(this.w24_1 === tmp0_other_with_cast.w24_1))
       return false;
     if (!equals(this.x24_1, tmp0_other_with_cast.x24_1))
+      return false;
+    if (!equals(this.y24_1, tmp0_other_with_cast.y24_1))
       return false;
     return true;
   }
 }
 class Squares_0 {
   constructor(prompt, count, blackView) {
-    this.y24_1 = prompt;
-    this.z24_1 = count;
-    this.a25_1 = blackView;
+    this.z24_1 = prompt;
+    this.a25_1 = count;
+    this.b25_1 = blackView;
   }
-  x23() {
-    return this.y24_1;
+  y23() {
+    return this.z24_1;
   }
   toString() {
-    return 'Squares(prompt=' + toString_0(this.y24_1) + ', count=' + this.z24_1 + ', blackView=' + this.a25_1 + ')';
+    return 'Squares(prompt=' + toString_0(this.z24_1) + ', count=' + this.a25_1 + ', blackView=' + this.b25_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.y24_1);
-    result = imul(result, 31) + this.z24_1 | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.a25_1) | 0;
+    var result = hashCode(this.z24_1);
+    result = imul(result, 31) + this.a25_1 | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.b25_1) | 0;
     return result;
   }
   equals(other) {
@@ -9555,33 +9570,33 @@ class Squares_0 {
     if (!(other instanceof Squares_0))
       return false;
     var tmp0_other_with_cast = other instanceof Squares_0 ? other : THROW_CCE();
-    if (!equals(this.y24_1, tmp0_other_with_cast.y24_1))
-      return false;
-    if (!(this.z24_1 === tmp0_other_with_cast.z24_1))
+    if (!equals(this.z24_1, tmp0_other_with_cast.z24_1))
       return false;
     if (!(this.a25_1 === tmp0_other_with_cast.a25_1))
+      return false;
+    if (!(this.b25_1 === tmp0_other_with_cast.b25_1))
       return false;
     return true;
   }
 }
 class Best {
   constructor(prompt, fen, accept, explain) {
-    this.b25_1 = prompt;
-    this.c25_1 = fen;
-    this.d25_1 = accept;
-    this.e25_1 = explain;
+    this.c25_1 = prompt;
+    this.d25_1 = fen;
+    this.e25_1 = accept;
+    this.f25_1 = explain;
   }
-  x23() {
-    return this.b25_1;
+  y23() {
+    return this.c25_1;
   }
   toString() {
-    return 'Best(prompt=' + toString_0(this.b25_1) + ', fen=' + this.c25_1 + ', accept=' + toString_0(this.d25_1) + ', explain=' + toString_0(this.e25_1) + ')';
+    return 'Best(prompt=' + toString_0(this.c25_1) + ', fen=' + this.d25_1 + ', accept=' + toString_0(this.e25_1) + ', explain=' + toString_0(this.f25_1) + ')';
   }
   hashCode() {
-    var result = hashCode(this.b25_1);
-    result = imul(result, 31) + getStringHashCode(this.c25_1) | 0;
-    result = imul(result, 31) + hashCode(this.d25_1) | 0;
+    var result = hashCode(this.c25_1);
+    result = imul(result, 31) + getStringHashCode(this.d25_1) | 0;
     result = imul(result, 31) + hashCode(this.e25_1) | 0;
+    result = imul(result, 31) + hashCode(this.f25_1) | 0;
     return result;
   }
   equals(other) {
@@ -9590,35 +9605,35 @@ class Best {
     if (!(other instanceof Best))
       return false;
     var tmp0_other_with_cast = other instanceof Best ? other : THROW_CCE();
-    if (!equals(this.b25_1, tmp0_other_with_cast.b25_1))
+    if (!equals(this.c25_1, tmp0_other_with_cast.c25_1))
       return false;
-    if (!(this.c25_1 === tmp0_other_with_cast.c25_1))
-      return false;
-    if (!equals(this.d25_1, tmp0_other_with_cast.d25_1))
+    if (!(this.d25_1 === tmp0_other_with_cast.d25_1))
       return false;
     if (!equals(this.e25_1, tmp0_other_with_cast.e25_1))
+      return false;
+    if (!equals(this.f25_1, tmp0_other_with_cast.f25_1))
       return false;
     return true;
   }
 }
 class Line {
   constructor(prompt, moves, playerIsWhite, notes) {
-    this.f25_1 = prompt;
-    this.g25_1 = moves;
-    this.h25_1 = playerIsWhite;
-    this.i25_1 = notes;
+    this.g25_1 = prompt;
+    this.h25_1 = moves;
+    this.i25_1 = playerIsWhite;
+    this.j25_1 = notes;
   }
-  x23() {
-    return this.f25_1;
+  y23() {
+    return this.g25_1;
   }
   toString() {
-    return 'Line(prompt=' + toString_0(this.f25_1) + ', moves=' + toString_0(this.g25_1) + ', playerIsWhite=' + this.h25_1 + ', notes=' + toString_0(this.i25_1) + ')';
+    return 'Line(prompt=' + toString_0(this.g25_1) + ', moves=' + toString_0(this.h25_1) + ', playerIsWhite=' + this.i25_1 + ', notes=' + toString_0(this.j25_1) + ')';
   }
   hashCode() {
-    var result = hashCode(this.f25_1);
-    result = imul(result, 31) + hashCode(this.g25_1) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.h25_1) | 0;
-    result = imul(result, 31) + hashCode(this.i25_1) | 0;
+    var result = hashCode(this.g25_1);
+    result = imul(result, 31) + hashCode(this.h25_1) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.i25_1) | 0;
+    result = imul(result, 31) + hashCode(this.j25_1) | 0;
     return result;
   }
   equals(other) {
@@ -9627,35 +9642,35 @@ class Line {
     if (!(other instanceof Line))
       return false;
     var tmp0_other_with_cast = other instanceof Line ? other : THROW_CCE();
-    if (!equals(this.f25_1, tmp0_other_with_cast.f25_1))
-      return false;
     if (!equals(this.g25_1, tmp0_other_with_cast.g25_1))
       return false;
-    if (!(this.h25_1 === tmp0_other_with_cast.h25_1))
+    if (!equals(this.h25_1, tmp0_other_with_cast.h25_1))
       return false;
-    if (!equals(this.i25_1, tmp0_other_with_cast.i25_1))
+    if (!(this.i25_1 === tmp0_other_with_cast.i25_1))
+      return false;
+    if (!equals(this.j25_1, tmp0_other_with_cast.j25_1))
       return false;
     return true;
   }
 }
 class Play {
   constructor(prompt, fen, goal, maxMoves) {
-    this.j25_1 = prompt;
-    this.k25_1 = fen;
-    this.l25_1 = goal;
-    this.m25_1 = maxMoves;
+    this.k25_1 = prompt;
+    this.l25_1 = fen;
+    this.m25_1 = goal;
+    this.n25_1 = maxMoves;
   }
-  x23() {
-    return this.j25_1;
+  y23() {
+    return this.k25_1;
   }
   toString() {
-    return 'Play(prompt=' + toString_0(this.j25_1) + ', fen=' + this.k25_1 + ', goal=' + this.l25_1.toString() + ', maxMoves=' + this.m25_1 + ')';
+    return 'Play(prompt=' + toString_0(this.k25_1) + ', fen=' + this.l25_1 + ', goal=' + this.m25_1.toString() + ', maxMoves=' + this.n25_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.j25_1);
-    result = imul(result, 31) + getStringHashCode(this.k25_1) | 0;
-    result = imul(result, 31) + this.l25_1.hashCode() | 0;
-    result = imul(result, 31) + this.m25_1 | 0;
+    var result = hashCode(this.k25_1);
+    result = imul(result, 31) + getStringHashCode(this.l25_1) | 0;
+    result = imul(result, 31) + this.m25_1.hashCode() | 0;
+    result = imul(result, 31) + this.n25_1 | 0;
     return result;
   }
   equals(other) {
@@ -9664,13 +9679,13 @@ class Play {
     if (!(other instanceof Play))
       return false;
     var tmp0_other_with_cast = other instanceof Play ? other : THROW_CCE();
-    if (!equals(this.j25_1, tmp0_other_with_cast.j25_1))
+    if (!equals(this.k25_1, tmp0_other_with_cast.k25_1))
       return false;
-    if (!(this.k25_1 === tmp0_other_with_cast.k25_1))
+    if (!(this.l25_1 === tmp0_other_with_cast.l25_1))
       return false;
-    if (!this.l25_1.equals(tmp0_other_with_cast.l25_1))
+    if (!this.m25_1.equals(tmp0_other_with_cast.m25_1))
       return false;
-    if (!(this.m25_1 === tmp0_other_with_cast.m25_1))
+    if (!(this.n25_1 === tmp0_other_with_cast.n25_1))
       return false;
     return true;
   }
@@ -9683,7 +9698,7 @@ class Lesson {
     this.t1m_1 = level;
     this.u1m_1 = steps;
   }
-  n25() {
+  o25() {
     var tmp$ret$0;
     $l$block: {
       // Inline function 'kotlin.collections.count' call
@@ -9715,9 +9730,9 @@ class Lesson {
 }
 class Chapter {
   constructor(id, title, lessons) {
-    this.o25_1 = id;
-    this.p25_1 = title;
-    this.q25_1 = lessons;
+    this.p25_1 = id;
+    this.q25_1 = title;
+    this.r25_1 = lessons;
   }
 }
 class Course {
@@ -9736,7 +9751,7 @@ class Course {
     while (tmp0_iterator.y()) {
       var element = tmp0_iterator.z();
       // Inline function 'com.zorix.chess.learn.Course.<get-lessons>.<anonymous>' call
-      var list = element.q25_1;
+      var list = element.r25_1;
       addAll(destination, list);
     }
     return destination;
@@ -9759,8 +9774,8 @@ class CurriculumParser {
     // Inline function 'kotlin.text.orEmpty' call
     var tmp0_elvis_lhs = str(root, 'id');
     var tmp = tmp0_elvis_lhs == null ? '' : tmp0_elvis_lhs;
-    var tmp_0 = Companion_getInstance_12().q23(root.y2('title'));
-    var tmp_1 = Companion_getInstance_12().q23(root.y2('desc'));
+    var tmp_0 = Companion_getInstance_12().r23(root.y2('title'));
+    var tmp_1 = Companion_getInstance_12().r23(root.y2('desc'));
     // Inline function 'kotlin.collections.map' call
     var this_0 = arr(root.y2('chapters'));
     // Inline function 'kotlin.collections.mapTo' call
@@ -9773,7 +9788,7 @@ class CurriculumParser {
       // Inline function 'kotlin.text.orEmpty' call
       var tmp0_elvis_lhs_0 = str(co, 'id');
       var tmp_2 = tmp0_elvis_lhs_0 == null ? '' : tmp0_elvis_lhs_0;
-      var tmp_3 = Companion_getInstance_12().q23(co.y2('title'));
+      var tmp_3 = Companion_getInstance_12().r23(co.y2('title'));
       // Inline function 'kotlin.collections.map' call
       var this_1 = arr(co.y2('lessons'));
       // Inline function 'kotlin.collections.mapTo' call
@@ -9782,7 +9797,7 @@ class CurriculumParser {
       while (tmp0_iterator_0.y()) {
         var item_0 = tmp0_iterator_0.z();
         // Inline function 'com.zorix.chess.learn.CurriculumParser.course.<anonymous>.<anonymous>' call
-        var tmp$ret$2 = CurriculumParser_instance.r25(obj(item_0));
+        var tmp$ret$2 = CurriculumParser_instance.s25(obj(item_0));
         destination_0.k(tmp$ret$2);
       }
       var tmp$ret$5 = new Chapter(tmp_2, tmp_3, destination_0);
@@ -9790,12 +9805,12 @@ class CurriculumParser {
     }
     return new Course(tmp, tmp_0, tmp_1, destination);
   }
-  r25(o) {
+  s25(o) {
     // Inline function 'kotlin.text.orEmpty' call
     var tmp0_elvis_lhs = str(o, 'id');
     var tmp = tmp0_elvis_lhs == null ? '' : tmp0_elvis_lhs;
-    var tmp_0 = Companion_getInstance_12().q23(o.y2('title'));
-    var tmp_1 = Companion_getInstance_12().q23(o.y2('intro'));
+    var tmp_0 = Companion_getInstance_12().r23(o.y2('title'));
+    var tmp_1 = Companion_getInstance_12().r23(o.y2('intro'));
     var tmp_2 = int(o, 'level', 1);
     // Inline function 'kotlin.collections.mapNotNull' call
     // Inline function 'kotlin.collections.mapNotNullTo' call
@@ -9807,7 +9822,7 @@ class CurriculumParser {
       var element = tmp0_iterator.z();
       // Inline function 'kotlin.collections.mapNotNullTo.<anonymous>' call
       // Inline function 'com.zorix.chess.learn.CurriculumParser.lesson.<anonymous>' call
-      var tmp0_safe_receiver = CurriculumParser_instance.s25(obj(element));
+      var tmp0_safe_receiver = CurriculumParser_instance.t25(obj(element));
       if (tmp0_safe_receiver == null)
         null;
       else {
@@ -9818,10 +9833,10 @@ class CurriculumParser {
     }
     return new Lesson(tmp, tmp_0, tmp_1, tmp_2, destination);
   }
-  s25(o) {
+  t25(o) {
     var tmp = Companion_getInstance_12();
     var tmp0_elvis_lhs = o.y2('prompt');
-    var prompt = tmp.q23(tmp0_elvis_lhs == null ? o.y2('text') : tmp0_elvis_lhs);
+    var prompt = tmp.r23(tmp0_elvis_lhs == null ? o.y2('text') : tmp0_elvis_lhs);
     var tmp_0;
     switch (str(o, 'type')) {
       case 'theory':
@@ -9881,7 +9896,7 @@ class CurriculumParser {
         }
 
         var tmp_6 = tmp_5;
-        var tmp7_elvis_lhs = Companion_instance_14.s23(str(o, 'goal'));
+        var tmp7_elvis_lhs = Companion_instance_14.t23(str(o, 'goal'));
         var tmp_7;
         if (tmp7_elvis_lhs == null) {
           return null;
@@ -9903,11 +9918,11 @@ class CurriculumParser {
         while (tmp0_iterator.y()) {
           var item = tmp0_iterator.z();
           // Inline function 'com.zorix.chess.learn.CurriculumParser.step.<anonymous>' call
-          var tmp$ret$0 = Companion_getInstance_12().q23(item);
+          var tmp$ret$0 = Companion_getInstance_12().r23(item);
           destination.k(tmp$ret$0);
         }
 
-        tmp_0 = new Quiz(prompt, tmp_8, destination, int(o, 'answer'), Companion_getInstance_12().q23(o.y2('explain')), strings(o, 'marks'));
+        tmp_0 = new Quiz(prompt, tmp_8, destination, int(o, 'answer'), Companion_getInstance_12().r23(o.y2('explain')), strings(o, 'marks'));
         break;
       case 'square':
         tmp_0 = new Squares_0(prompt, int(o, 'count', 10), equals(o.y2('black'), true));
@@ -9921,7 +9936,7 @@ class CurriculumParser {
           tmp_9 = tmp8_elvis_lhs;
         }
 
-        tmp_0 = new Best(prompt, tmp_9, strings(o, 'accept'), Companion_getInstance_12().q23(o.y2('explain')));
+        tmp_0 = new Best(prompt, tmp_9, strings(o, 'accept'), Companion_getInstance_12().r23(o.y2('explain')));
         break;
       case 'line':
         var tmp_10 = strings(o, 'moves');
@@ -9953,7 +9968,7 @@ class CurriculumParser {
             // Inline function 'kotlin.let' call
             // Inline function 'kotlin.contracts.contract' call
             // Inline function 'com.zorix.chess.learn.CurriculumParser.step.<anonymous>.<anonymous>' call
-            tmp_12 = to(tmp0_safe_receiver, Companion_getInstance_12().q23(v));
+            tmp_12 = to(tmp0_safe_receiver, Companion_getInstance_12().r23(v));
           }
           var tmp0_safe_receiver_0 = tmp_12;
           if (tmp0_safe_receiver_0 == null)
@@ -10027,136 +10042,136 @@ class CurriculumParser {
 }
 class Parser {
   constructor(s) {
-    this.t25_1 = s;
-    this.u25_1 = 0;
-  }
-  v25() {
-    while (this.u25_1 < this.t25_1.length && isWhitespace(charSequenceGet(this.t25_1, this.u25_1))) {
-      this.u25_1 = this.u25_1 + 1 | 0;
-    }
+    this.u25_1 = s;
+    this.v25_1 = 0;
   }
   w25() {
-    this.v25();
+    while (this.v25_1 < this.u25_1.length && isWhitespace(charSequenceGet(this.u25_1, this.v25_1))) {
+      this.v25_1 = this.v25_1 + 1 | 0;
+    }
+  }
+  x25() {
+    this.w25();
     // Inline function 'kotlin.require' call
     // Inline function 'kotlin.contracts.contract' call
-    if (!(this.u25_1 < this.t25_1.length)) {
+    if (!(this.v25_1 < this.u25_1.length)) {
       // Inline function 'com.zorix.chess.learn.Parser.value.<anonymous>' call
       var message = 'Unexpected end';
       throw IllegalArgumentException.s(toString_0(message));
     }
-    var c = charSequenceGet(this.t25_1, this.u25_1);
+    var c = charSequenceGet(this.u25_1, this.v25_1);
     var tmp;
     if (c === _Char___init__impl__6a9atx(123)) {
-      tmp = this.b26();
+      tmp = this.c26();
     } else if (c === _Char___init__impl__6a9atx(91)) {
-      tmp = this.a26();
+      tmp = this.b26();
     } else if (c === _Char___init__impl__6a9atx(34)) {
-      tmp = this.z25();
+      tmp = this.a26();
     } else if (c === _Char___init__impl__6a9atx(116)) {
-      tmp = this.y25('true', true);
+      tmp = this.z25('true', true);
     } else if (c === _Char___init__impl__6a9atx(102)) {
-      tmp = this.y25('false', false);
+      tmp = this.z25('false', false);
     } else if (c === _Char___init__impl__6a9atx(110)) {
-      tmp = this.y25('null', null);
+      tmp = this.z25('null', null);
     } else {
       var tmp_0;
       if (c === _Char___init__impl__6a9atx(45) || isDigit(c)) {
-        tmp_0 = this.x25();
+        tmp_0 = this.y25();
       } else {
-        throw IllegalArgumentException.s("Unexpected '" + toString_1(c) + "' at " + this.u25_1);
+        throw IllegalArgumentException.s("Unexpected '" + toString_1(c) + "' at " + this.v25_1);
       }
       tmp = tmp_0;
     }
     return tmp;
   }
-  y25(word, v) {
+  z25(word, v) {
     // Inline function 'kotlin.require' call
     // Inline function 'kotlin.contracts.contract' call
-    if (!startsWith_0(this.t25_1, word, this.u25_1)) {
+    if (!startsWith_0(this.u25_1, word, this.v25_1)) {
       // Inline function 'com.zorix.chess.learn.Parser.literal.<anonymous>' call
-      var message = 'Expected ' + word + ' at ' + this.u25_1;
+      var message = 'Expected ' + word + ' at ' + this.v25_1;
       throw IllegalArgumentException.s(toString_0(message));
     }
-    this.u25_1 = this.u25_1 + word.length | 0;
+    this.v25_1 = this.v25_1 + word.length | 0;
     return v;
   }
-  b26() {
-    this.u25_1 = this.u25_1 + 1 | 0;
+  c26() {
+    this.v25_1 = this.v25_1 + 1 | 0;
     var out = LinkedHashMap.o5();
-    this.v25();
-    if (charSequenceGet(this.t25_1, this.u25_1) === _Char___init__impl__6a9atx(125)) {
-      this.u25_1 = this.u25_1 + 1 | 0;
+    this.w25();
+    if (charSequenceGet(this.u25_1, this.v25_1) === _Char___init__impl__6a9atx(125)) {
+      this.v25_1 = this.v25_1 + 1 | 0;
       return out;
     }
     while (true) {
-      this.v25();
-      var k = this.z25();
-      this.v25();
+      this.w25();
+      var k = this.a26();
+      this.w25();
       // Inline function 'kotlin.require' call
       // Inline function 'kotlin.contracts.contract' call
-      if (!(charSequenceGet(this.t25_1, this.u25_1) === _Char___init__impl__6a9atx(58))) {
+      if (!(charSequenceGet(this.u25_1, this.v25_1) === _Char___init__impl__6a9atx(58))) {
         // Inline function 'com.zorix.chess.learn.Parser.obj.<anonymous>' call
-        var message = "Expected ':' at " + this.u25_1;
+        var message = "Expected ':' at " + this.v25_1;
         throw IllegalArgumentException.s(toString_0(message));
       }
-      this.u25_1 = this.u25_1 + 1 | 0;
+      this.v25_1 = this.v25_1 + 1 | 0;
       // Inline function 'kotlin.collections.set' call
-      var value = this.w25();
+      var value = this.x25();
       out.r5(k, value);
-      this.v25();
-      var tmp0_subject = charSequenceGet(this.t25_1, this.u25_1);
+      this.w25();
+      var tmp0_subject = charSequenceGet(this.u25_1, this.v25_1);
       if (tmp0_subject === _Char___init__impl__6a9atx(44)) {
-        this.u25_1 = this.u25_1 + 1 | 0;
+        this.v25_1 = this.v25_1 + 1 | 0;
       } else if (tmp0_subject === _Char___init__impl__6a9atx(125)) {
-        this.u25_1 = this.u25_1 + 1 | 0;
+        this.v25_1 = this.v25_1 + 1 | 0;
         return out;
       } else
-        throw IllegalArgumentException.s("Expected ',' or '}' at " + this.u25_1);
+        throw IllegalArgumentException.s("Expected ',' or '}' at " + this.v25_1);
     }
   }
-  a26() {
-    this.u25_1 = this.u25_1 + 1 | 0;
+  b26() {
+    this.v25_1 = this.v25_1 + 1 | 0;
     var out = ArrayList.h();
-    this.v25();
-    if (charSequenceGet(this.t25_1, this.u25_1) === _Char___init__impl__6a9atx(93)) {
-      this.u25_1 = this.u25_1 + 1 | 0;
+    this.w25();
+    if (charSequenceGet(this.u25_1, this.v25_1) === _Char___init__impl__6a9atx(93)) {
+      this.v25_1 = this.v25_1 + 1 | 0;
       return out;
     }
     while (true) {
       // Inline function 'kotlin.collections.plusAssign' call
-      var element = this.w25();
+      var element = this.x25();
       out.k(element);
-      this.v25();
-      var tmp0_subject = charSequenceGet(this.t25_1, this.u25_1);
+      this.w25();
+      var tmp0_subject = charSequenceGet(this.u25_1, this.v25_1);
       if (tmp0_subject === _Char___init__impl__6a9atx(44)) {
-        this.u25_1 = this.u25_1 + 1 | 0;
+        this.v25_1 = this.v25_1 + 1 | 0;
       } else if (tmp0_subject === _Char___init__impl__6a9atx(93)) {
-        this.u25_1 = this.u25_1 + 1 | 0;
+        this.v25_1 = this.v25_1 + 1 | 0;
         return out;
       } else
-        throw IllegalArgumentException.s("Expected ',' or ']' at " + this.u25_1);
+        throw IllegalArgumentException.s("Expected ',' or ']' at " + this.v25_1);
     }
   }
-  z25() {
+  a26() {
     // Inline function 'kotlin.require' call
     // Inline function 'kotlin.contracts.contract' call
-    if (!(charSequenceGet(this.t25_1, this.u25_1) === _Char___init__impl__6a9atx(34))) {
+    if (!(charSequenceGet(this.u25_1, this.v25_1) === _Char___init__impl__6a9atx(34))) {
       // Inline function 'com.zorix.chess.learn.Parser.str.<anonymous>' call
-      var message = 'Expected string at ' + this.u25_1;
+      var message = 'Expected string at ' + this.v25_1;
       throw IllegalArgumentException.s(toString_0(message));
     }
-    this.u25_1 = this.u25_1 + 1 | 0;
+    this.v25_1 = this.v25_1 + 1 | 0;
     var sb = StringBuilder.v();
     while (true) {
-      var _unary__edvuaz = this.u25_1;
-      this.u25_1 = _unary__edvuaz + 1 | 0;
-      var c = charSequenceGet(this.t25_1, _unary__edvuaz);
+      var _unary__edvuaz = this.v25_1;
+      this.v25_1 = _unary__edvuaz + 1 | 0;
+      var c = charSequenceGet(this.u25_1, _unary__edvuaz);
       if (c === _Char___init__impl__6a9atx(34))
         return sb.toString();
       else if (c === _Char___init__impl__6a9atx(92)) {
-        var _unary__edvuaz_0 = this.u25_1;
-        this.u25_1 = _unary__edvuaz_0 + 1 | 0;
-        var e = charSequenceGet(this.t25_1, _unary__edvuaz_0);
+        var _unary__edvuaz_0 = this.v25_1;
+        this.v25_1 = _unary__edvuaz_0 + 1 | 0;
+        var e = charSequenceGet(this.u25_1, _unary__edvuaz_0);
         if (e === _Char___init__impl__6a9atx(34))
           sb.eb(_Char___init__impl__6a9atx(34));
         else if (e === _Char___init__impl__6a9atx(92))
@@ -10175,30 +10190,30 @@ class Parser {
           sb.eb(_Char___init__impl__6a9atx(9));
         else if (e === _Char___init__impl__6a9atx(117)) {
           // Inline function 'kotlin.text.substring' call
-          var this_0 = this.t25_1;
-          var startIndex = this.u25_1;
-          var endIndex = this.u25_1 + 4 | 0;
+          var this_0 = this.u25_1;
+          var startIndex = this.v25_1;
+          var endIndex = this.v25_1 + 4 | 0;
           // Inline function 'kotlin.js.asDynamic' call
           var tmp$ret$2 = this_0.substring(startIndex, endIndex);
           sb.eb(numberToChar(toInt(tmp$ret$2, 16)));
-          this.u25_1 = this.u25_1 + 4 | 0;
+          this.v25_1 = this.v25_1 + 4 | 0;
         } else
           throw IllegalArgumentException.s('Bad escape \\' + toString_1(e));
       } else
         sb.eb(c);
     }
   }
-  x25() {
-    var start = this.u25_1;
-    if (charSequenceGet(this.t25_1, this.u25_1) === _Char___init__impl__6a9atx(45)) {
-      this.u25_1 = this.u25_1 + 1 | 0;
+  y25() {
+    var start = this.v25_1;
+    if (charSequenceGet(this.u25_1, this.v25_1) === _Char___init__impl__6a9atx(45)) {
+      this.v25_1 = this.v25_1 + 1 | 0;
     }
-    while (this.u25_1 < this.t25_1.length && (isDigit(charSequenceGet(this.t25_1, this.u25_1)) || contains('.eE+-', charSequenceGet(this.t25_1, this.u25_1)))) {
-      this.u25_1 = this.u25_1 + 1 | 0;
+    while (this.v25_1 < this.u25_1.length && (isDigit(charSequenceGet(this.u25_1, this.v25_1)) || contains('.eE+-', charSequenceGet(this.u25_1, this.v25_1)))) {
+      this.v25_1 = this.v25_1 + 1 | 0;
     }
     // Inline function 'kotlin.text.substring' call
-    var this_0 = this.t25_1;
-    var endIndex = this.u25_1;
+    var this_0 = this.u25_1;
+    var endIndex = this.v25_1;
     // Inline function 'kotlin.js.asDynamic' call
     var t = this_0.substring(start, endIndex);
     var tmp;
@@ -10231,14 +10246,14 @@ class Json {
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'com.zorix.chess.learn.Json.parse.<anonymous>' call
     var $this$run = new Parser(text);
-    $this$run.v25();
-    var v = $this$run.w25();
-    $this$run.v25();
+    $this$run.w25();
+    var v = $this$run.x25();
+    $this$run.w25();
     // Inline function 'kotlin.require' call
     // Inline function 'kotlin.contracts.contract' call
-    if (!($this$run.u25_1 === text.length)) {
+    if (!($this$run.v25_1 === text.length)) {
       // Inline function 'com.zorix.chess.learn.Json.parse.<anonymous>.<anonymous>' call
-      var message = 'Trailing characters at ' + $this$run.u25_1;
+      var message = 'Trailing characters at ' + $this$run.v25_1;
       throw IllegalArgumentException.s(toString_0(message));
     }
     return v;
@@ -10264,77 +10279,77 @@ class StepUi {
     correct = correct === VOID ? 0 : correct;
     chosen = chosen === VOID ? null : chosen;
     pendingPromotion = pendingPromotion === VOID ? null : pendingPromotion;
-    this.c26_1 = index;
-    this.d26_1 = step;
-    this.e26_1 = position;
-    this.f26_1 = flipped;
-    this.g26_1 = lastMove;
-    this.h26_1 = stars;
-    this.i26_1 = marks;
-    this.j26_1 = arrows;
-    this.k26_1 = hintSquare;
-    this.l26_1 = interactive;
-    this.m26_1 = status;
-    this.n26_1 = message;
-    this.o26_1 = speech;
-    this.p26_1 = moves;
-    this.q26_1 = busy;
-    this.r26_1 = target;
-    this.s26_1 = round;
-    this.t26_1 = correct;
-    this.u26_1 = chosen;
-    this.v26_1 = pendingPromotion;
+    this.d26_1 = index;
+    this.e26_1 = step;
+    this.f26_1 = position;
+    this.g26_1 = flipped;
+    this.h26_1 = lastMove;
+    this.i26_1 = stars;
+    this.j26_1 = marks;
+    this.k26_1 = arrows;
+    this.l26_1 = hintSquare;
+    this.m26_1 = interactive;
+    this.n26_1 = status;
+    this.o26_1 = message;
+    this.p26_1 = speech;
+    this.q26_1 = moves;
+    this.r26_1 = busy;
+    this.s26_1 = target;
+    this.t26_1 = round;
+    this.u26_1 = correct;
+    this.v26_1 = chosen;
+    this.w26_1 = pendingPromotion;
   }
-  w26(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion) {
+  x26(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion) {
     return new StepUi(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion);
   }
-  x26(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion, $super) {
-    index = index === VOID ? this.c26_1 : index;
-    step = step === VOID ? this.d26_1 : step;
-    position = position === VOID ? this.e26_1 : position;
-    flipped = flipped === VOID ? this.f26_1 : flipped;
-    lastMove = lastMove === VOID ? this.g26_1 : lastMove;
-    stars = stars === VOID ? this.h26_1 : stars;
-    marks = marks === VOID ? this.i26_1 : marks;
-    arrows = arrows === VOID ? this.j26_1 : arrows;
-    hintSquare = hintSquare === VOID ? this.k26_1 : hintSquare;
-    interactive = interactive === VOID ? this.l26_1 : interactive;
-    status = status === VOID ? this.m26_1 : status;
-    message = message === VOID ? this.n26_1 : message;
-    speech = speech === VOID ? this.o26_1 : speech;
-    moves = moves === VOID ? this.p26_1 : moves;
-    busy = busy === VOID ? this.q26_1 : busy;
-    target = target === VOID ? this.r26_1 : target;
-    round = round === VOID ? this.s26_1 : round;
-    correct = correct === VOID ? this.t26_1 : correct;
-    chosen = chosen === VOID ? this.u26_1 : chosen;
-    pendingPromotion = pendingPromotion === VOID ? this.v26_1 : pendingPromotion;
-    return $super === VOID ? this.w26(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion) : $super.w26.call(this, index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion);
+  y26(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion, $super) {
+    index = index === VOID ? this.d26_1 : index;
+    step = step === VOID ? this.e26_1 : step;
+    position = position === VOID ? this.f26_1 : position;
+    flipped = flipped === VOID ? this.g26_1 : flipped;
+    lastMove = lastMove === VOID ? this.h26_1 : lastMove;
+    stars = stars === VOID ? this.i26_1 : stars;
+    marks = marks === VOID ? this.j26_1 : marks;
+    arrows = arrows === VOID ? this.k26_1 : arrows;
+    hintSquare = hintSquare === VOID ? this.l26_1 : hintSquare;
+    interactive = interactive === VOID ? this.m26_1 : interactive;
+    status = status === VOID ? this.n26_1 : status;
+    message = message === VOID ? this.o26_1 : message;
+    speech = speech === VOID ? this.p26_1 : speech;
+    moves = moves === VOID ? this.q26_1 : moves;
+    busy = busy === VOID ? this.r26_1 : busy;
+    target = target === VOID ? this.s26_1 : target;
+    round = round === VOID ? this.t26_1 : round;
+    correct = correct === VOID ? this.u26_1 : correct;
+    chosen = chosen === VOID ? this.v26_1 : chosen;
+    pendingPromotion = pendingPromotion === VOID ? this.w26_1 : pendingPromotion;
+    return $super === VOID ? this.x26(index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion) : $super.x26.call(this, index, step, position, flipped, lastMove, stars, marks, arrows, hintSquare, interactive, status, message, speech, moves, busy, target, round, correct, chosen, pendingPromotion);
   }
   toString() {
-    return 'StepUi(index=' + this.c26_1 + ', step=' + toString_0(this.d26_1) + ', position=' + toString(this.e26_1) + ', flipped=' + this.f26_1 + ', lastMove=' + toString(this.g26_1) + ', stars=' + toString_0(this.h26_1) + ', marks=' + toString_0(this.i26_1) + ', arrows=' + toString_0(this.j26_1) + ', hintSquare=' + this.k26_1 + ', interactive=' + this.l26_1 + ', status=' + this.m26_1.toString() + ', message=' + this.n26_1 + ', speech=' + this.o26_1 + ', moves=' + this.p26_1 + ', busy=' + this.q26_1 + ', target=' + this.r26_1 + ', round=' + this.s26_1 + ', correct=' + this.t26_1 + ', chosen=' + this.u26_1 + ', pendingPromotion=' + toString(this.v26_1) + ')';
+    return 'StepUi(index=' + this.d26_1 + ', step=' + toString_0(this.e26_1) + ', position=' + toString(this.f26_1) + ', flipped=' + this.g26_1 + ', lastMove=' + toString(this.h26_1) + ', stars=' + toString_0(this.i26_1) + ', marks=' + toString_0(this.j26_1) + ', arrows=' + toString_0(this.k26_1) + ', hintSquare=' + this.l26_1 + ', interactive=' + this.m26_1 + ', status=' + this.n26_1.toString() + ', message=' + this.o26_1 + ', speech=' + this.p26_1 + ', moves=' + this.q26_1 + ', busy=' + this.r26_1 + ', target=' + this.s26_1 + ', round=' + this.t26_1 + ', correct=' + this.u26_1 + ', chosen=' + this.v26_1 + ', pendingPromotion=' + toString(this.w26_1) + ')';
   }
   hashCode() {
-    var result = this.c26_1;
-    result = imul(result, 31) + hashCode(this.d26_1) | 0;
-    result = imul(result, 31) + (this.e26_1 == null ? 0 : this.e26_1.hashCode()) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.f26_1) | 0;
-    result = imul(result, 31) + (this.g26_1 == null ? 0 : this.g26_1.hashCode()) | 0;
-    result = imul(result, 31) + hashCode(this.h26_1) | 0;
+    var result = this.d26_1;
+    result = imul(result, 31) + hashCode(this.e26_1) | 0;
+    result = imul(result, 31) + (this.f26_1 == null ? 0 : this.f26_1.hashCode()) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.g26_1) | 0;
+    result = imul(result, 31) + (this.h26_1 == null ? 0 : this.h26_1.hashCode()) | 0;
     result = imul(result, 31) + hashCode(this.i26_1) | 0;
     result = imul(result, 31) + hashCode(this.j26_1) | 0;
-    result = imul(result, 31) + (this.k26_1 == null ? 0 : this.k26_1) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.l26_1) | 0;
-    result = imul(result, 31) + this.m26_1.hashCode() | 0;
-    result = imul(result, 31) + (this.n26_1 == null ? 0 : getStringHashCode(this.n26_1)) | 0;
+    result = imul(result, 31) + hashCode(this.k26_1) | 0;
+    result = imul(result, 31) + (this.l26_1 == null ? 0 : this.l26_1) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.m26_1) | 0;
+    result = imul(result, 31) + this.n26_1.hashCode() | 0;
     result = imul(result, 31) + (this.o26_1 == null ? 0 : getStringHashCode(this.o26_1)) | 0;
-    result = imul(result, 31) + this.p26_1 | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.q26_1) | 0;
-    result = imul(result, 31) + (this.r26_1 == null ? 0 : this.r26_1) | 0;
-    result = imul(result, 31) + this.s26_1 | 0;
+    result = imul(result, 31) + (this.p26_1 == null ? 0 : getStringHashCode(this.p26_1)) | 0;
+    result = imul(result, 31) + this.q26_1 | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.r26_1) | 0;
+    result = imul(result, 31) + (this.s26_1 == null ? 0 : this.s26_1) | 0;
     result = imul(result, 31) + this.t26_1 | 0;
-    result = imul(result, 31) + (this.u26_1 == null ? 0 : this.u26_1) | 0;
-    result = imul(result, 31) + (this.v26_1 == null ? 0 : this.v26_1.hashCode()) | 0;
+    result = imul(result, 31) + this.u26_1 | 0;
+    result = imul(result, 31) + (this.v26_1 == null ? 0 : this.v26_1) | 0;
+    result = imul(result, 31) + (this.w26_1 == null ? 0 : this.w26_1.hashCode()) | 0;
     return result;
   }
   equals(other) {
@@ -10343,15 +10358,13 @@ class StepUi {
     if (!(other instanceof StepUi))
       return false;
     var tmp0_other_with_cast = other instanceof StepUi ? other : THROW_CCE();
-    if (!(this.c26_1 === tmp0_other_with_cast.c26_1))
-      return false;
-    if (!equals(this.d26_1, tmp0_other_with_cast.d26_1))
+    if (!(this.d26_1 === tmp0_other_with_cast.d26_1))
       return false;
     if (!equals(this.e26_1, tmp0_other_with_cast.e26_1))
       return false;
-    if (!(this.f26_1 === tmp0_other_with_cast.f26_1))
+    if (!equals(this.f26_1, tmp0_other_with_cast.f26_1))
       return false;
-    if (!equals(this.g26_1, tmp0_other_with_cast.g26_1))
+    if (!(this.g26_1 === tmp0_other_with_cast.g26_1))
       return false;
     if (!equals(this.h26_1, tmp0_other_with_cast.h26_1))
       return false;
@@ -10359,29 +10372,31 @@ class StepUi {
       return false;
     if (!equals(this.j26_1, tmp0_other_with_cast.j26_1))
       return false;
-    if (!(this.k26_1 == tmp0_other_with_cast.k26_1))
+    if (!equals(this.k26_1, tmp0_other_with_cast.k26_1))
       return false;
-    if (!(this.l26_1 === tmp0_other_with_cast.l26_1))
+    if (!(this.l26_1 == tmp0_other_with_cast.l26_1))
       return false;
-    if (!this.m26_1.equals(tmp0_other_with_cast.m26_1))
+    if (!(this.m26_1 === tmp0_other_with_cast.m26_1))
       return false;
-    if (!(this.n26_1 == tmp0_other_with_cast.n26_1))
+    if (!this.n26_1.equals(tmp0_other_with_cast.n26_1))
       return false;
     if (!(this.o26_1 == tmp0_other_with_cast.o26_1))
       return false;
-    if (!(this.p26_1 === tmp0_other_with_cast.p26_1))
+    if (!(this.p26_1 == tmp0_other_with_cast.p26_1))
       return false;
     if (!(this.q26_1 === tmp0_other_with_cast.q26_1))
       return false;
-    if (!(this.r26_1 == tmp0_other_with_cast.r26_1))
+    if (!(this.r26_1 === tmp0_other_with_cast.r26_1))
       return false;
-    if (!(this.s26_1 === tmp0_other_with_cast.s26_1))
+    if (!(this.s26_1 == tmp0_other_with_cast.s26_1))
       return false;
     if (!(this.t26_1 === tmp0_other_with_cast.t26_1))
       return false;
-    if (!(this.u26_1 == tmp0_other_with_cast.u26_1))
+    if (!(this.u26_1 === tmp0_other_with_cast.u26_1))
       return false;
-    if (!equals(this.v26_1, tmp0_other_with_cast.v26_1))
+    if (!(this.v26_1 == tmp0_other_with_cast.v26_1))
+      return false;
+    if (!equals(this.w26_1, tmp0_other_with_cast.w26_1))
       return false;
     return true;
   }
@@ -10418,12 +10433,12 @@ class LessonResult {
 }
 class LessonSession$mate$slambda$slambda {
   constructor($p, $move, $remaining) {
-    this.y27_1 = $p;
-    this.z27_1 = $move;
-    this.a28_1 = $remaining;
+    this.z27_1 = $p;
+    this.a28_1 = $move;
+    this.b28_1 = $remaining;
   }
   c15($this$withContext, $completion) {
-    return Tactics_instance.x20(this.y27_1, this.z27_1, this.a28_1);
+    return Tactics_instance.y20(this.z27_1, this.a28_1, this.b28_1);
   }
   qc(p1, $completion) {
     return this.c15((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $completion);
@@ -10431,12 +10446,12 @@ class LessonSession$mate$slambda$slambda {
 }
 class LessonSession$mate$slambda$slambda_0 {
   constructor($p, $move, $remaining) {
-    this.b28_1 = $p;
-    this.c28_1 = $move;
-    this.d28_1 = $remaining;
+    this.c28_1 = $p;
+    this.d28_1 = $move;
+    this.e28_1 = $remaining;
   }
   c15($this$withContext, $completion) {
-    return Tactics_instance.z20(this.b28_1, this.c28_1, this.d28_1);
+    return Tactics_instance.a21(this.c28_1, this.d28_1, this.e28_1);
   }
   qc(p1, $completion) {
     return this.c15((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $completion);
@@ -10444,10 +10459,10 @@ class LessonSession$mate$slambda$slambda_0 {
 }
 class LessonSession$play$slambda$slambda {
   constructor($after) {
-    this.l28_1 = $after;
+    this.m28_1 = $after;
   }
   o1r(it, $completion) {
-    return it.e1s('fen ' + this.l28_1.c1e(), new MoveTime(new Long(450, 0)), 1, VOID, VOID, $completion);
+    return it.e1s('fen ' + this.m28_1.c1e(), new MoveTime(new Long(450, 0)), 1, VOID, VOID, $completion);
   }
   qc(p1, $completion) {
     return this.o1r(p1 instanceof UciEngine ? p1 : THROW_CCE(), $completion);
@@ -10456,11 +10471,11 @@ class LessonSession$play$slambda$slambda {
 class Companion_14 {
   constructor() {
     Companion_instance_15 = this;
-    this.o28_1 = new Long(550, 0);
-    this.p28_1 = '8/8/8/8/8/8/8/8 w - - 0 1';
-    this.q28_1 = new Long(750, 0);
+    this.p28_1 = new Long(550, 0);
+    this.q28_1 = '8/8/8/8/8/8/8/8 w - - 0 1';
+    this.r28_1 = new Long(750, 0);
   }
-  r28(goal, p, move) {
+  s28(goal, p, move) {
     if (!p.a1e(move))
       return false;
     var after = p.n1d(move);
@@ -10534,9 +10549,9 @@ class Companion_14 {
 }
 class LessonSession$enter$slambda {
   constructor(this$0, $step, $p) {
-    this.y26_1 = this$0;
-    this.z26_1 = $step;
-    this.a27_1 = $p;
+    this.z26_1 = this$0;
+    this.a27_1 = $step;
+    this.b27_1 = $p;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_25.bind(VOID, this, $this$launch), $completion);
@@ -10547,7 +10562,7 @@ class LessonSession$enter$slambda {
 }
 class LessonSession$enter$slambda_0 {
   constructor(this$0) {
-    this.r27_1 = this$0;
+    this.s27_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_26.bind(VOID, this, $this$launch), $completion);
@@ -10558,8 +10573,8 @@ class LessonSession$enter$slambda_0 {
 }
 class LessonSession$puzzle$slambda {
   constructor(this$0, $reply) {
-    this.s27_1 = this$0;
-    this.t27_1 = $reply;
+    this.t27_1 = this$0;
+    this.u27_1 = $reply;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_27.bind(VOID, this, $this$launch), $completion);
@@ -10570,10 +10585,10 @@ class LessonSession$puzzle$slambda {
 }
 class LessonSession$mate$slambda {
   constructor($p, $move, this$0, $remaining) {
-    this.u27_1 = $p;
-    this.v27_1 = $move;
-    this.w27_1 = this$0;
-    this.x27_1 = $remaining;
+    this.v27_1 = $p;
+    this.w27_1 = $move;
+    this.x27_1 = this$0;
+    this.y27_1 = $remaining;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_28.bind(VOID, this, $this$launch), $completion);
@@ -10584,7 +10599,7 @@ class LessonSession$mate$slambda {
 }
 class LessonSession$line$slambda {
   constructor(this$0) {
-    this.e28_1 = this$0;
+    this.f28_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_29.bind(VOID, this, $this$launch), $completion);
@@ -10595,12 +10610,12 @@ class LessonSession$line$slambda {
 }
 class LessonSession$play$slambda {
   constructor($after, this$0, $step, $move, $player, $hub) {
-    this.f28_1 = $after;
-    this.g28_1 = this$0;
-    this.h28_1 = $step;
-    this.i28_1 = $move;
-    this.j28_1 = $player;
-    this.k28_1 = $hub;
+    this.g28_1 = $after;
+    this.h28_1 = this$0;
+    this.i28_1 = $step;
+    this.j28_1 = $move;
+    this.k28_1 = $player;
+    this.l28_1 = $hub;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_30.bind(VOID, this, $this$launch), $completion);
@@ -10611,8 +10626,8 @@ class LessonSession$play$slambda {
 }
 class LessonSession$wrong$slambda {
   constructor(this$0, $p) {
-    this.m28_1 = this$0;
-    this.n28_1 = $p;
+    this.n28_1 = this$0;
+    this.o28_1 = $p;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_31.bind(VOID, this, $this$launch), $completion);
@@ -10626,61 +10641,61 @@ class LessonSession {
     Companion_getInstance_14();
     speechLang = speechLang === VOID ? lang : speechLang;
     random = random === VOID ? Default_getInstance() : random;
-    this.b27_1 = lesson;
-    this.c27_1 = scope;
-    this.d27_1 = hub;
-    this.e27_1 = lang;
-    this.f27_1 = speechLang;
-    this.g27_1 = random;
-    this.h27_1 = MutableStateFlow(enter(this, 0));
-    this.i27_1 = asStateFlow(this.h27_1);
-    this.j27_1 = MutableStateFlow(null);
-    this.k27_1 = asStateFlow(this.j27_1);
-    this.l27_1 = 0;
-    this.m27_1 = null;
-    this.n27_1 = 0;
+    this.c27_1 = lesson;
+    this.d27_1 = scope;
+    this.e27_1 = hub;
+    this.f27_1 = lang;
+    this.g27_1 = speechLang;
+    this.h27_1 = random;
+    this.i27_1 = MutableStateFlow(enter(this, 0));
+    this.j27_1 = asStateFlow(this.i27_1);
+    this.k27_1 = MutableStateFlow(null);
+    this.l27_1 = asStateFlow(this.k27_1);
+    this.m27_1 = 0;
+    this.n27_1 = null;
     this.o27_1 = 0;
     this.p27_1 = 0;
-    this.q27_1 = null;
+    this.q27_1 = 0;
+    this.r27_1 = null;
   }
   k1z() {
-    var i = this.h27_1.v2().c26_1;
-    if ((i + 1 | 0) >= this.b27_1.u1m_1.a1()) {
-      var stars = this.l27_1 === 0 ? 3 : this.l27_1 <= 2 ? 2 : 1;
-      this.j27_1.k13(new LessonResult(this.b27_1, this.l27_1, stars));
+    var i = this.i27_1.v2().d26_1;
+    if ((i + 1 | 0) >= this.c27_1.u1m_1.a1()) {
+      var stars = this.m27_1 === 0 ? 3 : this.m27_1 <= 2 ? 2 : 1;
+      this.k27_1.k13(new LessonResult(this.c27_1, this.m27_1, stars));
       return Unit_instance;
     }
-    var tmp0_safe_receiver = this.m27_1;
+    var tmp0_safe_receiver = this.n27_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
       tmp0_safe_receiver.nn();
     }
-    this.h27_1.k13(enter(this, i + 1 | 0));
-  }
-  s28() {
-    var i = this.h27_1.v2().c26_1;
-    if (i === 0)
-      return Unit_instance;
-    var tmp0_safe_receiver = this.m27_1;
-    if (tmp0_safe_receiver == null)
-      null;
-    else {
-      tmp0_safe_receiver.nn();
-    }
-    this.h27_1.k13(enter(this, i - 1 | 0));
+    this.i27_1.k13(enter(this, i + 1 | 0));
   }
   t28() {
-    var tmp0_safe_receiver = this.m27_1;
+    var i = this.i27_1.v2().d26_1;
+    if (i === 0)
+      return Unit_instance;
+    var tmp0_safe_receiver = this.n27_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
       tmp0_safe_receiver.nn();
     }
-    this.h27_1.k13(enter(this, this.h27_1.v2().c26_1));
+    this.i27_1.k13(enter(this, i - 1 | 0));
+  }
+  u28() {
+    var tmp0_safe_receiver = this.n27_1;
+    if (tmp0_safe_receiver == null)
+      null;
+    else {
+      tmp0_safe_receiver.nn();
+    }
+    this.i27_1.k13(enter(this, this.i27_1.v2().d26_1));
   }
   i1o() {
-    var tmp0_safe_receiver = this.m27_1;
+    var tmp0_safe_receiver = this.n27_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
@@ -10688,8 +10703,8 @@ class LessonSession {
     }
   }
   l1z(from, to_0) {
-    var ui = this.h27_1.v2();
-    var tmp0_elvis_lhs = ui.e26_1;
+    var ui = this.i27_1.v2();
+    var tmp0_elvis_lhs = ui.f26_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -10697,25 +10712,25 @@ class LessonSession {
       tmp = tmp0_elvis_lhs;
     }
     var p = tmp;
-    if (!ui.l26_1 || ui.q26_1 || ui.m26_1.equals(StepStatus_SOLVED_getInstance()))
+    if (!ui.m26_1 || ui.r26_1 || ui.n26_1.equals(StepStatus_SOLVED_getInstance()))
       return Unit_instance;
     var tmp_0;
     var tmp_1;
     var tmp_2;
-    var tmp_3 = ui.d26_1;
+    var tmp_3 = ui.e26_1;
     if (tmp_3 instanceof Stars) {
       tmp_2 = true;
     } else {
-      var tmp_4 = ui.d26_1;
+      var tmp_4 = ui.e26_1;
       tmp_2 = tmp_4 instanceof Capture;
     }
     if (tmp_2) {
-      tmp_1 = !(this.q27_1 == null);
+      tmp_1 = !(this.r27_1 == null);
     } else {
       tmp_1 = false;
     }
     if (tmp_1) {
-      tmp_0 = !(from === this.q27_1);
+      tmp_0 = !(from === this.r27_1);
     } else {
       tmp_0 = false;
     }
@@ -10724,11 +10739,11 @@ class LessonSession {
     if (p.z1t(from, to_0)) {
       $l$block: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_0 = this.h27_1;
+        var this_0 = this.i27_1;
         while (true) {
           var prevValue = this_0.v2();
           // Inline function 'com.zorix.chess.learn.LessonSession.onMove.<anonymous>' call
-          var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, to(from, to_0));
+          var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, to(from, to_0));
           if (this_0.l13(prevValue, nextValue)) {
             break $l$block;
           }
@@ -10739,7 +10754,7 @@ class LessonSession {
     handle_0(this, new Move(from, to_0));
   }
   m1z(type) {
-    var tmp0_elvis_lhs = this.h27_1.v2().v26_1;
+    var tmp0_elvis_lhs = this.i27_1.v2().w26_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -10749,11 +10764,11 @@ class LessonSession {
     var pending = tmp;
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = this.h27_1;
+      var this_0 = this.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.onPromotion.<anonymous>' call
-        var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, null);
+        var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, null);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -10763,9 +10778,9 @@ class LessonSession {
       handle_0(this, new Move(pending.qd_1, pending.rd_1, type));
     }
   }
-  u28(square) {
-    var ui = this.h27_1.v2();
-    var tmp = ui.d26_1;
+  v28(square) {
+    var ui = this.i27_1.v2();
+    var tmp = ui.e26_1;
     var tmp0_elvis_lhs = tmp instanceof Squares_0 ? tmp : null;
     var tmp_0;
     if (tmp0_elvis_lhs == null) {
@@ -10774,43 +10789,43 @@ class LessonSession {
       tmp_0 = tmp0_elvis_lhs;
     }
     var step = tmp_0;
-    if (ui.m26_1.equals(StepStatus_SOLVED_getInstance()) || ui.r26_1 == null)
+    if (ui.n26_1.equals(StepStatus_SOLVED_getInstance()) || ui.s26_1 == null)
       return Unit_instance;
-    var right = square === ui.r26_1;
+    var right = square === ui.s26_1;
     if (!right) {
-      this.l27_1 = this.l27_1 + 1 | 0;
+      this.m27_1 = this.m27_1 + 1 | 0;
     }
-    var round = ui.s26_1 + 1 | 0;
-    var correct = ui.t26_1 + (right ? 1 : 0) | 0;
-    if (round >= step.z24_1) {
+    var round = ui.t26_1 + 1 | 0;
+    var correct = ui.u26_1 + (right ? 1 : 0) | 0;
+    if (round >= step.a25_1) {
       $l$block: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_0 = this.h27_1;
+        var this_0 = this.i27_1;
         while (true) {
           var prevValue = this_0.v2();
           // Inline function 'com.zorix.chess.learn.LessonSession.onSquare.<anonymous>' call
           var tmp0_status = StepStatus_SOLVED_getInstance();
           var tmp1_marks = setOf_0(square);
-          var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, tmp1_marks, VOID, VOID, false, tmp0_status, VOID, VOID, VOID, VOID, null, round, correct);
+          var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, tmp1_marks, VOID, VOID, false, tmp0_status, VOID, VOID, VOID, VOID, null, round, correct);
           if (this_0.l13(prevValue, nextValue)) {
             break $l$block;
           }
         }
       }
     } else {
-      var next = this.g27_1.h1(64);
-      while (next === ui.r26_1)
-        next = this.g27_1.h1(64);
+      var next = this.h27_1.h1(64);
+      while (next === ui.s26_1)
+        next = this.h27_1.h1(64);
       $l$block_0: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_1 = this.h27_1;
+        var this_1 = this.i27_1;
         while (true) {
           var prevValue_0 = this_1.v2();
           // Inline function 'com.zorix.chess.learn.LessonSession.onSquare.<anonymous>' call
           var tmp0_target = next;
           var tmp1_marks_0 = setOf_0(square);
           var tmp2_status = right ? StepStatus_ACTIVE_getInstance() : StepStatus_WRONG_getInstance();
-          var nextValue_0 = prevValue_0.x26(VOID, VOID, VOID, VOID, VOID, VOID, tmp1_marks_0, VOID, VOID, VOID, tmp2_status, VOID, VOID, VOID, VOID, tmp0_target, round, correct);
+          var nextValue_0 = prevValue_0.y26(VOID, VOID, VOID, VOID, VOID, VOID, tmp1_marks_0, VOID, VOID, VOID, tmp2_status, VOID, VOID, VOID, VOID, tmp0_target, round, correct);
           if (this_1.l13(prevValue_0, nextValue_0)) {
             break $l$block_0;
           }
@@ -10818,9 +10833,9 @@ class LessonSession {
       }
     }
   }
-  v28(index) {
-    var ui = this.h27_1.v2();
-    var tmp = ui.d26_1;
+  w28(index) {
+    var ui = this.i27_1.v2();
+    var tmp = ui.e26_1;
     var tmp0_elvis_lhs = tmp instanceof Quiz ? tmp : null;
     var tmp_0;
     if (tmp0_elvis_lhs == null) {
@@ -10829,18 +10844,18 @@ class LessonSession {
       tmp_0 = tmp0_elvis_lhs;
     }
     var step = tmp_0;
-    if (ui.m26_1.equals(StepStatus_SOLVED_getInstance()))
+    if (ui.n26_1.equals(StepStatus_SOLVED_getInstance()))
       return Unit_instance;
-    if (index === step.v24_1) {
+    if (index === step.w24_1) {
       $l$block: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_0 = this.h27_1;
+        var this_0 = this.i27_1;
         while (true) {
           var prevValue = this_0.v2();
           // Inline function 'com.zorix.chess.learn.LessonSession.onOption.<anonymous>' call
           var tmp0_status = StepStatus_SOLVED_getInstance();
           // Inline function 'kotlin.takeIf' call
-          var this_1 = step.w24_1.jg(this.e27_1);
+          var this_1 = step.x24_1.jg(this.f27_1);
           // Inline function 'kotlin.contracts.contract' call
           var tmp_1;
           // Inline function 'com.zorix.chess.learn.LessonSession.onOption.<anonymous>.<anonymous>' call
@@ -10851,22 +10866,22 @@ class LessonSession {
             tmp_1 = null;
           }
           var tmp1_message = tmp_1;
-          var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp0_status, tmp1_message, VOID, VOID, VOID, VOID, VOID, VOID, index);
+          var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp0_status, tmp1_message, VOID, VOID, VOID, VOID, VOID, VOID, index);
           if (this_0.l13(prevValue, nextValue)) {
             break $l$block;
           }
         }
       }
     } else {
-      this.l27_1 = this.l27_1 + 1 | 0;
+      this.m27_1 = this.m27_1 + 1 | 0;
       $l$block_0: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_2 = this.h27_1;
+        var this_2 = this.i27_1;
         while (true) {
           var prevValue_0 = this_2.v2();
           // Inline function 'com.zorix.chess.learn.LessonSession.onOption.<anonymous>' call
           var tmp0_status_0 = StepStatus_WRONG_getInstance();
-          var nextValue_0 = prevValue_0.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp0_status_0, VOID, VOID, VOID, VOID, VOID, VOID, VOID, index);
+          var nextValue_0 = prevValue_0.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp0_status_0, VOID, VOID, VOID, VOID, VOID, VOID, VOID, index);
           if (this_2.l13(prevValue_0, nextValue_0)) {
             break $l$block_0;
           }
@@ -10875,8 +10890,8 @@ class LessonSession {
     }
   }
   n1z() {
-    var ui = this.h27_1.v2();
-    var tmp0_elvis_lhs = ui.e26_1;
+    var ui = this.i27_1.v2();
+    var tmp0_elvis_lhs = ui.f26_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -10884,10 +10899,10 @@ class LessonSession {
       tmp = tmp0_elvis_lhs;
     }
     var p = tmp;
-    var step = ui.d26_1;
+    var step = ui.e26_1;
     var tmp_0;
     if (step instanceof Puzzle) {
-      var tmp1_safe_receiver = getOrNull(step.h24_1, this.n27_1);
+      var tmp1_safe_receiver = getOrNull(step.i24_1, this.o27_1);
       var tmp_1;
       if (tmp1_safe_receiver == null) {
         tmp_1 = null;
@@ -10899,10 +10914,10 @@ class LessonSession {
       tmp_0 = tmp_1;
     } else {
       if (step instanceof Mate) {
-        tmp_0 = firstOrNull(Tactics_instance.y20(p, step.o24_1 - this.n27_1 | 0));
+        tmp_0 = firstOrNull(Tactics_instance.z20(p, step.p24_1 - this.o27_1 | 0));
       } else {
         if (step instanceof Best) {
-          var tmp2_safe_receiver = firstOrNull(step.d25_1);
+          var tmp2_safe_receiver = firstOrNull(step.e25_1);
           var tmp_2;
           if (tmp2_safe_receiver == null) {
             tmp_2 = null;
@@ -10914,7 +10929,7 @@ class LessonSession {
           tmp_0 = tmp_2;
         } else {
           if (step instanceof Line) {
-            var tmp3_safe_receiver = getOrNull(step.g25_1, this.n27_1);
+            var tmp3_safe_receiver = getOrNull(step.h25_1, this.o27_1);
             var tmp_3;
             if (tmp3_safe_receiver == null) {
               tmp_3 = null;
@@ -10933,7 +10948,7 @@ class LessonSession {
                 while (tmp0_iterator.y()) {
                   var element = tmp0_iterator.z();
                   // Inline function 'com.zorix.chess.learn.LessonSession.hint.<anonymous>' call
-                  if (Companion_getInstance_14().r28(step.r24_1, p, element)) {
+                  if (Companion_getInstance_14().s28(step.s24_1, p, element)) {
                     tmp$ret$7 = element;
                     break $l$block;
                   }
@@ -10951,11 +10966,11 @@ class LessonSession {
     var move = tmp_0;
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = this.h27_1;
+      var this_0 = this.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.hint.<anonymous>' call
-        var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, move == null ? null : move.d1e_1);
+        var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, move == null ? null : move.d1e_1);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block_0;
         }
@@ -10963,11 +10978,11 @@ class LessonSession {
     }
   }
   o1z() {
-    var ui = this.h27_1.v2();
-    var step = ui.d26_1;
-    if (ui.m26_1.equals(StepStatus_SOLVED_getInstance()))
+    var ui = this.i27_1.v2();
+    var step = ui.e26_1;
+    if (ui.n26_1.equals(StepStatus_SOLVED_getInstance()))
       return Unit_instance;
-    var tmp0_elvis_lhs = ui.e26_1;
+    var tmp0_elvis_lhs = ui.f26_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -10975,10 +10990,10 @@ class LessonSession {
       tmp = tmp0_elvis_lhs;
     }
     var p = tmp;
-    this.l27_1 = this.l27_1 + 1 | 0;
+    this.m27_1 = this.m27_1 + 1 | 0;
     var tmp_0;
     if (step instanceof Puzzle) {
-      var tmp2_safe_receiver = getOrNull(step.h24_1, this.n27_1);
+      var tmp2_safe_receiver = getOrNull(step.i24_1, this.o27_1);
       var tmp_1;
       if (tmp2_safe_receiver == null) {
         tmp_1 = null;
@@ -10990,10 +11005,10 @@ class LessonSession {
       tmp_0 = tmp_1;
     } else {
       if (step instanceof Mate) {
-        tmp_0 = firstOrNull(Tactics_instance.y20(p, step.o24_1 - this.n27_1 | 0));
+        tmp_0 = firstOrNull(Tactics_instance.z20(p, step.p24_1 - this.o27_1 | 0));
       } else {
         if (step instanceof Best) {
-          var tmp3_safe_receiver = firstOrNull(step.d25_1);
+          var tmp3_safe_receiver = firstOrNull(step.e25_1);
           var tmp_2;
           if (tmp3_safe_receiver == null) {
             tmp_2 = null;
@@ -11005,7 +11020,7 @@ class LessonSession {
           tmp_0 = tmp_2;
         } else {
           if (step instanceof Line) {
-            var tmp4_safe_receiver = getOrNull(step.g25_1, this.n27_1);
+            var tmp4_safe_receiver = getOrNull(step.h25_1, this.o27_1);
             var tmp_3;
             if (tmp4_safe_receiver == null) {
               tmp_3 = null;
@@ -11024,7 +11039,7 @@ class LessonSession {
                 while (tmp0_iterator.y()) {
                   var element = tmp0_iterator.z();
                   // Inline function 'com.zorix.chess.learn.LessonSession.showSolution.<anonymous>' call
-                  if (Companion_getInstance_14().r28(step.r24_1, p, element)) {
+                  if (Companion_getInstance_14().s28(step.s24_1, p, element)) {
                     tmp$ret$7 = element;
                     break $l$block;
                   }
@@ -11180,18 +11195,18 @@ class OpeningBook {
 class BotTier extends Enum {}
 class Bot {
   constructor(level, elo) {
-    this.w28_1 = level;
-    this.x28_1 = elo;
+    this.x28_1 = level;
+    this.y28_1 = elo;
   }
-  y28() {
-    return this.x28_1 < 700 ? BotTier_BEGINNER_getInstance() : this.x28_1 < 1150 ? BotTier_NOVICE_getInstance() : this.x28_1 < 1600 ? BotTier_INTERMEDIATE_getInstance() : this.x28_1 < 2050 ? BotTier_ADVANCED_getInstance() : this.x28_1 < 2500 ? BotTier_EXPERT_getInstance() : this.x28_1 < 2800 ? BotTier_MASTER_getInstance() : this.x28_1 < 3100 ? BotTier_GRANDMASTER_getInstance() : BotTier_ZORIX_getInstance();
+  z28() {
+    return this.y28_1 < 700 ? BotTier_BEGINNER_getInstance() : this.y28_1 < 1150 ? BotTier_NOVICE_getInstance() : this.y28_1 < 1600 ? BotTier_INTERMEDIATE_getInstance() : this.y28_1 < 2050 ? BotTier_ADVANCED_getInstance() : this.y28_1 < 2500 ? BotTier_EXPERT_getInstance() : this.y28_1 < 2800 ? BotTier_MASTER_getInstance() : this.y28_1 < 3100 ? BotTier_GRANDMASTER_getInstance() : BotTier_ZORIX_getInstance();
   }
   toString() {
-    return 'Bot(level=' + this.w28_1 + ', elo=' + this.x28_1 + ')';
+    return 'Bot(level=' + this.x28_1 + ', elo=' + this.y28_1 + ')';
   }
   hashCode() {
-    var result = this.w28_1;
-    result = imul(result, 31) + this.x28_1 | 0;
+    var result = this.x28_1;
+    result = imul(result, 31) + this.y28_1 | 0;
     return result;
   }
   equals(other) {
@@ -11200,9 +11215,9 @@ class Bot {
     if (!(other instanceof Bot))
       return false;
     var tmp0_other_with_cast = other instanceof Bot ? other : THROW_CCE();
-    if (!(this.w28_1 === tmp0_other_with_cast.w28_1))
-      return false;
     if (!(this.x28_1 === tmp0_other_with_cast.x28_1))
+      return false;
+    if (!(this.y28_1 === tmp0_other_with_cast.y28_1))
       return false;
     return true;
   }
@@ -11210,10 +11225,10 @@ class Bot {
 class Bots {
   constructor() {
     Bots_instance = this;
-    this.z28_1 = listOf([250, 400, 550, 700, 850, 1000, 1150, 1300, 1450, 1600, 1750, 1900, 2050, 2200, 2350, 2500, 2650, 2800, 3000, 3200]);
+    this.a29_1 = listOf([250, 400, 550, 700, 850, 1000, 1150, 1300, 1450, 1600, 1750, 1900, 2050, 2200, 2350, 2500, 2650, 2800, 3000, 3200]);
     var tmp = this;
     // Inline function 'kotlin.collections.mapIndexed' call
-    var this_0 = this.z28_1;
+    var this_0 = this.a29_1;
     // Inline function 'kotlin.collections.mapIndexedTo' call
     var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
     var index = 0;
@@ -11227,29 +11242,29 @@ class Bots {
       var tmp$ret$0 = new Bot(i + 1 | 0, item);
       destination.k(tmp$ret$0);
     }
-    tmp.a29_1 = destination;
+    tmp.b29_1 = destination;
     var tmp_0 = this;
     // Inline function 'kotlin.collections.map' call
-    var this_1 = this.a29_1;
+    var this_1 = this.b29_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination_0 = ArrayList.b1(collectionSizeOrDefault(this_1, 10));
     var tmp0_iterator_0 = this_1.x();
     while (tmp0_iterator_0.y()) {
       var item_0 = tmp0_iterator_0.z();
       // Inline function 'com.zorix.chess.play.Bots.levels.<anonymous>' call
-      var tmp$ret$3 = item_0.w28_1;
+      var tmp$ret$3 = item_0.x28_1;
       destination_0.k(tmp$ret$3);
     }
-    tmp_0.b29_1 = destination_0;
+    tmp_0.c29_1 = destination_0;
   }
-  c29(level) {
-    return this.a29_1.d1(coerceIn(level - 1 | 0, 0, get_lastIndex(this.a29_1)));
+  d29(level) {
+    return this.b29_1.d1(coerceIn(level - 1 | 0, 0, get_lastIndex(this.b29_1)));
   }
-  d29(rating) {
+  e29(rating) {
     var tmp$ret$0;
     $l$block: {
       // Inline function 'kotlin.collections.minBy' call
-      var iterator = this.a29_1.x();
+      var iterator = this.b29_1.x();
       if (!iterator.y())
         throw NoSuchElementException.b6();
       var minElem = iterator.z();
@@ -11259,11 +11274,11 @@ class Bots {
       }
       // Inline function 'com.zorix.chess.play.Bots.recommended.<anonymous>' call
       var it = minElem;
-      var minValue = abs(it.x28_1 - rating | 0);
+      var minValue = abs(it.y28_1 - rating | 0);
       do {
         var e = iterator.z();
         // Inline function 'com.zorix.chess.play.Bots.recommended.<anonymous>' call
-        var v = abs(e.x28_1 - rating | 0);
+        var v = abs(e.y28_1 - rating | 0);
         if (compareTo(minValue, v) > 0) {
           minElem = e;
           minValue = v;
@@ -11277,21 +11292,21 @@ class Bots {
 }
 class Plan {
   constructor(limit, multiPv, options, temperature, randomMove) {
-    this.e29_1 = limit;
-    this.f29_1 = multiPv;
-    this.g29_1 = options;
-    this.h29_1 = temperature;
-    this.i29_1 = randomMove;
+    this.f29_1 = limit;
+    this.g29_1 = multiPv;
+    this.h29_1 = options;
+    this.i29_1 = temperature;
+    this.j29_1 = randomMove;
   }
   toString() {
-    return 'Plan(limit=' + toString_0(this.e29_1) + ', multiPv=' + this.f29_1 + ', options=' + toString_0(this.g29_1) + ', temperature=' + this.h29_1 + ', randomMove=' + this.i29_1 + ')';
+    return 'Plan(limit=' + toString_0(this.f29_1) + ', multiPv=' + this.g29_1 + ', options=' + toString_0(this.h29_1) + ', temperature=' + this.i29_1 + ', randomMove=' + this.j29_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.e29_1);
-    result = imul(result, 31) + this.f29_1 | 0;
-    result = imul(result, 31) + hashCode(this.g29_1) | 0;
-    result = imul(result, 31) + (this.h29_1 == null ? 0 : getNumberHashCode(this.h29_1)) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.i29_1) | 0;
+    var result = hashCode(this.f29_1);
+    result = imul(result, 31) + this.g29_1 | 0;
+    result = imul(result, 31) + hashCode(this.h29_1) | 0;
+    result = imul(result, 31) + (this.i29_1 == null ? 0 : getNumberHashCode(this.i29_1)) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.j29_1) | 0;
     return result;
   }
   equals(other) {
@@ -11300,43 +11315,43 @@ class Plan {
     if (!(other instanceof Plan))
       return false;
     var tmp0_other_with_cast = other instanceof Plan ? other : THROW_CCE();
-    if (!equals(this.e29_1, tmp0_other_with_cast.e29_1))
+    if (!equals(this.f29_1, tmp0_other_with_cast.f29_1))
       return false;
-    if (!(this.f29_1 === tmp0_other_with_cast.f29_1))
-      return false;
-    if (!equals(this.g29_1, tmp0_other_with_cast.g29_1))
+    if (!(this.g29_1 === tmp0_other_with_cast.g29_1))
       return false;
     if (!equals(this.h29_1, tmp0_other_with_cast.h29_1))
       return false;
     if (!equals(this.i29_1, tmp0_other_with_cast.i29_1))
       return false;
+    if (!equals(this.j29_1, tmp0_other_with_cast.j29_1))
+      return false;
     return true;
   }
 }
 class BotBrain {
-  j29(bot, ply) {
+  k29(bot, ply) {
     var opening = ply < 8;
     var tmp;
-    if (bot.x28_1 >= 3190) {
-      tmp = new Plan(new MoveTime(new Long(1500, 0)), opening ? 3 : 1, Companion_getInstance_11().z22_1, opening ? 12.0 : null, 0.0);
-    } else if (bot.x28_1 >= 1320) {
+    if (bot.y28_1 >= 3190) {
+      tmp = new Plan(new MoveTime(new Long(1500, 0)), opening ? 3 : 1, Companion_getInstance_11().a23_1, opening ? 12.0 : null, 0.0);
+    } else if (bot.y28_1 >= 1320) {
       // Inline function 'kotlin.Long.plus' call
       var this_0 = new Long(300, 0);
-      var other = (bot.x28_1 - 1300 | 0) / 3 | 0;
+      var other = (bot.y28_1 - 1300 | 0) / 3 | 0;
       var tmp$ret$0 = this_0.j3(toLong(other));
-      tmp = new Plan(new MoveTime(tmp$ret$0), 1, Companion_getInstance_11().d23(bot.x28_1), null, 0.0);
+      tmp = new Plan(new MoveTime(tmp$ret$0), 1, Companion_getInstance_11().e23(bot.y28_1), null, 0.0);
     } else {
-      var t = bot.x28_1 <= 250 ? 420.0 : bot.x28_1 <= 400 ? 300.0 : bot.x28_1 <= 550 ? 210.0 : bot.x28_1 <= 700 ? 150.0 : bot.x28_1 <= 850 ? 110.0 : bot.x28_1 <= 1000 ? 80.0 : bot.x28_1 <= 1150 ? 58.0 : 42.0;
-      var random = bot.x28_1 <= 250 ? 0.14 : bot.x28_1 <= 400 ? 0.08 : bot.x28_1 <= 550 ? 0.04 : bot.x28_1 <= 700 ? 0.02 : 0.0;
-      tmp = new Plan(new Depth(bot.x28_1 <= 700 ? 5 : 8), 10, Companion_getInstance_11().z22_1, t, random);
+      var t = bot.y28_1 <= 250 ? 420.0 : bot.y28_1 <= 400 ? 300.0 : bot.y28_1 <= 550 ? 210.0 : bot.y28_1 <= 700 ? 150.0 : bot.y28_1 <= 850 ? 110.0 : bot.y28_1 <= 1000 ? 80.0 : bot.y28_1 <= 1150 ? 58.0 : 42.0;
+      var random = bot.y28_1 <= 250 ? 0.14 : bot.y28_1 <= 400 ? 0.08 : bot.y28_1 <= 550 ? 0.04 : bot.y28_1 <= 700 ? 0.02 : 0.0;
+      tmp = new Plan(new Depth(bot.y28_1 <= 700 ? 5 : 8), 10, Companion_getInstance_11().a23_1, t, random);
     }
     return tmp;
   }
-  k29(position, snap, plan, rng) {
+  l29(position, snap, plan, rng) {
     var legal = position.e1d();
     if (legal.e1())
       return null;
-    if (plan.i29_1 > 0 && rng.hk() < plan.i29_1)
+    if (plan.j29_1 > 0 && rng.hk() < plan.j29_1)
       return legal.d1(rng.h1(legal.a1()));
     var tmp0_safe_receiver = snap.u1q_1;
     var tmp;
@@ -11364,7 +11379,7 @@ class BotBrain {
       tmp_0 = tmp_1;
     }
     var engineBest = tmp_0;
-    var tmp2_elvis_lhs = plan.h29_1;
+    var tmp2_elvis_lhs = plan.i29_1;
     var tmp_2;
     if (tmp2_elvis_lhs == null) {
       return engineBest == null ? first(legal) : engineBest;
@@ -11529,23 +11544,23 @@ class BotBrain {
 }
 class PlayResult {
   constructor(outcome, reason, resigned, drawAgreed, ratingBefore, ratingAfter) {
-    this.l29_1 = outcome;
-    this.m29_1 = reason;
-    this.n29_1 = resigned;
-    this.o29_1 = drawAgreed;
-    this.p29_1 = ratingBefore;
-    this.q29_1 = ratingAfter;
+    this.m29_1 = outcome;
+    this.n29_1 = reason;
+    this.o29_1 = resigned;
+    this.p29_1 = drawAgreed;
+    this.q29_1 = ratingBefore;
+    this.r29_1 = ratingAfter;
   }
   toString() {
-    return 'PlayResult(outcome=' + this.l29_1.toString() + ', reason=' + toString(this.m29_1) + ', resigned=' + this.n29_1 + ', drawAgreed=' + this.o29_1 + ', ratingBefore=' + this.p29_1 + ', ratingAfter=' + this.q29_1 + ')';
+    return 'PlayResult(outcome=' + this.m29_1.toString() + ', reason=' + toString(this.n29_1) + ', resigned=' + this.o29_1 + ', drawAgreed=' + this.p29_1 + ', ratingBefore=' + this.q29_1 + ', ratingAfter=' + this.r29_1 + ')';
   }
   hashCode() {
-    var result = this.l29_1.hashCode();
-    result = imul(result, 31) + (this.m29_1 == null ? 0 : this.m29_1.hashCode()) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.n29_1) | 0;
+    var result = this.m29_1.hashCode();
+    result = imul(result, 31) + (this.n29_1 == null ? 0 : this.n29_1.hashCode()) | 0;
     result = imul(result, 31) + getBooleanHashCode(this.o29_1) | 0;
-    result = imul(result, 31) + this.p29_1 | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.p29_1) | 0;
     result = imul(result, 31) + this.q29_1 | 0;
+    result = imul(result, 31) + this.r29_1 | 0;
     return result;
   }
   equals(other) {
@@ -11554,11 +11569,9 @@ class PlayResult {
     if (!(other instanceof PlayResult))
       return false;
     var tmp0_other_with_cast = other instanceof PlayResult ? other : THROW_CCE();
-    if (!this.l29_1.equals(tmp0_other_with_cast.l29_1))
+    if (!this.m29_1.equals(tmp0_other_with_cast.m29_1))
       return false;
-    if (!equals(this.m29_1, tmp0_other_with_cast.m29_1))
-      return false;
-    if (!(this.n29_1 === tmp0_other_with_cast.n29_1))
+    if (!equals(this.n29_1, tmp0_other_with_cast.n29_1))
       return false;
     if (!(this.o29_1 === tmp0_other_with_cast.o29_1))
       return false;
@@ -11566,13 +11579,15 @@ class PlayResult {
       return false;
     if (!(this.q29_1 === tmp0_other_with_cast.q29_1))
       return false;
+    if (!(this.r29_1 === tmp0_other_with_cast.r29_1))
+      return false;
     return true;
   }
 }
 class PlayState {
   constructor(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter) {
     active = active === VOID ? false : active;
-    bot = bot === VOID ? Bots_getInstance().c29(1) : bot;
+    bot = bot === VOID ? Bots_getInstance().d29(1) : bot;
     userSide = userSide === VOID ? Side_WHITE_getInstance() : userSide;
     game = game === VOID ? Companion_instance_7.a1t() : game;
     pendingPromotion = pendingPromotion === VOID ? null : pendingPromotion;
@@ -11586,35 +11601,35 @@ class PlayState {
     result = result === VOID ? null : result;
     drawDeclined = drawDeclined === VOID ? false : drawDeclined;
     moveCounter = moveCounter === VOID ? 0 : moveCounter;
-    this.r29_1 = active;
-    this.s29_1 = bot;
-    this.t29_1 = userSide;
-    this.u29_1 = game;
-    this.v29_1 = pendingPromotion;
-    this.w29_1 = botThinking;
-    this.x29_1 = botMessage;
-    this.y29_1 = feedback;
-    this.z29_1 = coachBusy;
-    this.a2a_1 = hint;
-    this.b2a_1 = hintBusy;
-    this.c2a_1 = assists;
-    this.d2a_1 = result;
-    this.e2a_1 = drawDeclined;
-    this.f2a_1 = moveCounter;
+    this.s29_1 = active;
+    this.t29_1 = bot;
+    this.u29_1 = userSide;
+    this.v29_1 = game;
+    this.w29_1 = pendingPromotion;
+    this.x29_1 = botThinking;
+    this.y29_1 = botMessage;
+    this.z29_1 = feedback;
+    this.a2a_1 = coachBusy;
+    this.b2a_1 = hint;
+    this.c2a_1 = hintBusy;
+    this.d2a_1 = assists;
+    this.e2a_1 = result;
+    this.f2a_1 = drawDeclined;
+    this.g2a_1 = moveCounter;
   }
-  g2a() {
-    return this.u29_1.m1s().o1b_1.equals(this.t29_1) && !this.u29_1.z1k().p1s() && this.d2a_1 == null;
+  h2a() {
+    return this.v29_1.m1s().o1b_1.equals(this.u29_1) && !this.v29_1.z1k().p1s() && this.e2a_1 == null;
   }
   g1u() {
     var tmp$ret$1;
     $l$block: {
       // Inline function 'kotlin.collections.lastOrNull' call
-      var this_0 = this.u29_1.q1r_1;
+      var this_0 = this.v29_1.q1r_1;
       var iterator = this_0.g1(this_0.a1());
       while (iterator.k6()) {
         var element = iterator.l6();
         // Inline function 'com.zorix.chess.play.PlayState.<get-lastFeedback>.<anonymous>' call
-        if (element.w1t_1.o1b_1.equals(this.t29_1)) {
+        if (element.w1t_1.o1b_1.equals(this.u29_1)) {
           tmp$ret$1 = element;
           break $l$block;
         }
@@ -11629,50 +11644,50 @@ class PlayState {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
       // Inline function 'com.zorix.chess.play.PlayState.<get-lastFeedback>.<anonymous>' call
-      tmp = this.y29_1.y2(feedbackKey(tmp0_safe_receiver.w1t_1.c1e(), tmp0_safe_receiver.u1t_1));
+      tmp = this.z29_1.y2(feedbackKey(tmp0_safe_receiver.w1t_1.c1e(), tmp0_safe_receiver.u1t_1));
     }
     return tmp;
   }
-  h2a(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter) {
+  i2a(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter) {
     return new PlayState(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter);
   }
-  i2a(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter, $super) {
-    active = active === VOID ? this.r29_1 : active;
-    bot = bot === VOID ? this.s29_1 : bot;
-    userSide = userSide === VOID ? this.t29_1 : userSide;
-    game = game === VOID ? this.u29_1 : game;
-    pendingPromotion = pendingPromotion === VOID ? this.v29_1 : pendingPromotion;
-    botThinking = botThinking === VOID ? this.w29_1 : botThinking;
-    botMessage = botMessage === VOID ? this.x29_1 : botMessage;
-    feedback = feedback === VOID ? this.y29_1 : feedback;
-    coachBusy = coachBusy === VOID ? this.z29_1 : coachBusy;
-    hint = hint === VOID ? this.a2a_1 : hint;
-    hintBusy = hintBusy === VOID ? this.b2a_1 : hintBusy;
-    assists = assists === VOID ? this.c2a_1 : assists;
-    result = result === VOID ? this.d2a_1 : result;
-    drawDeclined = drawDeclined === VOID ? this.e2a_1 : drawDeclined;
-    moveCounter = moveCounter === VOID ? this.f2a_1 : moveCounter;
-    return $super === VOID ? this.h2a(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter) : $super.h2a.call(this, active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter);
+  j2a(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter, $super) {
+    active = active === VOID ? this.s29_1 : active;
+    bot = bot === VOID ? this.t29_1 : bot;
+    userSide = userSide === VOID ? this.u29_1 : userSide;
+    game = game === VOID ? this.v29_1 : game;
+    pendingPromotion = pendingPromotion === VOID ? this.w29_1 : pendingPromotion;
+    botThinking = botThinking === VOID ? this.x29_1 : botThinking;
+    botMessage = botMessage === VOID ? this.y29_1 : botMessage;
+    feedback = feedback === VOID ? this.z29_1 : feedback;
+    coachBusy = coachBusy === VOID ? this.a2a_1 : coachBusy;
+    hint = hint === VOID ? this.b2a_1 : hint;
+    hintBusy = hintBusy === VOID ? this.c2a_1 : hintBusy;
+    assists = assists === VOID ? this.d2a_1 : assists;
+    result = result === VOID ? this.e2a_1 : result;
+    drawDeclined = drawDeclined === VOID ? this.f2a_1 : drawDeclined;
+    moveCounter = moveCounter === VOID ? this.g2a_1 : moveCounter;
+    return $super === VOID ? this.i2a(active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter) : $super.i2a.call(this, active, bot, userSide, game, pendingPromotion, botThinking, botMessage, feedback, coachBusy, hint, hintBusy, assists, result, drawDeclined, moveCounter);
   }
   toString() {
-    return 'PlayState(active=' + this.r29_1 + ', bot=' + this.s29_1.toString() + ', userSide=' + this.t29_1.toString() + ', game=' + toString_0(this.u29_1) + ', pendingPromotion=' + toString(this.v29_1) + ', botThinking=' + this.w29_1 + ', botMessage=' + toString(this.x29_1) + ', feedback=' + toString_0(this.y29_1) + ', coachBusy=' + this.z29_1 + ', hint=' + toString(this.a2a_1) + ', hintBusy=' + this.b2a_1 + ', assists=' + this.c2a_1 + ', result=' + toString(this.d2a_1) + ', drawDeclined=' + this.e2a_1 + ', moveCounter=' + this.f2a_1 + ')';
+    return 'PlayState(active=' + this.s29_1 + ', bot=' + this.t29_1.toString() + ', userSide=' + this.u29_1.toString() + ', game=' + toString_0(this.v29_1) + ', pendingPromotion=' + toString(this.w29_1) + ', botThinking=' + this.x29_1 + ', botMessage=' + toString(this.y29_1) + ', feedback=' + toString_0(this.z29_1) + ', coachBusy=' + this.a2a_1 + ', hint=' + toString(this.b2a_1) + ', hintBusy=' + this.c2a_1 + ', assists=' + this.d2a_1 + ', result=' + toString(this.e2a_1) + ', drawDeclined=' + this.f2a_1 + ', moveCounter=' + this.g2a_1 + ')';
   }
   hashCode() {
-    var result = getBooleanHashCode(this.r29_1);
-    result = imul(result, 31) + this.s29_1.hashCode() | 0;
+    var result = getBooleanHashCode(this.s29_1);
     result = imul(result, 31) + this.t29_1.hashCode() | 0;
-    result = imul(result, 31) + hashCode(this.u29_1) | 0;
-    result = imul(result, 31) + (this.v29_1 == null ? 0 : this.v29_1.hashCode()) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.w29_1) | 0;
-    result = imul(result, 31) + (this.x29_1 == null ? 0 : this.x29_1.hashCode()) | 0;
-    result = imul(result, 31) + hashCode(this.y29_1) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.z29_1) | 0;
-    result = imul(result, 31) + (this.a2a_1 == null ? 0 : this.a2a_1.hashCode()) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.b2a_1) | 0;
-    result = imul(result, 31) + this.c2a_1 | 0;
-    result = imul(result, 31) + (this.d2a_1 == null ? 0 : this.d2a_1.hashCode()) | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.e2a_1) | 0;
-    result = imul(result, 31) + this.f2a_1 | 0;
+    result = imul(result, 31) + this.u29_1.hashCode() | 0;
+    result = imul(result, 31) + hashCode(this.v29_1) | 0;
+    result = imul(result, 31) + (this.w29_1 == null ? 0 : this.w29_1.hashCode()) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.x29_1) | 0;
+    result = imul(result, 31) + (this.y29_1 == null ? 0 : this.y29_1.hashCode()) | 0;
+    result = imul(result, 31) + hashCode(this.z29_1) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.a2a_1) | 0;
+    result = imul(result, 31) + (this.b2a_1 == null ? 0 : this.b2a_1.hashCode()) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.c2a_1) | 0;
+    result = imul(result, 31) + this.d2a_1 | 0;
+    result = imul(result, 31) + (this.e2a_1 == null ? 0 : this.e2a_1.hashCode()) | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.f2a_1) | 0;
+    result = imul(result, 31) + this.g2a_1 | 0;
     return result;
   }
   equals(other) {
@@ -11681,46 +11696,46 @@ class PlayState {
     if (!(other instanceof PlayState))
       return false;
     var tmp0_other_with_cast = other instanceof PlayState ? other : THROW_CCE();
-    if (!(this.r29_1 === tmp0_other_with_cast.r29_1))
-      return false;
-    if (!this.s29_1.equals(tmp0_other_with_cast.s29_1))
+    if (!(this.s29_1 === tmp0_other_with_cast.s29_1))
       return false;
     if (!this.t29_1.equals(tmp0_other_with_cast.t29_1))
       return false;
-    if (!equals(this.u29_1, tmp0_other_with_cast.u29_1))
+    if (!this.u29_1.equals(tmp0_other_with_cast.u29_1))
       return false;
     if (!equals(this.v29_1, tmp0_other_with_cast.v29_1))
       return false;
-    if (!(this.w29_1 === tmp0_other_with_cast.w29_1))
+    if (!equals(this.w29_1, tmp0_other_with_cast.w29_1))
       return false;
-    if (!equals(this.x29_1, tmp0_other_with_cast.x29_1))
+    if (!(this.x29_1 === tmp0_other_with_cast.x29_1))
       return false;
     if (!equals(this.y29_1, tmp0_other_with_cast.y29_1))
       return false;
-    if (!(this.z29_1 === tmp0_other_with_cast.z29_1))
+    if (!equals(this.z29_1, tmp0_other_with_cast.z29_1))
       return false;
-    if (!equals(this.a2a_1, tmp0_other_with_cast.a2a_1))
+    if (!(this.a2a_1 === tmp0_other_with_cast.a2a_1))
       return false;
-    if (!(this.b2a_1 === tmp0_other_with_cast.b2a_1))
+    if (!equals(this.b2a_1, tmp0_other_with_cast.b2a_1))
       return false;
     if (!(this.c2a_1 === tmp0_other_with_cast.c2a_1))
       return false;
-    if (!equals(this.d2a_1, tmp0_other_with_cast.d2a_1))
+    if (!(this.d2a_1 === tmp0_other_with_cast.d2a_1))
       return false;
-    if (!(this.e2a_1 === tmp0_other_with_cast.e2a_1))
+    if (!equals(this.e2a_1, tmp0_other_with_cast.e2a_1))
       return false;
     if (!(this.f2a_1 === tmp0_other_with_cast.f2a_1))
+      return false;
+    if (!(this.g2a_1 === tmp0_other_with_cast.g2a_1))
       return false;
     return true;
   }
 }
 class PlayController$botTurn$slambda$slambda {
   constructor($game, $plan) {
-    this.q2a_1 = $game;
-    this.r2a_1 = $plan;
+    this.r2a_1 = $game;
+    this.s2a_1 = $plan;
   }
   o1r(eng, $completion) {
-    return eng.e1s(this.q2a_1.t1r(), this.r2a_1.e29_1, this.r2a_1.f29_1, this.r2a_1.g29_1, VOID, $completion);
+    return eng.e1s(this.r2a_1.t1r(), this.s2a_1.f29_1, this.s2a_1.g29_1, this.s2a_1.h29_1, VOID, $completion);
   }
   qc(p1, $completion) {
     return this.o1r(p1 instanceof UciEngine ? p1 : THROW_CCE(), $completion);
@@ -11728,10 +11743,10 @@ class PlayController$botTurn$slambda$slambda {
 }
 class PlayController$hint$slambda$slambda {
   constructor($game) {
-    this.v2a_1 = $game;
+    this.w2a_1 = $game;
   }
   o1r(it, $completion) {
-    return it.e1s(this.v2a_1.t1r(), new MoveTime(new Long(1200, 0)), 1, VOID, VOID, $completion);
+    return it.e1s(this.w2a_1.t1r(), new MoveTime(new Long(1200, 0)), 1, VOID, VOID, $completion);
   }
   qc(p1, $completion) {
     return this.o1r(p1 instanceof UciEngine ? p1 : THROW_CCE(), $completion);
@@ -11739,10 +11754,10 @@ class PlayController$hint$slambda$slambda {
 }
 class PlayController$offerDraw$slambda$slambda {
   constructor($game) {
-    this.y2a_1 = $game;
+    this.z2a_1 = $game;
   }
   o1r(it, $completion) {
-    return it.e1s(this.y2a_1.t1r(), new MoveTime(new Long(400, 0)), 1, VOID, VOID, $completion);
+    return it.e1s(this.z2a_1.t1r(), new MoveTime(new Long(400, 0)), 1, VOID, VOID, $completion);
   }
   qc(p1, $completion) {
     return this.o1r(p1 instanceof UciEngine ? p1 : THROW_CCE(), $completion);
@@ -11751,18 +11766,18 @@ class PlayController$offerDraw$slambda$slambda {
 class Companion_15 {
   constructor() {
     Companion_instance_16 = this;
-    this.z2a_1 = new Long(650, 0);
-    this.a2b_1 = 'play.active';
-    this.b2b_1 = 'play.level';
-    this.c2b_1 = 'play.side';
-    this.d2b_1 = 'play.moves';
-    this.e2b_1 = 'play.assists';
-    this.f2b_1 = 'play.finished';
+    this.a2b_1 = new Long(650, 0);
+    this.b2b_1 = 'play.active';
+    this.c2b_1 = 'play.level';
+    this.d2b_1 = 'play.side';
+    this.e2b_1 = 'play.moves';
+    this.f2b_1 = 'play.assists';
+    this.g2b_1 = 'play.finished';
   }
 }
 class PlayController$start$slambda {
   constructor(this$0) {
-    this.j2a_1 = this$0;
+    this.k2a_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_32.bind(VOID, this, $this$launch), $completion);
@@ -11773,11 +11788,11 @@ class PlayController$start$slambda {
 }
 class PlayController$coach$slambda {
   constructor(this$0, $before, $move, $lang, $name) {
-    this.k2a_1 = this$0;
-    this.l2a_1 = $before;
-    this.m2a_1 = $move;
-    this.n2a_1 = $lang;
-    this.o2a_1 = $name;
+    this.l2a_1 = this$0;
+    this.m2a_1 = $before;
+    this.n2a_1 = $move;
+    this.o2a_1 = $lang;
+    this.p2a_1 = $name;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_33.bind(VOID, this, $this$launch), $completion);
@@ -11788,7 +11803,7 @@ class PlayController$coach$slambda {
 }
 class PlayController$botTurn$slambda {
   constructor(this$0) {
-    this.p2a_1 = this$0;
+    this.q2a_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_34.bind(VOID, this, $this$launch), $completion);
@@ -11799,9 +11814,9 @@ class PlayController$botTurn$slambda {
 }
 class PlayController$hint$slambda {
   constructor(this$0, $game, $lang) {
-    this.s2a_1 = this$0;
-    this.t2a_1 = $game;
-    this.u2a_1 = $lang;
+    this.t2a_1 = this$0;
+    this.u2a_1 = $game;
+    this.v2a_1 = $lang;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_35.bind(VOID, this, $this$launch), $completion);
@@ -11812,8 +11827,8 @@ class PlayController$hint$slambda {
 }
 class PlayController$offerDraw$slambda {
   constructor(this$0, $game) {
-    this.w2a_1 = this$0;
-    this.x2a_1 = $game;
+    this.x2a_1 = this$0;
+    this.y2a_1 = $game;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_36.bind(VOID, this, $this$launch), $completion);
@@ -11841,24 +11856,24 @@ class PlayController {
     this.n1l_1 = null;
     this.o1l_1 = null;
     this.p1l_1 = null;
-    if (this.j1l_1.v2().r29_1 && !this.j1l_1.v2().g2a() && this.j1l_1.v2().d2a_1 == null) {
+    if (this.j1l_1.v2().s29_1 && !this.j1l_1.v2().h2a() && this.j1l_1.v2().e2a_1 == null) {
       botTurn(this);
     }
   }
-  g2b(level, side) {
+  h2b(level, side) {
     cancelJobs(this);
     this.h1l_1.c1o();
     var userSide = side == null ? this.i1l_1.gk() ? Side_WHITE_getInstance() : Side_BLACK_getInstance() : side;
-    this.j1l_1.k13(new PlayState(true, Bots_getInstance().c29(level), userSide, Companion_instance_7.a1t()));
+    this.j1l_1.k13(new PlayState(true, Bots_getInstance().d29(level), userSide, Companion_instance_7.a1t()));
     save_0(this);
     launch(this.c1l_1, VOID, VOID, PlayController$start$slambda_0(this));
     if (userSide.equals(Side_BLACK_getInstance())) {
       botTurn(this);
     }
   }
-  h2b() {
+  i2b() {
     var st = this.j1l_1.v2();
-    this.g2b(st.s29_1.w28_1, st.t29_1);
+    this.h2b(st.t29_1.x28_1, st.u29_1);
   }
   i1o() {
     cancelJobs(this);
@@ -11869,7 +11884,7 @@ class PlayController {
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.PlayController.close.<anonymous>' call
-        var nextValue = prevValue.i2a(false);
+        var nextValue = prevValue.j2a(false);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -11879,9 +11894,9 @@ class PlayController {
   }
   y1t(from, to) {
     var st = this.j1l_1.v2();
-    if (!st.g2a() || st.w29_1)
+    if (!st.h2a() || st.x29_1)
       return Unit_instance;
-    var position = st.u29_1.m1s();
+    var position = st.v29_1.m1s();
     if (position.z1t(from, to)) {
       $l$block: {
         // Inline function 'kotlinx.coroutines.flow.update' call
@@ -11889,7 +11904,7 @@ class PlayController {
         while (true) {
           var prevValue = this_0.v2();
           // Inline function 'com.zorix.chess.play.PlayController.onUserMove.<anonymous>' call
-          var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, new PendingPromotion(from, to, st.t29_1));
+          var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, new PendingPromotion(from, to, st.u29_1));
           if (this_0.l13(prevValue, nextValue)) {
             break $l$block;
           }
@@ -11903,7 +11918,7 @@ class PlayController {
     }
   }
   a1u(type) {
-    var tmp0_elvis_lhs = this.j1l_1.v2().v29_1;
+    var tmp0_elvis_lhs = this.j1l_1.v2().w29_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -11917,14 +11932,14 @@ class PlayController {
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.PlayController.onPromotionChosen.<anonymous>' call
-        var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, null);
+        var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, null);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
       }
     }
     var move = new Move(p.b1u_1, p.c1u_1, type);
-    if (this.j1l_1.v2().u29_1.m1s().a1e(move)) {
+    if (this.j1l_1.v2().v29_1.m1s().a1e(move)) {
       playUser(this, move);
     }
   }
@@ -11936,7 +11951,7 @@ class PlayController {
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.PlayController.onPromotionCancelled.<anonymous>' call
-        var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, null);
+        var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, null);
         if (this_0.l13(prevValue, nextValue)) {
           tmp$ret$1 = Unit_instance;
           break $l$block;
@@ -11945,16 +11960,16 @@ class PlayController {
     }
     return tmp$ret$1;
   }
-  i2b() {
+  j2b() {
     var st = this.j1l_1.v2();
-    if (!(st.d2a_1 == null) || st.w29_1)
+    if (!(st.e2a_1 == null) || st.x29_1)
       return Unit_instance;
-    var g = st.u29_1;
+    var g = st.v29_1;
     if (g.q1r_1.e1())
       return Unit_instance;
     g = g.q1t();
     var tmp;
-    if (!g.m1s().o1b_1.equals(st.t29_1)) {
+    if (!g.m1s().o1b_1.equals(st.u29_1)) {
       // Inline function 'kotlin.collections.isNotEmpty' call
       tmp = !g.q1r_1.e1();
     } else {
@@ -11962,7 +11977,7 @@ class PlayController {
     }
     if (tmp)
       g = g.q1t();
-    if (!g.m1s().o1b_1.equals(st.t29_1))
+    if (!g.m1s().o1b_1.equals(st.u29_1))
       return Unit_instance;
     cancelJobs(this);
     $l$block: {
@@ -11985,9 +12000,9 @@ class PlayController {
           destination.k(tmp$ret$1);
         }
         var tmp0_game = tmp_0.m20(tmp_1, destination);
-        var tmp1_assists = prevValue.c2a_1 + 1 | 0;
-        var tmp2_moveCounter = prevValue.f2a_1 + 1 | 0;
-        var nextValue = prevValue.i2a(VOID, VOID, VOID, tmp0_game, VOID, VOID, null, VOID, VOID, null, VOID, tmp1_assists, VOID, VOID, tmp2_moveCounter);
+        var tmp1_assists = prevValue.d2a_1 + 1 | 0;
+        var tmp2_moveCounter = prevValue.g2a_1 + 1 | 0;
+        var nextValue = prevValue.j2a(VOID, VOID, VOID, tmp0_game, VOID, VOID, null, VOID, VOID, null, VOID, tmp1_assists, VOID, VOID, tmp2_moveCounter);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -11997,29 +12012,29 @@ class PlayController {
   }
   n1z() {
     var st = this.j1l_1.v2();
-    if (!st.g2a() || st.b2a_1)
+    if (!st.h2a() || st.c2a_1)
       return Unit_instance;
-    var game = st.u29_1;
+    var game = st.v29_1;
     var lang = this.l1l_1;
     var tmp = this;
     tmp.p1l_1 = launch(this.c1l_1, VOID, VOID, PlayController$hint$slambda_0(this, game, lang));
   }
-  j2b() {
+  k2b() {
     var st = this.j1l_1.v2();
-    if (!(st.d2a_1 == null) || !st.r29_1)
+    if (!(st.e2a_1 == null) || !st.s29_1)
       return Unit_instance;
     finish(this, GameOutcome_LOSS_getInstance(), null, true, false);
   }
-  k2b() {
-    var st = this.j1l_1.v2();
-    if (!(st.d2a_1 == null) || !st.g2a())
-      return Unit_instance;
-    var game = st.u29_1;
-    launch(this.c1l_1, VOID, VOID, PlayController$offerDraw$slambda_0(this, game));
-  }
   l2b() {
     var st = this.j1l_1.v2();
-    var tmp0_safe_receiver = st.a2a_1;
+    if (!(st.e2a_1 == null) || !st.h2a())
+      return Unit_instance;
+    var game = st.v29_1;
+    launch(this.c1l_1, VOID, VOID, PlayController$offerDraw$slambda_0(this, game));
+  }
+  m2b() {
+    var st = this.j1l_1.v2();
+    var tmp0_safe_receiver = st.b2a_1;
     var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.x1a_1;
     var tmp;
     if (tmp1_elvis_lhs == null) {
@@ -12031,7 +12046,7 @@ class PlayController {
     var tmp3_elvis_lhs = tmp;
     var tmp_0;
     if (tmp3_elvis_lhs == null) {
-      var tmp4_safe_receiver = st.x29_1;
+      var tmp4_safe_receiver = st.y29_1;
       tmp_0 = tmp4_safe_receiver == null ? null : tmp4_safe_receiver.x1a_1;
     } else {
       tmp_0 = tmp3_elvis_lhs;
@@ -12049,35 +12064,35 @@ class PlayController {
 }
 class ReviewedMove {
   constructor(index, side, san, move, quality, scoreBefore, scoreAfter, bestSan, bestMove, accuracy, message, speech) {
-    this.m2b_1 = index;
-    this.n2b_1 = side;
-    this.o2b_1 = san;
-    this.p2b_1 = move;
-    this.q2b_1 = quality;
-    this.r2b_1 = scoreBefore;
-    this.s2b_1 = scoreAfter;
-    this.t2b_1 = bestSan;
-    this.u2b_1 = bestMove;
-    this.v2b_1 = accuracy;
-    this.w2b_1 = message;
-    this.x2b_1 = speech;
+    this.n2b_1 = index;
+    this.o2b_1 = side;
+    this.p2b_1 = san;
+    this.q2b_1 = move;
+    this.r2b_1 = quality;
+    this.s2b_1 = scoreBefore;
+    this.t2b_1 = scoreAfter;
+    this.u2b_1 = bestSan;
+    this.v2b_1 = bestMove;
+    this.w2b_1 = accuracy;
+    this.x2b_1 = message;
+    this.y2b_1 = speech;
   }
   toString() {
-    return 'ReviewedMove(index=' + this.m2b_1 + ', side=' + this.n2b_1.toString() + ', san=' + this.o2b_1 + ', move=' + this.p2b_1.toString() + ', quality=' + this.q2b_1.toString() + ', scoreBefore=' + this.r2b_1.toString() + ', scoreAfter=' + this.s2b_1.toString() + ', bestSan=' + this.t2b_1 + ', bestMove=' + toString(this.u2b_1) + ', accuracy=' + this.v2b_1 + ', message=' + this.w2b_1 + ', speech=' + this.x2b_1 + ')';
+    return 'ReviewedMove(index=' + this.n2b_1 + ', side=' + this.o2b_1.toString() + ', san=' + this.p2b_1 + ', move=' + this.q2b_1.toString() + ', quality=' + this.r2b_1.toString() + ', scoreBefore=' + this.s2b_1.toString() + ', scoreAfter=' + this.t2b_1.toString() + ', bestSan=' + this.u2b_1 + ', bestMove=' + toString(this.v2b_1) + ', accuracy=' + this.w2b_1 + ', message=' + this.x2b_1 + ', speech=' + this.y2b_1 + ')';
   }
   hashCode() {
-    var result = this.m2b_1;
-    result = imul(result, 31) + this.n2b_1.hashCode() | 0;
-    result = imul(result, 31) + getStringHashCode(this.o2b_1) | 0;
-    result = imul(result, 31) + this.p2b_1.hashCode() | 0;
+    var result = this.n2b_1;
+    result = imul(result, 31) + this.o2b_1.hashCode() | 0;
+    result = imul(result, 31) + getStringHashCode(this.p2b_1) | 0;
     result = imul(result, 31) + this.q2b_1.hashCode() | 0;
     result = imul(result, 31) + this.r2b_1.hashCode() | 0;
     result = imul(result, 31) + this.s2b_1.hashCode() | 0;
-    result = imul(result, 31) + (this.t2b_1 == null ? 0 : getStringHashCode(this.t2b_1)) | 0;
-    result = imul(result, 31) + (this.u2b_1 == null ? 0 : this.u2b_1.hashCode()) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.v2b_1) | 0;
-    result = imul(result, 31) + getStringHashCode(this.w2b_1) | 0;
+    result = imul(result, 31) + this.t2b_1.hashCode() | 0;
+    result = imul(result, 31) + (this.u2b_1 == null ? 0 : getStringHashCode(this.u2b_1)) | 0;
+    result = imul(result, 31) + (this.v2b_1 == null ? 0 : this.v2b_1.hashCode()) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.w2b_1) | 0;
     result = imul(result, 31) + getStringHashCode(this.x2b_1) | 0;
+    result = imul(result, 31) + getStringHashCode(this.y2b_1) | 0;
     return result;
   }
   equals(other) {
@@ -12086,13 +12101,11 @@ class ReviewedMove {
     if (!(other instanceof ReviewedMove))
       return false;
     var tmp0_other_with_cast = other instanceof ReviewedMove ? other : THROW_CCE();
-    if (!(this.m2b_1 === tmp0_other_with_cast.m2b_1))
+    if (!(this.n2b_1 === tmp0_other_with_cast.n2b_1))
       return false;
-    if (!this.n2b_1.equals(tmp0_other_with_cast.n2b_1))
+    if (!this.o2b_1.equals(tmp0_other_with_cast.o2b_1))
       return false;
-    if (!(this.o2b_1 === tmp0_other_with_cast.o2b_1))
-      return false;
-    if (!this.p2b_1.equals(tmp0_other_with_cast.p2b_1))
+    if (!(this.p2b_1 === tmp0_other_with_cast.p2b_1))
       return false;
     if (!this.q2b_1.equals(tmp0_other_with_cast.q2b_1))
       return false;
@@ -12100,51 +12113,53 @@ class ReviewedMove {
       return false;
     if (!this.s2b_1.equals(tmp0_other_with_cast.s2b_1))
       return false;
-    if (!(this.t2b_1 == tmp0_other_with_cast.t2b_1))
+    if (!this.t2b_1.equals(tmp0_other_with_cast.t2b_1))
       return false;
-    if (!equals(this.u2b_1, tmp0_other_with_cast.u2b_1))
+    if (!(this.u2b_1 == tmp0_other_with_cast.u2b_1))
       return false;
     if (!equals(this.v2b_1, tmp0_other_with_cast.v2b_1))
       return false;
-    if (!(this.w2b_1 === tmp0_other_with_cast.w2b_1))
+    if (!equals(this.w2b_1, tmp0_other_with_cast.w2b_1))
       return false;
     if (!(this.x2b_1 === tmp0_other_with_cast.x2b_1))
+      return false;
+    if (!(this.y2b_1 === tmp0_other_with_cast.y2b_1))
       return false;
     return true;
   }
 }
 class GameReview {
   constructor(moves, accuracy, counts, evalCurve, opening) {
-    this.y2b_1 = moves;
-    this.z2b_1 = accuracy;
-    this.a2c_1 = counts;
-    this.b2c_1 = evalCurve;
-    this.c2c_1 = opening;
+    this.z2b_1 = moves;
+    this.a2c_1 = accuracy;
+    this.b2c_1 = counts;
+    this.c2c_1 = evalCurve;
+    this.d2c_1 = opening;
   }
-  d2c(side) {
+  e2c(side) {
     // Inline function 'kotlin.collections.filter' call
     // Inline function 'kotlin.collections.filterTo' call
-    var this_0 = this.y2b_1;
+    var this_0 = this.z2b_1;
     var destination = ArrayList.h();
     var tmp0_iterator = this_0.x();
     while (tmp0_iterator.y()) {
       var element = tmp0_iterator.z();
       // Inline function 'com.zorix.chess.play.GameReview.keyMoments.<anonymous>' call
-      if (element.n2b_1.equals(side) && setOf([CoachQuality_BRILLIANT_getInstance(), CoachQuality_GREAT_getInstance(), CoachQuality_MISS_getInstance(), CoachQuality_MISTAKE_getInstance(), CoachQuality_BLUNDER_getInstance()]).q2(element.q2b_1)) {
+      if (element.o2b_1.equals(side) && setOf([CoachQuality_BRILLIANT_getInstance(), CoachQuality_GREAT_getInstance(), CoachQuality_MISS_getInstance(), CoachQuality_MISTAKE_getInstance(), CoachQuality_BLUNDER_getInstance()]).q2(element.r2b_1)) {
         destination.k(element);
       }
     }
     return destination;
   }
   toString() {
-    return 'GameReview(moves=' + toString_0(this.y2b_1) + ', accuracy=' + toString_0(this.z2b_1) + ', counts=' + toString_0(this.a2c_1) + ', evalCurve=' + toString_0(this.b2c_1) + ', opening=' + this.c2c_1 + ')';
+    return 'GameReview(moves=' + toString_0(this.z2b_1) + ', accuracy=' + toString_0(this.a2c_1) + ', counts=' + toString_0(this.b2c_1) + ', evalCurve=' + toString_0(this.c2c_1) + ', opening=' + this.d2c_1 + ')';
   }
   hashCode() {
-    var result = hashCode(this.y2b_1);
-    result = imul(result, 31) + hashCode(this.z2b_1) | 0;
+    var result = hashCode(this.z2b_1);
     result = imul(result, 31) + hashCode(this.a2c_1) | 0;
     result = imul(result, 31) + hashCode(this.b2c_1) | 0;
-    result = imul(result, 31) + (this.c2c_1 == null ? 0 : getStringHashCode(this.c2c_1)) | 0;
+    result = imul(result, 31) + hashCode(this.c2c_1) | 0;
+    result = imul(result, 31) + (this.d2c_1 == null ? 0 : getStringHashCode(this.d2c_1)) | 0;
     return result;
   }
   equals(other) {
@@ -12153,15 +12168,15 @@ class GameReview {
     if (!(other instanceof GameReview))
       return false;
     var tmp0_other_with_cast = other instanceof GameReview ? other : THROW_CCE();
-    if (!equals(this.y2b_1, tmp0_other_with_cast.y2b_1))
-      return false;
     if (!equals(this.z2b_1, tmp0_other_with_cast.z2b_1))
       return false;
     if (!equals(this.a2c_1, tmp0_other_with_cast.a2c_1))
       return false;
     if (!equals(this.b2c_1, tmp0_other_with_cast.b2c_1))
       return false;
-    if (!(this.c2c_1 == tmp0_other_with_cast.c2c_1))
+    if (!equals(this.c2c_1, tmp0_other_with_cast.c2c_1))
+      return false;
+    if (!(this.d2c_1 == tmp0_other_with_cast.d2c_1))
       return false;
     return true;
   }
@@ -12172,35 +12187,35 @@ class RetryState {
     solved = solved === VOID ? null : solved;
     message = message === VOID ? null : message;
     tried = tried === VOID ? null : tried;
-    this.e2c_1 = moment;
-    this.f2c_1 = position;
-    this.g2c_1 = checking;
-    this.h2c_1 = solved;
-    this.i2c_1 = message;
-    this.j2c_1 = tried;
+    this.f2c_1 = moment;
+    this.g2c_1 = position;
+    this.h2c_1 = checking;
+    this.i2c_1 = solved;
+    this.j2c_1 = message;
+    this.k2c_1 = tried;
   }
-  k2c(moment, position, checking, solved, message, tried) {
+  l2c(moment, position, checking, solved, message, tried) {
     return new RetryState(moment, position, checking, solved, message, tried);
   }
-  l2c(moment, position, checking, solved, message, tried, $super) {
-    moment = moment === VOID ? this.e2c_1 : moment;
-    position = position === VOID ? this.f2c_1 : position;
-    checking = checking === VOID ? this.g2c_1 : checking;
-    solved = solved === VOID ? this.h2c_1 : solved;
-    message = message === VOID ? this.i2c_1 : message;
-    tried = tried === VOID ? this.j2c_1 : tried;
-    return $super === VOID ? this.k2c(moment, position, checking, solved, message, tried) : $super.k2c.call(this, moment, position, checking, solved, message, tried);
+  m2c(moment, position, checking, solved, message, tried, $super) {
+    moment = moment === VOID ? this.f2c_1 : moment;
+    position = position === VOID ? this.g2c_1 : position;
+    checking = checking === VOID ? this.h2c_1 : checking;
+    solved = solved === VOID ? this.i2c_1 : solved;
+    message = message === VOID ? this.j2c_1 : message;
+    tried = tried === VOID ? this.k2c_1 : tried;
+    return $super === VOID ? this.l2c(moment, position, checking, solved, message, tried) : $super.l2c.call(this, moment, position, checking, solved, message, tried);
   }
   toString() {
-    return 'RetryState(moment=' + this.e2c_1.toString() + ', position=' + this.f2c_1.toString() + ', checking=' + this.g2c_1 + ', solved=' + this.h2c_1 + ', message=' + this.i2c_1 + ', tried=' + toString(this.j2c_1) + ')';
+    return 'RetryState(moment=' + this.f2c_1.toString() + ', position=' + this.g2c_1.toString() + ', checking=' + this.h2c_1 + ', solved=' + this.i2c_1 + ', message=' + this.j2c_1 + ', tried=' + toString(this.k2c_1) + ')';
   }
   hashCode() {
-    var result = this.e2c_1.hashCode();
-    result = imul(result, 31) + this.f2c_1.hashCode() | 0;
-    result = imul(result, 31) + getBooleanHashCode(this.g2c_1) | 0;
-    result = imul(result, 31) + (this.h2c_1 == null ? 0 : getBooleanHashCode(this.h2c_1)) | 0;
-    result = imul(result, 31) + (this.i2c_1 == null ? 0 : getStringHashCode(this.i2c_1)) | 0;
-    result = imul(result, 31) + (this.j2c_1 == null ? 0 : this.j2c_1.hashCode()) | 0;
+    var result = this.f2c_1.hashCode();
+    result = imul(result, 31) + this.g2c_1.hashCode() | 0;
+    result = imul(result, 31) + getBooleanHashCode(this.h2c_1) | 0;
+    result = imul(result, 31) + (this.i2c_1 == null ? 0 : getBooleanHashCode(this.i2c_1)) | 0;
+    result = imul(result, 31) + (this.j2c_1 == null ? 0 : getStringHashCode(this.j2c_1)) | 0;
+    result = imul(result, 31) + (this.k2c_1 == null ? 0 : this.k2c_1.hashCode()) | 0;
     return result;
   }
   equals(other) {
@@ -12209,17 +12224,17 @@ class RetryState {
     if (!(other instanceof RetryState))
       return false;
     var tmp0_other_with_cast = other instanceof RetryState ? other : THROW_CCE();
-    if (!this.e2c_1.equals(tmp0_other_with_cast.e2c_1))
-      return false;
     if (!this.f2c_1.equals(tmp0_other_with_cast.f2c_1))
       return false;
-    if (!(this.g2c_1 === tmp0_other_with_cast.g2c_1))
+    if (!this.g2c_1.equals(tmp0_other_with_cast.g2c_1))
       return false;
-    if (!(this.h2c_1 == tmp0_other_with_cast.h2c_1))
+    if (!(this.h2c_1 === tmp0_other_with_cast.h2c_1))
       return false;
     if (!(this.i2c_1 == tmp0_other_with_cast.i2c_1))
       return false;
-    if (!equals(this.j2c_1, tmp0_other_with_cast.j2c_1))
+    if (!(this.j2c_1 == tmp0_other_with_cast.j2c_1))
+      return false;
+    if (!equals(this.k2c_1, tmp0_other_with_cast.k2c_1))
       return false;
     return true;
   }
@@ -12232,35 +12247,35 @@ class ReviewState {
     review = review === VOID ? null : review;
     ply = ply === VOID ? 0 : ply;
     retry = retry === VOID ? null : retry;
-    this.m2c_1 = game;
-    this.n2c_1 = player;
-    this.o2c_1 = progress;
-    this.p2c_1 = review;
-    this.q2c_1 = ply;
-    this.r2c_1 = retry;
+    this.n2c_1 = game;
+    this.o2c_1 = player;
+    this.p2c_1 = progress;
+    this.q2c_1 = review;
+    this.r2c_1 = ply;
+    this.s2c_1 = retry;
   }
-  s2c(game, player, progress, review, ply, retry) {
+  t2c(game, player, progress, review, ply, retry) {
     return new ReviewState(game, player, progress, review, ply, retry);
   }
-  t2c(game, player, progress, review, ply, retry, $super) {
-    game = game === VOID ? this.m2c_1 : game;
-    player = player === VOID ? this.n2c_1 : player;
-    progress = progress === VOID ? this.o2c_1 : progress;
-    review = review === VOID ? this.p2c_1 : review;
-    ply = ply === VOID ? this.q2c_1 : ply;
-    retry = retry === VOID ? this.r2c_1 : retry;
-    return $super === VOID ? this.s2c(game, player, progress, review, ply, retry) : $super.s2c.call(this, game, player, progress, review, ply, retry);
+  u2c(game, player, progress, review, ply, retry, $super) {
+    game = game === VOID ? this.n2c_1 : game;
+    player = player === VOID ? this.o2c_1 : player;
+    progress = progress === VOID ? this.p2c_1 : progress;
+    review = review === VOID ? this.q2c_1 : review;
+    ply = ply === VOID ? this.r2c_1 : ply;
+    retry = retry === VOID ? this.s2c_1 : retry;
+    return $super === VOID ? this.t2c(game, player, progress, review, ply, retry) : $super.t2c.call(this, game, player, progress, review, ply, retry);
   }
   toString() {
-    return 'ReviewState(game=' + toString(this.m2c_1) + ', player=' + toString(this.n2c_1) + ', progress=' + this.o2c_1 + ', review=' + toString(this.p2c_1) + ', ply=' + this.q2c_1 + ', retry=' + toString(this.r2c_1) + ')';
+    return 'ReviewState(game=' + toString(this.n2c_1) + ', player=' + toString(this.o2c_1) + ', progress=' + this.p2c_1 + ', review=' + toString(this.q2c_1) + ', ply=' + this.r2c_1 + ', retry=' + toString(this.s2c_1) + ')';
   }
   hashCode() {
-    var result = this.m2c_1 == null ? 0 : hashCode(this.m2c_1);
-    result = imul(result, 31) + (this.n2c_1 == null ? 0 : this.n2c_1.hashCode()) | 0;
-    result = imul(result, 31) + getNumberHashCode(this.o2c_1) | 0;
-    result = imul(result, 31) + (this.p2c_1 == null ? 0 : this.p2c_1.hashCode()) | 0;
-    result = imul(result, 31) + this.q2c_1 | 0;
-    result = imul(result, 31) + (this.r2c_1 == null ? 0 : this.r2c_1.hashCode()) | 0;
+    var result = this.n2c_1 == null ? 0 : hashCode(this.n2c_1);
+    result = imul(result, 31) + (this.o2c_1 == null ? 0 : this.o2c_1.hashCode()) | 0;
+    result = imul(result, 31) + getNumberHashCode(this.p2c_1) | 0;
+    result = imul(result, 31) + (this.q2c_1 == null ? 0 : this.q2c_1.hashCode()) | 0;
+    result = imul(result, 31) + this.r2c_1 | 0;
+    result = imul(result, 31) + (this.s2c_1 == null ? 0 : this.s2c_1.hashCode()) | 0;
     return result;
   }
   equals(other) {
@@ -12269,25 +12284,25 @@ class ReviewState {
     if (!(other instanceof ReviewState))
       return false;
     var tmp0_other_with_cast = other instanceof ReviewState ? other : THROW_CCE();
-    if (!equals(this.m2c_1, tmp0_other_with_cast.m2c_1))
-      return false;
     if (!equals(this.n2c_1, tmp0_other_with_cast.n2c_1))
       return false;
     if (!equals(this.o2c_1, tmp0_other_with_cast.o2c_1))
       return false;
     if (!equals(this.p2c_1, tmp0_other_with_cast.p2c_1))
       return false;
-    if (!(this.q2c_1 === tmp0_other_with_cast.q2c_1))
+    if (!equals(this.q2c_1, tmp0_other_with_cast.q2c_1))
       return false;
-    if (!equals(this.r2c_1, tmp0_other_with_cast.r2c_1))
+    if (!(this.r2c_1 === tmp0_other_with_cast.r2c_1))
+      return false;
+    if (!equals(this.s2c_1, tmp0_other_with_cast.s2c_1))
       return false;
     return true;
   }
 }
 class ReviewController$onRetryMove$slambda$slambda {
   constructor($before, $after) {
-    this.z2c_1 = $before;
-    this.a2d_1 = $after;
+    this.a2d_1 = $before;
+    this.b2d_1 = $after;
   }
   o1r(eng, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_38.bind(VOID, this, eng), $completion);
@@ -12298,19 +12313,19 @@ class ReviewController$onRetryMove$slambda$slambda {
 }
 class Analysed {
   constructor(score, best, pv, second, terminal) {
-    this.g2d_1 = score;
-    this.h2d_1 = best;
-    this.i2d_1 = pv;
-    this.j2d_1 = second;
-    this.k2d_1 = terminal;
+    this.h2d_1 = score;
+    this.i2d_1 = best;
+    this.j2d_1 = pv;
+    this.k2d_1 = second;
+    this.l2d_1 = terminal;
   }
 }
 class Companion_16 {
   constructor() {
     Companion_instance_17 = this;
-    this.l2d_1 = new Long(250, 0);
+    this.m2d_1 = new Long(250, 0);
   }
-  m2d(best, after) {
+  n2d(best, after) {
     var wb = best.m1d() * 100;
     var wa = after.m1d() * 100;
     var loss = coerceAtLeast_0(wb - wa, 0.0);
@@ -12322,11 +12337,11 @@ class Companion_16 {
 }
 class ReviewController$start$slambda {
   constructor($game, this$0, $player, $lang, $name) {
-    this.u2c_1 = $game;
-    this.v2c_1 = this$0;
-    this.w2c_1 = $player;
-    this.x2c_1 = $lang;
-    this.y2c_1 = $name;
+    this.v2c_1 = $game;
+    this.w2c_1 = this$0;
+    this.x2c_1 = $player;
+    this.y2c_1 = $lang;
+    this.z2c_1 = $name;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_37.bind(VOID, this, $this$launch), $completion);
@@ -12337,10 +12352,10 @@ class ReviewController$start$slambda {
 }
 class ReviewController$onRetryMove$slambda {
   constructor($r, $move, this$0, $lang) {
-    this.b2d_1 = $r;
-    this.c2d_1 = $move;
-    this.d2d_1 = this$0;
-    this.e2d_1 = $lang;
+    this.c2d_1 = $r;
+    this.d2d_1 = $move;
+    this.e2d_1 = this$0;
+    this.f2d_1 = $lang;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_39.bind(VOID, this, $this$launch), $completion);
@@ -12351,7 +12366,7 @@ class ReviewController$onRetryMove$slambda {
 }
 class ReviewController$analyse$slambda {
   constructor($pos) {
-    this.f2d_1 = $pos;
+    this.g2d_1 = $pos;
   }
   o1r(eng, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_40.bind(VOID, this, eng), $completion);
@@ -12362,14 +12377,14 @@ class ReviewController$analyse$slambda {
 }
 class _no_name_provided__qut3iv_0 {
   constructor($this) {
-    this.n2d_1 = $this;
+    this.o2d_1 = $this;
   }
   p5() {
-    return this.n2d_1.x();
+    return this.o2d_1.x();
   }
   h1z(element) {
     // Inline function 'com.zorix.chess.play.ReviewController.build.<anonymous>.<anonymous>' call
-    return element.q2b_1;
+    return element.r2b_1;
   }
   q5(element) {
     return this.h1z((element == null ? true : !(element == null)) ? element : THROW_CCE());
@@ -12386,7 +12401,7 @@ class ReviewController {
     this.v1l_1 = 'en';
     this.w1l_1 = null;
   }
-  o2d(game, player) {
+  p2d(game, player) {
     var tmp0_safe_receiver = this.w1l_1;
     if (tmp0_safe_receiver == null)
       null;
@@ -12407,10 +12422,10 @@ class ReviewController {
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.ReviewController.goTo.<anonymous>' call
-        var tmp0_safe_receiver = prevValue.m2c_1;
+        var tmp0_safe_receiver = prevValue.n2c_1;
         var tmp1_safe_receiver = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.q1r_1;
         var tmp2_elvis_lhs = tmp1_safe_receiver == null ? null : tmp1_safe_receiver.a1();
-        var nextValue = prevValue.t2c(VOID, VOID, VOID, VOID, coerceIn(ply, 0, tmp2_elvis_lhs == null ? 0 : tmp2_elvis_lhs));
+        var nextValue = prevValue.u2c(VOID, VOID, VOID, VOID, coerceIn(ply, 0, tmp2_elvis_lhs == null ? 0 : tmp2_elvis_lhs));
         if (this_0.l13(prevValue, nextValue)) {
           tmp$ret$1 = Unit_instance;
           break $l$block;
@@ -12419,7 +12434,7 @@ class ReviewController {
     }
     return tmp$ret$1;
   }
-  p2d() {
+  q2d() {
     var tmp0_safe_receiver = this.w1l_1;
     if (tmp0_safe_receiver == null)
       null;
@@ -12428,8 +12443,8 @@ class ReviewController {
     }
     this.t1l_1.k13(new ReviewState());
   }
-  q2d(moment) {
-    var tmp0_elvis_lhs = this.t1l_1.v2().m2c_1;
+  r2d(moment) {
+    var tmp0_elvis_lhs = this.t1l_1.v2().n2c_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -12437,7 +12452,7 @@ class ReviewController {
       tmp = tmp0_elvis_lhs;
     }
     var game = tmp;
-    var pos = game.q1r_1.d1(moment.m2b_1).w1t_1;
+    var pos = game.q1r_1.d1(moment.n2b_1).w1t_1;
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
       var this_0 = this.t1l_1;
@@ -12445,15 +12460,15 @@ class ReviewController {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.ReviewController.startRetry.<anonymous>' call
         var tmp0_retry = new RetryState(moment, pos);
-        var tmp1_ply = moment.m2b_1;
-        var nextValue = prevValue.t2c(VOID, VOID, VOID, VOID, tmp1_ply, tmp0_retry);
+        var tmp1_ply = moment.n2b_1;
+        var nextValue = prevValue.u2c(VOID, VOID, VOID, VOID, tmp1_ply, tmp0_retry);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
       }
     }
   }
-  r2d() {
+  s2d() {
     var tmp$ret$1;
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
@@ -12461,7 +12476,7 @@ class ReviewController {
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.ReviewController.endRetry.<anonymous>' call
-        var nextValue = prevValue.t2c(VOID, VOID, VOID, VOID, VOID, null);
+        var nextValue = prevValue.u2c(VOID, VOID, VOID, VOID, VOID, null);
         if (this_0.l13(prevValue, nextValue)) {
           tmp$ret$1 = Unit_instance;
           break $l$block;
@@ -12470,8 +12485,8 @@ class ReviewController {
     }
     return tmp$ret$1;
   }
-  s2d(move) {
-    var tmp0_elvis_lhs = this.t1l_1.v2().r2c_1;
+  t2d(move) {
+    var tmp0_elvis_lhs = this.t1l_1.v2().s2c_1;
     var tmp;
     if (tmp0_elvis_lhs == null) {
       return Unit_instance;
@@ -12479,7 +12494,7 @@ class ReviewController {
       tmp = tmp0_elvis_lhs;
     }
     var r = tmp;
-    if (r.g2c_1 || r.h2c_1 === true || !r.f2c_1.a1e(move))
+    if (r.h2c_1 || r.i2c_1 === true || !r.g2c_1.a1e(move))
       return Unit_instance;
     var lang = this.v1l_1;
     $l$block: {
@@ -12488,7 +12503,7 @@ class ReviewController {
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.ReviewController.onRetryMove.<anonymous>' call
-        var nextValue = prevValue.t2c(VOID, VOID, VOID, VOID, VOID, r.l2c(VOID, VOID, true, VOID, VOID, move));
+        var nextValue = prevValue.u2c(VOID, VOID, VOID, VOID, VOID, r.m2c(VOID, VOID, true, VOID, VOID, move));
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -12499,34 +12514,34 @@ class ReviewController {
 }
 class WorkerConnection {
   constructor(create) {
-    this.t2d_1 = Channel(2147483647);
-    this.u2d_1 = true;
+    this.u2d_1 = Channel(2147483647);
+    this.v2d_1 = true;
     var tmp = this;
-    tmp.v2d_1 = create(WorkerConnection$worker$lambda(this));
+    tmp.w2d_1 = create(WorkerConnection$worker$lambda(this));
   }
-  d21(line) {
-    if (!this.u2d_1)
-      throw EngineException.c21('The engine is not running');
-    this.v2d_1.send(line);
+  e21(line) {
+    if (!this.v2d_1)
+      throw EngineException.d21('The engine is not running');
+    this.w2d_1.send(line);
   }
-  e21() {
+  f21() {
     throw UnsupportedOperationException.p9('The browser engine is read with nextLine()');
   }
-  f21($completion) {
+  g21($completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_nextLine__ftrxr3.bind(VOID, this), $completion);
   }
   z1w() {
-    return this.u2d_1;
+    return this.v2d_1;
   }
   i1o() {
-    if (!this.u2d_1)
+    if (!this.v2d_1)
       return Unit_instance;
-    this.u2d_1 = false;
+    this.v2d_1 = false;
     // Inline function 'kotlin.runCatching' call
     var tmp;
     try {
       // Inline function 'kotlin.Companion.success' call
-      this.v2d_1.close();
+      this.w2d_1.close();
       tmp = _Result___init__impl__xyqfz8(Unit_instance);
     } catch ($p) {
       var tmp_0;
@@ -12539,16 +12554,16 @@ class WorkerConnection {
       }
       tmp = tmp_0;
     }
-    this.t2d_1.d10();
+    this.u2d_1.d10();
   }
 }
 class WebEngineHost {
   constructor(create, cpuCores) {
-    this.w2d_1 = create;
-    this.x2d_1 = cpuCores;
+    this.x2d_1 = create;
+    this.y2d_1 = cpuCores;
   }
   p1t() {
-    return this.x2d_1;
+    return this.y2d_1;
   }
   a1x(onProgress, $completion) {
     onProgress(1.0);
@@ -12557,177 +12572,177 @@ class WebEngineHost {
 }
 class WebStore {
   constructor(storage) {
-    this.y2d_1 = storage;
+    this.z2d_1 = storage;
   }
   qt(key) {
-    return this.y2d_1.getItem(key);
+    return this.z2d_1.getItem(key);
   }
   b1t(key, value) {
-    return this.y2d_1.setItem(key, value);
+    return this.z2d_1.setItem(key, value);
   }
 }
 class WebSpeech {
   constructor(voice) {
-    this.z2d_1 = voice;
-    this.a2e_1 = MutableStateFlow(SpeechStatus_IDLE_getInstance());
-    this.b2e_1 = asStateFlow(this.a2e_1);
-    this.c2e_1 = 0;
+    this.a2e_1 = voice;
+    this.b2e_1 = MutableStateFlow(SpeechStatus_IDLE_getInstance());
+    this.c2e_1 = asStateFlow(this.b2e_1);
+    this.d2e_1 = 0;
   }
   z1k() {
-    return this.b2e_1;
+    return this.c2e_1;
   }
   b1o(lang) {
-    return this.z2d_1.supports(lang);
+    return this.a2e_1.supports(lang);
   }
   d1o(text, lang) {
-    this.c2e_1 = this.c2e_1 + 1 | 0;
-    this.a2e_1.k13(SpeechStatus_PREPARING_getInstance());
-    this.z2d_1.speak(text, lang, this.c2e_1);
+    this.d2e_1 = this.d2e_1 + 1 | 0;
+    this.b2e_1.k13(SpeechStatus_PREPARING_getInstance());
+    this.a2e_1.speak(text, lang, this.d2e_1);
   }
   c1o() {
-    this.c2e_1 = this.c2e_1 + 1 | 0;
-    this.a2e_1.k13(SpeechStatus_IDLE_getInstance());
-    this.z2d_1.stop();
+    this.d2e_1 = this.d2e_1 + 1 | 0;
+    this.b2e_1.k13(SpeechStatus_IDLE_getInstance());
+    this.a2e_1.stop();
   }
   x1l(lang) {
-    return this.z2d_1.prepare(lang);
-  }
-  d2e(t) {
-    if (t === this.c2e_1 && this.a2e_1.v2().equals(SpeechStatus_PREPARING_getInstance())) {
-      this.a2e_1.k13(SpeechStatus_SPEAKING_getInstance());
-    }
+    return this.a2e_1.prepare(lang);
   }
   e2e(t) {
-    if (t === this.c2e_1) {
-      this.a2e_1.k13(SpeechStatus_IDLE_getInstance());
+    if (t === this.d2e_1 && this.b2e_1.v2().equals(SpeechStatus_PREPARING_getInstance())) {
+      this.b2e_1.k13(SpeechStatus_SPEAKING_getInstance());
+    }
+  }
+  f2e(t) {
+    if (t === this.d2e_1) {
+      this.b2e_1.k13(SpeechStatus_IDLE_getInstance());
     }
   }
 }
 class ZorixCore$subscribe$slambda$slambda {
   constructor(this$0) {
-    this.n2e_1 = this$0;
+    this.o2e_1 = this$0;
   }
-  o2e(it, $completion) {
-    emit_0(this.n2e_1, 'board', board(it));
+  p2e(it, $completion) {
+    emit_0(this.o2e_1, 'board', board(it));
   }
   qc(p1, $completion) {
-    return this.o2e(p1 instanceof ChessUiState ? p1 : THROW_CCE(), $completion);
+    return this.p2e(p1 instanceof ChessUiState ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_0 {
   constructor(this$0) {
-    this.q2e_1 = this$0;
+    this.r2e_1 = this$0;
   }
-  r2e(it, $completion) {
-    emit_0(this.q2e_1, 'play', play_2(it));
+  s2e(it, $completion) {
+    emit_0(this.r2e_1, 'play', play_2(it));
   }
   qc(p1, $completion) {
-    return this.r2e(p1 instanceof PlayState ? p1 : THROW_CCE(), $completion);
+    return this.s2e(p1 instanceof PlayState ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_1 {
   constructor(this$0) {
-    this.t2e_1 = this$0;
+    this.u2e_1 = this$0;
   }
-  u2e(it, $completion) {
-    emit_0(this.t2e_1, 'review', reviewState(it));
+  v2e(it, $completion) {
+    emit_0(this.u2e_1, 'review', reviewState(it));
   }
   qc(p1, $completion) {
-    return this.u2e(p1 instanceof ReviewState ? p1 : THROW_CCE(), $completion);
+    return this.v2e(p1 instanceof ReviewState ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_2 {
   constructor(this$0) {
-    this.w2e_1 = this$0;
+    this.x2e_1 = this$0;
   }
-  x2e(it, $completion) {
-    emit_0(this.w2e_1, 'puzzles', puzzle_0(it, this.w2e_1.i2e_1.y1i_1.i1z()));
+  y2e(it, $completion) {
+    emit_0(this.x2e_1, 'puzzles', puzzle_0(it, this.x2e_1.j2e_1.y1i_1.i1z()));
   }
   qc(p1, $completion) {
-    return this.x2e(p1 instanceof PuzzleState ? p1 : THROW_CCE(), $completion);
+    return this.y2e(p1 instanceof PuzzleState ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_3 {
   constructor(this$0) {
-    this.z2e_1 = this$0;
+    this.a2f_1 = this$0;
   }
-  a2f(it, $completion) {
-    emit_0(this.z2e_1, 'profile', profile(it));
+  b2f(it, $completion) {
+    emit_0(this.a2f_1, 'profile', profile(it));
   }
   qc(p1, $completion) {
-    return this.a2f(p1 instanceof Profile ? p1 : THROW_CCE(), $completion);
+    return this.b2f(p1 instanceof Profile ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_4 {
   constructor(this$0) {
-    this.c2f_1 = this$0;
+    this.d2f_1 = this$0;
   }
-  d2f(it, $completion) {
-    emitCourses(this.c2f_1);
+  e2f(it, $completion) {
+    emitCourses(this.d2f_1);
   }
   qc(p1, $completion) {
-    return this.d2f((!(p1 == null) ? isInterface(p1, KtList) : false) ? p1 : THROW_CCE(), $completion);
+    return this.e2f((!(p1 == null) ? isInterface(p1, KtList) : false) ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_5 {
   constructor(this$0) {
-    this.f2f_1 = this$0;
+    this.g2f_1 = this$0;
   }
-  g2f(it, $completion) {
+  h2f(it, $completion) {
     // Inline function 'kotlin.text.lowercase' call
     // Inline function 'kotlin.js.asDynamic' call
     var tmp$ret$1 = it.c3_1.toLowerCase();
-    emit_0(this.f2f_1, 'speech', tmp$ret$1);
+    emit_0(this.g2f_1, 'speech', tmp$ret$1);
   }
   qc(p1, $completion) {
-    return this.g2f(p1 instanceof SpeechStatus ? p1 : THROW_CCE(), $completion);
+    return this.h2f(p1 instanceof SpeechStatus ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_6 {
   constructor(this$0) {
-    this.i2f_1 = this$0;
+    this.j2f_1 = this$0;
   }
-  j2f(it, $completion) {
+  k2f(it, $completion) {
     // Inline function 'kotlin.text.lowercase' call
     // Inline function 'kotlin.js.asDynamic' call
     var tmp$ret$1 = it.c3_1.toLowerCase();
-    emit_0(this.i2f_1, 'message', tmp$ret$1);
+    emit_0(this.j2f_1, 'message', tmp$ret$1);
   }
   qc(p1, $completion) {
-    return this.j2f(p1 instanceof UiMessage ? p1 : THROW_CCE(), $completion);
+    return this.k2f(p1 instanceof UiMessage ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda$slambda_7 {
   constructor(this$0) {
-    this.l2f_1 = this$0;
+    this.m2f_1 = this$0;
   }
-  m2f(it, $completion) {
-    emit_0(this.l2f_1, 'contentError', it);
+  n2f(it, $completion) {
+    emit_0(this.m2f_1, 'contentError', it);
   }
   qc(p1, $completion) {
-    return this.m2f((p1 == null ? true : typeof p1 === 'string') ? p1 : THROW_CCE(), $completion);
+    return this.n2f((p1 == null ? true : typeof p1 === 'string') ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$lessonStart$slambda$slambda$slambda {
   constructor(this$0, $l) {
-    this.q2f_1 = this$0;
-    this.r2f_1 = $l;
+    this.r2f_1 = this$0;
+    this.s2f_1 = $l;
   }
-  s2f(it, $completion) {
-    emit_0(this.q2f_1, 'lesson', step(it, this.r2f_1, this.q2f_1.i2e_1.d1j_1));
+  t2f(it, $completion) {
+    emit_0(this.r2f_1, 'lesson', step(it, this.s2f_1, this.r2f_1.j2e_1.d1j_1));
   }
   qc(p1, $completion) {
-    return this.s2f(p1 instanceof StepUi ? p1 : THROW_CCE(), $completion);
+    return this.t2f(p1 instanceof StepUi ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$lessonStart$slambda$slambda$slambda_0 {
   constructor(this$0) {
-    this.v2f_1 = this$0;
+    this.w2f_1 = this$0;
   }
-  w2f(r, $completion) {
+  x2f(r, $completion) {
     if (!(r == null)) {
-      this.v2f_1.i2e_1.p1m(r);
-      emitCourses(this.v2f_1);
+      this.w2f_1.j2e_1.p1m(r);
+      emitCourses(this.w2f_1);
     }
     var tmp;
     if (r == null) {
@@ -12738,17 +12753,17 @@ class ZorixCore$lessonStart$slambda$slambda$slambda_0 {
       // Inline function 'com.zorix.chess.web.ZorixCore.lessonStart.<anonymous>.<anonymous>.<anonymous>.<anonymous>' call
       tmp = json([to('lessonId', r.v1m_1.q1m_1), to('mistakes', r.w1m_1), to('stars', r.x1m_1)]);
     }
-    emit_0(this.v2f_1, 'lessonResult', tmp);
+    emit_0(this.w2f_1, 'lessonResult', tmp);
   }
   qc(p1, $completion) {
-    return this.w2f((p1 == null ? true : p1 instanceof LessonResult) ? p1 : THROW_CCE(), $completion);
+    return this.x2f((p1 == null ? true : p1 instanceof LessonResult) ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$lessonStart$slambda$slambda {
   constructor($s, this$0, $l) {
-    this.n2f_1 = $s;
-    this.o2f_1 = this$0;
-    this.p2f_1 = $l;
+    this.o2f_1 = $s;
+    this.p2f_1 = this$0;
+    this.q2f_1 = $l;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_51.bind(VOID, this, $this$launch), $completion);
@@ -12759,8 +12774,8 @@ class ZorixCore$lessonStart$slambda$slambda {
 }
 class ZorixCore$lessonStart$slambda$slambda_0 {
   constructor($s, this$0) {
-    this.t2f_1 = $s;
-    this.u2f_1 = this$0;
+    this.u2f_1 = $s;
+    this.v2f_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_52.bind(VOID, this, $this$launch), $completion);
@@ -12771,13 +12786,13 @@ class ZorixCore$lessonStart$slambda$slambda_0 {
 }
 class sam$kotlinx_coroutines_flow_FlowCollector$0_0 {
   constructor(function_0) {
-    this.x2f_1 = function_0;
+    this.y2f_1 = function_0;
   }
   l11(value, $completion) {
-    return this.x2f_1(value, $completion);
+    return this.y2f_1(value, $completion);
   }
   x3() {
-    return this.x2f_1;
+    return this.y2f_1;
   }
   equals(other) {
     var tmp;
@@ -12800,18 +12815,18 @@ class sam$kotlinx_coroutines_flow_FlowCollector$0_0 {
 }
 class ZorixCore$app$slambda {
   constructor($readFile) {
-    this.f2e_1 = $readFile;
+    this.g2e_1 = $readFile;
   }
-  y2f(path, $completion) {
+  z2f(path, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_41.bind(VOID, this, path), $completion);
   }
   qc(p1, $completion) {
-    return this.y2f((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE(), $completion);
+    return this.z2f((!(p1 == null) ? typeof p1 === 'string' : false) ? p1 : THROW_CCE(), $completion);
   }
 }
 class ZorixCore$subscribe$slambda {
   constructor(this$0) {
-    this.m2e_1 = this$0;
+    this.n2e_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_42.bind(VOID, this, $this$launch), $completion);
@@ -12822,7 +12837,7 @@ class ZorixCore$subscribe$slambda {
 }
 class ZorixCore$subscribe$slambda_0 {
   constructor(this$0) {
-    this.p2e_1 = this$0;
+    this.q2e_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_43.bind(VOID, this, $this$launch), $completion);
@@ -12833,7 +12848,7 @@ class ZorixCore$subscribe$slambda_0 {
 }
 class ZorixCore$subscribe$slambda_1 {
   constructor(this$0) {
-    this.s2e_1 = this$0;
+    this.t2e_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_44.bind(VOID, this, $this$launch), $completion);
@@ -12844,7 +12859,7 @@ class ZorixCore$subscribe$slambda_1 {
 }
 class ZorixCore$subscribe$slambda_2 {
   constructor(this$0) {
-    this.v2e_1 = this$0;
+    this.w2e_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_45.bind(VOID, this, $this$launch), $completion);
@@ -12855,7 +12870,7 @@ class ZorixCore$subscribe$slambda_2 {
 }
 class ZorixCore$subscribe$slambda_3 {
   constructor(this$0) {
-    this.y2e_1 = this$0;
+    this.z2e_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_46.bind(VOID, this, $this$launch), $completion);
@@ -12866,7 +12881,7 @@ class ZorixCore$subscribe$slambda_3 {
 }
 class ZorixCore$subscribe$slambda_4 {
   constructor(this$0) {
-    this.b2f_1 = this$0;
+    this.c2f_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_47.bind(VOID, this, $this$launch), $completion);
@@ -12877,7 +12892,7 @@ class ZorixCore$subscribe$slambda_4 {
 }
 class ZorixCore$subscribe$slambda_5 {
   constructor(this$0) {
-    this.e2f_1 = this$0;
+    this.f2f_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_48.bind(VOID, this, $this$launch), $completion);
@@ -12888,7 +12903,7 @@ class ZorixCore$subscribe$slambda_5 {
 }
 class ZorixCore$subscribe$slambda_6 {
   constructor(this$0) {
-    this.h2f_1 = this$0;
+    this.i2f_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_49.bind(VOID, this, $this$launch), $completion);
@@ -12899,7 +12914,7 @@ class ZorixCore$subscribe$slambda_6 {
 }
 class ZorixCore$subscribe$slambda_7 {
   constructor(this$0) {
-    this.k2f_1 = this$0;
+    this.l2f_1 = this$0;
   }
   c15($this$launch, $completion) {
     return suspendOrReturn(/*#__NOINLINE__*/_generator_invoke__zhh2q8_50.bind(VOID, this, $this$launch), $completion);
@@ -12910,13 +12925,13 @@ class ZorixCore$subscribe$slambda_7 {
 }
 class ZorixCore$lessonStart$slambda {
   constructor($s, this$0, $l) {
-    this.z2f_1 = $s;
-    this.a2g_1 = this$0;
-    this.b2g_1 = $l;
+    this.a2g_1 = $s;
+    this.b2g_1 = this$0;
+    this.c2g_1 = $l;
   }
   c15($this$launch, $completion) {
-    launch($this$launch, VOID, VOID, ZorixCore$lessonStart$slambda$slambda_1(this.z2f_1, this.a2g_1, this.b2g_1));
-    launch($this$launch, VOID, VOID, ZorixCore$lessonStart$slambda$slambda_2(this.z2f_1, this.a2g_1));
+    launch($this$launch, VOID, VOID, ZorixCore$lessonStart$slambda$slambda_1(this.a2g_1, this.b2g_1, this.c2g_1));
+    launch($this$launch, VOID, VOID, ZorixCore$lessonStart$slambda$slambda_2(this.a2g_1, this.b2g_1));
   }
   qc(p1, $completion) {
     return this.c15((!(p1 == null) ? isInterface(p1, CoroutineScope) : false) ? p1 : THROW_CCE(), $completion);
@@ -12924,75 +12939,78 @@ class ZorixCore$lessonStart$slambda {
 }
 class ZorixCore {
   constructor(createEngine, storage, voice, readFile, cores) {
-    this.g2e_1 = MainScope();
-    this.h2e_1 = new WebSpeech(voice);
+    this.h2e_1 = MainScope();
+    this.i2e_1 = new WebSpeech(voice);
     var tmp = this;
     var tmp_0 = new WebEngineHost(createEngine, cores);
     var tmp_1 = new WebStore(storage);
-    tmp.i2e_1 = new AppController(this.g2e_1, tmp_0, tmp_1, this.h2e_1, ZorixCore$app$slambda_0(readFile));
-    this.j2e_1 = null;
+    tmp.j2e_1 = new AppController(this.h2e_1, tmp_0, tmp_1, this.i2e_1, ZorixCore$app$slambda_0(readFile));
     this.k2e_1 = null;
     this.l2e_1 = null;
+    this.m2e_1 = null;
   }
   subscribe(listener) {
-    this.j2e_1 = listener;
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_8(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_9(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_10(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_11(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_12(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_13(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_14(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_15(this));
-    launch(this.g2e_1, VOID, VOID, ZorixCore$subscribe$slambda_16(this));
+    this.k2e_1 = listener;
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_8(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_9(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_10(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_11(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_12(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_13(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_14(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_15(this));
+    launch(this.h2e_1, VOID, VOID, ZorixCore$subscribe$slambda_16(this));
   }
   setLanguage(lang) {
-    this.i2e_1.a1l(lang);
+    this.j2e_1.a1l(lang);
     emitCourses(this);
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      emit_0(this, 'lesson', step(tmp0_safe_receiver.i27_1.v2(), tmp0_safe_receiver.b27_1, this.i2e_1.d1j_1));
+      emit_0(this, 'lesson', step(tmp0_safe_receiver.j27_1.v2(), tmp0_safe_receiver.c27_1, this.j2e_1.d1j_1));
     }
   }
   setScreen(screen) {
-    this.i2e_1.f1o();
-    this.i2e_1.v1i_1.c1w(screen === 'analysis');
-    this.i2e_1.w1i_1.m1l_1 = screen === 'play';
+    this.j2e_1.f1o();
+    this.j2e_1.v1i_1.c1w(screen === 'analysis');
+    this.j2e_1.w1i_1.m1l_1 = screen === 'play';
   }
   onBackground() {
-    return this.i2e_1.g1o();
+    return this.j2e_1.g1o();
   }
   onForeground() {
-    return this.i2e_1.h1o();
+    return this.j2e_1.h1o();
   }
   speak(text) {
-    return this.i2e_1.a1o(text);
+    return this.j2e_1.a1o(text);
+  }
+  speakDisplay(text) {
+    return this.j2e_1.a1o(Speakable_getInstance().m1i(text, speechLanguage(this.j2e_1.d1j_1)));
   }
   stopSpeaking() {
-    return this.i2e_1.f1o();
+    return this.j2e_1.f1o();
   }
   voiceReady() {
-    return this.i2e_1.e1o(this.i2e_1.v1i_1.m1k_1.v2().c1k_1);
+    return this.j2e_1.e1o(this.j2e_1.v1i_1.m1k_1.v2().c1k_1);
   }
   voiceStarted(token) {
-    return this.h2e_1.d2e(token);
+    return this.i2e_1.e2e(token);
   }
   voiceDone(token) {
-    return this.h2e_1.e2e(token);
+    return this.i2e_1.f2e(token);
   }
   close() {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
       tmp0_safe_receiver.i1o();
     }
-    this.i2e_1.i1o();
-    cancel(this.g2e_1);
+    this.j2e_1.i1o();
+    cancel(this.h2e_1);
   }
   completeOnboarding(name, experience) {
     var tmp$ret$1;
@@ -13011,16 +13029,16 @@ class ZorixCore {
     }
     var tmp0_elvis_lhs = tmp$ret$1;
     var exp = tmp0_elvis_lhs == null ? Experience_RULES_getInstance() : tmp0_elvis_lhs;
-    this.i2e_1.u1i_1.r1x(name, exp);
+    this.j2e_1.u1i_1.r1x(name, exp);
   }
   rename(name) {
-    return this.i2e_1.u1i_1.u1x(name);
+    return this.j2e_1.u1i_1.u1x(name);
   }
   setSetting(key, value) {
-    this.i2e_1.v1i_1.a1w(ZorixCore$setSetting$lambda(this, key, value));
+    this.j2e_1.v1i_1.a1w(ZorixCore$setSetting$lambda(this, key, value));
   }
   boardMove(from, to) {
-    return this.i2e_1.v1i_1.y1t(parseSquare(from), parseSquare(to));
+    return this.j2e_1.v1i_1.y1t(parseSquare(from), parseSquare(to));
   }
   boardPromote(piece) {
     var tmp0_safe_receiver = pieceOf(this, piece);
@@ -13030,13 +13048,13 @@ class ZorixCore {
     } else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      this.i2e_1.v1i_1.a1u(tmp0_safe_receiver);
+      this.j2e_1.v1i_1.a1u(tmp0_safe_receiver);
       tmp = Unit_instance;
     }
     var tmp1_elvis_lhs = tmp;
     var tmp_0;
     if (tmp1_elvis_lhs == null) {
-      this.i2e_1.v1i_1.e1u();
+      this.j2e_1.v1i_1.e1u();
       tmp_0 = Unit_instance;
     } else {
       tmp_0 = tmp1_elvis_lhs;
@@ -13044,22 +13062,22 @@ class ZorixCore {
     return tmp_0;
   }
   boardUndo() {
-    return this.i2e_1.v1i_1.l1u();
+    return this.j2e_1.v1i_1.l1u();
   }
   boardRedo() {
-    return this.i2e_1.v1i_1.n1u();
+    return this.j2e_1.v1i_1.n1u();
   }
   boardGoTo(plies) {
-    return this.i2e_1.v1i_1.p1u(plies);
+    return this.j2e_1.v1i_1.p1u(plies);
   }
   boardNew() {
-    return this.i2e_1.v1i_1.q1u();
+    return this.j2e_1.v1i_1.q1u();
   }
   boardFlip() {
-    return this.i2e_1.v1i_1.r1u();
+    return this.j2e_1.v1i_1.r1u();
   }
   boardLoadFen(fen) {
-    var e = this.i2e_1.v1i_1.s1u(fen);
+    var e = this.j2e_1.v1i_1.s1u(fen);
     var tmp;
     if (e == null) {
       tmp = null;
@@ -13079,37 +13097,37 @@ class ZorixCore {
     return tmp;
   }
   boardLoadGame(startFen, moves) {
-    return this.i2e_1.v1i_1.g1v(Companion_instance_7.m20(startFen, toList(moves)));
+    return this.j2e_1.v1i_1.g1v(Companion_instance_7.m20(startFen, toList(moves)));
   }
   boardPgn() {
-    return this.i2e_1.v1i_1.h1v();
+    return this.j2e_1.v1i_1.h1v();
   }
   boardFen() {
-    return this.i2e_1.v1i_1.c1e();
+    return this.j2e_1.v1i_1.c1e();
   }
   boardBestMove() {
-    return this.i2e_1.v1i_1.j1v();
+    return this.j2e_1.v1i_1.j1v();
   }
   boardStop() {
-    return this.i2e_1.v1i_1.k1v();
+    return this.j2e_1.v1i_1.k1v();
   }
   boardPlaySuggestion() {
-    return this.i2e_1.v1i_1.n1v();
+    return this.j2e_1.v1i_1.n1v();
   }
   boardDismissSuggestion() {
-    return this.i2e_1.v1i_1.p1v();
+    return this.j2e_1.v1i_1.p1v();
   }
   boardAnalysis(on) {
-    return this.i2e_1.v1i_1.q1v(on);
+    return this.j2e_1.v1i_1.q1v(on);
   }
   boardPlayLine(index) {
-    return this.i2e_1.v1i_1.r1v(index);
+    return this.j2e_1.v1i_1.r1v(index);
   }
   boardSpeakFeedback() {
-    return this.i2e_1.v1i_1.f1u();
+    return this.j2e_1.v1i_1.f1u();
   }
   boardSpeakHint() {
-    return this.i2e_1.v1i_1.h1u();
+    return this.j2e_1.v1i_1.h1u();
   }
   boardSetPosition(fen) {
     // Inline function 'kotlin.Result.getOrNull' call
@@ -13149,7 +13167,7 @@ class ZorixCore {
     var p = tmp_3;
     if (!(p.e1v() == null))
       return false;
-    this.i2e_1.v1i_1.f1v(p);
+    this.j2e_1.v1i_1.f1v(p);
     return true;
   }
   positionProblem(fen) {
@@ -13200,10 +13218,109 @@ class ZorixCore {
     }
     return tmp_4;
   }
+  legalTargets(fen, from) {
+    // Inline function 'kotlin.Result.getOrNull' call
+    // Inline function 'kotlin.runCatching' call
+    var tmp;
+    try {
+      // Inline function 'kotlin.Companion.success' call
+      // Inline function 'com.zorix.chess.web.ZorixCore.legalTargets.<anonymous>' call
+      var value = Companion_getInstance_7().d1v(fen);
+      tmp = _Result___init__impl__xyqfz8(value);
+    } catch ($p) {
+      var tmp_0;
+      if ($p instanceof Error) {
+        var e = $p;
+        // Inline function 'kotlin.Companion.failure' call
+        tmp_0 = _Result___init__impl__xyqfz8(createFailure(e));
+      } else {
+        throw $p;
+      }
+      tmp = tmp_0;
+    }
+    var this_0 = tmp;
+    var tmp_1;
+    if (_Result___get_isFailure__impl__jpiriv(this_0)) {
+      tmp_1 = null;
+    } else {
+      var tmp_2 = _Result___get_value__impl__bjfvqg(this_0);
+      tmp_1 = (tmp_2 == null ? true : !(tmp_2 == null)) ? tmp_2 : THROW_CCE();
+    }
+    var tmp0_elvis_lhs = tmp_1;
+    var tmp_3;
+    if (tmp0_elvis_lhs == null) {
+      // Inline function 'kotlin.emptyArray' call
+      return [];
+    } else {
+      tmp_3 = tmp0_elvis_lhs;
+    }
+    var p = tmp_3;
+    var f = parseSquare(from);
+    // Inline function 'kotlin.collections.toTypedArray' call
+    // Inline function 'kotlin.collections.mapNotNull' call
+    // Inline function 'kotlin.collections.mapNotNullTo' call
+    var this_1 = p.w20(f);
+    var destination = ArrayList.h();
+    // Inline function 'kotlin.collections.forEach' call
+    var tmp0_iterator = this_1.x();
+    while (tmp0_iterator.y()) {
+      var element = tmp0_iterator.z();
+      // Inline function 'kotlin.collections.mapNotNullTo.<anonymous>' call
+      // Inline function 'com.zorix.chess.web.ZorixCore.legalTargets.<anonymous>' call
+      var tmp0_safe_receiver = sq(element.e1e_1);
+      if (tmp0_safe_receiver == null)
+        null;
+      else {
+        // Inline function 'kotlin.let' call
+        // Inline function 'kotlin.contracts.contract' call
+        destination.k(tmp0_safe_receiver);
+      }
+    }
+    var this_2 = distinct(destination);
+    return copyToArray(this_2);
+  }
+  isPromotion(fen, from, to) {
+    // Inline function 'kotlin.Result.getOrNull' call
+    // Inline function 'kotlin.runCatching' call
+    var tmp;
+    try {
+      // Inline function 'kotlin.Companion.success' call
+      // Inline function 'com.zorix.chess.web.ZorixCore.isPromotion.<anonymous>' call
+      var value = Companion_getInstance_7().d1v(fen);
+      tmp = _Result___init__impl__xyqfz8(value);
+    } catch ($p) {
+      var tmp_0;
+      if ($p instanceof Error) {
+        var e = $p;
+        // Inline function 'kotlin.Companion.failure' call
+        tmp_0 = _Result___init__impl__xyqfz8(createFailure(e));
+      } else {
+        throw $p;
+      }
+      tmp = tmp_0;
+    }
+    var this_0 = tmp;
+    var tmp_1;
+    if (_Result___get_isFailure__impl__jpiriv(this_0)) {
+      tmp_1 = null;
+    } else {
+      var tmp_2 = _Result___get_value__impl__bjfvqg(this_0);
+      tmp_1 = (tmp_2 == null ? true : !(tmp_2 == null)) ? tmp_2 : THROW_CCE();
+    }
+    var tmp0_elvis_lhs = tmp_1;
+    var tmp_3;
+    if (tmp0_elvis_lhs == null) {
+      return false;
+    } else {
+      tmp_3 = tmp0_elvis_lhs;
+    }
+    var p = tmp_3;
+    return p.z1t(parseSquare(from), parseSquare(to));
+  }
   bots() {
     // Inline function 'kotlin.collections.toTypedArray' call
     // Inline function 'kotlin.collections.map' call
-    var this_0 = Bots_getInstance().a29_1;
+    var this_0 = Bots_getInstance().b29_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
     var tmp0_iterator = this_0.x();
@@ -13215,19 +13332,19 @@ class ZorixCore {
     return copyToArray(destination);
   }
   recommendedLevel() {
-    return Bots_getInstance().d29(this.i2e_1.u1i_1.u1n().g1n_1).w28_1;
+    return Bots_getInstance().e29(this.j2e_1.u1i_1.u1n().g1n_1).x28_1;
   }
   playStart(level, side) {
-    return this.i2e_1.w1i_1.g2b(level, sideOf(this, side));
+    return this.j2e_1.w1i_1.h2b(level, sideOf(this, side));
   }
   playRematch() {
-    return this.i2e_1.w1i_1.h2b();
+    return this.j2e_1.w1i_1.i2b();
   }
   playClose() {
-    return this.i2e_1.w1i_1.i1o();
+    return this.j2e_1.w1i_1.i1o();
   }
   playMove(from, to) {
-    return this.i2e_1.w1i_1.y1t(parseSquare(from), parseSquare(to));
+    return this.j2e_1.w1i_1.y1t(parseSquare(from), parseSquare(to));
   }
   playPromote(piece) {
     var tmp0_safe_receiver = pieceOf(this, piece);
@@ -13237,13 +13354,13 @@ class ZorixCore {
     } else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      this.i2e_1.w1i_1.a1u(tmp0_safe_receiver);
+      this.j2e_1.w1i_1.a1u(tmp0_safe_receiver);
       tmp = Unit_instance;
     }
     var tmp1_elvis_lhs = tmp;
     var tmp_0;
     if (tmp1_elvis_lhs == null) {
-      this.i2e_1.w1i_1.e1u();
+      this.j2e_1.w1i_1.e1u();
       tmp_0 = Unit_instance;
     } else {
       tmp_0 = tmp1_elvis_lhs;
@@ -13251,36 +13368,36 @@ class ZorixCore {
     return tmp_0;
   }
   playTakeback() {
-    return this.i2e_1.w1i_1.i2b();
+    return this.j2e_1.w1i_1.j2b();
   }
   playHint() {
-    return this.i2e_1.w1i_1.n1z();
+    return this.j2e_1.w1i_1.n1z();
   }
   playResign() {
-    return this.i2e_1.w1i_1.j2b();
+    return this.j2e_1.w1i_1.k2b();
   }
   playOfferDraw() {
-    return this.i2e_1.w1i_1.k2b();
+    return this.j2e_1.w1i_1.l2b();
   }
   playSpeakAgain() {
-    return this.i2e_1.w1i_1.l2b();
+    return this.j2e_1.w1i_1.m2b();
   }
   reviewPlayGame() {
-    var st = this.i2e_1.w1i_1.k1l_1.v2();
-    this.i2e_1.x1i_1.o2d(st.u29_1, st.t29_1);
+    var st = this.j2e_1.w1i_1.k1l_1.v2();
+    this.j2e_1.x1i_1.p2d(st.v29_1, st.u29_1);
   }
   reviewGame(startFen, moves, player) {
-    return this.i2e_1.x1i_1.o2d(Companion_instance_7.m20(startFen, toList(moves)), sideOf(this, player));
+    return this.j2e_1.x1i_1.p2d(Companion_instance_7.m20(startFen, toList(moves)), sideOf(this, player));
   }
   reviewGoTo(ply) {
-    return this.i2e_1.x1i_1.p1u(ply);
+    return this.j2e_1.x1i_1.p1u(ply);
   }
   reviewCancel() {
-    return this.i2e_1.x1i_1.p2d();
+    return this.j2e_1.x1i_1.q2d();
   }
   reviewRetry(index) {
-    var tmp0_safe_receiver = this.i2e_1.x1i_1.u1l_1.v2().p2c_1;
-    var tmp1_safe_receiver = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.y2b_1;
+    var tmp0_safe_receiver = this.j2e_1.x1i_1.u1l_1.v2().q2c_1;
+    var tmp1_safe_receiver = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.z2b_1;
     var tmp2_elvis_lhs = tmp1_safe_receiver == null ? null : getOrNull(tmp1_safe_receiver, index);
     var tmp;
     if (tmp2_elvis_lhs == null) {
@@ -13289,10 +13406,10 @@ class ZorixCore {
       tmp = tmp2_elvis_lhs;
     }
     var moment = tmp;
-    this.i2e_1.x1i_1.q2d(moment);
+    this.j2e_1.x1i_1.r2d(moment);
   }
   reviewEndRetry() {
-    return this.i2e_1.x1i_1.r2d();
+    return this.j2e_1.x1i_1.s2d();
   }
   reviewRetryMove(uci) {
     var tmp0_safe_receiver = parseMove(uci);
@@ -13302,34 +13419,34 @@ class ZorixCore {
     } else {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
-      this.i2e_1.x1i_1.s2d(tmp0_safe_receiver);
+      this.j2e_1.x1i_1.t2d(tmp0_safe_receiver);
       tmp = Unit_instance;
     }
     return tmp;
   }
   puzzleStart(mode, theme) {
-    return this.i2e_1.y1i_1.j1z(mode === 'streak' ? PuzzleMode_STREAK_getInstance() : PuzzleMode_RATED_getInstance(), theme);
+    return this.j2e_1.y1i_1.j1z(mode === 'streak' ? PuzzleMode_STREAK_getInstance() : PuzzleMode_RATED_getInstance(), theme);
   }
   puzzleNext() {
-    return this.i2e_1.y1i_1.k1z();
+    return this.j2e_1.y1i_1.k1z();
   }
   puzzleMove(from, to) {
-    return this.i2e_1.y1i_1.l1z(parseSquare(from), parseSquare(to));
+    return this.j2e_1.y1i_1.l1z(parseSquare(from), parseSquare(to));
   }
   puzzlePromote(piece) {
-    return this.i2e_1.y1i_1.m1z(pieceOf(this, piece));
+    return this.j2e_1.y1i_1.m1z(pieceOf(this, piece));
   }
   puzzleHint() {
-    return this.i2e_1.y1i_1.n1z();
+    return this.j2e_1.y1i_1.n1z();
   }
   puzzleSolution() {
-    return this.i2e_1.y1i_1.o1z();
+    return this.j2e_1.y1i_1.o1z();
   }
   lessonStart(courseId, lessonId) {
     var tmp$ret$1;
     $l$block: {
       // Inline function 'kotlin.collections.firstOrNull' call
-      var tmp0_iterator = this.i2e_1.a1j_1.v2().x();
+      var tmp0_iterator = this.j2e_1.a1j_1.v2().x();
       while (tmp0_iterator.y()) {
         var element = tmp0_iterator.z();
         // Inline function 'com.zorix.chess.web.ZorixCore.lessonStart.<anonymous>' call
@@ -13371,30 +13488,30 @@ class ZorixCore {
     }
     var l = tmp_0;
     this.lessonClose();
-    var s = this.i2e_1.o1m(l);
-    this.k2e_1 = s;
+    var s = this.j2e_1.o1m(l);
+    this.l2e_1 = s;
     var tmp_1 = this;
-    tmp_1.l2e_1 = launch(this.g2e_1, VOID, VOID, ZorixCore$lessonStart$slambda_0(s, this, l));
+    tmp_1.m2e_1 = launch(this.h2e_1, VOID, VOID, ZorixCore$lessonStart$slambda_0(s, this, l));
     return true;
   }
   lessonClose() {
-    var tmp0_safe_receiver = this.l2e_1;
+    var tmp0_safe_receiver = this.m2e_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
       tmp0_safe_receiver.nn();
     }
-    var tmp1_safe_receiver = this.k2e_1;
+    var tmp1_safe_receiver = this.l2e_1;
     if (tmp1_safe_receiver == null)
       null;
     else {
       tmp1_safe_receiver.i1o();
     }
-    this.k2e_1 = null;
+    this.l2e_1 = null;
     emit_0(this, 'lesson', null);
   }
   lessonNext() {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
@@ -13405,18 +13522,7 @@ class ZorixCore {
     return tmp;
   }
   lessonPrevious() {
-    var tmp0_safe_receiver = this.k2e_1;
-    var tmp;
-    if (tmp0_safe_receiver == null) {
-      tmp = null;
-    } else {
-      tmp0_safe_receiver.s28();
-      tmp = Unit_instance;
-    }
-    return tmp;
-  }
-  lessonRetry() {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
@@ -13426,8 +13532,19 @@ class ZorixCore {
     }
     return tmp;
   }
+  lessonRetry() {
+    var tmp0_safe_receiver = this.l2e_1;
+    var tmp;
+    if (tmp0_safe_receiver == null) {
+      tmp = null;
+    } else {
+      tmp0_safe_receiver.u28();
+      tmp = Unit_instance;
+    }
+    return tmp;
+  }
   lessonMove(from, to) {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
@@ -13438,7 +13555,7 @@ class ZorixCore {
     return tmp;
   }
   lessonPromote(piece) {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
@@ -13449,29 +13566,29 @@ class ZorixCore {
     return tmp;
   }
   lessonSquare(square) {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
     } else {
-      tmp0_safe_receiver.u28(parseSquare(square));
+      tmp0_safe_receiver.v28(parseSquare(square));
       tmp = Unit_instance;
     }
     return tmp;
   }
   lessonOption(index) {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
     } else {
-      tmp0_safe_receiver.v28(index);
+      tmp0_safe_receiver.w28(index);
       tmp = Unit_instance;
     }
     return tmp;
   }
   lessonHint() {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
@@ -13482,7 +13599,7 @@ class ZorixCore {
     return tmp;
   }
   lessonSolution() {
-    var tmp0_safe_receiver = this.k2e_1;
+    var tmp0_safe_receiver = this.l2e_1;
     var tmp;
     if (tmp0_safe_receiver == null) {
       tmp = null;
@@ -17455,13 +17572,13 @@ function UciEngine$SearchCollector$snapshot$lambda(a, b) {
 }
 function *_generator_invoke__zhh2q8_16($this, $this$withContext, $completion) {
   // Inline function 'kotlinx.coroutines.sync.withLock' call
-  var this_0 = $this.i21_1.w1r_1;
+  var this_0 = $this.j21_1.w1r_1;
   var tmp = this_0.n18(null, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var tmp_0;
   try {
-    var tmp_1 = startLocked($this.i21_1, $this.j21_1, $completion);
+    var tmp_1 = startLocked($this.j21_1, $this.k21_1, $completion);
     if (tmp_1 === get_COROUTINE_SUSPENDED())
       tmp_1 = yield tmp_1;
     tmp_0 = Unit_instance;
@@ -17473,7 +17590,7 @@ function *_generator_invoke__zhh2q8_16($this, $this$withContext, $completion) {
 function *_generator_invoke__zhh2q8_17($this, $this$launch, $completion) {
   try {
     $l$loop: while (true) {
-      var tmp = $this.k21_1.f21($completion);
+      var tmp = $this.l21_1.g21($completion);
       if (tmp === get_COROUTINE_SUSPENDED())
         tmp = yield tmp;
       var tmp0_elvis_lhs = tmp;
@@ -17486,12 +17603,12 @@ function *_generator_invoke__zhh2q8_17($this, $this$launch, $completion) {
       var line = tmp_0;
       if (startsWith(line, 'info string ERROR')) {
         // Inline function 'kotlinx.atomicfu.locks.synchronized' call
-        $this.l21_1.z1r_1;
-        var this_0 = $this.l21_1.a1s_1;
+        $this.m21_1.z1r_1;
+        var this_0 = $this.m21_1.a1s_1;
         var element = removePrefix(line, 'info string ');
         this_0.k(element);
       }
-      $this.m21_1.rz(line);
+      $this.n21_1.rz(line);
     }
   } catch ($p) {
     if ($p instanceof Exception) {
@@ -17501,18 +17618,18 @@ function *_generator_invoke__zhh2q8_17($this, $this$launch, $completion) {
     }
   }
   finally {
-    $this.m21_1.d10();
+    $this.n21_1.d10();
   }
   return Unit_instance;
 }
 function *_generator_invoke__zhh2q8_18($this, $this$withTimeout, $completion) {
   $l$loop: while (true) {
-    var tmp = receive($this.n21_1, $completion);
+    var tmp = receive($this.o21_1, $completion);
     if (tmp === get_COROUTINE_SUSPENDED())
       tmp = yield tmp;
     var line = tmp;
     if (startsWith(line, 'id name ')) {
-      var tmp_0 = $this.n21_1;
+      var tmp_0 = $this.o21_1;
       // Inline function 'kotlin.text.trim' call
       var this_0 = removePrefix(line, 'id name ');
       tmp_0.c1s_1 = toString_0(trim(isCharSequence(this_0) ? this_0 : THROW_CCE()));
@@ -17524,13 +17641,13 @@ function *_generator_invoke__zhh2q8_18($this, $this$withTimeout, $completion) {
 }
 function *_generator_invoke__zhh2q8_19($this, $this$withContext, $completion) {
   // Inline function 'kotlinx.coroutines.sync.withLock' call
-  var this_0 = $this.o21_1.w1r_1;
+  var this_0 = $this.p21_1.w1r_1;
   var tmp = this_0.n18(null, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var tmp_0;
   try {
-    var tmp_1 = setOptionsLocked($this.o21_1, $this.p21_1, $completion);
+    var tmp_1 = setOptionsLocked($this.p21_1, $this.q21_1, $completion);
     if (tmp_1 === get_COROUTINE_SUSPENDED())
       tmp_1 = yield tmp_1;
     tmp_0 = Unit_instance;
@@ -17541,15 +17658,15 @@ function *_generator_invoke__zhh2q8_19($this, $this$withContext, $completion) {
 }
 function *_generator_invoke__zhh2q8_20($this, $this$withContext, $completion) {
   // Inline function 'kotlinx.coroutines.sync.withLock' call
-  var this_0 = $this.q21_1.w1r_1;
+  var this_0 = $this.r21_1.w1r_1;
   var tmp = this_0.n18(null, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var tmp_0;
   try {
-    ensureAlive($this.q21_1);
-    send($this.q21_1, 'ucinewgame');
-    var tmp_1 = syncLocked($this.q21_1, new Long(60000, 0), $completion);
+    ensureAlive($this.r21_1);
+    send($this.r21_1, 'ucinewgame');
+    var tmp_1 = syncLocked($this.r21_1, new Long(60000, 0), $completion);
     if (tmp_1 === get_COROUTINE_SUSPENDED())
       tmp_1 = yield tmp_1;
     tmp_0 = Unit_instance;
@@ -17560,14 +17677,14 @@ function *_generator_invoke__zhh2q8_20($this, $this$withContext, $completion) {
 }
 function *_generator_invoke__zhh2q8_21($this, $this$withContext, $completion) {
   // Inline function 'kotlinx.coroutines.sync.withLock' call
-  var this_0 = $this.r21_1.w1r_1;
+  var this_0 = $this.s21_1.w1r_1;
   var tmp = this_0.n18(null, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var tmp_0;
   try {
     // Inline function 'com.zorix.chess.engine.uci.UciEngine.search.<anonymous>.<anonymous>' call
-    var tmp_1 = searchLocked($this.r21_1, $this.s21_1, $this.t21_1, $this.u21_1, $this.v21_1, $this.w21_1, $completion);
+    var tmp_1 = searchLocked($this.s21_1, $this.t21_1, $this.u21_1, $this.v21_1, $this.w21_1, $this.x21_1, $completion);
     if (tmp_1 === get_COROUTINE_SUSPENDED())
       tmp_1 = yield tmp_1;
     tmp_0 = tmp_1;
@@ -17577,14 +17694,14 @@ function *_generator_invoke__zhh2q8_21($this, $this$withContext, $completion) {
   return tmp_0;
 }
 function *_generator_invoke__zhh2q8_22($this, $this$withContext, $completion) {
-  var tmp = abortSearch($this.x21_1, $completion);
+  var tmp = abortSearch($this.y21_1, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
 }
 function *_generator_invoke__zhh2q8_23($this, $this$withTimeoutOrNull, $completion) {
   $l$loop_0: while (true) {
-    var tmp = $this.y21_1.y1r_1.uz($completion);
+    var tmp = $this.z21_1.y1r_1.uz($completion);
     if (tmp === get_COROUTINE_SUSPENDED())
       tmp = yield tmp;
     var tmp0_elvis_lhs = ChannelResult__getOrNull_impl_f5e07h(tmp.yy_1);
@@ -17602,7 +17719,7 @@ function *_generator_invoke__zhh2q8_23($this, $this$withTimeoutOrNull, $completi
 }
 function *_generator_invoke__zhh2q8_24($this, $this$withTimeout, $completion) {
   $l$loop: while (true) {
-    var tmp = receive($this.z21_1, $completion);
+    var tmp = receive($this.a22_1, $completion);
     if (tmp === get_COROUTINE_SUSPENDED())
       tmp = yield tmp;
     if (!!(tmp === 'readyok')) {
@@ -17625,7 +17742,7 @@ function *_generator_startLocked__1d9a3c($this, options, $completion) {
     } else {
       if ($p instanceof Exception) {
         var e_0 = $p;
-        throw EngineException.c21('Could not start the engine: ' + e_0.message, e_0);
+        throw EngineException.d21('Could not start the engine: ' + e_0.message, e_0);
       } else {
         throw $p;
       }
@@ -17720,9 +17837,9 @@ function *_generator_searchLocked__mau3cm($this, positionArgs, limit, multiPv, o
         tmp_0 = yield tmp_0;
       var line = tmp_0;
       if (startsWith(line, 'bestmove')) {
-        result = collector.i22(line);
-      } else if (startsWith(line, 'info') && collector.h22(line)) {
-        onUpdate(collector.g22());
+        result = collector.j22(line);
+      } else if (startsWith(line, 'info') && collector.i22(line)) {
+        onUpdate(collector.h22());
       }
     }
     tmp = result;
@@ -17795,7 +17912,7 @@ function syncLocked($this, timeoutMs, $completion) {
 }
 function ensureAlive($this) {
   if (!$this.z1w())
-    throw EngineException.c21(deathMessage($this));
+    throw EngineException.d21(deathMessage($this));
 }
 function *_generator_receive__aoggq9($this, $completion) {
   var tmp = $this.y1r_1.uz($completion);
@@ -17807,7 +17924,7 @@ function *_generator_receive__aoggq9($this, $completion) {
   if (tmp0_elvis_lhs == null) {
     // Inline function 'kotlin.run' call
     // Inline function 'kotlin.contracts.contract' call
-    throw EngineException.c21(deathMessage($this));
+    throw EngineException.d21(deathMessage($this));
   } else {
     tmp_0 = tmp0_elvis_lhs;
   }
@@ -17828,7 +17945,7 @@ function deathMessage($this) {
     // Inline function 'kotlin.Companion.success' call
     // Inline function 'com.zorix.chess.engine.uci.UciEngine.deathMessage.<anonymous>' call
     var tmp0_safe_receiver = $this.x1r_1;
-    var value = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.g21();
+    var value = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.h21();
     tmp = _Result___init__impl__xyqfz8(value);
   } catch ($p) {
     var tmp_0;
@@ -17870,17 +17987,17 @@ function send($this, command) {
   var tmp0_elvis_lhs = $this.x1r_1;
   var tmp;
   if (tmp0_elvis_lhs == null) {
-    throw EngineException.c21('Engine is not running');
+    throw EngineException.d21('Engine is not running');
   } else {
     tmp = tmp0_elvis_lhs;
   }
   var c = tmp;
   try {
-    c.d21(command);
+    c.e21(command);
   } catch ($p) {
     if ($p instanceof Exception) {
       var e = $p;
-      throw EngineException.c21(deathMessage($this), e);
+      throw EngineException.d21(deathMessage($this), e);
     } else {
       throw $p;
     }
@@ -18222,14 +18339,14 @@ function StepStatus_initEntries() {
   StepStatus_FAILED_instance = new StepStatus('FAILED', 3);
 }
 function *_generator_invoke__zhh2q8_25($this, $this$launch, $completion) {
-  var pre = pos($this.y26_1, $this.z26_1.i24_1);
+  var pre = pos($this.z26_1, $this.a27_1.j24_1);
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.y26_1.h27_1;
+    var this_0 = $this.z26_1.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.enter.<anonymous>.<anonymous>' call
-      var nextValue = prevValue.x26(VOID, VOID, pre, VOID, null, VOID, VOID, VOID, VOID, false);
+      var nextValue = prevValue.y26(VOID, VOID, pre, VOID, null, VOID, VOID, VOID, VOID, false);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
@@ -18240,11 +18357,11 @@ function *_generator_invoke__zhh2q8_25($this, $this$launch, $completion) {
     tmp = yield tmp;
   $l$block_0: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_1 = $this.y26_1.h27_1;
+    var this_1 = $this.z26_1.i27_1;
     while (true) {
       var prevValue_0 = this_1.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.enter.<anonymous>.<anonymous>' call
-      var nextValue_0 = prevValue_0.x26(VOID, VOID, $this.a27_1, VOID, Companion_instance_11.b1e($this.z26_1.j24_1), VOID, VOID, VOID, VOID, true);
+      var nextValue_0 = prevValue_0.y26(VOID, VOID, $this.b27_1, VOID, Companion_instance_11.b1e($this.a27_1.k24_1), VOID, VOID, VOID, VOID, true);
       if (this_1.l13(prevValue_0, nextValue_0)) {
         break $l$block_0;
       }
@@ -18256,14 +18373,14 @@ function *_generator_invoke__zhh2q8_26($this, $this$launch, $completion) {
   var tmp = delay(new Long(500, 0), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
-  autoLine($this.r27_1);
+  autoLine($this.s27_1);
   return Unit_instance;
 }
 function *_generator_invoke__zhh2q8_27($this, $this$launch, $completion) {
   var tmp = delay(new Long(550, 0), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
-  var tmp0_elvis_lhs = $this.s27_1.h27_1.v2().e26_1;
+  var tmp0_elvis_lhs = $this.t27_1.i27_1.v2().f26_1;
   var tmp_0;
   if (tmp0_elvis_lhs == null) {
     return Unit_instance;
@@ -18271,16 +18388,16 @@ function *_generator_invoke__zhh2q8_27($this, $this$launch, $completion) {
     tmp_0 = tmp0_elvis_lhs;
   }
   var cur = tmp_0;
-  if (!($this.t27_1 == null) && cur.a1e($this.t27_1)) {
-    var _unary__edvuaz = $this.s27_1.n27_1;
-    $this.s27_1.n27_1 = _unary__edvuaz + 1 | 0;
+  if (!($this.u27_1 == null) && cur.a1e($this.u27_1)) {
+    var _unary__edvuaz = $this.t27_1.o27_1;
+    $this.t27_1.o27_1 = _unary__edvuaz + 1 | 0;
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.s27_1.h27_1;
+      var this_0 = $this.t27_1.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.puzzle.<anonymous>.<anonymous>' call
-        var nextValue = prevValue.x26(VOID, VOID, cur.n1d($this.t27_1), VOID, $this.t27_1, VOID, VOID, VOID, VOID, true);
+        var nextValue = prevValue.y26(VOID, VOID, cur.n1d($this.u27_1), VOID, $this.u27_1, VOID, VOID, VOID, VOID, true);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -18291,60 +18408,60 @@ function *_generator_invoke__zhh2q8_27($this, $this$launch, $completion) {
 }
 function *_generator_invoke__zhh2q8_28($this, $this$launch, $completion) {
   var tmp = Dispatchers_getInstance().gs_1;
-  var tmp_0 = withContext(tmp, LessonSession$mate$slambda$slambda_1($this.u27_1, $this.v27_1, $this.x27_1), $completion);
+  var tmp_0 = withContext(tmp, LessonSession$mate$slambda$slambda_1($this.v27_1, $this.w27_1, $this.y27_1), $completion);
   if (tmp_0 === get_COROUTINE_SUSPENDED())
     tmp_0 = yield tmp_0;
   var ok = tmp_0;
-  var after = $this.u27_1.n1d($this.v27_1);
+  var after = $this.v27_1.n1d($this.w27_1);
   if (!ok) {
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.w27_1.h27_1;
+      var this_0 = $this.x27_1.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.mate.<anonymous>.<anonymous>' call
-        var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
       }
     }
-    wrong($this.w27_1, $this.u27_1, $this.v27_1);
+    wrong($this.x27_1, $this.v27_1, $this.w27_1);
     return Unit_instance;
   }
   if (Tactics_instance.e1g(after)) {
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.w27_1.h27_1;
+      var this_1 = $this.x27_1.i27_1;
       while (true) {
         var prevValue_0 = this_1.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.mate.<anonymous>.<anonymous>' call
-        var nextValue_0 = prevValue_0.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue_0 = prevValue_0.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_1.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
       }
     }
-    solved_0($this.w27_1, after, $this.v27_1, Coach_getInstance().l1e($this.u27_1, $this.v27_1, listOf_0($this.v27_1.g1e()), $this.w27_1.e27_1, $this.w27_1.f27_1));
+    solved_0($this.x27_1, after, $this.w27_1, Coach_getInstance().l1e($this.v27_1, $this.w27_1, listOf_0($this.w27_1.g1e()), $this.x27_1.f27_1, $this.x27_1.g27_1));
     return Unit_instance;
   }
-  var _unary__edvuaz = $this.w27_1.n27_1;
-  $this.w27_1.n27_1 = _unary__edvuaz + 1 | 0;
+  var _unary__edvuaz = $this.x27_1.o27_1;
+  $this.x27_1.o27_1 = _unary__edvuaz + 1 | 0;
   $l$block_1: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_2 = $this.w27_1.h27_1;
+    var this_2 = $this.x27_1.i27_1;
     while (true) {
       var prevValue_1 = this_2.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.mate.<anonymous>.<anonymous>' call
       var tmp0_status = StepStatus_ACTIVE_getInstance();
-      var nextValue_1 = prevValue_1.x26(VOID, VOID, after, VOID, $this.v27_1, VOID, VOID, VOID, null, false, tmp0_status);
+      var nextValue_1 = prevValue_1.y26(VOID, VOID, after, VOID, $this.w27_1, VOID, VOID, VOID, null, false, tmp0_status);
       if (this_2.l13(prevValue_1, nextValue_1)) {
         break $l$block_1;
       }
     }
   }
   var tmp_1 = Dispatchers_getInstance().gs_1;
-  var tmp_2 = withContext(tmp_1, LessonSession$mate$slambda$slambda_2($this.u27_1, $this.v27_1, $this.x27_1), $completion);
+  var tmp_2 = withContext(tmp_1, LessonSession$mate$slambda$slambda_2($this.v27_1, $this.w27_1, $this.y27_1), $completion);
   if (tmp_2 === get_COROUTINE_SUSPENDED())
     tmp_2 = yield tmp_2;
   var reply = tmp_2;
@@ -18354,11 +18471,11 @@ function *_generator_invoke__zhh2q8_28($this, $this$launch, $completion) {
   if (!(reply == null)) {
     $l$block_2: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_3 = $this.w27_1.h27_1;
+      var this_3 = $this.x27_1.i27_1;
       while (true) {
         var prevValue_2 = this_3.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.mate.<anonymous>.<anonymous>' call
-        var nextValue_2 = prevValue_2.x26(VOID, VOID, after.n1d(reply), VOID, reply, VOID, VOID, VOID, VOID, true, VOID, VOID, VOID, VOID, false);
+        var nextValue_2 = prevValue_2.y26(VOID, VOID, after.n1d(reply), VOID, reply, VOID, VOID, VOID, VOID, true, VOID, VOID, VOID, VOID, false);
         if (this_3.l13(prevValue_2, nextValue_2)) {
           break $l$block_2;
         }
@@ -18387,57 +18504,57 @@ function *_generator_invoke__zhh2q8_29($this, $this$launch, $completion) {
   var tmp = delay(new Long(550, 0), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
-  autoLine($this.e28_1);
+  autoLine($this.f28_1);
   return Unit_instance;
 }
 function *_generator_invoke__zhh2q8_30($this, $this$launch, $completion) {
-  if (Tactics_instance.e1g($this.f28_1)) {
+  if (Tactics_instance.e1g($this.g28_1)) {
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.g28_1.h27_1;
+      var this_0 = $this.h28_1.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.play.<anonymous>.<anonymous>' call
-        var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
       }
     }
-    finishPlay($this.g28_1, $this.h28_1.l25_1.equals(PlayGoal_WIN_getInstance()) || $this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()), $this.f28_1, $this.i28_1);
+    finishPlay($this.h28_1, $this.i28_1.m25_1.equals(PlayGoal_WIN_getInstance()) || $this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()), $this.g28_1, $this.j28_1);
     return Unit_instance;
-  } else if ($this.f28_1.e1d().e1() || $this.f28_1.j20()) {
+  } else if ($this.g28_1.e1d().e1() || $this.g28_1.j20()) {
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.g28_1.h27_1;
+      var this_1 = $this.h28_1.i27_1;
       while (true) {
         var prevValue_0 = this_1.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.play.<anonymous>.<anonymous>' call
-        var nextValue_0 = prevValue_0.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue_0 = prevValue_0.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_1.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
       }
     }
-    finishPlay($this.g28_1, $this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()), $this.f28_1, $this.i28_1);
+    finishPlay($this.h28_1, $this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()), $this.g28_1, $this.j28_1);
     return Unit_instance;
-  } else if ($this.h28_1.l25_1.equals(PlayGoal_PROMOTE_getInstance()) && !($this.i28_1.f1e_1 == null) && Attacks_getInstance().m1g($this.f28_1.d1g(), $this.i28_1.e1e_1, $this.j28_1.a1c()) <= 0) {
+  } else if ($this.i28_1.m25_1.equals(PlayGoal_PROMOTE_getInstance()) && !($this.j28_1.f1e_1 == null) && Attacks_getInstance().m1g($this.g28_1.d1g(), $this.j28_1.e1e_1, $this.k28_1.a1c()) <= 0) {
     $l$block_1: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_2 = $this.g28_1.h27_1;
+      var this_2 = $this.h28_1.i27_1;
       while (true) {
         var prevValue_1 = this_2.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.play.<anonymous>.<anonymous>' call
-        var nextValue_1 = prevValue_1.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue_1 = prevValue_1.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_2.l13(prevValue_1, nextValue_1)) {
           break $l$block_1;
         }
       }
     }
-    finishPlay($this.g28_1, true, $this.f28_1, $this.i28_1);
+    finishPlay($this.h28_1, true, $this.g28_1, $this.j28_1);
     return Unit_instance;
   }
-  var tmp = $this.k28_1.d1q(LessonSession$play$slambda$slambda_0($this.f28_1), $completion);
+  var tmp = $this.l28_1.d1q(LessonSession$play$slambda$slambda_0($this.g28_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var snap = tmp;
@@ -18459,7 +18576,7 @@ function *_generator_invoke__zhh2q8_30($this, $this$launch, $completion) {
     // Inline function 'kotlin.contracts.contract' call
     var tmp_2;
     // Inline function 'com.zorix.chess.learn.LessonSession.play.<anonymous>.<anonymous>' call
-    if ($this.f28_1.a1e(tmp2_safe_receiver)) {
+    if ($this.g28_1.a1e(tmp2_safe_receiver)) {
       tmp_2 = tmp2_safe_receiver;
     } else {
       tmp_2 = null;
@@ -18467,40 +18584,40 @@ function *_generator_invoke__zhh2q8_30($this, $this$launch, $completion) {
     tmp_1 = tmp_2;
   }
   var tmp3_elvis_lhs = tmp_1;
-  var reply = tmp3_elvis_lhs == null ? firstOrNull($this.f28_1.e1d()) : tmp3_elvis_lhs;
+  var reply = tmp3_elvis_lhs == null ? firstOrNull($this.g28_1.e1d()) : tmp3_elvis_lhs;
   var tmp_3 = delay(new Long(250, 0), $completion);
   if (tmp_3 === get_COROUTINE_SUSPENDED())
     tmp_3 = yield tmp_3;
   if (reply == null)
     return Unit_instance;
-  var next = $this.f28_1.n1d(reply);
+  var next = $this.g28_1.n1d(reply);
   var tmp5_safe_receiver = snap == null ? null : snap.x1q();
   var tmp6_safe_receiver = tmp5_safe_receiver == null ? null : tmp5_safe_receiver.b1r_1;
   var score = tmp6_safe_receiver == null ? null : tmp6_safe_receiver.i1w();
   $l$block_2: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_3 = $this.g28_1.h27_1;
+    var this_3 = $this.h28_1.i27_1;
     while (true) {
       var prevValue_2 = this_3.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.play.<anonymous>.<anonymous>' call
-      var nextValue_2 = prevValue_2.x26(VOID, VOID, next, VOID, reply, VOID, VOID, VOID, VOID, true, VOID, VOID, VOID, VOID, false);
+      var nextValue_2 = prevValue_2.y26(VOID, VOID, next, VOID, reply, VOID, VOID, VOID, VOID, true, VOID, VOID, VOID, VOID, false);
       if (this_3.l13(prevValue_2, nextValue_2)) {
         break $l$block_2;
       }
     }
   }
   if (Tactics_instance.e1g(next)) {
-    finishPlay($this.g28_1, false, next, reply);
+    finishPlay($this.h28_1, false, next, reply);
   } else if (next.e1d().e1() || next.j20()) {
-    finishPlay($this.g28_1, $this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()), next, reply);
-  } else if ($this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()) && !(score == null) && score.m1d() < 0.12) {
-    finishPlay($this.g28_1, false, next, reply);
-  } else if ($this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()) && $this.g28_1.p27_1 >= $this.h28_1.m25_1) {
-    finishPlay($this.g28_1, true, next, reply);
-  } else if (!$this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()) && $this.g28_1.p27_1 >= $this.h28_1.m25_1) {
-    finishPlay($this.g28_1, false, next, reply);
-  } else if (!$this.h28_1.l25_1.equals(PlayGoal_DRAW_getInstance()) && !(score == null) && score.m1d() < 0.5) {
-    finishPlay($this.g28_1, false, next, reply);
+    finishPlay($this.h28_1, $this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()), next, reply);
+  } else if ($this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()) && !(score == null) && score.m1d() < 0.12) {
+    finishPlay($this.h28_1, false, next, reply);
+  } else if ($this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()) && $this.h28_1.q27_1 >= $this.i28_1.n25_1) {
+    finishPlay($this.h28_1, true, next, reply);
+  } else if (!$this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()) && $this.h28_1.q27_1 >= $this.i28_1.n25_1) {
+    finishPlay($this.h28_1, false, next, reply);
+  } else if (!$this.i28_1.m25_1.equals(PlayGoal_DRAW_getInstance()) && !(score == null) && score.m1d() < 0.5) {
+    finishPlay($this.h28_1, false, next, reply);
   }
   return Unit_instance;
 }
@@ -18518,12 +18635,12 @@ function *_generator_invoke__zhh2q8_31($this, $this$launch, $completion) {
     tmp = yield tmp;
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.m28_1.h27_1;
+    var this_0 = $this.n28_1.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.wrong.<anonymous>.<anonymous>' call
       var tmp0_status = StepStatus_ACTIVE_getInstance();
-      var nextValue = prevValue.x26(VOID, VOID, $this.n28_1, VOID, null, VOID, VOID, VOID, VOID, true, tmp0_status);
+      var nextValue = prevValue.y26(VOID, VOID, $this.o28_1, VOID, null, VOID, VOID, VOID, VOID, true, tmp0_status);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
@@ -18532,25 +18649,25 @@ function *_generator_invoke__zhh2q8_31($this, $this$launch, $completion) {
   return Unit_instance;
 }
 function enter($this, index) {
-  $this.n27_1 = 0;
   $this.o27_1 = 0;
   $this.p27_1 = 0;
-  var step = $this.b27_1.u1m_1.d1(index);
+  $this.q27_1 = 0;
+  var step = $this.c27_1.u1m_1.d1(index);
   var tmp = $this;
   var tmp_0;
   if (step instanceof Stars) {
-    tmp_0 = moverOf($this, Companion_getInstance_7().d1v(step.z23_1));
+    tmp_0 = moverOf($this, Companion_getInstance_7().d1v(step.a24_1));
   } else {
     if (step instanceof Capture) {
-      tmp_0 = moverOf($this, Companion_getInstance_7().d1v(step.d24_1));
+      tmp_0 = moverOf($this, Companion_getInstance_7().d1v(step.e24_1));
     } else {
       tmp_0 = null;
     }
   }
-  tmp.q27_1 = tmp_0;
+  tmp.r27_1 = tmp_0;
   var tmp_1;
   if (step instanceof Theory) {
-    var tmp2_safe_receiver = step.u23_1;
+    var tmp2_safe_receiver = step.v23_1;
     var tmp_2;
     if (tmp2_safe_receiver == null) {
       tmp_2 = null;
@@ -18560,10 +18677,10 @@ function enter($this, index) {
       tmp_2 = pos($this, tmp2_safe_receiver);
     }
     var tmp_3 = tmp_2;
-    var tmp_4 = sqs($this, step.w23_1);
+    var tmp_4 = sqs($this, step.x23_1);
     // Inline function 'kotlin.collections.mapNotNull' call
     // Inline function 'kotlin.collections.mapNotNullTo' call
-    var this_0 = step.v23_1;
+    var this_0 = step.w23_1;
     var destination = ArrayList.h();
     // Inline function 'kotlin.collections.forEach' call
     var tmp0_iterator = this_0.x();
@@ -18582,15 +18699,15 @@ function enter($this, index) {
     tmp_1 = new StepUi(index, step, tmp_3, VOID, VOID, VOID, tmp_4, destination, VOID, false, StepStatus_SOLVED_getInstance());
   } else {
     if (step instanceof Stars) {
-      tmp_1 = new StepUi(index, step, pos($this, step.z23_1), VOID, VOID, sqs($this, step.a24_1));
+      tmp_1 = new StepUi(index, step, pos($this, step.a24_1), VOID, VOID, sqs($this, step.b24_1));
     } else {
       if (step instanceof Capture) {
-        tmp_1 = new StepUi(index, step, pos($this, step.d24_1));
+        tmp_1 = new StepUi(index, step, pos($this, step.e24_1));
       } else {
         if (step instanceof Puzzle) {
-          var p = pos($this, step.g24_1);
+          var p = pos($this, step.h24_1);
           var tmp_5 = p.o1b_1.equals(Side_BLACK_getInstance());
-          var tmp3_safe_receiver = step.j24_1;
+          var tmp3_safe_receiver = step.k24_1;
           var tmp_6;
           if (tmp3_safe_receiver == null) {
             tmp_6 = null;
@@ -18600,9 +18717,9 @@ function enter($this, index) {
             tmp_6 = Companion_instance_11.b1e(tmp3_safe_receiver);
           }
           var base = new StepUi(index, step, p, tmp_5, tmp_6);
-          if (!(step.i24_1 == null) && !(step.j24_1 == null)) {
+          if (!(step.j24_1 == null) && !(step.k24_1 == null)) {
             var tmp_7 = $this;
-            tmp_7.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$enter$slambda_1($this, step, p));
+            tmp_7.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$enter$slambda_1($this, step, p));
           }
           tmp_1 = base;
         } else {
@@ -18610,18 +18727,18 @@ function enter($this, index) {
             // Inline function 'kotlin.let' call
             // Inline function 'kotlin.contracts.contract' call
             // Inline function 'com.zorix.chess.learn.LessonSession.enter.<anonymous>' call
-            var it = pos($this, step.n24_1);
+            var it = pos($this, step.o24_1);
             tmp_1 = new StepUi(index, step, it, it.o1b_1.equals(Side_BLACK_getInstance()));
           } else {
             if (step instanceof GoalStep) {
               // Inline function 'kotlin.let' call
               // Inline function 'kotlin.contracts.contract' call
               // Inline function 'com.zorix.chess.learn.LessonSession.enter.<anonymous>' call
-              var it_0 = pos($this, step.q24_1);
+              var it_0 = pos($this, step.r24_1);
               tmp_1 = new StepUi(index, step, it_0, it_0.o1b_1.equals(Side_BLACK_getInstance()));
             } else {
               if (step instanceof Quiz) {
-                var tmp4_safe_receiver = step.t24_1;
+                var tmp4_safe_receiver = step.u24_1;
                 var tmp_8;
                 if (tmp4_safe_receiver == null) {
                   tmp_8 = null;
@@ -18630,26 +18747,26 @@ function enter($this, index) {
                   // Inline function 'kotlin.contracts.contract' call
                   tmp_8 = pos($this, tmp4_safe_receiver);
                 }
-                tmp_1 = new StepUi(index, step, tmp_8, VOID, VOID, VOID, sqs($this, step.x24_1), VOID, VOID, false);
+                tmp_1 = new StepUi(index, step, tmp_8, VOID, VOID, VOID, sqs($this, step.y24_1), VOID, VOID, false);
               } else {
                 if (step instanceof Squares_0) {
                   var tmp6_position = Companion_getInstance_7().d1v('8/8/8/8/8/8/8/8 w - - 0 1');
-                  var tmp7_flipped = step.a25_1;
-                  var tmp8_target = $this.g27_1.h1(64);
+                  var tmp7_flipped = step.b25_1;
+                  var tmp8_target = $this.h27_1.h1(64);
                   tmp_1 = new StepUi(index, step, tmp6_position, tmp7_flipped, VOID, VOID, VOID, VOID, VOID, true, VOID, VOID, VOID, VOID, VOID, tmp8_target);
                 } else {
                   if (step instanceof Best) {
                     // Inline function 'kotlin.let' call
                     // Inline function 'kotlin.contracts.contract' call
                     // Inline function 'com.zorix.chess.learn.LessonSession.enter.<anonymous>' call
-                    var it_1 = pos($this, step.c25_1);
+                    var it_1 = pos($this, step.d25_1);
                     tmp_1 = new StepUi(index, step, it_1, it_1.o1b_1.equals(Side_BLACK_getInstance()));
                   } else {
                     if (step instanceof Line) {
-                      var ui = new StepUi(index, step, Companion_getInstance_7().l20(), !step.h25_1);
-                      if (!step.h25_1) {
+                      var ui = new StepUi(index, step, Companion_getInstance_7().l20(), !step.i25_1);
+                      if (!step.i25_1) {
                         var tmp_9 = $this;
-                        tmp_9.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$enter$slambda_2($this));
+                        tmp_9.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$enter$slambda_2($this));
                       }
                       tmp_1 = ui;
                     } else {
@@ -18657,7 +18774,7 @@ function enter($this, index) {
                         // Inline function 'kotlin.let' call
                         // Inline function 'kotlin.contracts.contract' call
                         // Inline function 'com.zorix.chess.learn.LessonSession.enter.<anonymous>' call
-                        var it_2 = pos($this, step.k25_1);
+                        var it_2 = pos($this, step.l25_1);
                         tmp_1 = new StepUi(index, step, it_2, it_2.o1b_1.equals(Side_BLACK_getInstance()));
                       } else {
                         noWhenBranchMatchedException();
@@ -18675,8 +18792,8 @@ function enter($this, index) {
   return tmp_1;
 }
 function handle_0($this, move) {
-  var ui = $this.h27_1.v2();
-  var tmp0_elvis_lhs = ui.e26_1;
+  var ui = $this.i27_1.v2();
+  var tmp0_elvis_lhs = ui.f26_1;
   var tmp;
   if (tmp0_elvis_lhs == null) {
     return Unit_instance;
@@ -18686,7 +18803,7 @@ function handle_0($this, move) {
   var p = tmp;
   if (!p.a1e(move))
     return Unit_instance;
-  var step = ui.d26_1;
+  var step = ui.e26_1;
   if (step instanceof Stars) {
     stars($this, step, p, move);
   } else {
@@ -18720,22 +18837,22 @@ function handle_0($this, move) {
   }
 }
 function stars($this, step, p, move) {
-  $this.q27_1 = move.e1e_1;
+  $this.r27_1 = move.e1e_1;
   var after = sandbox($this, p.n1d(move), p.o1b_1);
-  var left = minus($this.h27_1.v2().h26_1, move.e1e_1);
-  var moves = $this.h27_1.v2().p26_1 + 1 | 0;
+  var left = minus($this.i27_1.v2().i26_1, move.e1e_1);
+  var moves = $this.i27_1.v2().q26_1 + 1 | 0;
   if (left.e1()) {
-    if (moves > step.b24_1) {
-      $this.l27_1 = $this.l27_1 + 1 | 0;
+    if (moves > step.c24_1) {
+      $this.m27_1 = $this.m27_1 + 1 | 0;
     }
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.h27_1;
+      var this_0 = $this.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.stars.<anonymous>' call
         var tmp0_status = StepStatus_SOLVED_getInstance();
-        var nextValue = prevValue.x26(VOID, VOID, after, VOID, move, left, VOID, VOID, VOID, false, tmp0_status, VOID, VOID, moves);
+        var nextValue = prevValue.y26(VOID, VOID, after, VOID, move, left, VOID, VOID, VOID, false, tmp0_status, VOID, VOID, moves);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -18744,12 +18861,12 @@ function stars($this, step, p, move) {
   } else {
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.h27_1;
+      var this_1 = $this.i27_1;
       while (true) {
         var prevValue_0 = this_1.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.stars.<anonymous>' call
         var tmp0_status_0 = StepStatus_ACTIVE_getInstance();
-        var nextValue_0 = prevValue_0.x26(VOID, VOID, after, VOID, move, left, VOID, VOID, null, VOID, tmp0_status_0, VOID, VOID, moves);
+        var nextValue_0 = prevValue_0.y26(VOID, VOID, after, VOID, move, left, VOID, VOID, null, VOID, tmp0_status_0, VOID, VOID, moves);
         if (this_1.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
@@ -18758,7 +18875,7 @@ function stars($this, step, p, move) {
   }
 }
 function capture($this, p, move) {
-  $this.q27_1 = move.e1e_1;
+  $this.r27_1 = move.e1e_1;
   var us = p.o1b_1;
   var after = sandbox($this, p.n1d(move), us);
   var tmp$ret$0;
@@ -18794,21 +18911,21 @@ function capture($this, p, move) {
     tmp$ret$0 = count;
   }
   var enemies = tmp$ret$0;
-  var moves = $this.h27_1.v2().p26_1 + 1 | 0;
-  var tmp_0 = $this.h27_1.v2().d26_1;
+  var moves = $this.i27_1.v2().q26_1 + 1 | 0;
+  var tmp_0 = $this.i27_1.v2().e26_1;
   var step = tmp_0 instanceof Capture ? tmp_0 : THROW_CCE();
   if (enemies === 0) {
-    if (moves > step.e24_1) {
-      $this.l27_1 = $this.l27_1 + 1 | 0;
+    if (moves > step.f24_1) {
+      $this.m27_1 = $this.m27_1 + 1 | 0;
     }
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.h27_1;
+      var this_1 = $this.i27_1;
       while (true) {
         var prevValue = this_1.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.capture.<anonymous>' call
         var tmp0_status = StepStatus_SOLVED_getInstance();
-        var nextValue = prevValue.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status, VOID, VOID, moves);
+        var nextValue = prevValue.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status, VOID, VOID, moves);
         if (this_1.l13(prevValue, nextValue)) {
           break $l$block_0;
         }
@@ -18817,12 +18934,12 @@ function capture($this, p, move) {
   } else {
     $l$block_1: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_2 = $this.h27_1;
+      var this_2 = $this.i27_1;
       while (true) {
         var prevValue_0 = this_2.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.capture.<anonymous>' call
         var tmp0_status_0 = StepStatus_ACTIVE_getInstance();
-        var nextValue_0 = prevValue_0.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, VOID, VOID, tmp0_status_0, VOID, VOID, moves);
+        var nextValue_0 = prevValue_0.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, VOID, VOID, tmp0_status_0, VOID, VOID, moves);
         if (this_2.l13(prevValue_0, nextValue_0)) {
           break $l$block_1;
         }
@@ -18831,7 +18948,7 @@ function capture($this, p, move) {
   }
 }
 function puzzle($this, step, p, move) {
-  var tmp0_safe_receiver = getOrNull(step.h24_1, $this.n27_1);
+  var tmp0_safe_receiver = getOrNull(step.i24_1, $this.o27_1);
   var tmp;
   if (tmp0_safe_receiver == null) {
     tmp = null;
@@ -18849,63 +18966,63 @@ function puzzle($this, step, p, move) {
   }
   var expected = tmp_0;
   var after = p.n1d(move);
-  var lastStep = $this.n27_1 >= (step.h24_1.a1() - 1 | 0);
+  var lastStep = $this.o27_1 >= (step.i24_1.a1() - 1 | 0);
   var ok = move.equals(expected) || (lastStep && Tactics_instance.e1g(after) && Tactics_instance.e1g(p.n1d(expected)));
   if (!ok) {
     wrong($this, p, move);
     return Unit_instance;
   }
-  $this.n27_1 = $this.n27_1 + 1 | 0;
-  if ($this.n27_1 >= step.h24_1.a1()) {
-    solved_0($this, after, move, Coach_getInstance().l1e(pos($this, step.g24_1), ensureNotNull(Companion_instance_11.b1e(step.h24_1.d1(0))), step.h24_1, $this.e27_1, $this.f27_1));
+  $this.o27_1 = $this.o27_1 + 1 | 0;
+  if ($this.o27_1 >= step.i24_1.a1()) {
+    solved_0($this, after, move, Coach_getInstance().l1e(pos($this, step.h24_1), ensureNotNull(Companion_instance_11.b1e(step.i24_1.d1(0))), step.i24_1, $this.f27_1, $this.g27_1));
     return Unit_instance;
   }
-  var reply = Companion_instance_11.b1e(step.h24_1.d1($this.n27_1));
+  var reply = Companion_instance_11.b1e(step.i24_1.d1($this.o27_1));
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.h27_1;
+    var this_0 = $this.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.puzzle.<anonymous>' call
       var tmp0_status = StepStatus_ACTIVE_getInstance();
-      var nextValue = prevValue.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp0_status, null);
+      var nextValue = prevValue.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp0_status, null);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   var tmp_1 = $this;
-  tmp_1.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$puzzle$slambda_0($this, reply));
+  tmp_1.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$puzzle$slambda_0($this, reply));
 }
 function mate($this, step, p, move) {
-  var remaining = step.o24_1 - $this.n27_1 | 0;
+  var remaining = step.p24_1 - $this.o27_1 | 0;
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.h27_1;
+    var this_0 = $this.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.mate.<anonymous>' call
-      var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
+      var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   var tmp = $this;
-  tmp.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$mate$slambda_0(p, move, $this, remaining));
+  tmp.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$mate$slambda_0(p, move, $this, remaining));
 }
 function goal($this, step, p, move) {
   var after = p.n1d(move);
-  if (Companion_getInstance_14().r28(step.r24_1, p, move)) {
-    solved_0($this, after, move, Coach_getInstance().l1e(p, move, listOf_0(move.g1e()), $this.e27_1, $this.f27_1));
+  if (Companion_getInstance_14().s28(step.s24_1, p, move)) {
+    solved_0($this, after, move, Coach_getInstance().l1e(p, move, listOf_0(move.g1e()), $this.f27_1, $this.g27_1));
   } else {
     wrong($this, p, move);
   }
 }
 function best($this, step, p, move) {
-  if (step.d25_1.q2(move.g1e())) {
+  if (step.e25_1.q2(move.g1e())) {
     // Inline function 'kotlin.takeIf' call
-    var this_0 = step.e25_1.jg($this.e27_1);
+    var this_0 = step.f25_1.jg($this.f27_1);
     // Inline function 'kotlin.contracts.contract' call
     var tmp;
     // Inline function 'com.zorix.chess.learn.LessonSession.best.<anonymous>' call
@@ -18916,14 +19033,14 @@ function best($this, step, p, move) {
       tmp = null;
     }
     var own = tmp;
-    var auto = Coach_getInstance().l1e(p, move, listOf_0(move.g1e()), $this.e27_1, $this.f27_1);
-    solved_0($this, p.n1d(move), move, !(own == null) ? new CoachMessage(null, own, Speakable_getInstance().m1i(step.e25_1.jg($this.f27_1), $this.f27_1)) : auto);
+    var auto = Coach_getInstance().l1e(p, move, listOf_0(move.g1e()), $this.f27_1, $this.g27_1);
+    solved_0($this, p.n1d(move), move, !(own == null) ? new CoachMessage(null, own, Speakable_getInstance().m1i(step.f25_1.jg($this.g27_1), $this.g27_1)) : auto);
   } else {
     wrong($this, p, move);
   }
 }
 function line($this, step, p, move) {
-  var tmp0_safe_receiver = getOrNull(step.g25_1, $this.n27_1);
+  var tmp0_safe_receiver = getOrNull(step.h25_1, $this.o27_1);
   var tmp;
   if (tmp0_safe_receiver == null) {
     tmp = null;
@@ -18942,14 +19059,14 @@ function line($this, step, p, move) {
   var expected = tmp_0;
   if (!move.equals(expected)) {
     wrong($this, p, move);
-    if ($this.o27_1 >= 2) {
+    if ($this.p27_1 >= 2) {
       $l$block: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_0 = $this.h27_1;
+        var this_0 = $this.i27_1;
         while (true) {
           var prevValue = this_0.v2();
           // Inline function 'com.zorix.chess.learn.LessonSession.line.<anonymous>' call
-          var nextValue = prevValue.x26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, expected.d1e_1);
+          var nextValue = prevValue.y26(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, expected.d1e_1);
           if (this_0.l13(prevValue, nextValue)) {
             break $l$block;
           }
@@ -18959,19 +19076,19 @@ function line($this, step, p, move) {
     return Unit_instance;
   }
   advanceLine($this, p, move, step);
-  if ($this.n27_1 < step.g25_1.a1()) {
+  if ($this.o27_1 < step.h25_1.a1()) {
     var tmp_1 = $this;
-    tmp_1.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$line$slambda_0($this));
+    tmp_1.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$line$slambda_0($this));
   }
 }
 function advanceLine($this, p, move, step) {
   var san = Notation_instance.z1d(p, move);
   var after = p.n1d(move);
-  var tmp0_safe_receiver = step.i25_1.y2($this.n27_1);
-  var note = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.jg($this.e27_1);
-  $this.n27_1 = $this.n27_1 + 1 | 0;
-  $this.o27_1 = 0;
-  var auto = Coach_getInstance().l1e(p, move, listOf_0(move.g1e()), $this.e27_1, $this.f27_1);
+  var tmp0_safe_receiver = step.j25_1.y2($this.o27_1);
+  var note = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.jg($this.f27_1);
+  $this.o27_1 = $this.o27_1 + 1 | 0;
+  $this.p27_1 = 0;
+  var auto = Coach_getInstance().l1e(p, move, listOf_0(move.g1e()), $this.f27_1, $this.g27_1);
   var tmp;
   if (note == null) {
     // Inline function 'kotlin.takeIf' call
@@ -18990,8 +19107,8 @@ function advanceLine($this, p, move, step) {
     tmp = note;
   }
   var text = tmp;
-  var tmp2_safe_receiver = step.i25_1.y2($this.n27_1 - 1 | 0);
-  var tmp3_safe_receiver = tmp2_safe_receiver == null ? null : tmp2_safe_receiver.jg($this.f27_1);
+  var tmp2_safe_receiver = step.j25_1.y2($this.o27_1 - 1 | 0);
+  var tmp3_safe_receiver = tmp2_safe_receiver == null ? null : tmp2_safe_receiver.jg($this.g27_1);
   var tmp_1;
   if (tmp3_safe_receiver == null) {
     tmp_1 = null;
@@ -18999,20 +19116,20 @@ function advanceLine($this, p, move, step) {
     // Inline function 'kotlin.let' call
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'com.zorix.chess.learn.LessonSession.advanceLine.<anonymous>' call
-    tmp_1 = Speakable_getInstance().m1i(tmp3_safe_receiver, $this.f27_1);
+    tmp_1 = Speakable_getInstance().m1i(tmp3_safe_receiver, $this.g27_1);
   }
   var tmp4_elvis_lhs = tmp_1;
   var spoken = tmp4_elvis_lhs == null ? auto.x1a_1 : tmp4_elvis_lhs;
-  var msg = joinToString(listOfNotNull(['' + (($this.n27_1 + 1 | 0) / 2 | 0) + (p.o1b_1.equals(Side_WHITE_getInstance()) ? '.' : '...') + ' ' + san, text]), ' \u2014 ');
-  if ($this.n27_1 >= step.g25_1.a1()) {
+  var msg = joinToString(listOfNotNull(['' + (($this.o27_1 + 1 | 0) / 2 | 0) + (p.o1b_1.equals(Side_WHITE_getInstance()) ? '.' : '...') + ' ' + san, text]), ' \u2014 ');
+  if ($this.o27_1 >= step.h25_1.a1()) {
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.h27_1;
+      var this_1 = $this.i27_1;
       while (true) {
         var prevValue = this_1.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.advanceLine.<anonymous>' call
         var tmp0_status = StepStatus_SOLVED_getInstance();
-        var nextValue = prevValue.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp0_status, msg, spoken);
+        var nextValue = prevValue.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp0_status, msg, spoken);
         if (this_1.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -19021,12 +19138,12 @@ function advanceLine($this, p, move, step) {
   } else {
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_2 = $this.h27_1;
+      var this_2 = $this.i27_1;
       while (true) {
         var prevValue_0 = this_2.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.advanceLine.<anonymous>' call
         var tmp0_status_0 = StepStatus_ACTIVE_getInstance();
-        var nextValue_0 = prevValue_0.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, VOID, tmp0_status_0, msg, spoken);
+        var nextValue_0 = prevValue_0.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, VOID, tmp0_status_0, msg, spoken);
         if (this_2.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
@@ -19035,8 +19152,8 @@ function advanceLine($this, p, move, step) {
   }
 }
 function autoLine($this) {
-  var ui = $this.h27_1.v2();
-  var tmp = ui.d26_1;
+  var ui = $this.i27_1.v2();
+  var tmp = ui.e26_1;
   var tmp0_elvis_lhs = tmp instanceof Line ? tmp : null;
   var tmp_0;
   if (tmp0_elvis_lhs == null) {
@@ -19045,7 +19162,7 @@ function autoLine($this) {
     tmp_0 = tmp0_elvis_lhs;
   }
   var step = tmp_0;
-  var tmp1_elvis_lhs = ui.e26_1;
+  var tmp1_elvis_lhs = ui.f26_1;
   var tmp_1;
   if (tmp1_elvis_lhs == null) {
     return Unit_instance;
@@ -19053,10 +19170,10 @@ function autoLine($this) {
     tmp_1 = tmp1_elvis_lhs;
   }
   var p = tmp_1;
-  var playerToMove = p.o1b_1.equals(Side_WHITE_getInstance()) === step.h25_1;
-  if (playerToMove || $this.n27_1 >= step.g25_1.a1())
+  var playerToMove = p.o1b_1.equals(Side_WHITE_getInstance()) === step.i25_1;
+  if (playerToMove || $this.o27_1 >= step.h25_1.a1())
     return Unit_instance;
-  var tmp2_safe_receiver = Companion_instance_11.b1e(step.g25_1.d1($this.n27_1));
+  var tmp2_safe_receiver = Companion_instance_11.b1e(step.h25_1.d1($this.o27_1));
   var tmp_2;
   if (tmp2_safe_receiver == null) {
     tmp_2 = null;
@@ -19083,7 +19200,7 @@ function autoLine($this) {
   advanceLine($this, p, move, step);
 }
 function play_1($this, step, p, move) {
-  var tmp0_elvis_lhs = $this.d27_1;
+  var tmp0_elvis_lhs = $this.e27_1;
   var tmp;
   if (tmp0_elvis_lhs == null) {
     return Unit_instance;
@@ -19093,49 +19210,49 @@ function play_1($this, step, p, move) {
   var hub = tmp;
   var player = p.o1b_1;
   var after = p.n1d(move);
-  $this.p27_1 = $this.p27_1 + 1 | 0;
+  $this.q27_1 = $this.q27_1 + 1 | 0;
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.h27_1;
+    var this_0 = $this.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.play.<anonymous>' call
-      var tmp0_moves = $this.p27_1;
+      var tmp0_moves = $this.q27_1;
       var tmp1_status = StepStatus_ACTIVE_getInstance();
-      var nextValue = prevValue.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp1_status, null, VOID, tmp0_moves, true);
+      var nextValue = prevValue.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp1_status, null, VOID, tmp0_moves, true);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   var tmp_0 = $this;
-  tmp_0.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$play$slambda_0(after, $this, step, move, player, hub));
+  tmp_0.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$play$slambda_0(after, $this, step, move, player, hub));
 }
 function finishPlay($this, success, position, move) {
   if (success) {
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.h27_1;
+      var this_0 = $this.i27_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.finishPlay.<anonymous>' call
         var tmp0_status = StepStatus_SOLVED_getInstance();
-        var nextValue = prevValue.x26(VOID, VOID, position, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status, VOID, VOID, VOID, false);
+        var nextValue = prevValue.y26(VOID, VOID, position, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status, VOID, VOID, VOID, false);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
       }
     }
   } else {
-    $this.l27_1 = $this.l27_1 + 1 | 0;
+    $this.m27_1 = $this.m27_1 + 1 | 0;
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.h27_1;
+      var this_1 = $this.i27_1;
       while (true) {
         var prevValue_0 = this_1.v2();
         // Inline function 'com.zorix.chess.learn.LessonSession.finishPlay.<anonymous>' call
         var tmp0_status_0 = StepStatus_FAILED_getInstance();
-        var nextValue_0 = prevValue_0.x26(VOID, VOID, position, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status_0, VOID, VOID, VOID, false);
+        var nextValue_0 = prevValue_0.y26(VOID, VOID, position, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status_0, VOID, VOID, VOID, false);
         if (this_1.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
@@ -19146,7 +19263,7 @@ function finishPlay($this, success, position, move) {
 function solved_0($this, after, move, message) {
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.h27_1;
+    var this_0 = $this.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.solved.<anonymous>' call
@@ -19170,7 +19287,7 @@ function solved_0($this, after, move, message) {
       }
       var tmp4_message = tmp;
       var tmp5_speech = message == null ? null : message.x1a_1;
-      var nextValue = prevValue.x26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp3_status, tmp4_message, tmp5_speech, VOID, false);
+      var nextValue = prevValue.y26(VOID, VOID, after, VOID, move, VOID, VOID, VOID, null, false, tmp3_status, tmp4_message, tmp5_speech, VOID, false);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
@@ -19178,24 +19295,24 @@ function solved_0($this, after, move, message) {
   }
 }
 function wrong($this, p, move) {
-  $this.l27_1 = $this.l27_1 + 1 | 0;
-  $this.o27_1 = $this.o27_1 + 1 | 0;
+  $this.m27_1 = $this.m27_1 + 1 | 0;
+  $this.p27_1 = $this.p27_1 + 1 | 0;
   var shown = p.n1d(move);
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.h27_1;
+    var this_0 = $this.i27_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.learn.LessonSession.wrong.<anonymous>' call
       var tmp0_status = StepStatus_WRONG_getInstance();
-      var nextValue = prevValue.x26(VOID, VOID, shown, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status);
+      var nextValue = prevValue.y26(VOID, VOID, shown, VOID, move, VOID, VOID, VOID, VOID, false, tmp0_status);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   var tmp = $this;
-  tmp.m27_1 = launch($this.c27_1, VOID, VOID, LessonSession$wrong$slambda_0($this, p));
+  tmp.n27_1 = launch($this.d27_1, VOID, VOID, LessonSession$wrong$slambda_0($this, p));
 }
 function pos($this, fen) {
   return Companion_getInstance_7().d1v(fen);
@@ -19448,7 +19565,7 @@ function BotTier_ZORIX_getInstance() {
   return BotTier_ZORIX_instance;
 }
 function *_generator_invoke__zhh2q8_32($this, $this$launch, $completion) {
-  var tmp = $this.j2a_1.d1l_1.r1p($completion);
+  var tmp = $this.k2a_1.d1l_1.r1p($completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -19456,18 +19573,18 @@ function *_generator_invoke__zhh2q8_32($this, $this$launch, $completion) {
 function *_generator_invoke__zhh2q8_33($this, $this$launch, $completion) {
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.k2a_1.j1l_1;
+    var this_0 = $this.l2a_1.j1l_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.play.PlayController.coach.<anonymous>.<anonymous>' call
-      var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
+      var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   try {
-    var tmp = CoachService_instance.u1w($this.k2a_1.d1l_1, $this.l2a_1, $this.m2a_1, $this.n2a_1, $this.o2a_1, new Long(600, 0), $completion);
+    var tmp = CoachService_instance.u1w($this.l2a_1.d1l_1, $this.m2a_1, $this.n2a_1, $this.o2a_1, $this.p2a_1, new Long(600, 0), $completion);
     if (tmp === get_COROUTINE_SUSPENDED())
       tmp = yield tmp;
     var tmp0_elvis_lhs = tmp;
@@ -19480,17 +19597,17 @@ function *_generator_invoke__zhh2q8_33($this, $this$launch, $completion) {
     var fb = tmp_0;
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.k2a_1.j1l_1;
+      var this_1 = $this.l2a_1.j1l_1;
       while (true) {
         var prevValue_0 = this_1.v2();
         // Inline function 'com.zorix.chess.play.PlayController.coach.<anonymous>.<anonymous>' call
-        var nextValue_0 = prevValue_0.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, plus(prevValue_0.y29_1, to(feedbackKey($this.l2a_1.m1s().c1e(), $this.m2a_1), fb)));
+        var nextValue_0 = prevValue_0.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, plus(prevValue_0.z29_1, to(feedbackKey($this.m2a_1.m1s().c1e(), $this.n2a_1), fb)));
         if (this_1.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
       }
     }
-    say($this.k2a_1, fb.m1p_1);
+    say($this.l2a_1, fb.m1p_1);
   } catch ($p) {
     if ($p instanceof CancellationException) {
       var e = $p;
@@ -19498,7 +19615,7 @@ function *_generator_invoke__zhh2q8_33($this, $this$launch, $completion) {
     } else {
       if ($p instanceof Exception) {
         var e_0 = $p;
-        $this.k2a_1.d1l_1.p1p(e_0);
+        $this.l2a_1.d1l_1.p1p(e_0);
       } else {
         throw $p;
       }
@@ -19507,11 +19624,11 @@ function *_generator_invoke__zhh2q8_33($this, $this$launch, $completion) {
   finally {
     $l$block_1: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_2 = $this.k2a_1.j1l_1;
+      var this_2 = $this.l2a_1.j1l_1;
       while (true) {
         var prevValue_1 = this_2.v2();
         // Inline function 'com.zorix.chess.play.PlayController.coach.<anonymous>.<anonymous>' call
-        var nextValue_1 = prevValue_1.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue_1 = prevValue_1.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_2.l13(prevValue_1, nextValue_1)) {
           break $l$block_1;
         }
@@ -19523,18 +19640,18 @@ function *_generator_invoke__zhh2q8_33($this, $this$launch, $completion) {
 function *_generator_invoke__zhh2q8_34($this, $this$launch, $completion) {
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.p2a_1.j1l_1;
+    var this_0 = $this.q2a_1.j1l_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.play.PlayController.botTurn.<anonymous>.<anonymous>' call
-      var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, VOID, true);
+      var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, VOID, true);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   try {
-    var tmp0_safe_receiver = $this.p2a_1.o1l_1;
+    var tmp0_safe_receiver = $this.q2a_1.o1l_1;
     if (tmp0_safe_receiver == null)
       null;
     else {
@@ -19542,11 +19659,11 @@ function *_generator_invoke__zhh2q8_34($this, $this$launch, $completion) {
       if (tmp === get_COROUTINE_SUSPENDED())
         tmp = yield tmp;
     }
-    var game = $this.p2a_1.j1l_1.v2().u29_1;
+    var game = $this.q2a_1.j1l_1.v2().v29_1;
     var position = game.m1s();
-    var plan = BotBrain_instance.j29($this.p2a_1.j1l_1.v2().s29_1, game.q1r_1.a1());
+    var plan = BotBrain_instance.k29($this.q2a_1.j1l_1.v2().t29_1, game.q1r_1.a1());
     var started = epochMillis();
-    var tmp_0 = $this.p2a_1.d1l_1.d1q(PlayController$botTurn$slambda$slambda_0(game, plan), $completion);
+    var tmp_0 = $this.q2a_1.d1l_1.d1q(PlayController$botTurn$slambda$slambda_0(game, plan), $completion);
     if (tmp_0 === get_COROUTINE_SUSPENDED())
       tmp_0 = yield tmp_0;
     var snap = tmp_0;
@@ -19557,10 +19674,10 @@ function *_generator_invoke__zhh2q8_34($this, $this$launch, $completion) {
       // Inline function 'kotlin.let' call
       // Inline function 'kotlin.contracts.contract' call
       // Inline function 'com.zorix.chess.play.PlayController.botTurn.<anonymous>.<anonymous>' call
-      tmp_1 = BotBrain_instance.k29(position, snap, plan, $this.p2a_1.i1l_1);
+      tmp_1 = BotBrain_instance.l29(position, snap, plan, $this.q2a_1.i1l_1);
     }
     var tmp2_elvis_lhs = tmp_1;
-    var tmp3_elvis_lhs = tmp2_elvis_lhs == null ? randomOrNull(position.e1d(), $this.p2a_1.i1l_1) : tmp2_elvis_lhs;
+    var tmp3_elvis_lhs = tmp2_elvis_lhs == null ? randomOrNull(position.e1d(), $this.q2a_1.i1l_1) : tmp2_elvis_lhs;
     var tmp_2;
     if (tmp3_elvis_lhs == null) {
       return Unit_instance;
@@ -19574,30 +19691,30 @@ function *_generator_invoke__zhh2q8_34($this, $this$launch, $completion) {
       if (tmp_3 === get_COROUTINE_SUSPENDED())
         tmp_3 = yield tmp_3;
     }
-    if (!($this.p2a_1.j1l_1.v2().u29_1 === game))
+    if (!($this.q2a_1.j1l_1.v2().v29_1 === game))
       return Unit_instance;
     var tmp_4;
-    if ($this.p2a_1.g1l_1().l1m_1) {
-      tmp_4 = Coach_getInstance().h1e(position, move, $this.p2a_1.l1l_1, $this.p2a_1.e1l_1.u1n().d1n_1, 'Zorix', speechLanguage($this.p2a_1.l1l_1));
+    if ($this.q2a_1.g1l_1().l1m_1) {
+      tmp_4 = Coach_getInstance().h1e(position, move, $this.q2a_1.l1l_1, $this.q2a_1.e1l_1.u1n().d1n_1, 'Zorix', speechLanguage($this.q2a_1.l1l_1));
     } else {
       tmp_4 = null;
     }
     var explain = tmp_4;
     $l$block_0: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.p2a_1.j1l_1;
+      var this_1 = $this.q2a_1.j1l_1;
       while (true) {
         var prevValue_0 = this_1.v2();
         // Inline function 'com.zorix.chess.play.PlayController.botTurn.<anonymous>.<anonymous>' call
-        var nextValue_0 = prevValue_0.i2a(VOID, VOID, VOID, prevValue_0.u29_1.n1d(move), VOID, VOID, explain, VOID, VOID, VOID, VOID, VOID, VOID, VOID, prevValue_0.f2a_1 + 1 | 0);
+        var nextValue_0 = prevValue_0.j2a(VOID, VOID, VOID, prevValue_0.v29_1.n1d(move), VOID, VOID, explain, VOID, VOID, VOID, VOID, VOID, VOID, VOID, prevValue_0.g2a_1 + 1 | 0);
         if (this_1.l13(prevValue_0, nextValue_0)) {
           break $l$block_0;
         }
       }
     }
-    save_0($this.p2a_1);
-    if (!checkGameOver($this.p2a_1) && !(explain == null) && explain.b1b_1) {
-      say($this.p2a_1, explain.x1a_1);
+    save_0($this.q2a_1);
+    if (!checkGameOver($this.q2a_1) && !(explain == null) && explain.b1b_1) {
+      say($this.q2a_1, explain.x1a_1);
     }
   } catch ($p) {
     if ($p instanceof CancellationException) {
@@ -19606,7 +19723,7 @@ function *_generator_invoke__zhh2q8_34($this, $this$launch, $completion) {
     } else {
       if ($p instanceof Exception) {
         var e_0 = $p;
-        $this.p2a_1.d1l_1.p1p(e_0);
+        $this.q2a_1.d1l_1.p1p(e_0);
       } else {
         throw $p;
       }
@@ -19615,11 +19732,11 @@ function *_generator_invoke__zhh2q8_34($this, $this$launch, $completion) {
   finally {
     $l$block_1: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_2 = $this.p2a_1.j1l_1;
+      var this_2 = $this.q2a_1.j1l_1;
       while (true) {
         var prevValue_1 = this_2.v2();
         // Inline function 'com.zorix.chess.play.PlayController.botTurn.<anonymous>.<anonymous>' call
-        var nextValue_1 = prevValue_1.i2a(VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue_1 = prevValue_1.j2a(VOID, VOID, VOID, VOID, VOID, false);
         if (this_2.l13(prevValue_1, nextValue_1)) {
           break $l$block_1;
         }
@@ -19639,18 +19756,18 @@ function PlayController$botTurn$slambda$slambda_0($game, $plan) {
 function *_generator_invoke__zhh2q8_35($this, $this$launch, $completion) {
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_0 = $this.s2a_1.j1l_1;
+    var this_0 = $this.t2a_1.j1l_1;
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.play.PlayController.hint.<anonymous>.<anonymous>' call
-      var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
+      var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
     }
   }
   try {
-    var tmp = $this.s2a_1.d1l_1.d1q(PlayController$hint$slambda$slambda_0($this.t2a_1), $completion);
+    var tmp = $this.t2a_1.d1l_1.d1q(PlayController$hint$slambda$slambda_0($this.u2a_1), $completion);
     if (tmp === get_COROUTINE_SUSPENDED())
       tmp = yield tmp;
     var tmp0_elvis_lhs = tmp;
@@ -19679,7 +19796,7 @@ function *_generator_invoke__zhh2q8_35($this, $this$launch, $completion) {
       // Inline function 'kotlin.contracts.contract' call
       var tmp_3;
       // Inline function 'com.zorix.chess.play.PlayController.hint.<anonymous>.<anonymous>' call
-      if ($this.t2a_1.m1s().a1e(tmp2_safe_receiver)) {
+      if ($this.u2a_1.m1s().a1e(tmp2_safe_receiver)) {
         tmp_3 = tmp2_safe_receiver;
       } else {
         tmp_3 = null;
@@ -19702,30 +19819,30 @@ function *_generator_invoke__zhh2q8_35($this, $this$launch, $completion) {
       tmp_5 = tmp4_elvis_lhs;
     }
     var line = tmp_5;
-    var msg = Coach_getInstance().j1e($this.t2a_1.m1s(), best, line.b1r_1, line.d1r_1, $this.u2a_1, speechLanguage($this.u2a_1));
-    if ($this.s2a_1.j1l_1.v2().u29_1 === $this.t2a_1) {
+    var msg = Coach_getInstance().j1e($this.u2a_1.m1s(), best, line.b1r_1, line.d1r_1, $this.v2a_1, speechLanguage($this.v2a_1));
+    if ($this.t2a_1.j1l_1.v2().v29_1 === $this.u2a_1) {
       $l$block_0: {
         // Inline function 'kotlinx.coroutines.flow.update' call
-        var this_1 = $this.s2a_1.j1l_1;
+        var this_1 = $this.t2a_1.j1l_1;
         while (true) {
           var prevValue_0 = this_1.v2();
           // Inline function 'com.zorix.chess.play.PlayController.hint.<anonymous>.<anonymous>' call
-          var nextValue_0 = prevValue_0.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, msg, VOID, prevValue_0.c2a_1 + 1 | 0);
+          var nextValue_0 = prevValue_0.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, msg, VOID, prevValue_0.d2a_1 + 1 | 0);
           if (this_1.l13(prevValue_0, nextValue_0)) {
             break $l$block_0;
           }
         }
       }
-      say($this.s2a_1, msg.x1a_1);
+      say($this.t2a_1, msg.x1a_1);
     }
   }finally {
     $l$block_1: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_2 = $this.s2a_1.j1l_1;
+      var this_2 = $this.t2a_1.j1l_1;
       while (true) {
         var prevValue_1 = this_2.v2();
         // Inline function 'com.zorix.chess.play.PlayController.hint.<anonymous>.<anonymous>' call
-        var nextValue_1 = prevValue_1.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
+        var nextValue_1 = prevValue_1.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, false);
         if (this_2.l13(prevValue_1, nextValue_1)) {
           break $l$block_1;
         }
@@ -19743,7 +19860,7 @@ function PlayController$hint$slambda$slambda_0($game) {
   return l;
 }
 function *_generator_invoke__zhh2q8_36($this, $this$launch, $completion) {
-  var tmp = $this.w2a_1.d1l_1.d1q(PlayController$offerDraw$slambda$slambda_0($this.x2a_1), $completion);
+  var tmp = $this.x2a_1.d1l_1.d1q(PlayController$offerDraw$slambda$slambda_0($this.y2a_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var snap = tmp;
@@ -19769,16 +19886,16 @@ function *_generator_invoke__zhh2q8_36($this, $this$launch, $completion) {
   var tmp4_elvis_lhs = tmp_1;
   var tmp5_elvis_lhs = tmp4_elvis_lhs == null ? score.l1b_1 : tmp4_elvis_lhs;
   var playerCp = tmp5_elvis_lhs == null ? 0 : tmp5_elvis_lhs;
-  if ($this.x2a_1.q1r_1.a1() >= 30 && playerCp >= -40) {
-    finish($this.w2a_1, GameOutcome_DRAW_getInstance(), null, false, true);
+  if ($this.y2a_1.q1r_1.a1() >= 30 && playerCp >= -40) {
+    finish($this.x2a_1, GameOutcome_DRAW_getInstance(), null, false, true);
   } else {
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.w2a_1.j1l_1;
+      var this_0 = $this.x2a_1.j1l_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.PlayController.offerDraw.<anonymous>.<anonymous>' call
-        var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
+        var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, VOID, true);
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -19796,7 +19913,7 @@ function PlayController$offerDraw$slambda$slambda_0($game) {
   return l;
 }
 function playUser($this, move) {
-  var before = $this.j1l_1.v2().u29_1;
+  var before = $this.j1l_1.v2().v29_1;
   var tmp0_safe_receiver = $this.p1l_1;
   if (tmp0_safe_receiver == null)
     null;
@@ -19809,9 +19926,9 @@ function playUser($this, move) {
     while (true) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.play.PlayController.playUser.<anonymous>' call
-      var tmp0_game = prevValue.u29_1.n1d(move);
-      var tmp1_moveCounter = prevValue.f2a_1 + 1 | 0;
-      var nextValue = prevValue.i2a(VOID, VOID, VOID, tmp0_game, VOID, VOID, null, VOID, VOID, null, false, VOID, VOID, false, tmp1_moveCounter);
+      var tmp0_game = prevValue.v29_1.n1d(move);
+      var tmp1_moveCounter = prevValue.g2a_1 + 1 | 0;
+      var nextValue = prevValue.j2a(VOID, VOID, VOID, tmp0_game, VOID, VOID, null, VOID, VOID, null, false, VOID, VOID, false, tmp1_moveCounter);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
@@ -19833,7 +19950,7 @@ function coach($this, before, move) {
 }
 function botTurn($this) {
   var st = $this.j1l_1.v2();
-  if (!(st.d2a_1 == null) || st.u29_1.z1k().p1s() || st.u29_1.m1s().o1b_1.equals(st.t29_1))
+  if (!(st.e2a_1 == null) || st.v29_1.z1k().p1s() || st.v29_1.m1s().o1b_1.equals(st.u29_1))
     return Unit_instance;
   var tmp0_safe_receiver = $this.n1l_1;
   if (tmp0_safe_receiver == null)
@@ -19846,7 +19963,7 @@ function botTurn($this) {
 }
 function checkGameOver($this) {
   var st = $this.j1l_1.v2();
-  var status = st.u29_1.z1k();
+  var status = st.v29_1.z1k();
   if (!status.p1s())
     return false;
   var tmp;
@@ -19855,10 +19972,10 @@ function checkGameOver($this) {
       tmp = GameOutcome_DRAW_getInstance();
       break;
     case 1:
-      tmp = st.t29_1.equals(Side_WHITE_getInstance()) ? GameOutcome_WIN_getInstance() : GameOutcome_LOSS_getInstance();
+      tmp = st.u29_1.equals(Side_WHITE_getInstance()) ? GameOutcome_WIN_getInstance() : GameOutcome_LOSS_getInstance();
       break;
     case 2:
-      tmp = st.t29_1.equals(Side_BLACK_getInstance()) ? GameOutcome_WIN_getInstance() : GameOutcome_LOSS_getInstance();
+      tmp = st.u29_1.equals(Side_BLACK_getInstance()) ? GameOutcome_WIN_getInstance() : GameOutcome_LOSS_getInstance();
       break;
     case 0:
       return false;
@@ -19885,7 +20002,7 @@ function finish($this, outcome, reason, resigned, drawAgreed) {
   }
   var st = $this.j1l_1.v2();
   var before = $this.e1l_1.u1n().g1n_1;
-  $this.e1l_1.s1x(st.s29_1.w28_1, st.s29_1.x28_1, outcome, st.c2a_1 > 0);
+  $this.e1l_1.s1x(st.t29_1.x28_1, st.t29_1.y28_1, outcome, st.d2a_1 > 0);
   var after = $this.e1l_1.u1n().g1n_1;
   $l$block: {
     // Inline function 'kotlinx.coroutines.flow.update' call
@@ -19894,7 +20011,7 @@ function finish($this, outcome, reason, resigned, drawAgreed) {
       var prevValue = this_0.v2();
       // Inline function 'com.zorix.chess.play.PlayController.finish.<anonymous>' call
       var tmp0_result = new PlayResult(outcome, reason, resigned, drawAgreed, before, after);
-      var nextValue = prevValue.i2a(VOID, VOID, VOID, VOID, VOID, false, VOID, VOID, VOID, null, VOID, VOID, tmp0_result);
+      var nextValue = prevValue.j2a(VOID, VOID, VOID, VOID, VOID, false, VOID, VOID, VOID, null, VOID, VOID, tmp0_result);
       if (this_0.l13(prevValue, nextValue)) {
         break $l$block;
       }
@@ -19948,12 +20065,12 @@ function sayNow($this, text) {
 }
 function save_0($this) {
   var st = $this.j1l_1.v2();
-  $this.f1l_1.b1t('play.active', st.r29_1.toString());
-  $this.f1l_1.b1t('play.level', st.s29_1.w28_1.toString());
-  $this.f1l_1.b1t('play.side', st.t29_1.c3_1);
-  $this.f1l_1.b1t('play.moves', joinToString(st.u29_1.q1r_1, ' ', VOID, VOID, VOID, VOID, PlayController$save$lambda));
-  $this.f1l_1.b1t('play.assists', st.c2a_1.toString());
-  $this.f1l_1.b1t('play.finished', (!(st.d2a_1 == null)).toString());
+  $this.f1l_1.b1t('play.active', st.s29_1.toString());
+  $this.f1l_1.b1t('play.level', st.t29_1.x28_1.toString());
+  $this.f1l_1.b1t('play.side', st.u29_1.c3_1);
+  $this.f1l_1.b1t('play.moves', joinToString(st.v29_1.q1r_1, ' ', VOID, VOID, VOID, VOID, PlayController$save$lambda));
+  $this.f1l_1.b1t('play.assists', st.d2a_1.toString());
+  $this.f1l_1.b1t('play.finished', (!(st.e2a_1 == null)).toString());
 }
 function restore($this) {
   if (!($this.f1l_1.qt('play.active') === 'true') || $this.f1l_1.qt('play.finished') === 'true')
@@ -19987,7 +20104,7 @@ function restore($this) {
     }
     var moves = destination;
     var game = Companion_instance_7.m20('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', moves);
-    var tmp_0 = Bots_getInstance().c29(level);
+    var tmp_0 = Bots_getInstance().d29(level);
     var tmp3_safe_receiver = $this.f1l_1.qt('play.assists');
     var tmp4_elvis_lhs = tmp3_safe_receiver == null ? null : toIntOrNull(tmp3_safe_receiver);
     var value = new PlayState(true, tmp_0, side, game, VOID, VOID, VOID, VOID, VOID, VOID, VOID, tmp4_elvis_lhs == null ? 0 : tmp4_elvis_lhs);
@@ -20066,9 +20183,9 @@ function PlayController$save$lambda(it) {
   return it.u1t_1.g1e();
 }
 function *_generator_invoke__zhh2q8_37($this, $this$launch, $completion) {
-  var tmp = listOf_0($this.u2c_1.p1r_1);
+  var tmp = listOf_0($this.v2c_1.p1r_1);
   // Inline function 'kotlin.collections.map' call
-  var this_0 = $this.u2c_1.q1r_1;
+  var this_0 = $this.v2c_1.q1r_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
   var tmp0_iterator = this_0.x();
@@ -20087,7 +20204,7 @@ function *_generator_invoke__zhh2q8_37($this, $this$launch, $completion) {
     index = index + 1 | 0;
     var pos = iterator.z();
     // Inline function 'kotlin.collections.plusAssign' call
-    var tmp_0 = analyse($this.v2c_1, pos, $completion);
+    var tmp_0 = analyse($this.w2c_1, pos, $completion);
     if (tmp_0 === get_COROUTINE_SUSPENDED())
       tmp_0 = yield tmp_0;
     var tmp0_elvis_lhs = tmp_0;
@@ -20101,11 +20218,11 @@ function *_generator_invoke__zhh2q8_37($this, $this$launch, $completion) {
     results.k(element);
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_1 = $this.v2c_1.t1l_1;
+      var this_1 = $this.w2c_1.t1l_1;
       while (true) {
         var prevValue = this_1.v2();
         // Inline function 'com.zorix.chess.play.ReviewController.start.<anonymous>.<anonymous>' call
-        var nextValue = prevValue.t2c(VOID, VOID, (i + 1.0) / positions.a1());
+        var nextValue = prevValue.u2c(VOID, VOID, (i + 1.0) / positions.a1());
         if (this_1.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -20114,11 +20231,11 @@ function *_generator_invoke__zhh2q8_37($this, $this$launch, $completion) {
   }
   $l$block_0: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_2 = $this.v2c_1.t1l_1;
+    var this_2 = $this.w2c_1.t1l_1;
     while (true) {
       var prevValue_0 = this_2.v2();
       // Inline function 'com.zorix.chess.play.ReviewController.start.<anonymous>.<anonymous>' call
-      var nextValue_0 = prevValue_0.t2c(VOID, VOID, VOID, build($this.v2c_1, $this.u2c_1, results, $this.w2c_1, $this.x2c_1, $this.y2c_1));
+      var nextValue_0 = prevValue_0.u2c(VOID, VOID, VOID, build($this.w2c_1, $this.v2c_1, results, $this.x2c_1, $this.y2c_1, $this.z2c_1));
       if (this_2.l13(prevValue_0, nextValue_0)) {
         break $l$block_0;
       }
@@ -20127,15 +20244,15 @@ function *_generator_invoke__zhh2q8_37($this, $this$launch, $completion) {
   return Unit_instance;
 }
 function *_generator_invoke__zhh2q8_38($this, eng, $completion) {
-  var tmp = eng.e1s('fen ' + $this.z2c_1.c1e(), new MoveTime(new Long(600, 0)), 1, VOID, VOID, $completion);
+  var tmp = eng.e1s('fen ' + $this.a2d_1.c1e(), new MoveTime(new Long(600, 0)), 1, VOID, VOID, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var best = tmp;
   var tmp_0;
-  if ($this.a2d_1.e1d().e1()) {
+  if ($this.b2d_1.e1d().e1()) {
     tmp_0 = null;
   } else {
-    var tmp_1 = eng.e1s('fen ' + $this.a2d_1.c1e(), new MoveTime(new Long(600, 0)), 1, VOID, VOID, $completion);
+    var tmp_1 = eng.e1s('fen ' + $this.b2d_1.c1e(), new MoveTime(new Long(600, 0)), 1, VOID, VOID, $completion);
     if (tmp_1 === get_COROUTINE_SUSPENDED())
       tmp_1 = yield tmp_1;
     tmp_0 = tmp_1;
@@ -20144,20 +20261,20 @@ function *_generator_invoke__zhh2q8_38($this, eng, $completion) {
   return to(best, reply);
 }
 function *_generator_invoke__zhh2q8_39($this, $this$launch, $completion) {
-  var before = $this.b2d_1.f2c_1;
-  var after = before.n1d($this.c2d_1);
-  var tmp = $this.d2d_1.r1l_1.d1q(ReviewController$onRetryMove$slambda$slambda_0(before, after), $completion);
+  var before = $this.c2d_1.g2c_1;
+  var after = before.n1d($this.d2d_1);
+  var tmp = $this.e2d_1.r1l_1.d1q(ReviewController$onRetryMove$slambda$slambda_0(before, after), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var res = tmp;
   if (res == null) {
     $l$block: {
       // Inline function 'kotlinx.coroutines.flow.update' call
-      var this_0 = $this.d2d_1.t1l_1;
+      var this_0 = $this.e2d_1.t1l_1;
       while (true) {
         var prevValue = this_0.v2();
         // Inline function 'com.zorix.chess.play.ReviewController.onRetryMove.<anonymous>.<anonymous>' call
-        var nextValue = prevValue.t2c(VOID, VOID, VOID, VOID, VOID, $this.b2d_1.l2c(VOID, VOID, false));
+        var nextValue = prevValue.u2c(VOID, VOID, VOID, VOID, VOID, $this.c2d_1.m2c(VOID, VOID, false));
         if (this_0.l13(prevValue, nextValue)) {
           break $l$block;
         }
@@ -20186,12 +20303,12 @@ function *_generator_invoke__zhh2q8_39($this, $this$launch, $completion) {
   var tmp_1;
   if (good) {
     var tmp_2 = Coach_getInstance();
-    var tmp_3 = listOf_0($this.c2d_1.g1e());
+    var tmp_3 = listOf_0($this.d2d_1.g1e());
     // Inline function 'kotlin.collections.orEmpty' call
     var tmp7_safe_receiver = reply == null ? null : reply.x1q();
     var tmp0_elvis_lhs = tmp7_safe_receiver == null ? null : tmp7_safe_receiver.d1r_1;
     var tmp$ret$2 = tmp0_elvis_lhs == null ? emptyList() : tmp0_elvis_lhs;
-    tmp_1 = tmp_2.l1e(before, $this.c2d_1, plus_1(tmp_3, tmp$ret$2), $this.e2d_1, speechLanguage($this.e2d_1)).w1a_1;
+    tmp_1 = tmp_2.l1e(before, $this.d2d_1, plus_1(tmp_3, tmp$ret$2), $this.f2d_1, speechLanguage($this.f2d_1)).w1a_1;
   } else {
     var tmp8_safe_receiver = best.u1q_1;
     var tmp_4;
@@ -20211,18 +20328,18 @@ function *_generator_invoke__zhh2q8_39($this, $this$launch, $completion) {
     var tmp11_safe_receiver = reply == null ? null : reply.x1q();
     var tmp0_elvis_lhs_1 = tmp11_safe_receiver == null ? null : tmp11_safe_receiver.d1r_1;
     var tmp$ret$6 = tmp0_elvis_lhs_1 == null ? emptyList() : tmp0_elvis_lhs_1;
-    var a = new MoveAnalysis(before, $this.c2d_1, tmp_5, bestScore, tmp_6, null, afterScore, tmp$ret$6);
-    tmp_1 = Coach_getInstance().y1d(a, $this.e2d_1, $this.d2d_1.s1l_1.u1n().d1n_1, speechLanguage($this.e2d_1)).w1a_1;
+    var a = new MoveAnalysis(before, $this.d2d_1, tmp_5, bestScore, tmp_6, null, afterScore, tmp$ret$6);
+    tmp_1 = Coach_getInstance().y1d(a, $this.f2d_1, $this.e2d_1.s1l_1.u1n().d1n_1, speechLanguage($this.f2d_1)).w1a_1;
   }
   var msg = tmp_1;
   $l$block_0: {
     // Inline function 'kotlinx.coroutines.flow.update' call
-    var this_1 = $this.d2d_1.t1l_1;
+    var this_1 = $this.e2d_1.t1l_1;
     while (true) {
       var prevValue_0 = this_1.v2();
       // Inline function 'com.zorix.chess.play.ReviewController.onRetryMove.<anonymous>.<anonymous>' call
-      var tmp0_safe_receiver_0 = prevValue_0.r2c_1;
-      var nextValue_0 = prevValue_0.t2c(VOID, VOID, VOID, VOID, VOID, tmp0_safe_receiver_0 == null ? null : tmp0_safe_receiver_0.l2c(VOID, VOID, false, good, msg));
+      var tmp0_safe_receiver_0 = prevValue_0.s2c_1;
+      var nextValue_0 = prevValue_0.u2c(VOID, VOID, VOID, VOID, VOID, tmp0_safe_receiver_0 == null ? null : tmp0_safe_receiver_0.m2c(VOID, VOID, false, good, msg));
       if (this_1.l13(prevValue_0, nextValue_0)) {
         break $l$block_0;
       }
@@ -20239,7 +20356,7 @@ function ReviewController$onRetryMove$slambda$slambda_0($before, $after) {
   return l;
 }
 function *_generator_invoke__zhh2q8_40($this, eng, $completion) {
-  var tmp = eng.e1s('fen ' + $this.f2d_1.c1e(), new MoveTime(new Long(250, 0)), 2, VOID, VOID, $completion);
+  var tmp = eng.e1s('fen ' + $this.g2d_1.c1e(), new MoveTime(new Long(250, 0)), 2, VOID, VOID, $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   var snap = tmp;
@@ -20264,7 +20381,7 @@ function *_generator_invoke__zhh2q8_40($this, eng, $completion) {
     // Inline function 'kotlin.contracts.contract' call
     var tmp_3;
     // Inline function 'com.zorix.chess.play.ReviewController.analyse.<anonymous>.<anonymous>' call
-    if ($this.f2d_1.a1e(tmp3_safe_receiver)) {
+    if ($this.g2d_1.a1e(tmp3_safe_receiver)) {
       tmp_3 = tmp3_safe_receiver;
     } else {
       tmp_3 = null;
@@ -20306,12 +20423,12 @@ function build($this, game, a, player, lang, name) {
     var i = index;
     index = index + 1 | 0;
     var pos = iterator.z();
-    var s = a.d1(i).g2d_1;
+    var s = a.d1(i).h2d_1;
     var tmp_0;
-    if (a.d1(i).k2d_1 && s.m1b_1 === 0) {
+    if (a.d1(i).l2d_1 && s.m1b_1 === 0) {
       tmp_0 = pos.o1b_1.equals(Side_WHITE_getInstance()) ? -10.0 : 10.0;
     } else {
-      tmp_0 = s.d1w(pos.o1b_1.equals(Side_WHITE_getInstance())).g23();
+      tmp_0 = s.d1w(pos.o1b_1.equals(Side_WHITE_getInstance())).h23();
     }
     var white = tmp_0;
     // Inline function 'kotlin.collections.plusAssign' call
@@ -20327,17 +20444,17 @@ function build($this, game, a, player, lang, name) {
     var before = a.d1(i_0);
     var after = a.d1(i_0 + 1 | 0);
     var mover = ply.w1t_1.o1b_1;
-    var afterScore = after.k2d_1 && after.g2d_1.m1b_1 === 0 ? new Score(VOID, 1) : after.k2d_1 ? new Score(0) : after.g2d_1.i1w();
-    var analysis = new MoveAnalysis(ply.w1t_1, ply.u1t_1, before.h2d_1, before.g2d_1, before.i2d_1, before.j2d_1, afterScore, after.i2d_1, CoachService_instance.j1w(gameSoFar, ply.u1t_1, lang));
+    var afterScore = after.l2d_1 && after.h2d_1.m1b_1 === 0 ? new Score(VOID, 1) : after.l2d_1 ? new Score(0) : after.h2d_1.i1w();
+    var analysis = new MoveAnalysis(ply.w1t_1, ply.u1t_1, before.i2d_1, before.h2d_1, before.j2d_1, before.k2d_1, afterScore, after.j2d_1, CoachService_instance.j1w(gameSoFar, ply.u1t_1, lang));
     var explain = player == null || mover.equals(player);
     var msg = explain ? Coach_getInstance().y1d(analysis, lang, name, speechLanguage(lang)) : null;
     var tmp1_elvis_lhs = msg == null ? null : msg.v1a_1;
     var quality = tmp1_elvis_lhs == null ? Coach_getInstance().x1d(analysis) : tmp1_elvis_lhs;
     var white_0 = mover.equals(Side_WHITE_getInstance());
     // Inline function 'kotlin.collections.plusAssign' call
-    var tmp_1 = before.g2d_1.d1w(white_0);
+    var tmp_1 = before.h2d_1.d1w(white_0);
     var tmp_2 = afterScore.d1w(white_0);
-    var tmp2_safe_receiver = before.h2d_1;
+    var tmp2_safe_receiver = before.i2d_1;
     var tmp_3;
     if (tmp2_safe_receiver == null) {
       tmp_3 = null;
@@ -20364,7 +20481,7 @@ function build($this, game, a, player, lang, name) {
       tmp_5 = Notation_instance.z1d(ply.w1t_1, tmp3_safe_receiver);
     }
     var tmp_6 = tmp_5;
-    var tmp4_safe_receiver = before.h2d_1;
+    var tmp4_safe_receiver = before.i2d_1;
     var tmp_7;
     if (tmp4_safe_receiver == null) {
       tmp_7 = null;
@@ -20381,7 +20498,7 @@ function build($this, game, a, player, lang, name) {
       tmp_7 = tmp_8;
     }
     var tmp_9 = tmp_7;
-    var tmp_10 = Companion_getInstance_16().m2d(before.g2d_1, afterScore);
+    var tmp_10 = Companion_getInstance_16().n2d(before.h2d_1, afterScore);
     // Inline function 'kotlin.text.orEmpty' call
     var tmp0_elvis_lhs = msg == null ? null : msg.w1a_1;
     var tmp_11 = tmp0_elvis_lhs == null ? '' : tmp0_elvis_lhs;
@@ -20408,7 +20525,7 @@ function build($this, game, a, player, lang, name) {
     while (tmp0_iterator_1.y()) {
       var element_1 = tmp0_iterator_1.z();
       // Inline function 'com.zorix.chess.play.ReviewController.build.<anonymous>.<anonymous>' call
-      if (element_1.n2b_1.equals(element_0)) {
+      if (element_1.o2b_1.equals(element_0)) {
         destination_0.k(element_1);
       }
     }
@@ -20418,7 +20535,7 @@ function build($this, game, a, player, lang, name) {
     while (tmp0_iterator_2.y()) {
       var item_0 = tmp0_iterator_2.z();
       // Inline function 'com.zorix.chess.play.ReviewController.build.<anonymous>.<anonymous>' call
-      var tmp$ret$14 = item_0.v2b_1;
+      var tmp$ret$14 = item_0.w2b_1;
       destination_1.k(tmp$ret$14);
     }
     var list = destination_1;
@@ -20442,7 +20559,7 @@ function build($this, game, a, player, lang, name) {
     while (tmp0_iterator_4.y()) {
       var element_3 = tmp0_iterator_4.z();
       // Inline function 'com.zorix.chess.play.ReviewController.build.<anonymous>.<anonymous>' call
-      if (element_3.n2b_1.equals(element_2)) {
+      if (element_3.o2b_1.equals(element_2)) {
         destination_2.k(element_3);
       }
     }
@@ -20603,57 +20720,72 @@ function position(p) {
   }
   return tmp;
 }
+function plyJson(p, feedback) {
+  var tmp = to('uci', p.u1t_1.g1e());
+  var tmp_0 = to('san', p.v1t_1);
+  var tmp_1 = to('fen', p.x1t_1.c1e());
+  var tmp_2 = to('side', side(p.w1t_1.o1b_1));
+  var tmp0_safe_receiver = feedback.y2(feedbackKey(p.w1t_1.c1e(), p.u1t_1));
+  var tmp1_safe_receiver = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.h1p_1;
+  var tmp2_safe_receiver = tmp1_safe_receiver == null ? null : tmp1_safe_receiver.c3_1;
+  var tmp_3;
+  if (tmp2_safe_receiver == null) {
+    tmp_3 = null;
+  } else {
+    // Inline function 'kotlin.text.lowercase' call
+    // Inline function 'kotlin.js.asDynamic' call
+    tmp_3 = tmp2_safe_receiver.toLowerCase();
+  }
+  return json([tmp, tmp_0, tmp_1, tmp_2, to('quality', tmp_3)]);
+}
 function game(g, feedback) {
   feedback = feedback === VOID ? emptyMap() : feedback;
-  var tmp = to('startFen', g.p1r_1.c1e());
-  var tmp_0 = to('fen', g.m1s().c1e());
-  var tmp_1 = to('turn', side(g.m1s().o1b_1));
-  var tmp_2 = to('check', g.m1s().s20(g.m1s().f1g(g.m1s().o1b_1), g.m1s().o1b_1.a1c()));
   // Inline function 'kotlin.collections.map' call
-  var this_0 = g.q1r_1;
+  var this_0 = g.c1t();
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
   var tmp0_iterator = this_0.x();
   while (tmp0_iterator.y()) {
     var item = tmp0_iterator.z();
     // Inline function 'com.zorix.chess.web.game.<anonymous>' call
-    var tmp_3 = to('uci', item.u1t_1.g1e());
-    var tmp_4 = to('san', item.v1t_1);
-    var tmp_5 = to('fen', item.x1t_1.c1e());
-    var tmp_6 = to('side', side(item.w1t_1.o1b_1));
-    var tmp0_safe_receiver = feedback.y2(feedbackKey(item.w1t_1.c1e(), item.u1t_1));
-    var tmp1_safe_receiver = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.h1p_1;
-    var tmp2_safe_receiver = tmp1_safe_receiver == null ? null : tmp1_safe_receiver.c3_1;
-    var tmp_7;
-    if (tmp2_safe_receiver == null) {
-      tmp_7 = null;
-    } else {
-      // Inline function 'kotlin.text.lowercase' call
-      // Inline function 'kotlin.js.asDynamic' call
-      tmp_7 = tmp2_safe_receiver.toLowerCase();
-    }
-    var tmp$ret$2 = json([tmp_3, tmp_4, tmp_5, tmp_6, to('quality', tmp_7)]);
-    destination.k(tmp$ret$2);
+    var tmp$ret$0 = plyJson(item, feedback);
+    destination.k(tmp$ret$0);
   }
-  var tmp_8 = to('plies', arr_0(destination));
-  var tmp_9 = to('redo', g.c1t().a1() - g.q1r_1.a1() | 0);
-  var tmp0_safe_receiver_0 = g.n20();
-  var tmp_10 = to('lastMove', tmp0_safe_receiver_0 == null ? null : tmp0_safe_receiver_0.g1e());
-  var tmp_11 = to('canUndo', g.m1u());
-  var tmp_12 = to('canRedo', g.o1u());
-  var tmp_13 = to('result', g.z1k().n1s_1.i20_1);
-  var tmp_14 = to('over', g.z1k().p1s());
-  var tmp1_safe_receiver_0 = g.z1k().o1s_1;
-  var tmp2_safe_receiver_0 = tmp1_safe_receiver_0 == null ? null : tmp1_safe_receiver_0.c3_1;
-  var tmp_15;
-  if (tmp2_safe_receiver_0 == null) {
-    tmp_15 = null;
+  var tmp = to('line', arr_0(destination));
+  var tmp_0 = to('startFen', g.p1r_1.c1e());
+  var tmp_1 = to('fen', g.m1s().c1e());
+  var tmp_2 = to('turn', side(g.m1s().o1b_1));
+  var tmp_3 = to('check', g.m1s().s20(g.m1s().f1g(g.m1s().o1b_1), g.m1s().o1b_1.a1c()));
+  // Inline function 'kotlin.collections.map' call
+  var this_1 = g.q1r_1;
+  // Inline function 'kotlin.collections.mapTo' call
+  var destination_0 = ArrayList.b1(collectionSizeOrDefault(this_1, 10));
+  var tmp0_iterator_0 = this_1.x();
+  while (tmp0_iterator_0.y()) {
+    var item_0 = tmp0_iterator_0.z();
+    // Inline function 'com.zorix.chess.web.game.<anonymous>' call
+    var tmp$ret$3 = plyJson(item_0, feedback);
+    destination_0.k(tmp$ret$3);
+  }
+  var tmp_4 = to('plies', arr_0(destination_0));
+  var tmp_5 = to('redo', g.c1t().a1() - g.q1r_1.a1() | 0);
+  var tmp0_safe_receiver = g.n20();
+  var tmp_6 = to('lastMove', tmp0_safe_receiver == null ? null : tmp0_safe_receiver.g1e());
+  var tmp_7 = to('canUndo', g.m1u());
+  var tmp_8 = to('canRedo', g.o1u());
+  var tmp_9 = to('result', g.z1k().n1s_1.i20_1);
+  var tmp_10 = to('over', g.z1k().p1s());
+  var tmp1_safe_receiver = g.z1k().o1s_1;
+  var tmp2_safe_receiver = tmp1_safe_receiver == null ? null : tmp1_safe_receiver.c3_1;
+  var tmp_11;
+  if (tmp2_safe_receiver == null) {
+    tmp_11 = null;
   } else {
     // Inline function 'kotlin.text.lowercase' call
     // Inline function 'kotlin.js.asDynamic' call
-    tmp_15 = tmp2_safe_receiver_0.toLowerCase();
+    tmp_11 = tmp2_safe_receiver.toLowerCase();
   }
-  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_8, tmp_9, tmp_10, tmp_11, tmp_12, tmp_13, tmp_14, to('reason', tmp_15), to('pgn', g.i1v())]);
+  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, tmp_6, tmp_7, tmp_8, tmp_9, tmp_10, to('reason', tmp_11), to('pgn', g.i1v())]);
 }
 function line_0(l) {
   return json([to('rank', l.t1v_1), to('depth', l.u1v_1), to('score', score(l.v1v_1)), to('uci', arr_0(l.w1v_1)), to('san', arr_0(l.x1v_1)), to('text', l.y1v_1)]);
@@ -20852,27 +20984,27 @@ function message(m) {
   return tmp;
 }
 function bot(b) {
-  var tmp = to('level', b.w28_1);
-  var tmp_0 = to('elo', b.x28_1);
+  var tmp = to('level', b.x28_1);
+  var tmp_0 = to('elo', b.y28_1);
   // Inline function 'kotlin.text.lowercase' call
   // Inline function 'kotlin.js.asDynamic' call
-  var tmp$ret$1 = b.y28().c3_1.toLowerCase();
+  var tmp$ret$1 = b.z28().c3_1.toLowerCase();
   return json([tmp, tmp_0, to('tier', tmp$ret$1)]);
 }
 function play_2(s) {
-  var tmp = to('active', s.r29_1);
-  var tmp_0 = to('bot', bot(s.s29_1));
-  var tmp_1 = to('userSide', side(s.t29_1));
-  var tmp_2 = to('game', game(s.u29_1, s.y29_1));
-  var tmp_3 = to('promotion', promotion(s.v29_1));
-  var tmp_4 = to('botThinking', s.w29_1);
-  var tmp_5 = to('botMessage', message(s.x29_1));
+  var tmp = to('active', s.s29_1);
+  var tmp_0 = to('bot', bot(s.t29_1));
+  var tmp_1 = to('userSide', side(s.u29_1));
+  var tmp_2 = to('game', game(s.v29_1, s.z29_1));
+  var tmp_3 = to('promotion', promotion(s.w29_1));
+  var tmp_4 = to('botThinking', s.x29_1);
+  var tmp_5 = to('botMessage', message(s.y29_1));
   var tmp_6 = to('feedback', feedback(s.g1u()));
-  var tmp_7 = to('coachBusy', s.z29_1);
-  var tmp_8 = to('hint', message(s.a2a_1));
-  var tmp_9 = to('hintBusy', s.b2a_1);
-  var tmp_10 = to('assists', s.c2a_1);
-  var tmp0_safe_receiver = s.d2a_1;
+  var tmp_7 = to('coachBusy', s.a2a_1);
+  var tmp_8 = to('hint', message(s.b2a_1));
+  var tmp_9 = to('hintBusy', s.c2a_1);
+  var tmp_10 = to('assists', s.d2a_1);
+  var tmp0_safe_receiver = s.e2a_1;
   var tmp_11;
   if (tmp0_safe_receiver == null) {
     tmp_11 = null;
@@ -20882,9 +21014,9 @@ function play_2(s) {
     // Inline function 'com.zorix.chess.web.play.<anonymous>' call
     // Inline function 'kotlin.text.lowercase' call
     // Inline function 'kotlin.js.asDynamic' call
-    var tmp$ret$1 = tmp0_safe_receiver.l29_1.c3_1.toLowerCase();
+    var tmp$ret$1 = tmp0_safe_receiver.m29_1.c3_1.toLowerCase();
     var tmp_12 = to('outcome', tmp$ret$1);
-    var tmp0_safe_receiver_0 = tmp0_safe_receiver.m29_1;
+    var tmp0_safe_receiver_0 = tmp0_safe_receiver.n29_1;
     var tmp1_safe_receiver = tmp0_safe_receiver_0 == null ? null : tmp0_safe_receiver_0.c3_1;
     var tmp_13;
     if (tmp1_safe_receiver == null) {
@@ -20894,24 +21026,24 @@ function play_2(s) {
       // Inline function 'kotlin.js.asDynamic' call
       tmp_13 = tmp1_safe_receiver.toLowerCase();
     }
-    tmp_11 = json([tmp_12, to('reason', tmp_13), to('resigned', tmp0_safe_receiver.n29_1), to('drawAgreed', tmp0_safe_receiver.o29_1), to('ratingBefore', tmp0_safe_receiver.p29_1), to('ratingAfter', tmp0_safe_receiver.q29_1)]);
+    tmp_11 = json([tmp_12, to('reason', tmp_13), to('resigned', tmp0_safe_receiver.o29_1), to('drawAgreed', tmp0_safe_receiver.p29_1), to('ratingBefore', tmp0_safe_receiver.q29_1), to('ratingAfter', tmp0_safe_receiver.r29_1)]);
   }
-  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, tmp_6, tmp_7, tmp_8, tmp_9, tmp_10, to('result', tmp_11), to('drawDeclined', s.e2a_1), to('moveCounter', s.f2a_1), to('userToMove', s.g2a())]);
+  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, tmp_6, tmp_7, tmp_8, tmp_9, tmp_10, to('result', tmp_11), to('drawDeclined', s.f2a_1), to('moveCounter', s.g2a_1), to('userToMove', s.h2a())]);
 }
 function reviewed(m) {
-  var tmp = to('index', m.m2b_1);
-  var tmp_0 = to('side', side(m.n2b_1));
-  var tmp_1 = to('san', m.o2b_1);
-  var tmp_2 = to('uci', m.p2b_1.g1e());
+  var tmp = to('index', m.n2b_1);
+  var tmp_0 = to('side', side(m.o2b_1));
+  var tmp_1 = to('san', m.p2b_1);
+  var tmp_2 = to('uci', m.q2b_1.g1e());
   // Inline function 'kotlin.text.lowercase' call
   // Inline function 'kotlin.js.asDynamic' call
-  var tmp$ret$1 = m.q2b_1.c3_1.toLowerCase();
+  var tmp$ret$1 = m.r2b_1.c3_1.toLowerCase();
   var tmp_3 = to('quality', tmp$ret$1);
-  var tmp_4 = to('scoreBefore', score(m.r2b_1));
-  var tmp_5 = to('scoreAfter', score(m.s2b_1));
-  var tmp_6 = to('bestSan', m.t2b_1);
-  var tmp0_safe_receiver = m.u2b_1;
-  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, tmp_6, to('best', tmp0_safe_receiver == null ? null : tmp0_safe_receiver.g1e()), to('accuracy', m.v2b_1), to('message', m.w2b_1), to('speech', m.x2b_1)]);
+  var tmp_4 = to('scoreBefore', score(m.s2b_1));
+  var tmp_5 = to('scoreAfter', score(m.t2b_1));
+  var tmp_6 = to('bestSan', m.u2b_1);
+  var tmp0_safe_receiver = m.v2b_1;
+  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, tmp_6, to('best', tmp0_safe_receiver == null ? null : tmp0_safe_receiver.g1e()), to('accuracy', m.w2b_1), to('message', m.x2b_1), to('speech', m.y2b_1)]);
 }
 function review(r) {
   var tmp;
@@ -20922,7 +21054,7 @@ function review(r) {
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'com.zorix.chess.web.review.<anonymous>' call
     // Inline function 'kotlin.collections.map' call
-    var this_0 = r.y2b_1;
+    var this_0 = r.z2b_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
     var tmp0_iterator = this_0.x();
@@ -20932,31 +21064,31 @@ function review(r) {
       destination.k(tmp$ret$0);
     }
     var tmp_0 = to('moves', arr_0(destination));
-    var tmp_1 = to('accuracy', json([to('white', r.z2b_1.y2(Side_WHITE_getInstance())), to('black', r.z2b_1.y2(Side_BLACK_getInstance()))]));
+    var tmp_1 = to('accuracy', json([to('white', r.a2c_1.y2(Side_WHITE_getInstance())), to('black', r.a2c_1.y2(Side_BLACK_getInstance()))]));
     var tmp_2 = to('counts', json([to('white', review$_anonymous_$counts_6v86xl(r, Side_WHITE_getInstance())), to('black', review$_anonymous_$counts_6v86xl(r, Side_BLACK_getInstance()))]));
-    var tmp_3 = to('evalCurve', arr_0(r.b2c_1));
-    var tmp_4 = to('opening', r.c2c_1);
+    var tmp_3 = to('evalCurve', arr_0(r.c2c_1));
+    var tmp_4 = to('opening', r.d2c_1);
     // Inline function 'kotlin.collections.map' call
-    var this_1 = r.d2c(Side_WHITE_getInstance());
+    var this_1 = r.e2c(Side_WHITE_getInstance());
     // Inline function 'kotlin.collections.mapTo' call
     var destination_0 = ArrayList.b1(collectionSizeOrDefault(this_1, 10));
     var tmp0_iterator_0 = this_1.x();
     while (tmp0_iterator_0.y()) {
       var item_0 = tmp0_iterator_0.z();
       // Inline function 'com.zorix.chess.web.review.<anonymous>.<anonymous>' call
-      var tmp$ret$3 = item_0.m2b_1;
+      var tmp$ret$3 = item_0.n2b_1;
       destination_0.k(tmp$ret$3);
     }
     var tmp_5 = to('white', arr_0(destination_0));
     // Inline function 'kotlin.collections.map' call
-    var this_2 = r.d2c(Side_BLACK_getInstance());
+    var this_2 = r.e2c(Side_BLACK_getInstance());
     // Inline function 'kotlin.collections.mapTo' call
     var destination_1 = ArrayList.b1(collectionSizeOrDefault(this_2, 10));
     var tmp0_iterator_1 = this_2.x();
     while (tmp0_iterator_1.y()) {
       var item_1 = tmp0_iterator_1.z();
       // Inline function 'com.zorix.chess.web.review.<anonymous>.<anonymous>' call
-      var tmp$ret$6 = item_1.m2b_1;
+      var tmp$ret$6 = item_1.n2b_1;
       destination_1.k(tmp$ret$6);
     }
     tmp = json([tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, to('keyMoments', json([tmp_5, to('black', arr_0(destination_1))]))]);
@@ -20971,19 +21103,19 @@ function retry(r) {
     // Inline function 'kotlin.let' call
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'com.zorix.chess.web.retry.<anonymous>' call
-    var tmp_0 = to('index', r.e2c_1.m2b_1);
-    var tmp_1 = to('fen', r.f2c_1.c1e());
-    var tmp_2 = to('turn', side(r.f2c_1.o1b_1));
-    var tmp_3 = to('checking', r.g2c_1);
-    var tmp_4 = to('solved', r.h2c_1);
-    var tmp_5 = to('message', r.i2c_1);
-    var tmp0_safe_receiver = r.j2c_1;
+    var tmp_0 = to('index', r.f2c_1.n2b_1);
+    var tmp_1 = to('fen', r.g2c_1.c1e());
+    var tmp_2 = to('turn', side(r.g2c_1.o1b_1));
+    var tmp_3 = to('checking', r.h2c_1);
+    var tmp_4 = to('solved', r.i2c_1);
+    var tmp_5 = to('message', r.j2c_1);
+    var tmp0_safe_receiver = r.k2c_1;
     tmp = json([tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, to('tried', tmp0_safe_receiver == null ? null : tmp0_safe_receiver.g1e())]);
   }
   return tmp;
 }
 function reviewState(s) {
-  var tmp0_safe_receiver = s.m2c_1;
+  var tmp0_safe_receiver = s.n2c_1;
   var tmp;
   if (tmp0_safe_receiver == null) {
     tmp = null;
@@ -20994,7 +21126,7 @@ function reviewState(s) {
     tmp = game(tmp0_safe_receiver);
   }
   var tmp_0 = to('game', tmp);
-  var tmp1_safe_receiver = s.n2c_1;
+  var tmp1_safe_receiver = s.o2c_1;
   var tmp_1;
   if (tmp1_safe_receiver == null) {
     tmp_1 = null;
@@ -21003,7 +21135,7 @@ function reviewState(s) {
     // Inline function 'kotlin.contracts.contract' call
     tmp_1 = side(tmp1_safe_receiver);
   }
-  return json([tmp_0, to('player', tmp_1), to('progress', s.o2c_1), to('review', review(s.p2c_1)), to('ply', s.q2c_1), to('retry', retry(s.r2c_1))]);
+  return json([tmp_0, to('player', tmp_1), to('progress', s.p2c_1), to('review', review(s.q2c_1)), to('ply', s.r2c_1), to('retry', retry(s.s2c_1))]);
 }
 function puzzle_0(s, themes) {
   var tmp0_safe_receiver = s.v1x_1;
@@ -21090,7 +21222,7 @@ function profile(p) {
   return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_5, tmp_6, tmp_7, tmp_8, tmp_9, tmp_10, tmp_11, tmp_12, tmp_13, to('lessonStars', json(tmp$ret$13.slice())), to('xp', p.t1n_1), to('gamesPlayed', p.k1x()), to('lessonsCompleted', p.l1x())]);
 }
 function lessonInfo(l, lang) {
-  return json([to('id', l.q1m_1), to('title', l.r1m_1.jg(lang)), to('intro', l.s1m_1.jg(lang)), to('level', l.t1m_1), to('exercises', l.n25()), to('steps', l.u1m_1.a1())]);
+  return json([to('id', l.q1m_1), to('title', l.r1m_1.jg(lang)), to('intro', l.s1m_1.jg(lang)), to('level', l.t1m_1), to('exercises', l.o25()), to('steps', l.u1m_1.a1())]);
 }
 function course(c, lang) {
   var tmp = to('id', c.v1n_1);
@@ -21104,10 +21236,10 @@ function course(c, lang) {
   while (tmp0_iterator.y()) {
     var item = tmp0_iterator.z();
     // Inline function 'com.zorix.chess.web.course.<anonymous>' call
-    var tmp_2 = to('id', item.o25_1);
-    var tmp_3 = to('title', item.p25_1.jg(lang));
+    var tmp_2 = to('id', item.p25_1);
+    var tmp_3 = to('title', item.q25_1.jg(lang));
     // Inline function 'kotlin.collections.map' call
-    var this_1 = item.q25_1;
+    var this_1 = item.r25_1;
     // Inline function 'kotlin.collections.mapTo' call
     var destination_0 = ArrayList.b1(collectionSizeOrDefault(this_1, 10));
     var tmp0_iterator_0 = this_1.x();
@@ -21172,30 +21304,30 @@ function stepType(step) {
   return tmp;
 }
 function step(ui, lesson, lang) {
-  var s = ui.d26_1;
+  var s = ui.e26_1;
   var tmp = to('lessonId', lesson.q1m_1);
   var tmp_0 = to('lessonTitle', lesson.r1m_1.jg(lang));
-  var tmp_1 = to('index', ui.c26_1);
+  var tmp_1 = to('index', ui.d26_1);
   var tmp_2 = to('count', lesson.u1m_1.a1());
   var tmp_3 = to('type', stepType(s));
-  var tmp_4 = to('prompt', s.x23().jg(lang));
+  var tmp_4 = to('prompt', s.y23().jg(lang));
   var tmp_5;
   if (s instanceof Stars) {
-    tmp_5 = s.b24_1;
+    tmp_5 = s.c24_1;
   } else {
     if (s instanceof Capture) {
-      tmp_5 = s.e24_1;
+      tmp_5 = s.f24_1;
     } else {
       tmp_5 = null;
     }
   }
   var tmp_6 = to('par', tmp_5);
   var tmp1_safe_receiver = s instanceof Squares_0 ? s : null;
-  var tmp_7 = to('squaresCount', tmp1_safe_receiver == null ? null : tmp1_safe_receiver.z24_1);
+  var tmp_7 = to('squaresCount', tmp1_safe_receiver == null ? null : tmp1_safe_receiver.a25_1);
   var tmp2_safe_receiver = s instanceof Mate ? s : null;
-  var tmp_8 = to('mateIn', tmp2_safe_receiver == null ? null : tmp2_safe_receiver.o24_1);
+  var tmp_8 = to('mateIn', tmp2_safe_receiver == null ? null : tmp2_safe_receiver.p24_1);
   var tmp3_safe_receiver = s instanceof GoalStep ? s : null;
-  var tmp4_safe_receiver = tmp3_safe_receiver == null ? null : tmp3_safe_receiver.r24_1;
+  var tmp4_safe_receiver = tmp3_safe_receiver == null ? null : tmp3_safe_receiver.s24_1;
   var tmp5_safe_receiver = tmp4_safe_receiver == null ? null : tmp4_safe_receiver.c3_1;
   var tmp_9;
   if (tmp5_safe_receiver == null) {
@@ -21207,7 +21339,7 @@ function step(ui, lesson, lang) {
   }
   var tmp_10 = to('goal', tmp_9);
   var tmp6_safe_receiver = s instanceof Play ? s : null;
-  var tmp7_safe_receiver = tmp6_safe_receiver == null ? null : tmp6_safe_receiver.l25_1;
+  var tmp7_safe_receiver = tmp6_safe_receiver == null ? null : tmp6_safe_receiver.m25_1;
   var tmp8_safe_receiver = tmp7_safe_receiver == null ? null : tmp7_safe_receiver.c3_1;
   var tmp_11;
   if (tmp8_safe_receiver == null) {
@@ -21219,7 +21351,7 @@ function step(ui, lesson, lang) {
   }
   var tmp_12 = to('playGoal', tmp_11);
   var tmp9_safe_receiver = s instanceof Quiz ? s : null;
-  var tmp10_safe_receiver = tmp9_safe_receiver == null ? null : tmp9_safe_receiver.u24_1;
+  var tmp10_safe_receiver = tmp9_safe_receiver == null ? null : tmp9_safe_receiver.v24_1;
   var tmp_13;
   if (tmp10_safe_receiver == null) {
     tmp_13 = null;
@@ -21247,13 +21379,13 @@ function step(ui, lesson, lang) {
   }
   var tmp_15 = to('options', tmp_14);
   var tmp12_safe_receiver = s instanceof Quiz ? s : null;
-  var tmp_16 = to('answer', tmp12_safe_receiver == null ? null : tmp12_safe_receiver.v24_1);
-  var tmp_17 = to('position', position(ui.e26_1));
-  var tmp_18 = to('flipped', ui.f26_1);
-  var tmp13_safe_receiver = ui.g26_1;
+  var tmp_16 = to('answer', tmp12_safe_receiver == null ? null : tmp12_safe_receiver.w24_1);
+  var tmp_17 = to('position', position(ui.f26_1));
+  var tmp_18 = to('flipped', ui.g26_1);
+  var tmp13_safe_receiver = ui.h26_1;
   var tmp_19 = to('lastMove', tmp13_safe_receiver == null ? null : tmp13_safe_receiver.g1e());
   // Inline function 'kotlin.collections.map' call
-  var this_0 = ui.h26_1;
+  var this_0 = ui.i26_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination_0 = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
   var tmp0_iterator_0 = this_0.x();
@@ -21264,7 +21396,7 @@ function step(ui, lesson, lang) {
   }
   var tmp_20 = to('stars', arr_0(destination_0));
   // Inline function 'kotlin.collections.map' call
-  var this_1 = ui.i26_1;
+  var this_1 = ui.j26_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination_1 = ArrayList.b1(collectionSizeOrDefault(this_1, 10));
   var tmp0_iterator_1 = this_1.x();
@@ -21275,7 +21407,7 @@ function step(ui, lesson, lang) {
   }
   var tmp_21 = to('marks', arr_0(destination_1));
   // Inline function 'kotlin.collections.map' call
-  var this_2 = ui.j26_1;
+  var this_2 = ui.k26_1;
   // Inline function 'kotlin.collections.mapTo' call
   var destination_2 = ArrayList.b1(collectionSizeOrDefault(this_2, 10));
   var tmp0_iterator_2 = this_2.x();
@@ -21286,12 +21418,12 @@ function step(ui, lesson, lang) {
     destination_2.k(tmp$ret$15);
   }
   var tmp_22 = to('arrows', arr_0(destination_2));
-  var tmp_23 = to('hintSquare', sq(ui.k26_1));
-  var tmp_24 = to('interactive', ui.l26_1);
+  var tmp_23 = to('hintSquare', sq(ui.l26_1));
+  var tmp_24 = to('interactive', ui.m26_1);
   // Inline function 'kotlin.text.lowercase' call
   // Inline function 'kotlin.js.asDynamic' call
-  var tmp$ret$19 = ui.m26_1.c3_1.toLowerCase();
-  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_6, tmp_7, tmp_8, tmp_10, tmp_12, tmp_15, tmp_16, tmp_17, tmp_18, tmp_19, tmp_20, tmp_21, tmp_22, tmp_23, tmp_24, to('status', tmp$ret$19), to('message', ui.n26_1), to('speech', ui.o26_1), to('moves', ui.p26_1), to('busy', ui.q26_1), to('target', sq(ui.r26_1)), to('round', ui.s26_1), to('correct', ui.t26_1), to('chosen', ui.u26_1), to('promotion', promotion_0(ui.v26_1, ui.e26_1))]);
+  var tmp$ret$19 = ui.n26_1.c3_1.toLowerCase();
+  return json([tmp, tmp_0, tmp_1, tmp_2, tmp_3, tmp_4, tmp_6, tmp_7, tmp_8, tmp_10, tmp_12, tmp_15, tmp_16, tmp_17, tmp_18, tmp_19, tmp_20, tmp_21, tmp_22, tmp_23, tmp_24, to('status', tmp$ret$19), to('message', ui.o26_1), to('speech', ui.p26_1), to('moves', ui.q26_1), to('busy', ui.r26_1), to('target', sq(ui.s26_1)), to('round', ui.t26_1), to('correct', ui.u26_1), to('chosen', ui.v26_1), to('promotion', promotion_0(ui.w26_1, ui.f26_1))]);
 }
 function parseSquare(name) {
   return Squares_instance.c1g(name);
@@ -21302,7 +21434,7 @@ function parseMove(uci) {
 function review$_anonymous_$counts_6v86xl($it, s) {
   // Inline function 'kotlin.collections.toTypedArray' call
   // Inline function 'kotlin.collections.map' call
-  var tmp0_elvis_lhs = $it.a2c_1.y2(s);
+  var tmp0_elvis_lhs = $it.b2c_1.y2(s);
   var this_0 = (tmp0_elvis_lhs == null ? emptyMap() : tmp0_elvis_lhs).b3();
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
@@ -21324,7 +21456,7 @@ function review$_anonymous_$counts_6v86xl($it, s) {
   return json(tmp$ret$7.slice());
 }
 function *_generator_nextLine__ftrxr3($this, $completion) {
-  var tmp = $this.t2d_1.uz($completion);
+  var tmp = $this.u2d_1.uz($completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return ChannelResult__getOrNull_impl_f5e07h(tmp.yy_1);
@@ -21332,27 +21464,27 @@ function *_generator_nextLine__ftrxr3($this, $completion) {
 function WorkerConnection$worker$lambda(this$0) {
   return function (line) {
     if (line == null) {
-      this$0.u2d_1 = false;
-      this$0.t2d_1.d10();
+      this$0.v2d_1 = false;
+      this$0.u2d_1.d10();
     } else {
-      new ChannelResult(this$0.t2d_1.rz(line));
+      new ChannelResult(this$0.u2d_1.rz(line));
     }
     return Unit_instance;
   };
 }
 function WebEngineHost$prepare$lambda(this$0) {
   return function () {
-    return new WorkerConnection(this$0.w2d_1);
+    return new WorkerConnection(this$0.x2d_1);
   };
 }
 function *_generator_invoke__zhh2q8_41($this, path, $completion) {
-  var tmp = await_0($this.f2e_1(path), $completion);
+  var tmp = await_0($this.g2e_1(path), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return encodeToByteArray(tmp);
 }
 function *_generator_invoke__zhh2q8_42($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.m2e_1.i2e_1.v1i_1.m1k_1, ZorixCore$subscribe$slambda$slambda_8($this.m2e_1), $completion);
+  var tmp = collectLatest($this.n2e_1.j2e_1.v1i_1.m1k_1, ZorixCore$subscribe$slambda$slambda_8($this.n2e_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21360,13 +21492,13 @@ function *_generator_invoke__zhh2q8_42($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_8(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda(this$0);
   var l = function (it, $completion) {
-    return i.o2e(it, $completion);
+    return i.p2e(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_43($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.p2e_1.i2e_1.w1i_1.k1l_1, ZorixCore$subscribe$slambda$slambda_9($this.p2e_1), $completion);
+  var tmp = collectLatest($this.q2e_1.j2e_1.w1i_1.k1l_1, ZorixCore$subscribe$slambda$slambda_9($this.q2e_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21374,13 +21506,13 @@ function *_generator_invoke__zhh2q8_43($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_9(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_0(this$0);
   var l = function (it, $completion) {
-    return i.r2e(it, $completion);
+    return i.s2e(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_44($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.s2e_1.i2e_1.x1i_1.u1l_1, ZorixCore$subscribe$slambda$slambda_10($this.s2e_1), $completion);
+  var tmp = collectLatest($this.t2e_1.j2e_1.x1i_1.u1l_1, ZorixCore$subscribe$slambda$slambda_10($this.t2e_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21388,13 +21520,13 @@ function *_generator_invoke__zhh2q8_44($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_10(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_1(this$0);
   var l = function (it, $completion) {
-    return i.u2e(it, $completion);
+    return i.v2e(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_45($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.v2e_1.i2e_1.y1i_1.n1j_1, ZorixCore$subscribe$slambda$slambda_11($this.v2e_1), $completion);
+  var tmp = collectLatest($this.w2e_1.j2e_1.y1i_1.n1j_1, ZorixCore$subscribe$slambda$slambda_11($this.w2e_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21402,13 +21534,13 @@ function *_generator_invoke__zhh2q8_45($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_11(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_2(this$0);
   var l = function (it, $completion) {
-    return i.x2e(it, $completion);
+    return i.y2e(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_46($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.y2e_1.i2e_1.u1i_1.a1n_1, ZorixCore$subscribe$slambda$slambda_12($this.y2e_1), $completion);
+  var tmp = collectLatest($this.z2e_1.j2e_1.u1i_1.a1n_1, ZorixCore$subscribe$slambda$slambda_12($this.z2e_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21416,13 +21548,13 @@ function *_generator_invoke__zhh2q8_46($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_12(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_3(this$0);
   var l = function (it, $completion) {
-    return i.a2f(it, $completion);
+    return i.b2f(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_47($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.b2f_1.i2e_1.a1j_1, ZorixCore$subscribe$slambda$slambda_13($this.b2f_1), $completion);
+  var tmp = collectLatest($this.c2f_1.j2e_1.a1j_1, ZorixCore$subscribe$slambda$slambda_13($this.c2f_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21430,14 +21562,14 @@ function *_generator_invoke__zhh2q8_47($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_13(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_4(this$0);
   var l = function (it, $completion) {
-    return i.d2f(it, $completion);
+    return i.e2f(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_48($this, $this$launch, $completion) {
-  var tmp = $this.e2f_1.i2e_1.y1k();
-  var tmp_0 = collectLatest(tmp, ZorixCore$subscribe$slambda$slambda_14($this.e2f_1), $completion);
+  var tmp = $this.f2f_1.j2e_1.y1k();
+  var tmp_0 = collectLatest(tmp, ZorixCore$subscribe$slambda$slambda_14($this.f2f_1), $completion);
   if (tmp_0 === get_COROUTINE_SUSPENDED())
     tmp_0 = yield tmp_0;
   return Unit_instance;
@@ -21445,14 +21577,14 @@ function *_generator_invoke__zhh2q8_48($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_14(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_5(this$0);
   var l = function (it, $completion) {
-    return i.g2f(it, $completion);
+    return i.h2f(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_49($this, $this$launch, $completion) {
-  var tmp = ZorixCore$subscribe$slambda$slambda_15($this.h2f_1);
-  var tmp_0 = $this.h2f_1.i2e_1.v1i_1.o1k_1.q12(new sam$kotlinx_coroutines_flow_FlowCollector$0_0(tmp), $completion);
+  var tmp = ZorixCore$subscribe$slambda$slambda_15($this.i2f_1);
+  var tmp_0 = $this.i2f_1.j2e_1.v1i_1.o1k_1.q12(new sam$kotlinx_coroutines_flow_FlowCollector$0_0(tmp), $completion);
   if (tmp_0 === get_COROUTINE_SUSPENDED())
     tmp_0 = yield tmp_0;
   throwKotlinNothingValueException();
@@ -21460,13 +21592,13 @@ function *_generator_invoke__zhh2q8_49($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_15(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_6(this$0);
   var l = function (it, $completion) {
-    return i.j2f(it, $completion);
+    return i.k2f(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_50($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.k2f_1.i2e_1.c1j_1, ZorixCore$subscribe$slambda$slambda_16($this.k2f_1), $completion);
+  var tmp = collectLatest($this.l2f_1.j2e_1.c1j_1, ZorixCore$subscribe$slambda$slambda_16($this.l2f_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21474,13 +21606,13 @@ function *_generator_invoke__zhh2q8_50($this, $this$launch, $completion) {
 function ZorixCore$subscribe$slambda$slambda_16(this$0) {
   var i = new ZorixCore$subscribe$slambda$slambda_7(this$0);
   var l = function (it, $completion) {
-    return i.m2f(it, $completion);
+    return i.n2f(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_51($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.n2f_1.i27_1, ZorixCore$lessonStart$slambda$slambda$slambda_1($this.o2f_1, $this.p2f_1), $completion);
+  var tmp = collectLatest($this.o2f_1.j27_1, ZorixCore$lessonStart$slambda$slambda$slambda_1($this.p2f_1, $this.q2f_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21488,13 +21620,13 @@ function *_generator_invoke__zhh2q8_51($this, $this$launch, $completion) {
 function ZorixCore$lessonStart$slambda$slambda$slambda_1(this$0, $l) {
   var i = new ZorixCore$lessonStart$slambda$slambda$slambda(this$0, $l);
   var l = function (it, $completion) {
-    return i.s2f(it, $completion);
+    return i.t2f(it, $completion);
   };
   l.$arity = 1;
   return l;
 }
 function *_generator_invoke__zhh2q8_52($this, $this$launch, $completion) {
-  var tmp = collectLatest($this.t2f_1.k27_1, ZorixCore$lessonStart$slambda$slambda$slambda_2($this.u2f_1), $completion);
+  var tmp = collectLatest($this.u2f_1.l27_1, ZorixCore$lessonStart$slambda$slambda$slambda_2($this.v2f_1), $completion);
   if (tmp === get_COROUTINE_SUSPENDED())
     tmp = yield tmp;
   return Unit_instance;
@@ -21502,7 +21634,7 @@ function *_generator_invoke__zhh2q8_52($this, $this$launch, $completion) {
 function ZorixCore$lessonStart$slambda$slambda$slambda_2(this$0) {
   var i = new ZorixCore$lessonStart$slambda$slambda$slambda_0(this$0);
   var l = function (r, $completion) {
-    return i.w2f(r, $completion);
+    return i.x2f(r, $completion);
   };
   l.$arity = 1;
   return l;
@@ -21524,23 +21656,23 @@ function ZorixCore$lessonStart$slambda$slambda_2($s, this$0) {
   return l;
 }
 function emit_0($this, channel, state) {
-  var tmp0_safe_receiver = $this.j2e_1;
+  var tmp0_safe_receiver = $this.k2e_1;
   if (tmp0_safe_receiver == null)
     null;
   else
     tmp0_safe_receiver(channel, state);
 }
 function emitCourses($this) {
-  var lang = $this.i2e_1.d1j_1;
+  var lang = $this.j2e_1.d1j_1;
   // Inline function 'kotlin.collections.map' call
-  var this_0 = $this.i2e_1.a1j_1.v2();
+  var this_0 = $this.j2e_1.a1j_1.v2();
   // Inline function 'kotlin.collections.mapTo' call
   var destination = ArrayList.b1(collectionSizeOrDefault(this_0, 10));
   var tmp0_iterator = this_0.x();
   while (tmp0_iterator.y()) {
     var item = tmp0_iterator.z();
     // Inline function 'com.zorix.chess.web.ZorixCore.emitCourses.<anonymous>' call
-    var p = $this.i2e_1.c1n(item);
+    var p = $this.j2e_1.c1n(item);
     var o = course(item, lang);
     o['done'] = p.n1i_1;
     o['total'] = p.o1i_1;
@@ -21698,7 +21830,7 @@ function sideOf($this, s) {
 function ZorixCore$app$slambda_0($readFile) {
   var i = new ZorixCore$app$slambda($readFile);
   var l = function (path, $completion) {
-    return i.y2f(path, $completion);
+    return i.z2f(path, $completion);
   };
   l.$arity = 1;
   return l;
@@ -22017,7 +22149,7 @@ initMetadataForLambda(ReviewController$onRetryMove$slambda, VOID, VOID, [1]);
 initMetadataForLambda(ReviewController$analyse$slambda, VOID, VOID, [1]);
 initMetadataForClass(_no_name_provided__qut3iv_0);
 initMetadataForClass(ReviewController, 'ReviewController', VOID, VOID, VOID, [1]);
-protoOf(WorkerConnection).g21 = exitCode;
+protoOf(WorkerConnection).h21 = exitCode;
 initMetadataForClass(WorkerConnection, 'WorkerConnection', VOID, VOID, [EngineConnection], [0]);
 initMetadataForClass(WebEngineHost, 'WebEngineHost', VOID, VOID, VOID, [1]);
 initMetadataForClass(WebStore, 'WebStore');

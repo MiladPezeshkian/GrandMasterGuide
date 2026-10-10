@@ -10,7 +10,7 @@ const security = [
 const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  serverExternalPackages: ["nodemailer"],
+  serverExternalPackages: ["nodemailer", "@electric-sql/pglite"],
   async headers() {
     return [
       { source: "/:path*", headers: security },

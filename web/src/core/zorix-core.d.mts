@@ -7,6 +7,7 @@ export declare class ZorixCore {
     onBackground(): void;
     onForeground(): void;
     speak(text: string): void;
+    speakDisplay(text: string): void;
     stopSpeaking(): void;
     voiceReady(): boolean;
     voiceStarted(token: number): void;
@@ -36,6 +37,8 @@ export declare class ZorixCore {
     boardSpeakHint(): void;
     boardSetPosition(fen: string): boolean;
     positionProblem(fen: string): Nullable<string>;
+    legalTargets(fen: string, from: string): Array<string>;
+    isPromotion(fen: string, from: string, to: string): boolean;
     bots(): Array<any>;
     recommendedLevel(): number;
     playStart(level: number, side: string): void;
@@ -73,3 +76,6 @@ export declare class ZorixCore {
     lessonHint(): Nullable<void>;
     lessonSolution(): Nullable<void>;
 }
+export interface JsEngine { send(line: string): void; close(): void }
+export interface JsStorage { getItem(key: string): string | null; setItem(key: string, value: string | null): void }
+export interface JsVoice { supports(lang: string): boolean; speak(text: string, lang: string, token: number): void; stop(): void; prepare(lang: string): void }

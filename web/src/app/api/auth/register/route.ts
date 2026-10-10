@@ -19,6 +19,8 @@ export async function POST(req: Request) {
   if (!(await siteSettings()).registrationOpen) return fail("err_registration_closed", 403);
 
   const d = await db();
+  // Sign-ups never confirmed within a day give their email and username back.
+  await d.delete(schema.users).where(sql`${schema.users.verified} = false AND ${schema.users.createdAt} < now() - interval '1 day'`);
   const same = await d
     .select({ id: schema.users.id, email: schema.users.email, username: schema.users.username, verified: schema.users.verified })
     .from(schema.users)

@@ -28,3 +28,6 @@ export async function PUT(req: Request) {
     .onConflictDoUpdate({ target: schema.userState.userId, set: { data, updatedAt: new Date() } });
   return ok();
 }
+
+/** The page saves with sendBeacon (POST) when it closes. */
+export const POST = PUT;

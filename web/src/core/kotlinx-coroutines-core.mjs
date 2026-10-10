@@ -2121,11 +2121,6 @@ class BufferedChannelIterator {
     }
   }
 }
-class SendChannel {}
-function close$default(cause, $super) {
-  cause = cause === VOID ? null : cause;
-  return $super === VOID ? this.b10(cause) : $super.b10.call(this, cause);
-}
 class ReceiveChannel {}
 function cancel$default_0(cause, $super) {
   cause = cause === VOID ? null : cause;
@@ -2137,6 +2132,11 @@ function cancel$default_0(cause, $super) {
     tmp = $super.mn.call(this, cause);
   }
   return tmp;
+}
+class SendChannel {}
+function close$default(cause, $super) {
+  cause = cause === VOID ? null : cause;
+  return $super === VOID ? this.b10(cause) : $super.b10.call(this, cause);
 }
 class BufferedChannel {
   constructor(capacity, onUndeliveredElement) {
@@ -10805,10 +10805,10 @@ initMetadataForClass(Segment, 'Segment', VOID, VOID, [ConcurrentLinkedListNode, 
 initMetadataForClass(ChannelSegment, 'ChannelSegment');
 initMetadataForClass(SendBroadcast, 'SendBroadcast', VOID, VOID, [Waiter]);
 initMetadataForClass(BufferedChannelIterator, 'BufferedChannelIterator', VOID, VOID, [Waiter], [0, 3]);
-initMetadataForInterface(SendChannel, 'SendChannel', VOID, VOID, VOID, [1]);
 initMetadataForInterface(ReceiveChannel, 'ReceiveChannel', VOID, VOID, VOID, [0]);
+initMetadataForInterface(SendChannel, 'SendChannel', VOID, VOID, VOID, [1]);
 protoOf(BufferedChannel).d10 = close$default;
-initMetadataForClass(BufferedChannel, 'BufferedChannel', VOID, VOID, [SendChannel, ReceiveChannel], [1, 4, 0, 3]);
+initMetadataForClass(BufferedChannel, 'BufferedChannel', VOID, VOID, [ReceiveChannel, SendChannel], [1, 4, 0, 3]);
 initMetadataForClass(WaiterEB, 'WaiterEB');
 initMetadataForClass(ReceiveCatching, 'ReceiveCatching', VOID, VOID, [Waiter]);
 initMetadataForObject(Factory, 'Factory');
@@ -10819,7 +10819,7 @@ initMetadataForClass(ChannelResult, 'ChannelResult');
 initMetadataForClass(ClosedSendChannelException, 'ClosedSendChannelException');
 initMetadataForClass(ClosedReceiveChannelException, 'ClosedReceiveChannelException');
 protoOf(ChannelCoroutine).d10 = close$default;
-initMetadataForClass(ChannelCoroutine, 'ChannelCoroutine', VOID, VOID, [AbstractCoroutine, SendChannel, ReceiveChannel], [1, 0]);
+initMetadataForClass(ChannelCoroutine, 'ChannelCoroutine', VOID, VOID, [AbstractCoroutine, ReceiveChannel, SendChannel], [1, 0]);
 initMetadataForClass(ConflatedBufferedChannel, 'ConflatedBufferedChannel', VOID, VOID, VOID, [1, 0]);
 initMetadataForInterface(ProducerScope, 'ProducerScope', VOID, VOID, [CoroutineScope, SendChannel], [1]);
 initMetadataForClass(ProducerCoroutine, 'ProducerCoroutine', VOID, VOID, [ChannelCoroutine, ProducerScope], [1, 0]);
@@ -10866,7 +10866,7 @@ initMetadataForClass(ContextScope, 'ContextScope', VOID, VOID, [CoroutineScope])
 initMetadataForClass(Symbol, 'Symbol');
 initMetadataForInterface(SelectInstance, 'SelectInstance');
 initMetadataForClass(ClauseData, 'ClauseData', VOID, VOID, VOID, [1]);
-initMetadataForClass(SelectImplementation, 'SelectImplementation', VOID, VOID, [CancelHandler, SelectInstance, Waiter], [0, 2]);
+initMetadataForClass(SelectImplementation, 'SelectImplementation', VOID, VOID, [CancelHandler, Waiter, SelectInstance], [0, 2]);
 initMetadataForClass(TrySelectDetailedResult, 'TrySelectDetailedResult');
 initMetadataForClass(CancellableContinuationWithOwner, 'CancellableContinuationWithOwner', VOID, VOID, [CancellableContinuation, Waiter]);
 initMetadataForClass(SemaphoreAndMutexImpl, 'SemaphoreAndMutexImpl', VOID, VOID, VOID, [0]);

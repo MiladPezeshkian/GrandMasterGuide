@@ -20,7 +20,7 @@ export function Board3D(props: BoardProps & { appTheme?: "zorix" | "sky" }) {
   const { appTheme = "zorix" } = props;
   return (
     <div dir="ltr" className="relative aspect-square w-full touch-none select-none overflow-hidden rounded-2xl" style={{ background: appTheme === "zorix" ? "radial-gradient(ellipse at 50% 30%, #1d1d26 0%, #08080b 75%)" : "radial-gradient(ellipse at 50% 30%, #ffffff 0%, #d9eaf8 80%)" }}>
-      <Canvas shadows dpr={[1, 2]} frameloop="demand" camera={{ fov: 34, position: [0, 11.2, 8.6], near: 0.5, far: 80 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
+      <Canvas shadows dpr={[1, 2]} frameloop="demand" camera={{ fov: 32, position: [0, 15.2, 10.4], near: 0.5, far: 90 }} gl={{ antialias: true, powerPreference: "high-performance" }}>
         <Scene {...props} appTheme={appTheme} />
       </Canvas>
       {props.promotion && (
@@ -146,11 +146,11 @@ function Scene(props: BoardProps & { appTheme: "zorix" | "sky" }) {
         enablePan={false}
         enableDamping
         dampingFactor={0.12}
-        minDistance={9}
-        maxDistance={20}
+        minDistance={10}
+        maxDistance={28}
         minPolarAngle={0.1}
         maxPolarAngle={1.18}
-        target={[0, 0, 0.3]}
+        target={[0, 0, 0.55]}
         makeDefault
       />
     </>

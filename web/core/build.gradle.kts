@@ -45,7 +45,20 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 val copyToWeb = tasks.register<Copy>("copyToWeb") {
     dependsOn("jsProductionLibraryCompileSync")
     from(layout.buildDirectory.dir("js/packages/zorix-core/kotlin"))
-    include("*.mjs", "*.d.ts")
+    include("*.mjs", "zorix-core.d.ts")
+    // TypeScript looks for "zorix-core.d.mts" next to "zorix-core.mjs"; the page-side interfaces are added.
+    rename("zorix-core.d.ts", "zorix-core.d.mts")
     into(rootDir.resolve("../src/core"))
+    doLast {
+        val d = rootDir.resolve("../src/core/zorix-core.d.mts")
+        d.appendText(
+            "\n" + """
+            |export interface JsEngine { send(line: string): void; close(): void }
+            |export interface JsStorage { getItem(key: string): string | null; setItem(key: string, value: string | null): void }
+            |export interface JsVoice { supports(lang: string): boolean; speak(text: string, lang: string, token: number): void; stop(): void; prepare(lang: string): void }
+            |""".trimMargin(),
+        )
+        rootDir.resolve("../src/core/zorix-core.d.ts").delete()
+    }
 }
 tasks.named("build") { finalizedBy(copyToWeb) }

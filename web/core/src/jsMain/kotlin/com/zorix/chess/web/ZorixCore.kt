@@ -2,7 +2,9 @@
 
 package com.zorix.chess.web
 
+import com.zorix.chess.coach.Speakable
 import com.zorix.chess.controller.AppController
+import com.zorix.chess.controller.speechLanguage
 import com.zorix.chess.controller.AppThemeId
 import com.zorix.chess.controller.BoardThemeId
 import com.zorix.chess.controller.ChessController
@@ -100,6 +102,9 @@ class ZorixCore(
     fun onForeground() = app.onForeground()
 
     fun speak(text: String) = app.speak(text)
+
+    /** Reads a display text (lesson, explanation) aloud, with chess notation turned into words. */
+    fun speakDisplay(text: String) = app.speak(Speakable.of(text, speechLanguage(app.language)))
     fun stopSpeaking() = app.stopSpeaking()
 
     /** Whether new coach texts will be read aloud (voice on and available for the language). */

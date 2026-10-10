@@ -11,7 +11,8 @@ import * as schema from "./schema";
  */
 export type Db = PgDatabase<PgQueryResultHKT, typeof schema>;
 
-let instance: Promise<Db> | null = null;
+// Kept on globalThis so development hot reloads reuse the connection (PGlite allows one per directory).
+const g = globalThis as unknown as { __zorixDb?: Promise<Db> | null };
 
 async function connect(): Promise<Db> {
   const url = process.env.DATABASE_URL;
@@ -19,7 +20,9 @@ async function connect(): Promise<Db> {
   if (url.startsWith("pglite:")) {
     const { PGlite } = await import("@electric-sql/pglite");
     const { drizzle } = await import("drizzle-orm/pglite");
-    const client = new PGlite(url.slice("pglite:".length) || undefined);
+    const dir = url.slice("pglite:".length);
+    if (dir) (await import("node:fs")).mkdirSync(dir, { recursive: true });
+    const client = new PGlite(dir || undefined);
     return drizzle(client, { schema }) as unknown as Db;
   }
   if (/\.neon\.tech|neon\.build/.test(url)) {
@@ -34,18 +37,18 @@ async function connect(): Promise<Db> {
 
 /** The connected database, with the tables created or updated. */
 export function db(): Promise<Db> {
-  if (!instance) {
-    instance = (async () => {
+  if (!g.__zorixDb) {
+    g.__zorixDb = (async () => {
       const d = await connect();
       const { migrate } = await import("./migrate");
       await migrate(d);
       return d;
     })().catch((e) => {
-      instance = null;
+      g.__zorixDb = null;
       throw e;
     });
   }
-  return instance;
+  return g.__zorixDb;
 }
 
 export { schema };
