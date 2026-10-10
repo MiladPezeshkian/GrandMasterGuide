@@ -14,8 +14,12 @@
 </p>
 
 <p align="center">
-  <a href="#english">English</a> · <a href="#فارسی">فارسی</a>
+  <a href="#english">English</a> · <a href="#فارسی">فارسی</a> · <a href="web/README.md">Website (3D, play with friends)</a>
 </p>
+
+> **New: the website** — the whole chess school in the browser with a 3D board, accounts, games with friends by
+> invite link and an admin panel. It runs the app's own coach and lessons (compiled to JavaScript) with Stockfish 19
+> in WebAssembly. Source and Vercel deployment steps: [`web/`](web/README.md).
 
 | Splash | Best move | Live analysis | Promotion | Persian (RTL) |
 |:---:|:---:|:---:|:---:|:---:|
